@@ -1,0 +1,63 @@
+[
+  {
+    "id": 1,
+    "title": "Personal Portfolio Website",
+    "shortDescription": "Kişisel projelerimi sergilediğim modern bir portföy sitesi.",
+    "longDescription": "Bu proje ASP.NET Core MVC ile geliştirildi. Dinamik içerik yönetimi, tema seçimi, responsive tasarım ve JSON tabanlı veri yönetimi gibi özelliklere sahip. Tasarım, yazılım geliştiricilerin kendilerini profesyonel biçimde tanıtmasına yardımcı olacak şekilde minimalist bir yaklaşımla hazırlandı.",
+    "thumbnailImage": "app-1.jpg",
+    "galleryImages": [
+      "app-2.jpg",
+      "app-3.jpg"
+    ],
+    "projectUrl": "https://github.com/mehmetcakmak/portfolio",
+    "category": "Web App",
+    "client": "Personal",
+    "projectDate": "2025-04-10"
+  },
+  {
+    "id": 2,
+    "title": "NLP ChatBot Projesi",
+    "shortDescription": "NLP tabanlı akıllı sohbet botu",
+    "longDescription": " <br> Bu masaüstü uygulaması, kullanıcılarla doğal dilde etkileşim kurabilen akıllı bir sohbet botu içermektedir. Bot, gelişmiş doğal dil işleme (NLP) tekniklerini kullanan Rasa Framework ile geliştirilmiş olup; kullanıcıların sorularını anlayabilir, yanıtlayabilir ve belirli görevleri otomatik olarak yerine getirebilir. <br><br>Uygulama, PyQt5 teknolojisiyle tasarlanmış modern ve kullanıcı dostu bir arayüze sahiptir. <br><br>OpenCV entegrasyonu sayesinde görsel veri işleme yeteneklerine de sahiptir; kamera modu aracılığıyla parmak sayısını algılayabilir, yüz tanıma yapabilir ve el işaretlerini tanımlayabilir. <br><br>Ayrıca, ses tanıma özelliğiyle kullanıcıların sesli komutlarını algılayarak hem yazılı hem de sesli iletişim imkânı sunar.",
+
+    "thumbnailImage": "books-1.jpg",
+    "galleryImages": [
+      "books-2.jpg",
+      "books-3.jpg"
+    ],
+    "projectUrl": "https://github.com/mehmetcakmak/taskmanager",
+    "category": "desktop app",
+    "client": "Work & Travel Team",
+    "projectDate": "2025-06-15"
+  },
+  {
+    "id": 3,
+    "title": "E-Commerce Website",
+    "shortDescription": "Modern, ölçeklenebilir bir e-ticaret platformu.",
+    "longDescription": "Bu e-ticaret sistemi ürün listeleme, kategori filtreleme, sepet yönetimi, kullanıcı hesap sistemi ve Stripe entegrasyonu gibi temel özellikleri içerir. Admin paneli üzerinden ürün ekleme/silme ve sipariş takibi yapılabilmektedir.",
+    "thumbnailImage": "branding-1.jpg",
+    "galleryImages": [
+      "branding-2.jpg",
+      "branding-3.jpg"
+    ],
+    "projectUrl": "https://github.com/mehmetcakmak/ecommerce",
+    "category": "Web App",
+    "client": "Local Retail Company",
+    "projectDate": "2024-12-01"
+  },
+  {
+    "id": 4,
+    "title": "Weather App",
+    "shortDescription": "OpenWeather API ile anlık hava durumu uygulaması.",
+    "longDescription": "Bu uygulama, kullanıcının bulunduğu konuma göre anlık hava durumu ve 5 günlük tahmin verilerini getirir. Modern UI tasarımıyla hem masaüstü hem mobilde kullanılabilir. ASP.NET Core ile REST API tüketimi örneği olarak geliştirilmiştir.",
+    "thumbnailImage": "product-1.jpg",
+    "galleryImages": [
+      "product-2.jpg",
+      "product-3.jpg"
+    ],
+    "projectUrl": "https://github.com/mehmetcakmak/weatherapp",
+    "category": "ai",
+    "client": "Side Project",
+    "projectDate": "2025-02-20"
+  }
+]

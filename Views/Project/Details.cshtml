@@ -1,0 +1,84 @@
+@model MyPortfolio.Models.Portfolio.ProjectDetail
+    <!-- Page Title -->
+    <div class="page-title" data-aos="fade">
+      <div class="container d-lg-flex justify-content-between align-items-center">
+        <h1 class="mb-2 mb-lg-0">Project Details</h1>
+        <nav class="breadcrumbs">
+          <ol>
+            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="current">Project Details</li>
+          </ol>
+        </nav>
+      </div>
+    </div><!-- End Page Title -->
+
+    <!-- Portfolio Details Section -->
+    <section id="portfolio-details" class="portfolio-details section">
+
+      <div class="container" data-aos="fade-up">
+
+        <div class="portfolio-details-slider swiper init-swiper">
+          <script type="application/json" class="swiper-config">
+            {
+              "loop": true,
+              "speed": 600,
+              "autoplay": {
+                "delay": 5000
+              },
+              "slidesPerView": "auto",
+              "navigation": {
+                "nextEl": ".swiper-button-next",
+                "prevEl": ".swiper-button-prev"
+              },
+              "pagination": {
+                "el": ".swiper-pagination",
+                "type": "bullets",
+                "clickable": true
+              }
+            }
+          </script>
+          <div class="swiper-wrapper align-items-center">
+
+            @foreach (var image in Model.GalleryImages)
+            {
+                <div class="swiper-slide">
+                    <img src="~/img/portfolio/@image" alt="">
+                </div>
+            }
+          </div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-button-next"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="row justify-content-between gy-4 mt-4">
+
+          <div class="col-lg-8" data-aos="fade-up">
+            <div class="portfolio-description">
+              <h2>@Model.Title</h2>
+              <p>
+                @Html.Raw(Model.LongDescription)
+              </p>
+
+
+            </div>
+          </div>
+
+          <div class="col-lg-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="portfolio-info">
+              <h3>Project Information</h3>
+              <ul>
+                <li><strong>Category</strong> @Model.Category</li>
+                <li><strong>Client</strong> @Model.Client</li>
+                <li><strong>Project Date</strong> @Model.ProjectDate</li>
+                <li><strong>Project URL</strong> <a href="@Model.ProjectUrl">@Model.ProjectUrl</a></li>
+                <li><a href="@Model.ProjectUrl" class="btn-visit align-self-start">View</a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section><!-- /Portfolio Details Section -->

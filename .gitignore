@@ -1,0 +1,35 @@
+# Genellikle otomatik oluşturulan ve yeniden oluşturulabilen klasörler
+####################################################################
+[Bb]in/        # Derleme sonucu oluşan ikili (binary) dosyaların bulunduğu klasör
+[Oo]bj/        # Derleme ara dosyalarının bulunduğu klasör
+.vs/           # Visual Studio ayarları (kullanıcıya özel)
+*.user         # Kullanıcıya özel Visual Studio dosyaları
+*.suo          # Eski Visual Studio çözüm kullanıcı seçenekleri dosyası
+
+# Paket ve Bağımlılık Yönetimi
+####################################
+# NuGet paketleri cache'i
+*.nupkg
+# Node.js ve npm bağımlılıkları (eğer kullanıyorsanız)
+**/node_modules/
+
+# Visual Studio Code (VS Code) ayarları
+####################################
+.vscode/
+
+# Hassas Yapılandırma Dosyaları (Çok Önemli!)
+####################################
+# appsettings.Development.json, appsettings.Production.json gibi dosyalar git'e eklenir.
+# Ancak bu dosya yerel hassas bilgileri İÇERMEMELİDİR.
+# Eğer veritabanı şifresi veya API anahtarı eklediyseniz, bunu dışlamanız gerekir.
+# Doğru yöntem, gizli bilgileri "Secrets Manager" veya "Ortam Değişkenleri" ile yönetmektir.
+
+# HASSAS BİLGİ ÖRNEĞİ (Genellikle Dışlanmaz ama dikkatli olunmalı)
+# Bu satırı sadece çok zorunlu hallerde, hassas bilgileri KESİNLİKLE paylasmak istemiyorsanız kullanın:
+# appsettings*.json 
+
+# Diğer Otomatik Dosyalar
+####################################
+*.bak         # Yedekleme dosyaları
+*.log         # Log dosyaları
+TestResults/  # Test sonuç klasörleri

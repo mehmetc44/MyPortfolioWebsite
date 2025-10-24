@@ -1,0 +1,43 @@
+ <!-- About Section -->
+    <section id="about" class="about section">
+
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+          <div class="col-md-6">
+
+            <div class="row justify-content-between gy-4">
+              <div class="col-lg-5">
+                <img src="~/img/@Model.ProfileImage" class="img-fluid" alt="">
+              </div>
+              <div class="col-lg-7 about-info">
+                <p><strong>Full Name: </strong> <span>@Model.Name</span></p>
+                <p><strong>Profile: </strong> <span>@Model.Profession</span></p>
+                <p><strong>E-mail: </strong> <span>@Model.Email</span></p>
+                <p><strong>Phone: </strong> <span>@Model.Number</span></p>
+                <p><strong>Address: </strong> <span>@Model.Address</span></p>
+              </div>
+            </div>
+
+            <div class="skills-content skills-animation">
+              <h5>Skills</h5>
+
+              @foreach(Skill skill in Model.Skills)
+              {
+                  @await Html.PartialAsync("~/Views/Shared/Partials/Site/_SkillCard.cshtml", skill)
+              }
+
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="about-me">
+              <h4>About Me</h4>
+              @Html.Raw(Model.Description)
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section><!-- /About Section -->

@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Mehmet \u00C7akmak\\Desktop\\MyPortfolio\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1214F0B6-A004-4A1D-A983-616F1B5E5071}|MyPortfolio.csproj|c:\\users\\mehmet \u00E7akmak\\desktop\\myportfolio\\views\\shared\\_sitelayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1214F0B6-A004-4A1D-A983-616F1B5E5071}|MyPortfolio.csproj|solutionrelative:views\\shared\\_sitelayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1214F0B6-A004-4A1D-A983-616F1B5E5071}|MyPortfolio.csproj|c:\\users\\mehmet \u00E7akmak\\desktop\\myportfolio\\models\\about\\aboutmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1214F0B6-A004-4A1D-A983-616F1B5E5071}|MyPortfolio.csproj|solutionrelative:models\\about\\aboutmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1214F0B6-A004-4A1D-A983-616F1B5E5071}|MyPortfolio.csproj|c:\\users\\mehmet \u00E7akmak\\desktop\\myportfolio\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1214F0B6-A004-4A1D-A983-616F1B5E5071}|MyPortfolio.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "_SiteLayout.cshtml",
+              "DocumentMoniker": "C:\\Users\\Mehmet \u00C7akmak\\Desktop\\MyPortfolio\\Views\\Shared\\_SiteLayout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_SiteLayout.cshtml",
+              "ToolTip": "C:\\Users\\Mehmet \u00C7akmak\\Desktop\\MyPortfolio\\Views\\Shared\\_SiteLayout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_SiteLayout.cshtml",
+              "ViewState": "AQIAALwAAAAAAAAAAAAwwNcAAAAIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-16T12:31:18.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Mehmet \u00C7akmak\\Desktop\\MyPortfolio\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\Mehmet \u00C7akmak\\Desktop\\MyPortfolio\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-16T12:24:04.989Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AboutModel.cs",
+              "DocumentMoniker": "C:\\Users\\Mehmet \u00C7akmak\\Desktop\\MyPortfolio\\Models\\About\\AboutModel.cs",
+              "RelativeDocumentMoniker": "Models\\About\\AboutModel.cs",
+              "ToolTip": "C:\\Users\\Mehmet \u00C7akmak\\Desktop\\MyPortfolio\\Models\\About\\AboutModel.cs",
+              "RelativeToolTip": "Models\\About\\AboutModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-16T12:23:58.443Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

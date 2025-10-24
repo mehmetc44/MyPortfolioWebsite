@@ -1,0 +1,155 @@
+@using MyPortfolio.Models.Portfolio
+@model MyPortfolio.Models.PageViewModel
+<!-- Hero Section -->
+    <section id="hero" class="hero section dark-background">
+
+      <img src="~/img/@Model.About.Image" alt="" data-aos="fade-in">
+
+      <div class="container d-flex flex-column align-items-center justify-content-center text-center" data-aos="fade-up" data-aos-delay="100">
+        <h2>@Model.About.Name</h2>
+        <p><span class="typed" data-typed-items="Designer, Developer, Freelancer, Photographer"></span></p>
+      </div>
+      
+    </section>
+    <!-- /Hero Section -->
+  @await Html.PartialAsync("~/Views/Shared/Components/_About.cshtml", Model.About)
+  @await Html.PartialAsync("~/Views/Shared/Components/_Resume.cshtml", Model)
+    <!-- Services Section -->
+    <section id="services" class="services section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Hizmetler</h2>
+        <p>Projeler, müşterilerin ihtiyaçlarına yaratıcı ve stratejik çözümler sunacak şekilde tasarlanmakta; her aşamada 
+        kullanıcı deneyimi ön planda tutulmakta ve kaliteli, ölçülebilir ve sürdürülebilir sonuçlar hedeflenmektedir.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="service-item  position-relative">
+              <div class="icon">
+                <i class="fa-solid fa-code"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Full-Stack Web Geliştirme</h3>
+              </a>
+              <p>“Full-Stack Web Geliştirme hizmeti kapsamında, hem ön yüz hem de arka yüz uygulamaları modern ve ölçeklenebilir
+               çözümlerle tasarlanmakta ve geliştirilmektedir.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fa-solid fa-server" style="color: #ffffff;"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>Veritabanı Yönetimi</h3>
+              </a>
+              <p>Sıfırdan veritabanları tasarlanıp oluşturulmakta; veri modelleme, sorgulama ve optimizasyon süreçleriyle 
+              verilerin güvenli, düzenli ve verimli bir şekilde yönetilmesi sağlanmaktadır.</p>
+            </div>
+          </div><!-- End Service Item -->
+
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="fa-solid fa-brain" style="color: #ffffff;"></i>
+              </div>
+              <a href="#" class="stretched-link">
+                <h3>AI Çözümleri</h3>
+              </a>
+              <p>Veri odaklı yaklaşımlar kullanılarak yapay zekâ ve makine öğrenimi modelleri tasarlanmakta ve uygulanmakta; 
+              süreçler otomatikleştirilmekte ve karar destek sistemleri ile öngörüler oluşturacak çözümler sunulmaktadır.</p>
+            </div>
+          </div><!-- End Service Item -->
+        </div>
+      </div>
+
+    </section><!-- /Services Section -->
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Projects</h2>
+        <p>Projects are shaped by creative design processes, user-centered approaches, and solutions that prioritize functionality;
+        aesthetic and performance elements are combined to produce effective and measurable results.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="isotope-layout" data-default-filter="*" data-layout="masonry" data-sort="original-order">
+
+          <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
+            <li data-filter="*" class="filter-active">All</li>
+            <li data-filter=".filter-web-app">Web</li>
+            <li data-filter=".filter-desktop-app">Desktop Apps</li>
+            <li data-filter=".filter-ai">AI</li>
+            <li data-filter=".filter-other">Other</li>
+          </ul><!-- End Portfolio Filters -->
+
+          <div class="row gy-4 isotope-container" data-aos="fade-up" data-aos-delay="200">
+
+            @foreach (ProjectCard project in @Model.Projects)
+            {
+                @await Html.PartialAsync("~/Views/Shared/Partials/Site/_ProjectCard.cshtml", project)
+            }
+          </div><!-- End Portfolio Container -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Portfolio Section -->
+      @await Html.PartialAsync("~/Views/Shared/Partials/Site/_FAQ.cshtml", Model)
+      
+
+      <!-- Stats Section -->
+    <section id="stats" class="stats section accent-background">
+
+      <img src="~/img/stats-bg.jpg" alt="" data-aos="fade-in">
+
+      <div class="container position-relative" data-aos="fade-up" data-aos-delay="100">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="3" data-purecounter-duration="1" class="purecounter">3</span>
+              <p>Client</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="20" data-purecounter-duration="1" class="purecounter">20+</span>
+              <p>Projects</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="15000" data-purecounter-duration="1" class="purecounter">15000+</span>
+              <p>Lines of Code</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+          <div class="col-lg-3 col-md-6">
+            <div class="stats-item text-center w-100 h-100">
+              <span data-purecounter-start="0" data-purecounter-end="1000" data-purecounter-duration="1" class="purecounter"></span>
+              <p>Coffee Consumed</p>
+            </div>
+          </div><!-- End Stats Item -->
+
+        </div>
+
+      </div>
+
+    </section><!-- /Stats Section -->
+
+    @await Html.PartialAsync("~/Views/Shared/Partials/Site/_Contact.cshtml")

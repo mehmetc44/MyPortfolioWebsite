@@ -1,0 +1,94 @@
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@model PageViewModel
+<!-- Resume Section -->
+    <section id="resume" class="resume section">
+
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>Resume</h2>
+        <p>You can download my CV in English or Turkish using the buttons below.</p>
+      </div><!-- End Section Title -->
+
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <h3 class="resume-title">Summary</h3>
+
+            <div class="resume-item pb-0">
+              <h4>@Model.About.Name</h4>
+              <p><em>@Model.Resume.Summary</em></p>
+              <ul>
+                <li>@Model.About.Address</li>
+                <li>@Model.About.Number</li>
+                <li>@Model.About.Email</li>
+              </ul>
+            </div><!-- Edn Resume Item -->
+
+            <h3 class="resume-title">Education</h3>
+            @foreach(Education edu in Model.Resume.EducationList)
+            {
+                <div class="resume-item">
+              <h4>@edu.Degree</h4>
+              <h5>@edu.StartDate - @edu.EndDate</h5>
+              <p><em>@edu.University</em></p>
+              <p>@edu.Description</p>
+            </div><!-- Edn Resume Item -->
+            }
+            
+
+
+          </div>
+
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <h3 class="resume-title">Experience</h3>
+            @foreach(Experience exp in Model.Resume.ExperienceList){
+                <div class="resume-item">
+              <h4>@exp.Position</h4>
+              <h5>@exp.StartDate - @exp.EndDate</h5>
+              <p><em>@exp.Company</em></p>
+              <ul>
+                <li>@exp.Description</li>
+              </ul>
+            </div><!-- Edn Resume Item -->
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+        </div>
+        <!-- CV İndirme Butonları (Türkçe / İngilizce) -->
+  <div class="row" data-aos="fade-up" data-aos-delay="300">
+    <div class="col-12">
+      <div class="d-flex justify-content-center align-items-center flex-wrap gap-4" style="margin-top: 2rem;">
+
+        <!-- Türkçe CV -->
+        <a href="~/documents/MehmetCakmakCV(TR).pdf"
+           class="btn btn-primary"
+           download="MehmetCakmakCV(TR).pdf"
+           role="button"
+           aria-label="Türkçe özgeçmişi indir"
+           style="font-size: 1.1rem; padding: 14px 36px; border-radius: 10px;">
+          Download CV Turkish
+        </a>
+
+        <!-- English CV -->
+        <a href="~/documents/MehmetCakmakCV(ENG).pdf"
+           class="btn btn-outline-secondary"
+           download="MehmetCakmakCV(ENG).pdf"
+           role="button"
+           aria-label="Download English CV"
+           style="font-size: 1.1rem; padding: 14px 36px; border-radius: 10px;">
+          Download CV English
+        </a>
+
+      </div>
+    </div>
+
+
+  </div>
+
+    </section><!-- /Resume Section -->
