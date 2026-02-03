@@ -1,0 +1,50 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Portfolio.Persistence/1.0.0": {
+        "dependencies": {
+          "Portfolio.Application": "1.0.0",
+          "Portfolio.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Portfolio.Persistence.dll": {}
+        }
+      },
+      "Portfolio.Application/1.0.0": {
+        "dependencies": {
+          "Portfolio.Domain": "1.0.0"
+        },
+        "runtime": {
+          "Portfolio.Application.dll": {}
+        }
+      },
+      "Portfolio.Domain/1.0.0": {
+        "runtime": {
+          "Portfolio.Domain.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Portfolio.Persistence/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Portfolio.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Portfolio.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

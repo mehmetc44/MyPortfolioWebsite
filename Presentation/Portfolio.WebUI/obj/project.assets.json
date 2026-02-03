@@ -1,0 +1,155 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0": {
+      "Portfolio.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Portfolio.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Portfolio.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Portfolio.Application.dll": {}
+        }
+      },
+      "Portfolio.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/Portfolio.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Portfolio.Domain.dll": {}
+        }
+      },
+      "Portfolio.Infrastructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Portfolio.Application": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Portfolio.Infrastructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Portfolio.Infrastructure.dll": {}
+        }
+      },
+      "Portfolio.Persistence/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "Portfolio.Application": "1.0.0",
+          "Portfolio.Domain": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Portfolio.Persistence.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Portfolio.Persistence.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Portfolio.Application/1.0.0": {
+      "type": "project",
+      "path": "../../Core/Portfolio.Application/Portfolio.Application.csproj",
+      "msbuildProject": "../../Core/Portfolio.Application/Portfolio.Application.csproj"
+    },
+    "Portfolio.Domain/1.0.0": {
+      "type": "project",
+      "path": "../../Core/Portfolio.Domain/Portfolio.Domain.csproj",
+      "msbuildProject": "../../Core/Portfolio.Domain/Portfolio.Domain.csproj"
+    },
+    "Portfolio.Infrastructure/1.0.0": {
+      "type": "project",
+      "path": "../../Infrastructure/Portfolio.Infrastructure/Portfolio.Infrastructure.csproj",
+      "msbuildProject": "../../Infrastructure/Portfolio.Infrastructure/Portfolio.Infrastructure.csproj"
+    },
+    "Portfolio.Persistence/1.0.0": {
+      "type": "project",
+      "path": "../../Infrastructure/Portfolio.Persistence/Portfolio.Persistence.csproj",
+      "msbuildProject": "../../Infrastructure/Portfolio.Persistence/Portfolio.Persistence.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0": [
+      "Portfolio.Application >= 1.0.0",
+      "Portfolio.Infrastructure >= 1.0.0",
+      "Portfolio.Persistence >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/mehmet/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Portfolio.WebUI.csproj",
+      "projectName": "Portfolio.WebUI",
+      "projectPath": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Portfolio.WebUI.csproj",
+      "packagesPath": "/home/mehmet/.nuget/packages/",
+      "outputPath": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/home/mehmet/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "projectReferences": {
+            "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/Portfolio.Application.csproj": {
+              "projectPath": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/Portfolio.Application.csproj"
+            },
+            "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Infrastructure/Portfolio.Infrastructure.csproj": {
+              "projectPath": "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Infrastructure/Portfolio.Infrastructure.csproj"
+            },
+            "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Persistence/Portfolio.Persistence.csproj": {
+              "projectPath": "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Persistence/Portfolio.Persistence.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net8.0": {
+        "targetAlias": "net8.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

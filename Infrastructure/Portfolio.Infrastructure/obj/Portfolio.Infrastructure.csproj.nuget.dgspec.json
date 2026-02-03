@@ -1,0 +1,175 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Infrastructure/Portfolio.Infrastructure.csproj": {}
+  },
+  "projects": {
+    "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/Portfolio.Application.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/Portfolio.Application.csproj",
+        "projectName": "Portfolio.Application",
+        "projectPath": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/Portfolio.Application.csproj",
+        "packagesPath": "/home/mehmet/.nuget/packages/",
+        "outputPath": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mehmet/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/Portfolio.Domain.csproj": {
+                "projectPath": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/Portfolio.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/Portfolio.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/Portfolio.Domain.csproj",
+        "projectName": "Portfolio.Domain",
+        "projectPath": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/Portfolio.Domain.csproj",
+        "packagesPath": "/home/mehmet/.nuget/packages/",
+        "outputPath": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mehmet/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Infrastructure/Portfolio.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Infrastructure/Portfolio.Infrastructure.csproj",
+        "projectName": "Portfolio.Infrastructure",
+        "projectPath": "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Infrastructure/Portfolio.Infrastructure.csproj",
+        "packagesPath": "/home/mehmet/.nuget/packages/",
+        "outputPath": "/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/mehmet/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/Portfolio.Application.csproj": {
+                "projectPath": "/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/Portfolio.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/8.0.122/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
