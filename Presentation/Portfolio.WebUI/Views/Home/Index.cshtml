@@ -1,8 +1,22 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Ana Sayfa";
+    ViewData["BodyClass"] = "index-page"; // CSS için gerekli sınıf
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@using Portfolio.WebUI.Models.Portfolio
+@model Portfolio.WebUI.Models.Models.PageViewModel
+
+
+@await Component.InvokeAsync("HeroList")
+
+@await Component.InvokeAsync("AboutList")
+
+@await Component.InvokeAsync("ResumeList")
+
+@await Component.InvokeAsync("ServiceList")
+
+@await Component.InvokeAsync("PortfolioList") 
+
+@await Component.InvokeAsync("TestimonialList")
+
+@await Component.InvokeAsync("ContactList")

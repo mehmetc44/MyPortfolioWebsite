@@ -1,0 +1,57 @@
+@using Microsoft.Extensions.Localization
+@using Portfolio.WebUI.Resources
+@inject IStringLocalizer<SharedResource> SL
+<div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
+
+  <a href="index.html" class="logo d-flex align-items-center">
+    <!-- Uncomment the line below if you also wish to use an image logo -->
+    <!-- <img src="assets/img/logo.png" alt=""> -->
+    <h1 class="sitename">MC</h1>
+  </a>
+  <nav id="navmenu" class="navmenu">
+    <ul>
+      <li><a href="#hero" class="active">Home</a></li>
+            <li><a href="#about">@SL["Nav-About"]</a></li>
+            <li><a href="#resume">Resume</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#portfolio">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+      <li class="dropdown" style="position: relative;">
+        <!-- Seçili dil buraya yansır -->
+        <a href="#" id="selected-lang" style="display: flex; align-items: center; text-decoration: none;">
+          <img src="https://hatscripts.github.io/circle-flags/flags/tr.svg"
+            style="width: 16px; height: 16px; margin-right: 8px;">
+          Türkçe
+          <i class="bi bi-chevron-down" style="margin-left: 6px;"></i>
+        </a>
+
+        <!-- Dropdown listesi -->
+        <ul id="lang-menu"
+          style="display: none; list-style: none; padding: 6px; margin: 0; border: 1px solid #ccc; border-radius: 6px; position: absolute; top: 100%; left: 0; background: white; z-index: 9999;">
+          <li style=" display: flex; align-items: center;">
+            <a href="#" onclick="setLang('English','gb')"
+              style="display: flex; align-items: center; text-decoration: none; color: black;">
+              <img src="https://hatscripts.github.io/circle-flags/flags/gb.svg"
+                style="margin-right: 8px; width: 16px; height: 16px;">
+              English
+            </a>
+          </li>
+          <li style=" display: flex; align-items: center;">
+            <a href="#" onclick="setLang('Türkçe','tr')"
+              style="align-items: center; text-decoration: none;">
+              <img src="https://hatscripts.github.io/circle-flags/flags/tr.svg"
+                style="margin-right: 8px; width: 16px; height: 16px;">
+              Türkçe
+            </a>
+          </li>
+        </ul>
+
+
+
+      </li>
+    </ul>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+  </nav>
+</div>
+
+<script src="/js/language.js"></script>

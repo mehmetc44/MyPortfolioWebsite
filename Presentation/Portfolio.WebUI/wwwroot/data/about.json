@@ -1,0 +1,33 @@
+{
+  "Image": "hero-img.jpg",
+  "Name": "Mehmet Çakmak",
+  "ProfileImage": "profile-img.jpg",
+  "Profession": "Web Geliştirici",
+  "Email": "cakmakm4400@gmail.com",
+  "Number": "(545) 376 77 61",
+  "Address": "Mevlana Mahallesi, Talas / Kayseri, 38380, Türkiye",
+  "Description": "Merhaba! Ben Mehmet Çakmak, Erciyes Üniversitesi Yazılım Mühendisliği 3. Sınıf öğrencisi olarak Web Geliştirme ve modern yazılım çözümlerine odaklanıyorum.<br><br>ASP.NET Core, C# ve JavaScript gibi temel teknolojilerle dinamik, ölçeklenebilir ve kullanıcı dostu web projeleri geliştirme konusunda aktif deneyime sahibim.<br><br>Bu deneyimime ek olarak, Makine Öğrenmesi (ML), Derin Öğrenme ve Doğal Dil İşleme (NLP) gibi ileri düzey alanlarda da projeler üreterek yetkinlik setimi sürekli genişletiyorum.<br><br>Amacım; öğrenme hevesimi yenilikçi çözümlerle birleştirerek teknolojinin sunduğu en güncel yaklaşımları projelerime taşımaktır. Portföyümü inceleyebilir veya yeni fırsatlar için benimle iletişime geçebilirsiniz. Teşekkürler!",
+  "Skills": [
+    {
+      "SkillName": "ASP.NET Core",
+      "Proficiency": 80
+    },
+    {
+      "SkillName": "Python",
+      "Proficiency": 70
+    },
+    {
+      "SkillName": "SQL",
+      "Proficiency": 85
+    },
+    {
+      "SkillName": "Java",
+      "Proficiency": 60
+    },
+    {
+      "SkillName": "JavaScript",
+      "Proficiency": 40
+    }
+  ]
+}
+

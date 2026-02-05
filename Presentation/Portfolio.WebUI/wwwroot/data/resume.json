@@ -1,0 +1,35 @@
+{
+  "Summary": "Web geliştirici olarak ASP.NET Core, Front-End tasarım ve modern web teknolojilerinde projeler geliştiriyorum. Freelance ve uzaktan işler yapıyorum ",
+  "EducationList": [
+    {
+      "University": "Erciyes Üniversitesi",
+      "Degree": "Yazılım Mühendisliği(İngilizce) Lisans Programı",
+      "StartDate": "2022",
+      "EndDate": "2027",
+      "Description": "Ericyes Üniversitesi Yazılım Mühendisliği bölümünde lisans eğitimime devam ediyorum. Temel bilgisayar bilimleri, yazılım geliştirme, veri yapıları ve algoritmalar gibi konularda kendimi geliştiriyorum."
+    },
+    {
+      "University": "Hekimhan Anadolu Lisesi",
+      "Degree": "Lise Diploması",
+      "StartDate": "2018",
+      "EndDate": "2022",
+      "Description": "Lise eğitimimi Hekimhan Anadolu Lisesi'nde tamamladım."
+    }
+  ],
+  "ExperienceList": [
+    {
+      "Company": "Tema Yazılım Otomasyon Bilişim Teknolojileri Ltd. Şti.",
+      "Position": "Web Geliştirici Stajyer",
+      "StartDate": "07/2024",
+      "EndDate": "08/2024",
+      "Description": ".NET, ASP.NET Web API, C# ve MySql kullanarak Hastane Yönetim Sistemi projesinde staj yaptım. Proje kapsamında RESTful API geliştirme, veri tabanı yönetimi ve temel front-end entegrasyonu konularında deneyim kazandım."
+    },
+    {
+      "Company": "McDonald's",
+      "Position": "Crew Member",
+      "StartDate": "06/2025",
+      "EndDate": "09/2025",
+      "Description": "Work & Travel programı kapsamında McDonald's'ta Crew Member olarak çalıştım. Müşteri hizmetleri, takım çalışması ve hızlı tempolu bir ortamda etkin iletişim becerileri geliştirdim. Diğer kültürleri tanıma ve uluslararası çalışma deneyimi kazandım."
+    }
+  ]
+}
