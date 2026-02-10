@@ -1,6 +1,10 @@
 {
   "Files": [
     {
+      "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/css/admin.css",
+      "PackagePath": "staticwebassets/css/admin.css"
+    },
+    {
       "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/css/main.css",
       "PackagePath": "staticwebassets/css/main.css"
     },
@@ -131,6 +135,22 @@
     {
       "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/img/testimonials/testimonials-5.jpg",
       "PackagePath": "staticwebassets/img/testimonials/testimonials-5.jpg"
+    },
+    {
+      "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/Admin/index.js",
+      "PackagePath": "staticwebassets/js/Admin/index.js"
+    },
+    {
+      "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/Admin/portfolio.js",
+      "PackagePath": "staticwebassets/js/Admin/portfolio.js"
+    },
+    {
+      "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/Admin/references.js",
+      "PackagePath": "staticwebassets/js/Admin/references.js"
+    },
+    {
+      "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/Admin/resume.js",
+      "PackagePath": "staticwebassets/js/Admin/resume.js"
     },
     {
       "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/language.js",

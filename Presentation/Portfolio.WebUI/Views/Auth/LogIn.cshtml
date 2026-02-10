@@ -1,0 +1,85 @@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel Girişi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background-color: #f0f2f5;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="d-flex align-items-center min-vh-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-5 col-xl-4">
+
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <div class="card-body p-5">
+
+                            <div class="text-center mb-4">
+                                <div class="bg-primary bg-opacity-10 text-primary d-inline-flex align-items-center justify-content-center rounded-circle mb-3"
+                                    style="width: 60px; height: 60px;">
+                                    <i class="bi bi-shield-lock-fill fs-3"></i>
+                                </div>
+                                <h4 class="fw-bold text-dark">Yönetici Girişi</h4>
+                                <p class="text-muted small">Devam etmek için hesabınıza giriş yapın.</p>
+                            </div>
+
+                            <form>
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="floatingInput"
+                                        placeholder="name@example.com" required>
+                                    <label for="floatingInput"><i class="bi bi-envelope me-2"></i>E-posta Adresi</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="password" class="form-control" id="floatingPassword"
+                                        placeholder="Şifre" required>
+                                    <label for="floatingPassword"><i class="bi bi-key me-2"></i>Şifre</label>
+                                </div>
+
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                                        <label class="form-check-label text-secondary small" for="rememberMe">
+                                            Beni Hatırla
+                                        </label>
+                                    </div>
+                                    <a href="#" class="text-primary text-decoration-none small fw-medium">Şifremi
+                                        Unuttum?</a>
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary py-3 rounded-3 fw-bold shadow-sm" type="submit">
+                                        Giriş Yap
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="card-footer bg-white border-0 py-3 text-center rounded-bottom-4">
+                            <p class="mb-0 text-muted small">© 2024 Şirket Adı. Tüm hakları saklıdır.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -14,6 +14,14 @@
         },
         "runtime": {
           "Portfolio.WebUI.dll": {}
+        },
+        "resources": {
+          "en-US/Portfolio.WebUI.resources.dll": {
+            "locale": "en-US"
+          },
+          "tr-TR/Portfolio.WebUI.resources.dll": {
+            "locale": "tr-TR"
+          }
         }
       },
       "Portfolio.Application/1.0.0": {

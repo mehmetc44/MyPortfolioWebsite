@@ -15,3 +15,4 @@
 /home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Persistence/obj/Debug/net8.0/refint/Portfolio.Persistence.dll
 /home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Persistence/obj/Debug/net8.0/Portfolio.Persistence.pdb
 /home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Persistence/obj/Debug/net8.0/ref/Portfolio.Persistence.dll
+/home/mehmet/Desktop/Portfolio/Infrastructure/Portfolio.Persistence/obj/Debug/net8.0/Portfolio.Persistence.sourcelink.json

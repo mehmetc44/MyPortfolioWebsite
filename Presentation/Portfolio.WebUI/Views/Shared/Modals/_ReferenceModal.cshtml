@@ -1,0 +1,76 @@
+<div class="modal fade" id="testimonialModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Referans Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="testimonialForm">
+                    <div class="row">
+                        
+                        <div class="col-md-5 border-end text-center">
+                            
+                            <label class="form-label fw-bold small">Profil Fotoğrafı</label>
+                            
+                            <div class="preview-avatar-box mb-3" id="avatarPreview">
+                                <div class="text-muted small"><i class="bi bi-person-bounding-box fs-1"></i><br>Foto Seç</div>
+                            </div>
+                            
+                            <input type="file" class="form-control form-control-sm mb-3" id="tImage" accept="image/*">
+
+                            <div class="mb-2 text-start">
+                                <label class="form-label small">Ad Soyad</label>
+                                <input type="text" class="form-control" id="tName" placeholder="Örn: John Larson">
+                            </div>
+
+                            <div class="mb-3 text-start">
+                                <label class="form-label small">Ünvan / Meslek</label>
+                                <input type="text" class="form-control" id="tTitle" placeholder="Örn: Entrepreneur">
+                            </div>
+
+                            <div class="mb-3 text-start">
+                                <label class="form-label small d-block">Puan (Yıldız Seçin)</label>
+                                <div class="star-rating" id="starContainer">
+                                    <i class="bi bi-star-fill" data-value="1"></i>
+                                    <i class="bi bi-star-fill" data-value="2"></i>
+                                    <i class="bi bi-star-fill" data-value="3"></i>
+                                    <i class="bi bi-star-fill" data-value="4"></i>
+                                    <i class="bi bi-star-fill" data-value="5"></i>
+                                </div>
+                                <input type="hidden" id="tRating" value="5"> </div>
+
+                        </div>
+
+                        <div class="col-md-7 ps-4">
+                            <label class="form-label fw-bold">Müşteri Yorumu</label>
+                            
+                            <ul class="nav nav-tabs mb-2" id="langTabs" role="tablist">
+                                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tab-tr" type="button">🇹🇷 TR</button></li>
+                                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-en" type="button">🇬🇧 EN</button></li>
+                                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab-de" type="button">🇩🇪 DE</button></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="tab-tr">
+                                    <textarea class="form-control" id="tCommentTr" rows="8" placeholder="Türkçe yorum..."></textarea>
+                                </div>
+                                <div class="tab-pane fade" id="tab-en">
+                                    <textarea class="form-control" id="tCommentEn" rows="8" placeholder="English comment..."></textarea>
+                                </div>
+                                <div class="tab-pane fade" id="tab-de">
+                                    <textarea class="form-control" id="tCommentDe" rows="8" placeholder="Deutscher kommentar..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-success" id="saveBtn"><i class="bi bi-check-lg"></i> Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>

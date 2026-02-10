@@ -13,3 +13,4 @@
 /home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/obj/Debug/net8.0/refint/Portfolio.Application.dll
 /home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/obj/Debug/net8.0/Portfolio.Application.pdb
 /home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/obj/Debug/net8.0/ref/Portfolio.Application.dll
+/home/mehmet/Desktop/Portfolio/Core/Portfolio.Application/obj/Debug/net8.0/Portfolio.Application.sourcelink.json

@@ -1,0 +1,70 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container py-5">
+    
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-6">
+            <h3><i class="bi bi-chat-quote"></i> Referanslar & Yorumlar</h3>
+            <p class="text-muted">Müşteri yorumlarını ve puanlamaları buradan yönetebilirsiniz.</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <button class="btn btn-primary btn-lg" id="addNewBtn">
+                <i class="bi bi-plus-lg"></i> Yeni Yorum Ekle
+            </button>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th scope="col" class="ps-4">Kişi</th>
+                            <th scope="col">İsim & Ünvan</th>
+                            <th scope="col">Puan</th>
+                            <th scope="col">Yorum Özeti (TR)</th>
+                            <th scope="col" class="text-end pe-4">İşlemler</th>
+                        </tr>
+                    </thead>
+                    <tbody id="testimonialTableBody">
+                        <tr>
+                <td class="ps-4">
+                    <img src="img/hero-img.jpg" class="table-avatar" alt="User">
+                </td>
+                <td>
+                    <div class="fw-bold t-name">John Larson</div>
+                    <div class="small text-muted t-title">Entrepreneur</div>
+                </td>
+                <td>
+                    <div class="small">
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                        <i class="bi bi-star-fill text-warning"></i>
+                    </div>
+                </td>
+                <td>
+                    <div class="text-muted small text-truncate" style="max-width: 250px;">
+                        Quis quorum aliqua sint quem legam fore sunt eram...
+                    </div>
+                </td>
+                <td class="text-end pe-4">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary edit-btn"><i class="bi bi-pencil"></i></button>
+                        <button type="button" class="btn btn-sm btn-outline-danger delete-btn"><i class="bi bi-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@await Html.PartialAsync("../Shared/Modals/_ReferenceModal.cshtml")
+@section Scripts{
+<script src="~/js/Admin/references.js"></script>
+}

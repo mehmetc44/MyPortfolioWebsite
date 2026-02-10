@@ -45,3 +45,4 @@
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/en-US/Portfolio.WebUI.resources.dll
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/tr-TR/Portfolio.WebUI.resources.cs
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/tr-TR/Portfolio.WebUI.resources.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.sourcelink.json

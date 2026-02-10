@@ -1,0 +1,170 @@
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-file-earmark-person"></i> Özgeçmiş & Deneyim Yönetimi</h3>
+            <p class="text-muted">Özet yazınızı, bildiğiniz dilleri, eğitim ve iş tecrübelerinizi buradan yönetin.
+            </p>
+        </div>        
+    </div>
+
+        <form>
+            <div class="row">
+
+                <div class="col-lg-4">
+
+                    <div class="card">
+                        <div class="card-header bg-white">
+                            <h5 class="card-title mt-2"><i class="bi bi-text-paragraph"></i> Profil Özeti</h5>
+                        </div>
+                        <div class="card-body">
+                            <ul class="nav nav-tabs nav-fill mb-3" id="summaryTabs" role="tablist">
+                                <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab"
+                                        data-bs-target="#sum-tr" type="button">TR</button></li>
+                                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#sum-en" type="button">EN</button></li>
+                                <li class="nav-item"><button class="nav-link" data-bs-toggle="tab"
+                                        data-bs-target="#sum-de" type="button">DE</button></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="sum-tr">
+                                    <textarea class="form-control" rows="5"
+                                        placeholder="Kısa özet (Türkçe)..."></textarea>
+                                </div>
+                                <div class="tab-pane fade" id="sum-en">
+                                    <textarea class="form-control" rows="5"
+                                        placeholder="Short summary (English)..."></textarea>
+                                </div>
+                                <div class="tab-pane fade" id="sum-de">
+                                    <textarea class="form-control" rows="5"
+                                        placeholder="Kurze Zusammenfassung (Deutsch)..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+                            <h5 class="card-title m-0"><i class="bi bi-translate"></i> Diller</h5>
+                            <button type="button" class="btn btn-sm btn-success" id="addLangBtn"><i
+                                    class="bi bi-plus"></i> Ekle</button>
+                        </div>
+                        <div class="card-body" id="langContainer">
+
+                            <div class="row g-2 align-items-center mb-2 deletable-row">
+                                <div class="col-5">
+                                    <input type="text" class="form-control form-control-sm" value="Türkçe"
+                                        placeholder="Dil">
+                                </div>
+                                <div class="col-5">
+                                    <select class="form-select form-select-sm">
+                                        <option value="100">Native</option>
+                                        <option value="80">Advanced (C1)</option>
+                                        <option value="60">Intermediate (B2)</option>
+                                        <option value="40">Beginner</option>
+                                    </select>
+                                </div>
+                                <div class="col-2 text-end">
+                                    <button type="button" class="btn btn-sm btn-outline-danger border-0 delete-btn"><i
+                                            class="bi bi-trash"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="row g-2 align-items-center mb-2 deletable-row">
+                                <div class="col-5">
+                                    <input type="text" class="form-control form-control-sm" value="English">
+                                </div>
+                                <div class="col-5">
+                                    <select class="form-select form-select-sm">
+                                        <option value="100">Native</option>
+                                        <option value="80" selected>Advanced (C1)</option>
+                                        <option value="60">Intermediate (B2)</option>
+                                        <option value="40">Beginner</option>
+                                    </select>
+                                </div>
+                                <div class="col-2 text-end">
+                                    <button type="button" class="btn btn-sm btn-outline-danger border-0 delete-btn"><i
+                                            class="bi bi-trash"></i></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8">
+                    <div class="card h-100">
+                        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                            <div>
+                                <h5 class="card-title m-0">Zaman Çizelgesi (Timeline)</h5>
+                                <small class="text-muted">Eğitim ve İş deneyimlerinizi buradan yönetin.</small>
+                            </div>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#timelineModal" id="addNewBtn">
+                                <i class="bi bi-plus-lg"></i> Yeni Kayıt Ekle
+                            </button>
+                        </div>
+
+                        <div class="card-body p-0" style="max-height: 400px; overflow-y: auto;">
+
+                            <div class="list-group list-group-flush" id="timelineContainer">
+
+                                <div class="list-group-item p-3 deletable-row">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <span class="badge bg-primary mb-1">Deneyim</span>
+                                            <h5 class="mb-1">Senior Graphic Design Specialist</h5>
+                                            <p class="mb-1 text-muted"><i class="bi bi-building"></i> Experion, New York
+                                            </p>
+                                            <small class="text-primary fw-bold"><i class="bi bi-calendar"></i> 2019 -
+                                                Present</small>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary edit-btn"><i
+                                                    class="bi bi-pencil"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger delete-btn"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="list-group-item p-3 deletable-row">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <span class="badge bg-success mb-1">Eğitim</span>
+                                            <h5 class="mb-1">Master of Fine Arts</h5>
+                                            <p class="mb-1 text-muted"><i class="bi bi-mortarboard"></i> RIT</p>
+                                            <small class="text-primary fw-bold"><i class="bi bi-calendar"></i> 2015 -
+                                                2016</small>
+                                        </div>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary edit-btn"><i
+                                                    class="bi bi-pencil"></i></button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger delete-btn"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row mt-3">
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-success btn-lg"><i class="bi bi-check-lg"></i> Tüm Sayfayı
+                        Kaydet</button>
+                </div>
+            </div>
+        </form>
+    </div>
+@await Html.PartialAsync("../Shared/Modals/_TimeLineModal.cshtml")
+@section Scripts{
+<script src="~/js/Admin/resume.js"></script>
+}

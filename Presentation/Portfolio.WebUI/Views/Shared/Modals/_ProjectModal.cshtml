@@ -1,0 +1,97 @@
+<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="bi bi-folder-plus"></i> Proje Yönetimi</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="projectForm">
+                        <div class="row">
+                            <div class="col-lg-4 border-end">
+                                <h6 class="text-muted mb-3">Görsel Yönetimi</h6>
+
+                                <div class="mb-3">
+                                    <label class="form-label small fw-bold text-success"><i class="bi bi-star-fill"></i> Aktif Kapak Fotoğrafı</label>
+                                    <div class="preview-box mb-2" id="mainCoverPreview" style="height: 180px; overflow: hidden; border-radius: 8px; border: 2px solid #198754; background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                                        <i class="bi bi-image text-muted fs-1"></i>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Proje Görselleri</label>
+                                    <input type="file" class="form-control" id="projectImagesInput" multiple accept="image/*">
+                                    <div class="form-text small">Kapak dahil tüm fotoğrafları buradan seçin.</div>
+                                    <div class="gallery-container" id="galleryContainer"></div>
+                                </div>
+
+                                <hr>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Proje Başlığı</label>
+                                    <input type="text" class="form-control" id="pTitle" placeholder="Örn: Cosmetic Brand">
+                                </div>
+                            </div>
+                            <div class="col-lg-8 ps-lg-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h6 class="text-muted m-0">Proje Detayları & Hikayesi</h6>
+                                    <span class="badge bg-secondary"><i class="bi bi-markdown"></i> Markdown Destekli</span>
+                                </div>
+                                <ul class="nav nav-tabs mb-3" id="projectLangTabs" role="tablist">
+                                    <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#desc-tr" type="button">🇹🇷 Türkçe</button></li>
+                                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#desc-en" type="button">🇬🇧 English</button></li>
+                                    <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#desc-de" type="button">🇩🇪 Deutsch</button></li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <div class="tab-pane fade show active" id="desc-tr">
+                                        <textarea class="form-control markdown-editor" id="pDescTr" rows="15" placeholder="# Proje Hakkında..."></textarea>
+                                    </div>
+                                    <div class="tab-pane fade" id="desc-en">
+                                        <textarea class="form-control markdown-editor" id="pDescEn" rows="15" placeholder="# About Project..."></textarea>
+                                    </div>
+                                    <div class="tab-pane fade" id="desc-de">
+                                        <textarea class="form-control markdown-editor" id="pDescDe" rows="15" placeholder="# Über das Projekt..."></textarea>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mt-3">
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label">Kategori</label>
+                                        <select class="form-select" id="pCategory">
+                                            <option value="" selected disabled>Bir kategori seçiniz...</option>
+                                            <option value="Mobile App">Mobile App</option>
+                                            <option value="Web Design">Web Design</option>
+                                            <option value="Branding">Branding</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3 col-6">
+                                        <label class="form-label">Müşteri (Client)</label>
+                                        <input type="text" class="form-control" id="pClient" placeholder="Örn: ASU Company">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label">Tarih</label>
+                                        <input type="date" class="form-control" id="pDate">
+                                    </div>
+                                    <div class="col-6 mb-3">
+                                        <label class="form-label">Proje URL</label>
+                                        <input type="text" class="form-control" id="pUrl" placeholder="https://...">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="button" class="btn btn-success px-4" id="saveProjectBtn"><i class="bi bi-check-lg"></i> Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
