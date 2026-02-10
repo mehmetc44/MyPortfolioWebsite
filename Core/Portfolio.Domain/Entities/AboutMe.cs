@@ -5,26 +5,27 @@ namespace Portfolio.Domain.Entities
     public class AboutMe : BaseEntity
     {
         // --- Profil Görseli ---
+        // Profil resmi genelde evrenseldir, dile göre değişmez.
         public string? ImageUrl { get; set; }
-        public string? CvPdfUrl { get; set; } // "CV İndir" butonu için dosya yolu
-
-        // --- Metin Alanları (Çok Dilli & Markdown) ---
         
-        // Hero Bölümü (Kısa giriş: "Merhaba ben Mehmet, Yazılım Geliştiriciyim...")
-        public MultiLanguageString Introduction { get; set; } = new(); 
-        
-        // Hakkımda Bölümü (Uzun biyografi)
-        public MultiLanguageString Biography { get; set; } = new();
+        // --- KRİTİK GÜNCELLEME: CV DOSYA YOLU ---
+        // String yerine MultiLanguageString yaptık.
+        // Böylece 3 farklı PDF yükleyip, dile göre sunabilirsin.
+        public MultiLanguageString CvPath { get; set; } = new(); 
 
-        // --- İletişim Bilgileri (Genelde çevrilmez) ---
+        // --- Metin Alanları (Çok Dilli) ---
+        public MultiLanguageString Introduction { get; set; } = new(); // Hero (Kısa)
+        public MultiLanguageString Biography { get; set; } = new();    // Hakkımda (Uzun)
+
+        // --- İletişim (Genel) ---
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public string? Address { get; set; } // Eğer adresi de çevirmek istersen MultiLanguageString yapabilirsin
+        public string? Address { get; set; }
         public string? MapFrameUrl { get; set; } // Google Maps Embed linki
 
         // --- Sosyal Medya ---
         public string? Facebook { get; set; }
-        public string? Twitter { get; set; } // X
+        public string? Twitter { get; set; }
         public string? LinkedIn { get; set; }
         public string? Github { get; set; }
         public string? Instagram { get; set; }
