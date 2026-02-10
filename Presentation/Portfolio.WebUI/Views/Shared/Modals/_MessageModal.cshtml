@@ -1,0 +1,26 @@
+<div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-light">
+                <h5 class="modal-title" id="m-subject">Konu Başlığı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
+                    <div>
+                        <strong>Gönderen:</strong> <span id="m-sender"></span> 
+                        <span class="text-muted small">&lt;<span id="m-email"></span>&gt;</span>
+                    </div>
+                    <div class="text-muted small" id="m-date"></div>
+                </div>
+                <div class="message-content">
+                    <p id="m-message" class="text-break"></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" id="m-reply-btn" class="btn btn-primary"><i class="bi bi-reply"></i> Yanıtla</a>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+            </div>
+        </div>
+    </div>
+</div>

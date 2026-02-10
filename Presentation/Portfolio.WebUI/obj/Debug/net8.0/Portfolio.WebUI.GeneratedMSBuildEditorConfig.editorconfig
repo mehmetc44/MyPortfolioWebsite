@@ -18,6 +18,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI
 build_property._RazorSourceGeneratorDebug = 
 
+[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Admin/Contact.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vQ29udGFjdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Admin/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWRtaW4vSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -80,6 +84,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Components/StatsList/Default.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU3RhdHNMaXN0L0RlZmF1bHQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/_MessageModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9fTWVzc2FnZU1vZGFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/_ProjectModal.cshtml]

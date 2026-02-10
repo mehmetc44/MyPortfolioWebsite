@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gqwJJcefH6Pu/90bonzp7UIrpKg9FLKWa23tSF6/LWk=",
+  "Hash": "RJXUO+l5yiSwAinr2qzT6QhkZSkMsNMUP9xStI6bzCA=",
   "Source": "Portfolio.WebUI",
   "BasePath": "_content/Portfolio.WebUI",
   "Mode": "Default",
@@ -661,6 +661,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot/img/testimonials/testimonials-5.jpg"
+    },
+    {
+      "Identity": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/Admin/contact.js",
+      "SourceId": "Portfolio.WebUI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/",
+      "BasePath": "_content/Portfolio.WebUI",
+      "RelativePath": "js/Admin/contact.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/js/Admin/contact.js"
     },
     {
       "Identity": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/Admin/index.js",

@@ -137,6 +137,10 @@
       "PackagePath": "staticwebassets/img/testimonials/testimonials-5.jpg"
     },
     {
+      "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/Admin/contact.js",
+      "PackagePath": "staticwebassets/js/Admin/contact.js"
+    },
+    {
       "Id": "/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/wwwroot/js/Admin/index.js",
       "PackagePath": "staticwebassets/js/Admin/index.js"
     },

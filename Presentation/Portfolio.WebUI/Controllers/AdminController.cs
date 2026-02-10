@@ -20,6 +20,10 @@ namespace Portfolio.WebUI.Controllers
         {
             return View();
         }
+        public ActionResult Contact()
+        {
+            return View();
+        }
         public ActionResult Settings()
         {
             return View();

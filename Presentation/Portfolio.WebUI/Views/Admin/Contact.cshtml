@@ -1,0 +1,134 @@
+@{
+    Layout="~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="container py-5">
+    
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3><i class="bi bi-envelope-paper"></i> İletişim Merkezi</h3>
+            <p class="text-muted">Gelen mesajları buradan yönetebilirsiniz.</p>
+        </div>
+    </div>
+
+    <div class="card shadow-sm border-0">
+        
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+            <div class="d-flex align-items-center">
+                <h5 class="m-0 me-2"><i class="bi bi-inbox me-2"></i>Gelen Kutusu</h5>
+                <span class="badge bg-danger rounded-pill" id="unreadBadge">2</span>
+            </div>
+            
+            <div class="input-group input-group-sm" style="width: 250px;">
+                <input type="text" class="form-control" placeholder="Mesajlarda ara...">
+                <button class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
+            </div>
+        </div>
+
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr>
+                            <th class="ps-4">Gönderen</th>
+                            <th>Konu</th>
+                            <th class="text-end">Tarih</th>
+                            <th class="text-end pe-4">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messageTableBody">
+                        
+                        <tr class="message-row unread" 
+                            data-bs-toggle="modal" data-bs-target="#messageModal"
+                            data-sender="Ali Yılmaz"
+                            data-email="ali@test.com"
+                            data-subject="Proje Teklifi Hakkında"
+                            data-date="Bugün, 14:30"
+                            data-message="Merhaba Mehmet Bey, web sitenizdeki çalışmalarınızı çok beğendim. E-ticaret projemiz için görüşmek isteriz.">
+                            
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-envelope-fill text-primary me-2 icon-status"></i>
+                                    <div>
+                                        <div>Ali Yılmaz</div>
+                                        <div class="small text-muted d-none d-md-block fw-normal">ali@test.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span>Proje Teklifi Hakkında</span>
+                                <span class="text-muted small ms-2 fw-normal">- Merhaba Mehmet Bey...</span>
+                            </td>
+                            <td class="text-end small text-muted">Bugün, 14:30</td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-outline-danger delete-btn"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr class="message-row unread" 
+                            data-bs-toggle="modal" data-bs-target="#messageModal"
+                            data-sender="Ayşe Demir"
+                            data-email="ayse@design.com"
+                            data-subject="Freelance İş Birliği"
+                            data-date="Dün, 09:15"
+                            data-message="Selamlar, grafik tasarım işleri için paslaşabileceğimiz bir arkadaş arıyorum.">
+                            
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-envelope-fill text-primary me-2 icon-status"></i>
+                                    <div>
+                                        <div>Ayşe Demir</div>
+                                        <div class="small text-muted d-none d-md-block fw-normal">ayse@design.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span>Freelance İş Birliği</span>
+                                <span class="text-muted small ms-2 fw-normal">- Selamlar, grafik...</span>
+                            </td>
+                            <td class="text-end small text-muted">Dün, 09:15</td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-outline-danger delete-btn"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+
+                        <tr class="message-row" 
+                            data-bs-toggle="modal" data-bs-target="#messageModal"
+                            data-sender="Google HR"
+                            data-email="hr@google.com"
+                            data-subject="Job Interview"
+                            data-date="01 Şub 2026"
+                            data-message="Dear Mehmet, we viewed your profile and would like to invite you for an interview.">
+                            
+                            <td class="ps-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-envelope-open text-muted me-2 icon-status"></i>
+                                    <div>
+                                        <div>Google HR</div>
+                                        <div class="small text-muted d-none d-md-block">hr@google.com</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span>Job Interview</span>
+                                <span class="text-muted small ms-2">- Dear Mehmet...</span>
+                            </td>
+                            <td class="text-end small text-muted">01 Şub 2026</td>
+                            <td class="text-end pe-4">
+                                <button class="btn btn-sm btn-outline-danger delete-btn"><i class="bi bi-trash"></i></button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card-footer bg-white text-center py-3">
+            <small class="text-muted">Toplam <span id="totalMsgCount">3</span> mesaj</small>
+        </div>
+    </div>
+</div>
+@await Html.PartialAsync("../Shared/Modals/_MessageModal.cshtml")
+@section Scripts{
+<script src="~/js/Admin/contact.js"></script>
+}
