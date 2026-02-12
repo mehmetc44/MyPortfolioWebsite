@@ -1,57 +1,84 @@
-@using Microsoft.Extensions.Localization
-@using Portfolio.WebUI.Resources
-@inject IStringLocalizer<SharedResource> SL
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Portfolio.WebUI
+@using System.Globalization
+
+@inject IHtmlLocalizer<SharedResource> Localizer
+
+@{
+    // 2. Şu anki dili alıyoruz (tr, en, de)
+    var currentCulture = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture.UICulture.Name ?? "tr";
+    
+    // Bayrak ve Dil Adı Ayarlaması (Görüntü için)
+    string currentFlag = "tr.svg";
+    string currentLangName = "Türkçe";
+
+    if (currentCulture == "en")
+    {
+        currentFlag = "gb.svg";
+        currentLangName = "English";
+    }
+    else if (currentCulture == "de")
+    {
+        currentFlag = "de.svg";
+        currentLangName = "Deutsch";
+    }
+}
+
 <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
-  <a href="index.html" class="logo d-flex align-items-center">
-    <!-- Uncomment the line below if you also wish to use an image logo -->
-    <!-- <img src="assets/img/logo.png" alt=""> -->
+  <a href="/" class="logo d-flex align-items-center">
     <h1 class="sitename">MC</h1>
   </a>
+
   <nav id="navmenu" class="navmenu">
     <ul>
-      <li><a href="#hero" class="active">Home</a></li>
-            <li><a href="#about">@SL["Nav-About"]</a></li>
-            <li><a href="#resume">Resume</a></li>
-            <li><a href="#services">Services</a></li>
-            <li><a href="#portfolio">Projects</a></li>
-            <li><a href="#contact">Contact</a></li>
-      <li class="dropdown" style="position: relative;">
-        <!-- Seçili dil buraya yansır -->
-        <a href="#" id="selected-lang" style="display: flex; align-items: center; text-decoration: none;">
-          <img src="https://hatscripts.github.io/circle-flags/flags/tr.svg"
-            style="width: 16px; height: 16px; margin-right: 8px;">
-          Türkçe
-          <i class="bi bi-chevron-down" style="margin-left: 6px;"></i>
-        </a>
+        <li><a href="#hero" class="active">@Localizer["Nav_Home"]</a></li>
+        <li><a href="#about">@Localizer["Nav_About"]</a></li>
+        <li><a href="#resume">@Localizer["Nav_Resume"]</a></li>
+        <li><a href="#services">@Localizer["Nav_Services"]</a></li>
+        <li><a href="#portfolio">@Localizer["Nav_Projects"]</a></li>
+        <li><a href="#contact">@Localizer["Nav_Contact"]</a></li>
 
-        <!-- Dropdown listesi -->
-        <ul id="lang-menu"
-          style="display: none; list-style: none; padding: 6px; margin: 0; border: 1px solid #ccc; border-radius: 6px; position: absolute; top: 100%; left: 0; background: white; z-index: 9999;">
-          <li style=" display: flex; align-items: center;">
-            <a href="#" onclick="setLang('English','gb')"
-              style="display: flex; align-items: center; text-decoration: none; color: black;">
-              <img src="https://hatscripts.github.io/circle-flags/flags/gb.svg"
-                style="margin-right: 8px; width: 16px; height: 16px;">
-              English
+        <li class="dropdown" style="position: relative;">
+            
+            <a href="#" id="selected-lang" style="display: flex; align-items: center; text-decoration: none; cursor: pointer;">
+                <img src="https://hatscripts.github.io/circle-flags/flags/@currentFlag" 
+                     style="width: 16px; height: 16px; margin-right: 8px;" alt="@currentLangName">
+                @currentLangName
+                <i class="bi bi-chevron-down" style="margin-left: 6px;"></i>
             </a>
-          </li>
-          <li style=" display: flex; align-items: center;">
-            <a href="#" onclick="setLang('Türkçe','tr')"
-              style="align-items: center; text-decoration: none;">
-              <img src="https://hatscripts.github.io/circle-flags/flags/tr.svg"
-                style="margin-right: 8px; width: 16px; height: 16px;">
-              Türkçe
-            </a>
-          </li>
-        </ul>
 
+            <ul style="list-style: none; padding: 10px; margin: 0; border: 1px solid #eee; border-radius: 6px; position: absolute; top: 100%; left: 0; background: white; z-index: 9999; min-width: 120px;">
+                
+                <form id="langForm" asp-controller="Language" asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path" method="post">
+                    
+                    <li style="margin-bottom: 5px;">
+                        <button type="submit" name="culture" value="tr" class="btn btn-link text-decoration-none text-dark p-0 d-flex align-items-center" style="width: 100%;">
+                            <img src="https://hatscripts.github.io/circle-flags/flags/tr.svg" style="margin-right: 8px; width: 16px; height: 16px;">
+                            Türkçe
+                        </button>
+                    </li>
 
+                    <li style="margin-bottom: 5px;">
+                        <button type="submit" name="culture" value="en" class="btn btn-link text-decoration-none text-dark p-0 d-flex align-items-center" style="width: 100%;">
+                            <img src="https://hatscripts.github.io/circle-flags/flags/gb.svg" style="margin-right: 8px; width: 16px; height: 16px;">
+                            English
+                        </button>
+                    </li>
 
-      </li>
+                    <li>
+                        <button type="submit" name="culture" value="de" class="btn btn-link text-decoration-none text-dark p-0 d-flex align-items-center" style="width: 100%;">
+                            <img src="https://hatscripts.github.io/circle-flags/flags/de.svg" style="margin-right: 8px; width: 16px; height: 16px;">
+                            Deutsch
+                        </button>
+                    </li>
+
+                </form>
+            </ul>
+        </li>
     </ul>
     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
   </nav>
-</div>
 
-<script src="/js/language.js"></script>
+</div>

@@ -1,4 +1,4 @@
-﻿namespace Portfolio.WebUI.Resources
+﻿namespace Portfolio.WebUI
 {
     public class SharedResource
     {

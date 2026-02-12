@@ -17,6 +17,15 @@
           "Portfolio.WebUI.dll": {}
         },
         "resources": {
+          "de/Portfolio.WebUI.resources.dll": {
+            "locale": "de"
+          },
+          "en/Portfolio.WebUI.resources.dll": {
+            "locale": "en"
+          },
+          "tr/Portfolio.WebUI.resources.dll": {
+            "locale": "tr"
+          },
           "en-US/Portfolio.WebUI.resources.dll": {
             "locale": "en-US"
           },

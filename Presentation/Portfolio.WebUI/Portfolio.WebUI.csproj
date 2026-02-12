@@ -7,6 +7,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Extensions/" />
     <Folder Include="ViewComponents/About/" />
     <Folder Include="Views/Admin/" />
     <Folder Include="Views/Shared/Modals/" />

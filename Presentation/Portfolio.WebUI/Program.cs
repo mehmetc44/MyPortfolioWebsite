@@ -52,7 +52,12 @@ namespace Portfolio.WebUI
             });
 
             builder.Services.AddControllersWithViews()
-                .AddViewLocalization();
+                .AddViewLocalization()
+                .AddDataAnnotationsLocalization(options =>
+                {
+                    options.DataAnnotationLocalizerProvider = (type, factory) =>
+                    factory.Create(typeof(SharedResource));
+                });
 
             builder.Services.AddSingleton<ContentService>();
             var app = builder.Build();
@@ -63,8 +68,22 @@ namespace Portfolio.WebUI
                 app.UseHsts();
             }
 
-            var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
-            app.UseRequestLocalization(localizationOptions.Value);
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("tr"), // Varsayılan Dil
+                SupportedCultures = new[]
+            {
+                new CultureInfo("tr"),
+                new CultureInfo("en"),
+                new CultureInfo("de")
+            },          
+                SupportedUICultures = new[]
+            {
+                new CultureInfo("tr"),
+                new CultureInfo("en"),
+                new CultureInfo("de")
+            }         
+            });
 
 
             app.UseStaticFiles();
