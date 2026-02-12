@@ -2,6 +2,9 @@ using Portfolio.WebUI.Services;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+using Portfolio.Domain.Entities.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace Portfolio.WebUI
 {
@@ -14,10 +17,29 @@ namespace Portfolio.WebUI
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             builder.Services.AddHttpContextAccessor();
+            // DbContext servisi hemen üstte olmalı...
+            builder.Services.AddDbContext<DbContext>(options =>
+                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+            // HEMEN ALTINA BUNU EKLE:
+            builder.Services.AddIdentity<AspUser, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<DbContext>()
+                .AddDefaultTokenProviders();
+
+            // Şifre Kuralları (Geliştirme aşamasında seni yormaması için basit yapalım)
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 3; // Şifre: "123" olabilsin diye :)
+            });
 
             var supportedCultures = new[]
             {
-                new CultureInfo("en-US"), 
+                new CultureInfo("en-US"),
                 new CultureInfo("tr-TR")
             };
 
@@ -26,13 +48,13 @@ namespace Portfolio.WebUI
                 options.DefaultRequestCulture = new RequestCulture("tr-TR");
                 options.SupportedCultures = supportedCultures;
                 options.SupportedUICultures = supportedCultures;
-                options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider()); 
+                options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
             });
 
             builder.Services.AddControllersWithViews()
-                .AddViewLocalization(); 
+                .AddViewLocalization();
 
-            builder.Services.AddSingleton<ContentService>(); 
+            builder.Services.AddSingleton<ContentService>();
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())
@@ -43,7 +65,7 @@ namespace Portfolio.WebUI
 
             var localizationOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
             app.UseRequestLocalization(localizationOptions.Value);
-           
+
 
             app.UseStaticFiles();
 

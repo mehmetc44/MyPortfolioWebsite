@@ -10,3 +10,4 @@
 /home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/obj/Debug/net8.0/Portfolio.Domain.pdb
 /home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/obj/Debug/net8.0/ref/Portfolio.Domain.dll
 /home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/obj/Debug/net8.0/Portfolio.Domain.sourcelink.json
+/home/mehmet/Desktop/Portfolio/Core/Portfolio.Domain/obj/Debug/net8.0/Portfolio.Domain.csproj.AssemblyReference.cache
