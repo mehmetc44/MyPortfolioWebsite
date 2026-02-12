@@ -117,28 +117,96 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Nav_Home" xml:space="preserve">
+  <data name="Home" xml:space="preserve">
     <value>Ana Sayfa</value>
     <comment/>
   </data>
-  <data name="Nav_About" xml:space="preserve">
+  <data name="About" xml:space="preserve">
     <value>Hakkımda</value>
     <comment/>
   </data>
-  <data name="Nav_Resume" xml:space="preserve">
+  <data name="Resume" xml:space="preserve">
     <value>Özgeçmiş</value>
     <comment/>
   </data>
-  <data name="Nav_Services" xml:space="preserve">
+  <data name="Services" xml:space="preserve">
     <value>Hizmetler</value>
     <comment/>
   </data>
-  <data name="Nav_Projects" xml:space="preserve">
+  <data name="Projects" xml:space="preserve">
     <value>Projeler</value>
     <comment/>
   </data>
-  <data name="Nav_Contact" xml:space="preserve">
+  <data name="Contact" xml:space="preserve">
     <value>İletişim</value>
+    <comment/>
+  </data>
+  <data name="HeroName" xml:space="preserve">
+    <value>Mehmet Çakmak</value>
+    <comment/>
+  </data>
+  <data name="HeroJobTitles" xml:space="preserve">
+    <value>Full-Stack Web Geliştirici, Freelancer, AI Mühendisi</value>
+    <comment/>
+  </data>
+  <data name="FooterCopyRight" xml:space="preserve">
+    <value>&lt;p&gt;© &lt;span&gt;Telif Hakkı&lt;/span&gt; &lt;strong class="px-1 sitename"&gt;Mehmet Çakmak&lt;/strong&gt; &lt;span&gt;Tüm Hakları Saklıdır&lt;/span&gt;&lt;/p&gt;</value>
+    <comment/>
+  </data>
+  <data name="FooterCredits" xml:space="preserve">
+    <value>&lt;strong&gt;Mehmet Çakmak&lt;/strong&gt; Tarafından geliştirildi.</value>
+    <comment/>
+  </data>
+  <data name="AboutLabelNameSurname" xml:space="preserve">
+    <value>Ad-Soyad</value>
+    <comment/>
+  </data>
+  <data name="AboutLabelTitle" xml:space="preserve">
+    <value>Unvan</value>
+    <comment/>
+  </data>
+  <data name="AboutLabelEmail" xml:space="preserve">
+    <value>E-mail</value>
+    <comment/>
+  </data>
+  <data name="AboutLabelLocation" xml:space="preserve">
+    <value>Konum</value>
+    <comment/>
+  </data>
+  <data name="AboutLabelTitleValue" xml:space="preserve">
+    <value>Web Geliştirici</value>
+    <comment/>
+  </data>
+  <data name="AboutLabelLocationValue" xml:space="preserve">
+    <value>Kayseri/TÜRKİYE</value>
+    <comment/>
+  </data>
+  <data name="Skills" xml:space="preserve">
+    <value>Beceriler</value>
+    <comment/>
+  </data>
+  <data name="ResumeDescription" xml:space="preserve">
+    <value>Sürekli öğrenen ve problem çözmeye tutkulu bir yazılım mühendisi adayı olarak, bugüne kadarki eğitim ve deneyim yolculuğumun özeti.</value>
+    <comment/>
+  </data>
+  <data name="Biography" xml:space="preserve">
+    <value>Özet</value>
+    <comment/>
+  </data>
+  <data name="Education" xml:space="preserve">
+    <value>Eğitim</value>
+    <comment/>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Diller</value>
+    <comment/>
+  </data>
+  <data name="Experience" xml:space="preserve">
+    <value>Deneyimler</value>
+    <comment/>
+  </data>
+  <data name="ServicesDescription" xml:space="preserve">
+    <value>Fikirlerinizi modern teknolojilerle dijital gerçeğe dönüştürüyor; performanslı, güvenli ve kullanıcı odaklı yazılım çözümleri sunuyorum.</value>
     <comment/>
   </data>
 </root>

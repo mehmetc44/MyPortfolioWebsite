@@ -36,13 +36,7 @@
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.pdb
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.genruntimeconfig.cache
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/ref/Portfolio.WebUI.dll
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/en-US/Portfolio.WebUI.resources.dll
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/tr-TR/Portfolio.WebUI.resources.dll
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.csproj.GenerateResource.cache
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/en-US/Portfolio.WebUI.resources.cs
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/en-US/Portfolio.WebUI.resources.dll
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/tr-TR/Portfolio.WebUI.resources.cs
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/tr-TR/Portfolio.WebUI.resources.dll
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.sourcelink.json
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.Internal.dll
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
@@ -151,9 +145,6 @@
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.Resources.SharedResource.de.resources
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.Resources.SharedResource.en.resources
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.Resources.SharedResource.tr.resources
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.SharedResource.en-US.resources
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.SharedResource.tr-TR.resources
-/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/Portfolio.WebUI.SharedResource.tr.resources
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/de/Portfolio.WebUI.resources.cs
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/de/Portfolio.WebUI.resources.dll
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/en/Portfolio.WebUI.resources.cs
