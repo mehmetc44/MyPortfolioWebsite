@@ -10,7 +10,7 @@ public class LocalizationService
         _language = language;
         var filePath = Path.Combine("Resources", "Languages", $"{_language}.json");
         var json = File.ReadAllText(filePath);
-        _translations = JsonSerializer.Deserialize<Dictionary<string, string>>(json);
+        _translations = JsonSerializer.Deserialize<Dictionary<string, string>>(json) ?? null!;
     }
 
     public string Get(string key)
