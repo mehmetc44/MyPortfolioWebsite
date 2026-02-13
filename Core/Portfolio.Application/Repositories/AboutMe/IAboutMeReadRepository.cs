@@ -2,7 +2,7 @@ using System;
 
 namespace Portfolio.Application.Repositories.AboutMe;
 
-public interface IAboutMeReadRepository
+public interface IAboutMeReadRepository : IReadRepository<Domain.Entities.AboutMe>
 {
 
 }

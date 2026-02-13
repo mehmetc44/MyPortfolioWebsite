@@ -1,6 +1,6 @@
 using System;
 
-namespace Portfolio.Application.Repositories.AboutMe;
+namespace Portfolio.Application.Repositories.Category;
 
 public interface ICategoryReadRepository : IReadRepository<Domain.Entities.Category>
 {
