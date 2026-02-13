@@ -25,12 +25,6 @@
           },
           "tr/Portfolio.WebUI.resources.dll": {
             "locale": "tr"
-          },
-          "en-US/Portfolio.WebUI.resources.dll": {
-            "locale": "en-US"
-          },
-          "tr-TR/Portfolio.WebUI.resources.dll": {
-            "locale": "tr-TR"
           }
         }
       },

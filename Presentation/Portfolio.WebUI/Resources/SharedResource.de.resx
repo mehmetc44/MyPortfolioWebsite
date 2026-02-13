@@ -117,28 +117,200 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Nav-About" xml:space="preserve">
-    <value>Über</value>
-    <comment/>
-  </data>
-  <data name="Nav-Contact" xml:space="preserve">
-    <value>Contactieren</value>
-    <comment/>
-  </data>
-  <data name="Nav-Home" xml:space="preserve">
-    <value>Haus</value>
-    <comment/>
-  </data>
-  <data name="Nav-Projects" xml:space="preserve">
-    <value>Projekten</value>
-    <comment/>
-  </data>
-  <data name="Nav-Resume" xml:space="preserve">
-    <value>ResumeDE</value>
-    <comment/>
-  </data>
-  <data name="Nav-Services" xml:space="preserve">
-    <value>ServisDE</value>
-    <comment/>
-  </data>
+  <data name="Home" xml:space="preserve">
+  <value>Startseite</value>
+</data>
+<data name="About" xml:space="preserve">
+  <value>Über mich</value>
+</data>
+<data name="Resume" xml:space="preserve">
+  <value>Lebenslauf</value>
+</data>
+<data name="Services" xml:space="preserve">
+  <value>Dienstleistungen</value>
+</data>
+<data name="Projects" xml:space="preserve">
+  <value>Projekte</value>
+</data>
+<data name="Contact" xml:space="preserve">
+  <value>Kontakt</value>
+</data>
+<data name="HeroName" xml:space="preserve">
+  <value>Mehmet Çakmak</value>
+</data>
+<data name="HeroJobTitles" xml:space="preserve">
+  <value>Full-Stack Webentwickler, Freelancer, KI-Ingenieur</value>
+</data>
+<data name="FooterCopyRight" xml:space="preserve">
+  <value>&lt;p&gt;© &lt;span&gt;Urheberrecht&lt;/span&gt; &lt;strong class="px-1 sitename"&gt;Mehmet Çakmak&lt;/strong&gt; &lt;span&gt;Alle Rechte vorbehalten&lt;/span&gt;&lt;/p&gt;</value>
+</data>
+<data name="FooterCredits" xml:space="preserve">
+  <value><strong>Mehmet Çakmak</strong> Entwickelt von.</value>
+</data>
+<data name="AboutLabelNameSurname" xml:space="preserve">
+  <value>Name-Nachname</value>
+</data>
+<data name="AboutLabelTitle" xml:space="preserve">
+  <value>Titel</value>
+</data>
+<data name="AboutLabelEmail" xml:space="preserve">
+  <value>E-Mail</value>
+</data>
+<data name="AboutLabelLocation" xml:space="preserve">
+  <value>Standort</value>
+</data>
+<data name="AboutLabelTitleValue" xml:space="preserve">
+  <value>Webentwickler</value>
+</data>
+<data name="AboutLabelLocationValue" xml:space="preserve">
+  <value>Kayseri/TÜRKEI</value>
+</data>
+<data name="Skills" xml:space="preserve">
+  <value>Fähigkeiten</value>
+</data>
+<data name="ResumeDescription" xml:space="preserve">
+  <value>Ein beruflicher Entwicklungsprozess mit Fokus auf Lernen und Problemlösung, bereichert durch einen ingenieurwissenschaftlichen Ausbildungshintergrund und Praxiserfahrung.</value>
+</data>
+<data name="Biography" xml:space="preserve">
+  <value>Zusammenfassung</value>
+</data>
+<data name="Education" xml:space="preserve">
+  <value>Ausbildung</value>
+</data>
+<data name="Languages" xml:space="preserve">
+  <value>Sprachen</value>
+</data>
+<data name="Experience" xml:space="preserve">
+  <value>Erfahrungen</value>
+</data>
+<data name="ServicesDescription" xml:space="preserve">
+  <value>Ihre Ideen werden mit modernen Technologien in digitale Realität umgesetzt; leistungsstarke, sichere und benutzerorientierte Softwarelösungen werden angeboten.</value>
+</data>
+<data name="ServicesWebTitle" xml:space="preserve">
+  <value>Full-Stack-Webentwicklung</value>
+</data>
+<data name="ServicesWebDescription" xml:space="preserve">
+  <value>Ihre modernen, schnellen und skalierbaren Webanwendungen werden ganzheitlich entworfen und leistungsorientiert umgesetzt.</value>
+</data>
+<data name="ServicesDesktopAppTitle" xml:space="preserve">
+  <value>Desktop-Softwarelösungen</value>
+</data>
+<data name="ServicesDesktopAppDescription" xml:space="preserve">
+  <value>Leistungsstarke, zuverlässige und benutzerorientierte Desktop-Anwendungen werden für verschiedene Plattformen wie Windows, Linux und macOS entwickelt.</value>
+</data>
+<data name="ServicesAITitle" xml:space="preserve">
+  <value>Künstliche Intelligenz und intelligente Systeme</value>
+</data>
+<data name="ServicesAIDescription" xml:space="preserve">
+  <value>Durch die Integration von ML-Modellen und LLM (GPT usw.)-Technologien in Ihre Projekte werden intelligente und autonome Lösungen entwickelt.</value>
+</data>
+<data name="ProjectsTitle" xml:space="preserve">
+  <value>Projekte</value>
+</data>
+<data name="ProjectsDescription" xml:space="preserve">
+  <value>Ein digitales Projektportfolio, in dem aktuelle Technologien in funktionale Produkte verwandelt werden; mit Fokus auf Leistung, Sicherheit und Benutzererfahrung.</value>
+</data>
+<data name="ProjectsFilterAll" xml:space="preserve">
+  <value>Alle</value>
+</data>
+<data name="ProjectsFilterWeb" xml:space="preserve">
+  <value>Web</value>
+</data>
+<data name="ProjectsFilterDesktop" xml:space="preserve">
+  <value>Desktop</value>
+</data>
+<data name="ProjectsFilterAI" xml:space="preserve">
+  <value>KI</value>
+</data>
+<data name="ProjectsFilterOther" xml:space="preserve">
+  <value>ANDERE</value>
+</data>
+<data name="FaqTitle" xml:space="preserve">
+  <value>&lt;span&gt;Häufig gestellte&lt;/span&gt; &lt;strong&gt;Fragen&lt;/strong&gt;</value>
+</data>
+<data name="FaqDescription" xml:space="preserve">
+  <value>Hier finden Sie Antworten auf häufig gestellte Fragen zu Dienstleistungen und Arbeitsabläufen. Für detaillierte Informationen oder spezielle Angebote können Sie mich jederzeit kontaktieren.</value>
+</data>
+<data name="FaqQuestion-1" xml:space="preserve">
+  <value>Welche Technologien und Programmiersprachen werden in Projekten verwendet?</value>
+</data>
+<data name="FaqAnswer-1" xml:space="preserve">
+  <value>Basierend auf Skalierbarkeit und Leistung werden die aktuellsten Technologien eingesetzt. Im Backend .NET Core- und Node.js-Architekturen; im Frontend React und Angular; und für KI-Integrationen werden PyTorch- und TensorFlow-Bibliotheken als Standard verwendet.</value>
+</data>
+<data name="FaqQuestion-2" xml:space="preserve">
+  <value>Wie läuft Ihr Projektentwicklungs- und Lieferprozess ab?</value>
+</data>
+<data name="FaqAnswer-2" xml:space="preserve">
+  <value>Die Prozesse werden nach dem Prinzip der Transparenz und Vorhersehbarkeit verwaltet. Es wird eine Roadmap aus Analyse-, Design-, Entwicklungs- und Testphasen verfolgt. In jeder Phase erfolgt eine regelmäßige Berichterstattung, um sicherzustellen, dass das Endprodukt alle Anforderungen vollständig erfüllt.</value>
+</data>
+<data name="FaqQuestion-3" xml:space="preserve">
+  <value>Gibt es technischen Support und Wartung nach der Projektabgabe?</value>
+</data>
+<data name="FaqAnswer-3" xml:space="preserve">
+  <value>Ja, die Nachhaltigkeit der entwickelten Systeme ist essenziell. Zusätzlich zur Garantiezeit nach der Übergabe werden Wartungs- und Supportleistungen angeboten, um das System aktuell zu halten, Sicherheitsupdates durchzuführen und neue Funktionen hinzuzufügen.</value>
+</data>
+<data name="FaqQuestion-4" xml:space="preserve">
+  <value>Können die entwickelten Softwaresysteme mit bestehenden Systemen integriert werden?</value>
+</data>
+<data name="FaqAnswer-4" xml:space="preserve">
+  <value>Ja, die entwickelten Lösungen verfügen über eine modulare Struktur. Durch API (Application Programming Interface)-Technologien und spezielle Middleware können vollständige Integrationen mit bestehenden ERP-, CRM- oder Buchhaltungssystemen des Unternehmens realisiert werden.</value>
+</data>
+<data name="FaqQuestion-5" xml:space="preserve">
+  <value>Bieten Sie neben der Softwareentwicklung auch technische Beratung an?</value>
+</data>
+<data name="FaqAnswer-5" xml:space="preserve">
+  <value>Nicht nur Programmierung, sondern auch strategische Planungsunterstützung wird angeboten. Professionelle Beratungsleistungen werden in den Bereichen Systemanalyse, KI-Adaptionsstrategien, Datenbankoptimierung und Softwarearchitektur erbracht.</value>
+</data>
+<data name="ContactDescription" xml:space="preserve">
+  <value>Sie können diesen Bereich nutzen, um Kontakt bezüglich Fragen, Projektangeboten und professionellem Networking aufzunehmen.</value>
+</data>
+<data name="Adress" xml:space="preserve">
+  <value>Adresse</value>
+</data>
+<data name="ContactSubject" xml:space="preserve">
+  <value>Betreff</value>
+</data>
+<data name="ContacName" xml:space="preserve">
+  <value>Ihr Vor- und Nachname</value>
+</data>
+<data name="ContactEmail" xml:space="preserve">
+  <value>Ihre E-Mail-Adresse</value>
+</data>
+<data name="ContactMessage" xml:space="preserve">
+  <value>Ihre Nachricht</value>
+</data>
+<data name="ContactSendMessage" xml:space="preserve">
+  <value>Senden</value>
+</data>
+<data name="ContactLoading" xml:space="preserve">
+  <value>Wird geladen</value>
+</data>
+<data name="ContactSendedMessage" xml:space="preserve">
+  <value>Ihre Nachricht wurde erfolgreich gesendet.</value>
+</data>
+<data name="ProjectDetails" xml:space="preserve">
+  <value>Projektdetails</value>
+  <comment/>
+</data>
+<data name="ProjectInformation" xml:space="preserve">
+  <value>Projektinformationen</value>
+  <comment/>
+</data>
+<data name="Category" xml:space="preserve">
+  <value>KATEGORIE</value>
+  <comment/>
+</data>
+<data name="Client" xml:space="preserve">
+  <value>Kunde</value>
+  <comment/>
+</data>
+<data name="Date" xml:space="preserve">
+  <value>DATUM</value>
+  <comment/>
+</data>
+<data name="View" xml:space="preserve">
+  <value>Anzeigen</value>
+  <comment/>
+</data>
+
 </root>

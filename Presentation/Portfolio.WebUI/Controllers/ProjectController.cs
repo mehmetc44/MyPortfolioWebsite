@@ -10,7 +10,6 @@ using Portfolio.WebUI.Services;
 
 namespace Portfolio.WebUI.Controllers
 {
-    [Route("[controller]")]
     public class ProjectController : Controller
     {
         private readonly ILogger<ProjectController> _logger;
@@ -22,27 +21,18 @@ namespace Portfolio.WebUI.Controllers
             _contentService = contentService;
         }
 
-        [Route("Details/{id}")]
-        public IActionResult Details(int id)
+        public IActionResult Details()
         {
-            var project = _contentService.GetProjects().FirstOrDefault(p => p.Id == id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-
             var projectDetails = new ProjectDetail
             {
-                Id = project.Id,
-                Title = project.Title,
-                LongDescription = project.LongDescription,
-                GalleryImages = new List<string>{
-                project.ThumbnailImage?.ToString() ?? string.Empty
-                }.Concat(project.GalleryImages ?? new List<string>()).ToList(),
-                ProjectDate = project.ProjectDate,
-                Client = project.Client,
-                ProjectUrl = project.ProjectUrl,
-                Category = project.Category
+                Id = 12,
+                Title = "Proje1",
+                LongDescription = "Proje Açıklama",
+                GalleryImages = new List<string>{"books-1.jpg","books-2.jpg","books-3.jpg"},
+                ProjectDate = "22.11.1963",
+                Client = "Müşteri",
+                ProjectUrl = "project.ProjectUrl",
+                Category = "project.Category"
             };
             return View(projectDetails);
         }

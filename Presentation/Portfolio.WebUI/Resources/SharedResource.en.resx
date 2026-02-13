@@ -117,28 +117,200 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="About" xml:space="preserve">
-    <value>About</value>
-    <comment/>
-  </data>
-  <data name="Contact" xml:space="preserve">
-    <value>Contact</value>
-    <comment/>
-  </data>
   <data name="Home" xml:space="preserve">
-    <value>Home</value>
-    <comment/>
-  </data>
-  <data name="Projects" xml:space="preserve">
-    <value>Projets</value>
-    <comment/>
-  </data>
-  <data name="Resume" xml:space="preserve">
-    <value>Resume</value>
-    <comment/>
-  </data>
-  <data name="Services" xml:space="preserve">
-    <value>Services</value>
-    <comment/>
-  </data>
+  <value>Home</value>
+</data>
+<data name="About" xml:space="preserve">
+  <value>About</value>
+</data>
+<data name="Resume" xml:space="preserve">
+  <value>Resume</value>
+</data>
+<data name="Services" xml:space="preserve">
+  <value>Services</value>
+</data>
+<data name="Projects" xml:space="preserve">
+  <value>Projects</value>
+</data>
+<data name="Contact" xml:space="preserve">
+  <value>Contact</value>
+</data>
+<data name="HeroName" xml:space="preserve">
+  <value>Mehmet Çakmak</value>
+</data>
+<data name="HeroJobTitles" xml:space="preserve">
+  <value>Full-Stack Web Developer, Freelancer, AI Engineer</value>
+</data>
+<data name="FooterCopyRight" xml:space="preserve">
+  <value>&lt;p&gt;© &lt;span&gt;Copyright&lt;/span&gt; &lt;strong class="px-1 sitename"&gt;Mehmet Çakmak&lt;/strong&gt; &lt;span&gt;All Rights Reserved&lt;/span&gt;&lt;/p&gt;</value>
+</data>
+<data name="FooterCredits" xml:space="preserve">
+  <value><strong>Mehmet Çakmak</strong> Developed by.</value>
+</data>
+<data name="AboutLabelNameSurname" xml:space="preserve">
+  <value>Name-Surname</value>
+</data>
+<data name="AboutLabelTitle" xml:space="preserve">
+  <value>Title</value>
+</data>
+<data name="AboutLabelEmail" xml:space="preserve">
+  <value>E-mail</value>
+</data>
+<data name="AboutLabelLocation" xml:space="preserve">
+  <value>Location</value>
+</data>
+<data name="AboutLabelTitleValue" xml:space="preserve">
+  <value>Web Developer</value>
+</data>
+<data name="AboutLabelLocationValue" xml:space="preserve">
+  <value>Kayseri/TURKEY</value>
+</data>
+<data name="Skills" xml:space="preserve">
+  <value>Skills</value>
+</data>
+<data name="ResumeDescription" xml:space="preserve">
+  <value>A professional development journey focused on learning and problem-solving, enriched with an engineering-based educational background and field experience.</value>
+</data>
+<data name="Biography" xml:space="preserve">
+  <value>Summary</value>
+</data>
+<data name="Education" xml:space="preserve">
+  <value>Education</value>
+</data>
+<data name="Languages" xml:space="preserve">
+  <value>Languages</value>
+</data>
+<data name="Experience" xml:space="preserve">
+  <value>Experience</value>
+</data>
+<data name="ServicesDescription" xml:space="preserve">
+  <value>Your ideas are transformed into digital reality with modern technologies; performance-driven, secure and user-focused software solutions are delivered.</value>
+</data>
+<data name="ServicesWebTitle" xml:space="preserve">
+  <value>Full Stack Web Development</value>
+</data>
+<data name="ServicesWebDescription" xml:space="preserve">
+  <value>Your modern, fast and scalable web applications are designed end-to-end and implemented with a performance-oriented approach.</value>
+</data>
+<data name="ServicesDesktopAppTitle" xml:space="preserve">
+  <value>Desktop Software Solutions</value>
+</data>
+<data name="ServicesDesktopAppDescription" xml:space="preserve">
+  <value>High-performance, reliable and user-focused desktop applications are developed for different platforms such as Windows, Linux and macOS.</value>
+</data>
+<data name="ServicesAITitle" xml:space="preserve">
+  <value>Artificial Intelligence and Smart Systems</value>
+</data>
+<data name="ServicesAIDescription" xml:space="preserve">
+  <value>Smart and autonomous solutions are produced by integrating ML models and LLM (GPT, etc.) technologies into your projects.</value>
+</data>
+<data name="ProjectsTitle" xml:space="preserve">
+  <value>Projects</value>
+</data>
+<data name="ProjectsDescription" xml:space="preserve">
+  <value>A digital project inventory where current technologies are transformed into functional products; centered on performance, security and user experience.</value>
+</data>
+<data name="ProjectsFilterAll" xml:space="preserve">
+  <value>All</value>
+</data>
+<data name="ProjectsFilterWeb" xml:space="preserve">
+  <value>Web</value>
+</data>
+<data name="ProjectsFilterDesktop" xml:space="preserve">
+  <value>Desktop</value>
+</data>
+<data name="ProjectsFilterAI" xml:space="preserve">
+  <value>AI</value>
+</data>
+<data name="ProjectsFilterOther" xml:space="preserve">
+  <value>OTHER</value>
+</data>
+<data name="FaqTitle" xml:space="preserve">
+  <value>&lt;span&gt;Frequently Asked&lt;/span&gt; &lt;strong&gt;Questions&lt;/strong&gt;</value>
+</data>
+<data name="FaqDescription" xml:space="preserve">
+  <value>You can find answers here to frequently asked questions about services and workflow. For detailed information or special offers, you can always contact me.</value>
+</data>
+<data name="FaqQuestion-1" xml:space="preserve">
+  <value>Which technologies and languages are used in projects?</value>
+</data>
+<data name="FaqAnswer-1" xml:space="preserve">
+  <value>The most up-to-date technologies are used based on scalability and performance. On the backend, .NET Core and Node.js architectures; on the frontend, React and Angular; and for AI integrations, PyTorch and TensorFlow libraries are adopted as standards.</value>
+</data>
+<data name="FaqQuestion-2" xml:space="preserve">
+  <value>How does your project development and delivery process work?</value>
+</data>
+<data name="FaqAnswer-2" xml:space="preserve">
+  <value>Processes are managed with the principle of transparency and predictability. A roadmap consisting of Analysis, Design, Development and Testing phases is followed. Regular reporting is provided at every stage to ensure the final product fully meets the requirements.</value>
+</data>
+<data name="FaqQuestion-3" xml:space="preserve">
+  <value>Is technical support and maintenance available after project delivery?</value>
+</data>
+<data name="FaqAnswer-3" xml:space="preserve">
+  <value>Yes, sustainability of developed systems is essential. In addition to the post-delivery warranty period; maintenance and support services are provided to keep the system up-to-date, apply security patches and add new features.</value>
+</data>
+<data name="FaqQuestion-4" xml:space="preserve">
+  <value>Can the developed software integrate with existing systems?</value>
+</data>
+<data name="FaqAnswer-4" xml:space="preserve">
+  <value>Yes, the developed solutions have a modular structure. Through API (Application Programming Interface) technologies and custom middleware software, full integrations can be achieved with the company's existing ERP, CRM or accounting systems.</value>
+</data>
+<data name="FaqQuestion-5" xml:space="preserve">
+  <value>Do you provide technical consultancy services besides software development?</value>
+</data>
+<data name="FaqAnswer-5" xml:space="preserve">
+  <value>Not only coding, but also strategic planning support is provided. Professional consultancy services are offered in system analysis, AI adaptation strategies, database optimization and software architecture.</value>
+</data>
+<data name="ContactDescription" xml:space="preserve">
+  <value>You can use this area to get in touch regarding questions, project proposals and professional networking.</value>
+</data>
+<data name="Adress" xml:space="preserve">
+  <value>Address</value>
+</data>
+<data name="ContactSubject" xml:space="preserve">
+  <value>Subject</value>
+</data>
+<data name="ContacName" xml:space="preserve">
+  <value>Your Name and Surname</value>
+</data>
+<data name="ContactEmail" xml:space="preserve">
+  <value>Your Email Address</value>
+</data>
+<data name="ContactMessage" xml:space="preserve">
+  <value>Your Message</value>
+</data>
+<data name="ContactSendMessage" xml:space="preserve">
+  <value>Send</value>
+</data>
+<data name="ContactLoading" xml:space="preserve">
+  <value>Loading</value>
+</data>
+<data name="ContactSendedMessage" xml:space="preserve">
+  <value>Your message has been successfully sent.</value>
+</data>
+<data name="ProjectDetails" xml:space="preserve">
+  <value>Project Details</value>
+  <comment/>
+</data>
+<data name="ProjectInformation" xml:space="preserve">
+  <value>Project Information</value>
+  <comment/>
+</data>
+<data name="Category" xml:space="preserve">
+  <value>CATEGORY</value>
+  <comment/>
+</data>
+<data name="Client" xml:space="preserve">
+  <value>Client</value>
+  <comment/>
+</data>
+<data name="Date" xml:space="preserve">
+  <value>DATE</value>
+  <comment/>
+</data>
+<data name="View" xml:space="preserve">
+  <value>View</value>
+  <comment/>
+</data>
+
 </root>

@@ -186,7 +186,7 @@
     <comment/>
   </data>
   <data name="ResumeDescription" xml:space="preserve">
-    <value>Sürekli öğrenen ve problem çözmeye tutkulu bir yazılım mühendisi adayı olarak, bugüne kadarki eğitim ve deneyim yolculuğumun özeti.</value>
+    <value>Mühendislik disipliniyle harmanlanmış eğitim geçmişi ve saha deneyimlerini içeren; öğrenme ve çözüm üretme odaklı profesyonel gelişim süreci.</value>
     <comment/>
   </data>
   <data name="Biography" xml:space="preserve">
@@ -206,7 +206,167 @@
     <comment/>
   </data>
   <data name="ServicesDescription" xml:space="preserve">
-    <value>Fikirlerinizi modern teknolojilerle dijital gerçeğe dönüştürüyor; performanslı, güvenli ve kullanıcı odaklı yazılım çözümleri sunuyorum.</value>
+    <value>Fikirlerinizi modern teknolojilerle dijital gerçeğe dönüştürülmekte; performanslı, güvenli ve kullanıcı odaklı yazılım çözümleri sunulmaktadır.</value>
+    <comment/>
+  </data>
+  <data name="ServicesWebTitle" xml:space="preserve">
+    <value>Full Stack Web Geliştirme</value>
+    <comment/>
+  </data>
+  <data name="ServicesWebDescription" xml:space="preserve">
+    <value>Modern, hızlı ve ölçeklenebilir web uygulamalarınız uçtan uca tasarlanıyor ve performans odaklı bir şekilde hayata geçiriliyor.a .</value>
+    <comment/>
+  </data>
+  <data name="ServicesDesktopAppTitle" xml:space="preserve">
+    <value>Masaüstü Yazılım Çözümleri</value>
+    <comment/>
+  </data>
+  <data name="ServicesDesktopAppDescription" xml:space="preserve">
+    <value>Windows, Linux ve macOS gibi farklı platformlar için yüksek performanslı, güvenilir ve kullanıcı odaklı masaüstü uygulamaları geliştiriliyor.</value>
+    <comment/>
+  </data>
+  <data name="ServicesAITitle" xml:space="preserve">
+    <value>Yapay Zeka ve Akıllı Sistemler</value>
+    <comment/>
+  </data>
+  <data name="ServicesAIDescription" xml:space="preserve">
+    <value>ML modellerini ve LLM (GPT vb.) teknolojilerini projelerinize entegre ederek akıllı ve otonom çözümler üretiliyor.</value>
+    <comment/>
+  </data>
+  <data name="ProjectsTitle" xml:space="preserve">
+    <value>Projeler</value>
+    <comment/>
+  </data>
+  <data name="ProjectsDescription" xml:space="preserve">
+    <value>Güncel teknolojilerin işlevsel ürünlere dönüştürüldüğü; performans, güvenlik ve kullanıcı deneyimini merkeze alan dijital proje envanteri.</value>
+    <comment/>
+  </data>
+  <data name="ProjectsFilterAll" xml:space="preserve">
+    <value>Tümü</value>
+    <comment/>
+  </data>
+  <data name="ProjectsFilterWeb" xml:space="preserve">
+    <value>Web</value>
+    <comment/>
+  </data>
+  <data name="ProjectsFilterDesktop" xml:space="preserve">
+    <value>Desktop</value>
+    <comment/>
+  </data>
+  <data name="ProjectsFilterAI" xml:space="preserve">
+    <value>AI</value>
+    <comment/>
+  </data>
+  <data name="ProjectsFilterOther" xml:space="preserve">
+    <value>DİĞER</value>
+    <comment/>
+  </data>
+  <data name="FaqTitle" xml:space="preserve">
+    <value>&lt;span&gt;Sıkça Sorulan&lt;/span&gt; &lt;strong&gt;Sorular&lt;/strong&gt;</value>
+    <comment/>
+  </data>
+  <data name="FaqDescription" xml:space="preserve">
+    <value>Hizmetler ve iş yapılış süreci ile ilgili sıkça sorulan soruların cevapları na burdan ulaşabilirsiniz. Detaylı bilgi veya özel teklifler için her zaman bana ulaşabilirsiniz.</value>
+    <comment/>
+  </data>
+  <data name="FaqQuestion-1" xml:space="preserve">
+    <value>Projelerde hangi teknolojiler ve diller kullanılmaktadır?</value>
+    <comment/>
+  </data>
+  <data name="FaqAnswer-1" xml:space="preserve">
+    <value>Projelerin ölçeklenebilirliği ve performansı esas alınarak en güncel teknolojiler kullanılır. Backend tarafında .NET Core ve Node.js mimarileri; Frontend tarafında React ve Angular; Yapay Zeka entegrasyonlarında ise PyTorch ve Tensorflow kütüphaneleri standart olarak benimsenmiştir.</value>
+    <comment/>
+  </data>
+  <data name="FaqQuestion-2" xml:space="preserve">
+    <value>Proje geliştirme ve teslim süreciniz nasıl işliyor?</value>
+    <comment/>
+  </data>
+  <data name="FaqAnswer-2" xml:space="preserve">
+    <value>Süreçler, şeffaflık ve öngörülebilirlik ilkesiyle yönetilir. Analiz, Tasarım, Geliştirme ve Test aşamalarından oluşan bir yol haritası izlenir. Projenin her aşamasında düzenli raporlamalar yapılarak, final ürünün gereksinimleri tam olarak karşılaması sağlanır.</value>
+    <comment/>
+  </data>
+  <data name="FaqQuestion-3" xml:space="preserve">
+    <value>Proje teslimi sonrası teknik destek ve bakım hizmeti mevcut mu?</value>
+    <comment/>
+  </data>
+  <data name="FaqAnswer-3" xml:space="preserve">
+    <value>Evet, geliştirilen sistemlerin sürdürülebilirliği esastır. Proje tesliminden sonraki garanti sürecine ek olarak; sistemin güncel kalması, güvenlik yamalarının yapılması ve yeni özelliklerin eklenmesi için bakım ve destek hizmetleri sunulmaktadır.</value>
+    <comment/>
+  </data>
+  <data name="FaqQuestion-4" xml:space="preserve">
+    <value>Geliştirilen yazılımlar mevcut sistemlerle entegre çalışabilir mi?</value>
+    <comment/>
+  </data>
+  <data name="FaqAnswer-4" xml:space="preserve">
+    <value>Evet, geliştirilen çözümler modüler bir yapıya sahiptir. API (Application Programming Interface) teknolojileri ve özel ara katman yazılımları sayesinde, firmanın halihazırda kullandığı ERP, CRM veya muhasebe programlarıyla tam uyumlu entegrasyonlar sağlanabilir.</value>
+    <comment/>
+  </data>
+  <data name="FaqQuestion-5" xml:space="preserve">
+    <value>Yazılım geliştirme haricinde teknik danışmanlık hizmeti veriliyor mu?</value>
+    <comment/>
+  </data>
+  <data name="FaqAnswer-5" xml:space="preserve">
+    <value>Sadece kodlama değil, stratejik planlama desteği de sunulmaktadır. Mevcut sistemlerin analizi, yapay zeka adaptasyon stratejileri, veritabanı optimizasyonu ve yazılım mimarisi konularında profesyonel danışmanlık hizmeti sağlanmaktadır.</value>
+    <comment/>
+  </data>
+  <data name="ContactDescription" xml:space="preserve">
+    <value>Sorular, proje teklifleri ve profesyonel ağ oluşturma konularında iletişime geçmek için bu alanı kullanılabilirsiniz.</value>
+    <comment/>
+  </data>
+  <data name="Adress" xml:space="preserve">
+    <value>Adres</value>
+    <comment/>
+  </data>
+  <data name="ContactSubject" xml:space="preserve">
+    <value>Konu</value>
+    <comment/>
+  </data>
+  <data name="ContacName" xml:space="preserve">
+    <value>Adınız ve Soyadınız</value>
+    <comment/>
+  </data>
+  <data name="ContactEmail" xml:space="preserve">
+    <value>Email Adresiniz</value>
+    <comment/>
+  </data>
+  <data name="ContactMessage" xml:space="preserve">
+    <value>Mesajınız</value>
+    <comment/>
+  </data>
+  <data name="ContactSendMessage" xml:space="preserve">
+    <value>Gönder</value>
+    <comment/>
+  </data>
+  <data name="ContactLoading" xml:space="preserve">
+    <value>Yükleniyor</value>
+    <comment/>
+  </data>
+  <data name="ContactSendedMessage" xml:space="preserve">
+    <value>Mesajınız Başarıyla İletildi.</value>
+    <comment/>
+  </data>
+  <data name="ProjectDetails" xml:space="preserve">
+    <value>Proje Detayları</value>
+    <comment/>
+  </data>
+  <data name="ProjectInformation" xml:space="preserve">
+    <value>Proje Bilgileri</value>
+    <comment/>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>KATEGORİ</value>
+    <comment/>
+  </data>
+  <data name="Client" xml:space="preserve">
+    <value>Müşteri</value>
+    <comment/>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>TARİH</value>
+    <comment/>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Görüntüle</value>
     <comment/>
   </data>
 </root>
