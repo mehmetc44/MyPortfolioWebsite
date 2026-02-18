@@ -1,5 +1,6 @@
 **/bin/
 **/obj/
+*/obj
 .vs/
 *.user
 *.suo
@@ -10,3 +11,4 @@
 **/appsettings*.json
 **/db/*.db
 obj
+*/Portfolio.db

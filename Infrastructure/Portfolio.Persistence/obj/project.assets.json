@@ -576,7 +576,10 @@
         },
         "runtime": {
           "bin/placeholder/Portfolio.Application.dll": {}
-        }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
       },
       "Portfolio.Domain/1.0.0": {
         "type": "project",

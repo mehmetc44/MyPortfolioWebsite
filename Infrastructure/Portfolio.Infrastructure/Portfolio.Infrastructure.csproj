@@ -4,6 +4,15 @@
     <ProjectReference Include="..\..\Core\Portfolio.Application\Portfolio.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Operations/" />
+    <Folder Include="Services/Storage/Azure/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.27.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>

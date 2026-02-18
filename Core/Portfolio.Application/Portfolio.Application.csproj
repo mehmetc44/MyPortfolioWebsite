@@ -1,10 +1,12 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <ItemGroup>
     <ProjectReference Include="..\Portfolio.Domain\Portfolio.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Abstraction/Storage/Azure/" />
+    <Folder Include="Abstraction/Storage/Local/" />
     <Folder Include="Repositories/AboutMe/" />
   </ItemGroup>
 
