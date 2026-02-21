@@ -151,3 +151,11 @@
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/en/Portfolio.WebUI.resources.dll
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/tr/Portfolio.WebUI.resources.cs
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/obj/Debug/net8.0/tr/Portfolio.WebUI.resources.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/Azure.Core.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/Azure.Storage.Blobs.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/Azure.Storage.Common.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/Microsoft.Extensions.Logging.Abstractions.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/System.ClientModel.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/System.IO.Hashing.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/System.Memory.Data.dll

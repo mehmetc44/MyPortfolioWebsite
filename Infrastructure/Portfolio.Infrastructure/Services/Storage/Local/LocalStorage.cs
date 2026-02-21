@@ -21,7 +21,7 @@ public class LocalStorage : Storage, ILocalStorage
         return directory.GetFiles().Select(f => f.Name).ToList();
     }
 
-    public bool HasFile(string path, string fileName)
+    public new bool HasFile(string path, string fileName)
         => File.Exists($"{path}\\{fileName}");
     async Task<bool> CopyFileAsync(string path, IFormFile file)
     {
@@ -33,10 +33,9 @@ public class LocalStorage : Storage, ILocalStorage
             await fileStream.FlushAsync();
             return true;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            //todo log!
-            throw ex;
+            throw;
         }
     }
     public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files)

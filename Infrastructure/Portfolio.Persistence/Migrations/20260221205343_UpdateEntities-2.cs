@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Portfolio.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class UpdateEntities2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -16,22 +16,17 @@ namespace Portfolio.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    HeroImageUrl = table.Column<string>(type: "TEXT", nullable: true),
                     ImageUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    CvPath_Tr = table.Column<string>(type: "TEXT", nullable: false),
-                    CvPath_En = table.Column<string>(type: "TEXT", nullable: true),
-                    CvPath_De = table.Column<string>(type: "TEXT", nullable: true),
-                    Introduction_Tr = table.Column<string>(type: "TEXT", nullable: false),
-                    Introduction_En = table.Column<string>(type: "TEXT", nullable: true),
-                    Introduction_De = table.Column<string>(type: "TEXT", nullable: true),
                     Biography_Tr = table.Column<string>(type: "TEXT", nullable: false),
                     Biography_En = table.Column<string>(type: "TEXT", nullable: true),
                     Biography_De = table.Column<string>(type: "TEXT", nullable: true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Phone = table.Column<string>(type: "TEXT", nullable: true),
+                    Title_Tr = table.Column<string>(type: "TEXT", nullable: false),
+                    Title_En = table.Column<string>(type: "TEXT", nullable: true),
+                    Title_De = table.Column<string>(type: "TEXT", nullable: true),
                     Address = table.Column<string>(type: "TEXT", nullable: true),
-                    MapFrameUrl = table.Column<string>(type: "TEXT", nullable: true),
-                    Facebook = table.Column<string>(type: "TEXT", nullable: true),
-                    Twitter = table.Column<string>(type: "TEXT", nullable: true),
+                    Telegram = table.Column<string>(type: "TEXT", nullable: true),
                     LinkedIn = table.Column<string>(type: "TEXT", nullable: true),
                     Github = table.Column<string>(type: "TEXT", nullable: true),
                     Instagram = table.Column<string>(type: "TEXT", nullable: true),
@@ -123,9 +118,10 @@ namespace Portfolio.Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Name_Tr = table.Column<string>(type: "TEXT", nullable: false),
+                    Name_En = table.Column<string>(type: "TEXT", nullable: true),
+                    Name_De = table.Column<string>(type: "TEXT", nullable: true),
                     Level = table.Column<string>(type: "TEXT", nullable: false),
-                    Percent = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -199,7 +195,7 @@ namespace Portfolio.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    RoleId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
                     ClaimType = table.Column<string>(type: "TEXT", nullable: true),
                     ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -220,7 +216,7 @@ namespace Portfolio.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
                     ClaimType = table.Column<string>(type: "TEXT", nullable: true),
                     ClaimValue = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -242,7 +238,7 @@ namespace Portfolio.Persistence.Migrations
                     LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
                     ProviderKey = table.Column<string>(type: "TEXT", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "TEXT", nullable: true),
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -259,8 +255,8 @@ namespace Portfolio.Persistence.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    RoleId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -283,7 +279,7 @@ namespace Portfolio.Persistence.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false),
                     LoginProvider = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Value = table.Column<string>(type: "TEXT", nullable: true)

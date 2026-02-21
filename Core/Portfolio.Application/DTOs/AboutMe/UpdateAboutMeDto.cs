@@ -1,12 +1,15 @@
+using System;
 using Portfolio.Domain.ValueObjects;
 
-namespace Portfolio.Domain.Entities
+namespace Portfolio.Application.DTOs.AboutMe;
+
+public class UpdateAboutMeDto
 {
-    public class AboutMe : BaseEntity
-    {
         public string? HeroImageUrl {get; set; }
         public string? ImageUrl { get; set; }
+
         public MultiLanguageString Biography { get; set; } = new();   
+
         public string? Email { get; set; }
         public MultiLanguageString Title { get; set; } = new();
         public string? Address { get; set; }
@@ -15,5 +18,4 @@ namespace Portfolio.Domain.Entities
         public string? Github { get; set; }
         public string? Instagram { get; set; }
         public string? Medium {get; set;}
-    }
 }

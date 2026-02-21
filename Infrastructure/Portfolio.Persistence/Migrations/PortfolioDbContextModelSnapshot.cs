@@ -17,33 +17,6 @@ namespace Portfolio.Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
-            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("NormalizedName")
-                        .HasMaxLength(256)
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedName")
-                        .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
-
-                    b.ToTable("AspNetRoles", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.Property<int>("Id")
@@ -161,10 +134,10 @@ namespace Portfolio.Persistence.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Facebook")
+                    b.Property<string>("Github")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Github")
+                    b.Property<string>("HeroImageUrl")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("ImageUrl")
@@ -176,16 +149,10 @@ namespace Portfolio.Persistence.Migrations
                     b.Property<string>("LinkedIn")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("MapFrameUrl")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Medium")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Twitter")
+                    b.Property<string>("Telegram")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -242,6 +209,33 @@ namespace Portfolio.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ContactMessages");
+                });
+
+            modelBuilder.Entity("Portfolio.Domain.Entities.Identity.AspRole", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles", (string)null);
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Identity.AspUser", b =>
@@ -465,7 +459,7 @@ namespace Portfolio.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                    b.HasOne("Portfolio.Domain.Entities.Identity.AspRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -492,7 +486,7 @@ namespace Portfolio.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", null)
+                    b.HasOne("Portfolio.Domain.Entities.Identity.AspRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -539,30 +533,7 @@ namespace Portfolio.Persistence.Migrations
                                 .HasForeignKey("AboutMeId");
                         });
 
-                    b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "CvPath", b1 =>
-                        {
-                            b1.Property<Guid>("AboutMeId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("De")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("En")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Tr")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("AboutMeId");
-
-                            b1.ToTable("AboutMe");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AboutMeId");
-                        });
-
-                    b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "Introduction", b1 =>
+                    b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "Title", b1 =>
                         {
                             b1.Property<Guid>("AboutMeId")
                                 .HasColumnType("TEXT");
@@ -588,10 +559,7 @@ namespace Portfolio.Persistence.Migrations
                     b.Navigation("Biography")
                         .IsRequired();
 
-                    b.Navigation("CvPath")
-                        .IsRequired();
-
-                    b.Navigation("Introduction")
+                    b.Navigation("Title")
                         .IsRequired();
                 });
 

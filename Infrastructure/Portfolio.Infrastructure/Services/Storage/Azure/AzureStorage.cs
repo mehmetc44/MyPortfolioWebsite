@@ -6,15 +6,12 @@ using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Configuration;
 namespace Portfolio.Infrastructure.Services.Storage.Azure;
 
-public class AzureStorage : Storage, IAzureStorage
+public class AzureStorage(IConfiguration configuration) : Storage, IAzureStorage
     {
-        readonly BlobServiceClient _blobServiceClient;
-        BlobContainerClient _blobContainerClient;
-        public AzureStorage(IConfiguration configuration)
-        {
-            _blobServiceClient = new(configuration["Storage:Azure"]);
-        }
-        public async Task DeleteAsync(string containerName, string fileName)
+        readonly BlobServiceClient _blobServiceClient = new(configuration["Storage:Azure"]);
+        BlobContainerClient? _blobContainerClient;
+
+    public async Task DeleteAsync(string containerName, string fileName)
         {
             _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             BlobClient blobClient = _blobContainerClient.GetBlobClient(fileName);
@@ -27,7 +24,7 @@ public class AzureStorage : Storage, IAzureStorage
             return _blobContainerClient.GetBlobs().Select(b => b.Name).ToList();
         }
 
-        public bool HasFile(string containerName, string fileName)
+        public new bool HasFile(string containerName, string fileName)
         {
             _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
             return _blobContainerClient.GetBlobs().Any(b => b.Name == fileName);

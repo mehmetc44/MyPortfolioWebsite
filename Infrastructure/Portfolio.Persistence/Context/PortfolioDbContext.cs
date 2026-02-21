@@ -8,7 +8,7 @@ using Portfolio.Domain.Entities.Identity;
 
 namespace Portfolio.Persistence.Context;
 
-public class PortfolioDbContext : IdentityDbContext<AspUser, IdentityRole<Guid>, Guid>
+public class PortfolioDbContext : IdentityDbContext<AspUser, AspRole, Guid>
 {
     public PortfolioDbContext(DbContextOptions<PortfolioDbContext> options) : base(options)
     {
@@ -55,9 +55,8 @@ public class PortfolioDbContext : IdentityDbContext<AspUser, IdentityRole<Guid>,
         modelBuilder.Entity<Testimonial>().OwnsOne(t => t.Comment);
 
         // AboutMe
-        modelBuilder.Entity<AboutMe>().OwnsOne(a => a.Introduction);
+        modelBuilder.Entity<AboutMe>().OwnsOne(a=>a.Title);
         modelBuilder.Entity<AboutMe>().OwnsOne(a => a.Biography);
-        modelBuilder.Entity<AboutMe>().OwnsOne(a => a.CvPath);
 
         // --- EKSİK OLAN KISIM BURASIYDI ---
         // Language entity'sindeki Name alanı MultiLanguageString olduğu için bunu eklemek ZORUNDASIN.
