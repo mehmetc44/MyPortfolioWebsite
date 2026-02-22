@@ -1,10 +1,10 @@
 using Portfolio.WebUI.Services;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity;
+using Portfolio.Application.Mapper;
 
 namespace Portfolio.WebUI
 {
@@ -21,12 +21,13 @@ namespace Portfolio.WebUI
             builder.Services.AddDbContext<DbContext>(options =>
                 options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            // Sadece AboutMeMappingProfile sınıfının bulunduğu katmandaki profilleri bulur.
 
             // HEMEN ALTINA BUNU EKLE:
             builder.Services.AddIdentity<AspUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<DbContext>()
                 .AddDefaultTokenProviders();
-
+            builder.Services.AddAutoMapper(typeof(AutoMappingProfile).Assembly);
             // Şifre Kuralları (Geliştirme aşamasında seni yormaması için basit yapalım)
             builder.Services.Configure<IdentityOptions>(options =>
             {
@@ -50,7 +51,6 @@ namespace Portfolio.WebUI
                 options.SupportedUICultures = supportedCultures;
                 options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
             });
-
             builder.Services.AddControllersWithViews()
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization(options =>
@@ -60,6 +60,7 @@ namespace Portfolio.WebUI
                 });
 
             builder.Services.AddSingleton<ContentService>();
+
             var app = builder.Build();
 
             if (!app.Environment.IsDevelopment())

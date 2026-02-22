@@ -1,0 +1,16 @@
+using System;
+using AutoMapper;
+using Portfolio.Application.DTOs.AboutMe;
+using Portfolio.Domain.Entities;
+
+
+namespace Portfolio.Application.Mapper;
+public class AutoMappingProfile : Profile
+{
+    public AutoMappingProfile()
+    {
+        // DTO'dan Entity'e çeviri yapar. 
+        // Mevcut bir entity'i güncelleyeceğimiz için bu map işlemi kullanılacak.
+        CreateMap<UpdateAboutMeDto, AboutMe>();
+    }
+}
