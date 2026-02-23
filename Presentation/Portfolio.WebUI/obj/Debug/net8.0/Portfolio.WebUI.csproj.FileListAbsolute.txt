@@ -159,3 +159,5 @@
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/System.ClientModel.dll
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/System.IO.Hashing.dll
 /home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/System.Memory.Data.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/AutoMapper.dll
+/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/bin/Debug/net8.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

@@ -1,25 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Portfolio.WebUI.Models.Portfolio;
-using Portfolio.WebUI.Services;
+
 
 namespace Portfolio.WebUI.Controllers
 {
     public class ProjectController : Controller
     {
         private readonly ILogger<ProjectController> _logger;
-        private readonly ContentService _contentService;
-
-        public ProjectController(ILogger<ProjectController> logger, ContentService contentService)
-        {
-            _logger = logger;
-            _contentService = contentService;
-        }
 
         public IActionResult Details()
         {
@@ -35,12 +22,6 @@ namespace Portfolio.WebUI.Controllers
                 Category = "project.Category"
             };
             return View(projectDetails);
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View("Error!");
         }
     }
 }

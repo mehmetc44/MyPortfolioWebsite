@@ -5,6 +5,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Enums/" />
     <Folder Include="Operations/" />
     <Folder Include="Services/Storage/Azure/" />
   </ItemGroup>

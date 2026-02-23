@@ -3,6 +3,7 @@ using AutoMapper;
 using Portfolio.Application.Abstraction.Services;
 using Portfolio.Application.DTOs.AboutMe;
 using Portfolio.Application.Repositories.AboutMe;
+using Portfolio.Domain.Entities;
 
 namespace Portfolio.Infrastructure.Services;
 
@@ -13,8 +14,8 @@ public class AboutMeService : IAboutMeService
     private readonly IMapper _mapper;
 
     public AboutMeService(
-        IAboutMeWriteRepository writeRepository, 
-        IAboutMeReadRepository readRepository, 
+        IAboutMeWriteRepository writeRepository,
+        IAboutMeReadRepository readRepository,
         IMapper mapper)
     {
         _writeRepository = writeRepository;
@@ -24,22 +25,18 @@ public class AboutMeService : IAboutMeService
 
     public async Task UpdateAboutMeAsync(UpdateAboutMeDto aboutMeDto)
     {
-        // 1. Veritabanındaki mevcut kaydı getir (Veritabanında tek bir "Hakkımda" kaydı olduğunu varsayıyoruz)
-        // Not: Kendi ReadRepository'nizdeki uygun metoda göre (örneğin GetAll().FirstOrDefault() vb.) uyarlayın.
-        var existingAboutMe =  _readRepository.GetAll().FirstOrDefault(); 
+        var existingAboutMe = _readRepository.GetAll().FirstOrDefault();
 
         if (existingAboutMe == null)
         {
-            throw new Exception("Güncellenecek Hakkımda (AboutMe) kaydı bulunamadı.");
+            var newAboutMe = _mapper.Map<AboutMe>(aboutMeDto);
+            await _writeRepository.AddAsync(newAboutMe);
         }
-
-        // 2. Mapping: DTO'dan gelen yeni verileri, veritabanından çektiğimiz mevcut entity'nin üzerine yaz
-        _mapper.Map(aboutMeDto, existingAboutMe);
-
-        // 3. Repository'deki Update metodunu çağır (Tracking yapılıyorsa buna gerek bile kalmayabilir ama pattern gereği ekliyoruz)
-        _writeRepository.Update(existingAboutMe);
-
-        // 4. Değişiklikleri veritabanına kaydet
+        else
+        {
+            _mapper.Map(aboutMeDto, existingAboutMe);
+            _writeRepository.Update(existingAboutMe);
+        }
         await _writeRepository.SaveAsync();
     }
 

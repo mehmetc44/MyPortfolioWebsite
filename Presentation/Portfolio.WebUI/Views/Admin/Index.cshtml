@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <form>
+        <form asp-controller="Admin" asp-action="UpdateAboutMe" method="post" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-lg-4 mb-4">
                     <div class="card p-3 h-100">
@@ -28,7 +28,7 @@
                                     style="background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url('@Url.Content("~/img/hero-img.jpg")');">
                                     <small><i class="bi bi-image"></i> Mevcut Kapak</small>
                                 </div>
-                                <input type="file" class="form-control form-control-sm" id="heroPhoto">
+                                <input type="file" name="heroPhoto" class="form-control form-control-sm" id="heroPhoto">
                                 <div class="form-text small">Önerilen: 1920x1080px (Koyu tonlar)</div>
                             </div>
 
@@ -38,7 +38,7 @@
                                 <div class="d-block"> <small class="text-muted">Önerilen boyut: 500x500px</small>
                                 </div>
                             </div>
-                            <input type="file" class="form-control form-control-sm" id="profilePhoto">
+                            <input type="file" name="profilePhoto" class="form-control form-control-sm" id="profilePhoto">
 
                             <div class="mb-3">
                                 <label for="fullName" class="form-label">Ad Soyad</label>

@@ -1,10 +1,10 @@
-using Portfolio.WebUI.Services;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
-using Microsoft.EntityFrameworkCore;
-using Portfolio.Domain.Entities.Identity;
-using Microsoft.AspNetCore.Identity;
 using Portfolio.Application.Mapper;
+using Portfolio.WebUI.Extensions;
+using Portfolio.Persistence;
+using Portfolio.Infrastructure;
+using Portfolio.Infrastructure.Enums;
 
 namespace Portfolio.WebUI
 {
@@ -13,44 +13,12 @@ namespace Portfolio.WebUI
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
-
+            builder.Services.AddPersistenceServices(builder.Configuration);
+            builder.Services.AddInfrastructureServices();
+            builder.Services.AddStorage(StorageType.Local);
             builder.Services.AddHttpContextAccessor();
-            // DbContext servisi hemen üstte olmalı...
-            builder.Services.AddDbContext<DbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-            // Sadece AboutMeMappingProfile sınıfının bulunduğu katmandaki profilleri bulur.
-
-            // HEMEN ALTINA BUNU EKLE:
-            builder.Services.AddIdentity<AspUser, IdentityRole<Guid>>()
-                .AddEntityFrameworkStores<DbContext>()
-                .AddDefaultTokenProviders();
             builder.Services.AddAutoMapper(typeof(AutoMappingProfile).Assembly);
-            // Şifre Kuralları (Geliştirme aşamasında seni yormaması için basit yapalım)
-            builder.Services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 3; // Şifre: "123" olabilsin diye :)
-            });
-
-            var supportedCultures = new[]
-            {
-                new CultureInfo("en-US"),
-                new CultureInfo("tr-TR")
-            };
-
-            builder.Services.Configure<RequestLocalizationOptions>(options =>
-            {
-                options.DefaultRequestCulture = new RequestCulture("tr-TR");
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-                options.RequestCultureProviders.Insert(0, new CookieRequestCultureProvider());
-            });
+            builder.Services.ConfigureLocalization();
             builder.Services.AddControllersWithViews()
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization(options =>
@@ -58,8 +26,6 @@ namespace Portfolio.WebUI
                     options.DataAnnotationLocalizerProvider = (type, factory) =>
                     factory.Create(typeof(SharedResource));
                 });
-
-            builder.Services.AddSingleton<ContentService>();
 
             var app = builder.Build();
 
@@ -71,7 +37,7 @@ namespace Portfolio.WebUI
 
             app.UseRequestLocalization(new RequestLocalizationOptions
             {
-                DefaultRequestCulture = new RequestCulture("tr"), // Varsayılan Dil
+                DefaultRequestCulture = new RequestCulture("tr"), 
                 SupportedCultures = new[]
             {
                 new CultureInfo("tr"),

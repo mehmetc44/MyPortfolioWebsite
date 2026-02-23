@@ -1,21 +1,28 @@
 using System;
+using Portfolio.Domain.Entities;
 using Portfolio.Domain.ValueObjects;
 
 namespace Portfolio.Application.DTOs.AboutMe;
-
 public class UpdateAboutMeDto
 {
-        public string? HeroImageUrl {get; set; }
-        public string? ImageUrl { get; set; }
+    // --- 1. KİŞİSEL BİLGİLER ---
+    public string FullName { get; set; }
+    public string JobTitle { get; set; }
+    public string Email { get; set; }
+    public string Phone { get; set; }
 
-        public MultiLanguageString Biography { get; set; } = new();   
+    // --- 2. ÇOKLU DİL DESTEKLİ ALANLAR ---
+    // Eğer Biyografi için önceden MultiLanguageString sınıfı yaptıysan onu kullan
+    public MultiLanguageString Biography { get; set; } 
+    
+    // Formda Title (Ünvan) için çoklu dil tab'i göremedim, JobTitle var. 
+    // Eğer JobTitle çok dilli olacaksa onu da MultiLanguageString yapmalısın.
 
-        public string? Email { get; set; }
-        public MultiLanguageString Title { get; set; } = new();
-        public string? Address { get; set; }
-        public string? Telegram { get; set; }
-        public string? LinkedIn { get; set; }
-        public string? Github { get; set; }
-        public string? Instagram { get; set; }
-        public string? Medium {get; set;}
+    // --- 3. BECERİLER (SKILLS) LİSTESİ ---
+    public List<Skill> Skills { get; set; } = new List<Skill>();
+
+    // --- 4. GÖRSEL YOLLARI (Sadece string yollar) ---
+    public string? HeroImageUrl { get; set; } 
+    public string? ImageUrl { get; set; }
 }
+
