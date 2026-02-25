@@ -1,6 +1,8 @@
 using System;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Portfolio.Application.Abstraction.Services;
+using Portfolio.Application.Abstraction.Storage;
 using Portfolio.Application.DTOs.AboutMe;
 using Portfolio.Application.Repositories.AboutMe;
 using Portfolio.Domain.Entities;
@@ -10,7 +12,8 @@ namespace Portfolio.Infrastructure.Services;
 public class AboutMeService : IAboutMeService
 {
     private readonly IAboutMeWriteRepository _writeRepository;
-    private readonly IAboutMeReadRepository _readRepository; // Veriyi çekmek için gerekli
+    private readonly IAboutMeReadRepository _readRepository;
+    private readonly IStorageService _storageService;
     private readonly IMapper _mapper;
 
     public AboutMeService(
@@ -45,4 +48,13 @@ public class AboutMeService : IAboutMeService
         throw new NotImplementedException();
     }
 
+    public Task UploadHeroImageAsync(string PathOrContainer, IFormFile HeroImage)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UploadProfileImageAsync(string PathOrContainer, IFormFile ProfileImage)
+    {
+        throw new NotImplementedException();
+    }
 }

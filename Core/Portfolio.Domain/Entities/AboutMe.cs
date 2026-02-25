@@ -4,8 +4,8 @@ namespace Portfolio.Domain.Entities
 {
     public class AboutMe : BaseEntity
     {
-        public string? HeroImageUrl {get; set; }
-        public string? ImageUrl { get; set; }
+        public string? HeroImagePath {get; set; }
+        public string? ProfileImagePath { get; set; }
         public MultiLanguageString Biography { get; set; } = new();   
         public string? Email { get; set; }
         public MultiLanguageString Title { get; set; } = new();

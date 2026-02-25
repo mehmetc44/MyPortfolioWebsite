@@ -2,11 +2,13 @@ using System;
 
 namespace Portfolio.Application.Abstraction.Services;
 
+using Microsoft.AspNetCore.Http;
 using Portfolio.Application.DTOs.AboutMe;
-using Portfolio.Domain.Entities;
 
 public interface IAboutMeService
 {
     Task<GetAboutMeDto> GetAboutMeAsync();
     Task UpdateAboutMeAsync(UpdateAboutMeDto aboutMe);
+    Task UploadHeroImageAsync(string PathOrContainer, IFormFile HeroImage);
+    Task UploadProfileImageAsync(string PathOrContainer, IFormFile ProfileImage);
 }

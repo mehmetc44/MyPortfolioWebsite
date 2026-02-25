@@ -4,8 +4,6 @@ using Portfolio.Application.Abstraction.Services;
 using Portfolio.Application.Abstraction.Storage;
 using Portfolio.Application.Abstraction.Storage.Local;
 using Portfolio.Application.DTOs.AboutMe;
-using Portfolio.Domain.Entities;
-using Portfolio.Domain.ValueObjects;
 using Portfolio.Infrastructure.Services.Storage.Local;
 
 namespace Portfolio.WebUI.Controllers
