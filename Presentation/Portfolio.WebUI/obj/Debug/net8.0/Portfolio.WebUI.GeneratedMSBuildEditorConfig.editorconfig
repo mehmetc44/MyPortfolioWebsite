@@ -86,20 +86,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0NvbXBvbmVudHMvU3RhdHNMaXN0L0RlZmF1bHQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/_MessageModal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9fTWVzc2FnZU1vZGFsLmNzaHRtbA==
+[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/Admin/_MessageModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9BZG1pbi9fTWVzc2FnZU1vZGFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/_ProjectModal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9fUHJvamVjdE1vZGFsLmNzaHRtbA==
+[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/Admin/_ProjectModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9BZG1pbi9fUHJvamVjdE1vZGFsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/_ReferenceModal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9fUmVmZXJlbmNlTW9kYWwuY3NodG1s
+[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/Admin/_ReferenceModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9BZG1pbi9fUmVmZXJlbmNlTW9kYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/_TimeLineModal.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9fVGltZUxpbmVNb2RhbC5jc2h0bWw=
+[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/Admin/_SocialMediaLinksEditModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9BZG1pbi9fU29jaWFsTWVkaWFMaW5rc0VkaXRNb2RhbC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Modals/Admin/_TimeLineModal.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL01vZGFscy9BZG1pbi9fVGltZUxpbmVNb2RhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/mehmet/Desktop/Portfolio/Presentation/Portfolio.WebUI/Views/Shared/Partials/Admin/_NavBar.cshtml]

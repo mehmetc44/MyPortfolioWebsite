@@ -5,5 +5,5 @@ namespace Portfolio.Domain.Entities;
 
 public class ResumeFile : File
 {
-    public ResumeLanguage resumeLanguage {get; set;} 
+    public ResumeLanguage? resumeLanguage {get; set;} 
 }

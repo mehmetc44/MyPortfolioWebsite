@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Portfolio.Persistence.Context;
 
@@ -10,9 +11,11 @@ using Portfolio.Persistence.Context;
 namespace Portfolio.Persistence.Migrations
 {
     [DbContext(typeof(PortfolioDbContext))]
-    partial class PortfolioDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260225133955_mig_2")]
+    partial class mig_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -134,6 +137,9 @@ namespace Portfolio.Persistence.Migrations
                     b.Property<string>("Github")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("HeroImagePath")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Instagram")
                         .HasColumnType("TEXT");
 
@@ -141,6 +147,9 @@ namespace Portfolio.Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Medium")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfileImagePath")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telegram")
@@ -460,10 +469,10 @@ namespace Portfolio.Persistence.Migrations
                 {
                     b.HasBaseType("Portfolio.Domain.Entities.File");
 
-                    b.Property<Guid?>("ProjectId")
+                    b.Property<Guid>("ProjectsId")
                         .HasColumnType("TEXT");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex("ProjectsId");
 
                     b.HasDiscriminator().HasValue("ProjectImageFile");
                 });
@@ -472,7 +481,7 @@ namespace Portfolio.Persistence.Migrations
                 {
                     b.HasBaseType("Portfolio.Domain.Entities.File");
 
-                    b.Property<int?>("resumeLanguage")
+                    b.Property<int>("resumeLanguage")
                         .HasColumnType("INTEGER");
 
                     b.HasDiscriminator().HasValue("ResumeFile");
@@ -481,9 +490,6 @@ namespace Portfolio.Persistence.Migrations
             modelBuilder.Entity("Portfolio.Domain.Entities.SiteImageFile", b =>
                 {
                     b.HasBaseType("Portfolio.Domain.Entities.File");
-
-                    b.Property<int>("SiteImageType")
-                        .HasColumnType("INTEGER");
 
                     b.HasDiscriminator().HasValue("SiteImageFile");
                 });
@@ -856,11 +862,13 @@ namespace Portfolio.Persistence.Migrations
 
             modelBuilder.Entity("Portfolio.Domain.Entities.ProjectImageFile", b =>
                 {
-                    b.HasOne("Portfolio.Domain.Entities.Project", "Project")
+                    b.HasOne("Portfolio.Domain.Entities.Project", "Projects")
                         .WithMany("Images")
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Project");
+                    b.Navigation("Projects");
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Category", b =>

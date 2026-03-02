@@ -8,7 +8,5 @@ using Portfolio.Application.DTOs.AboutMe;
 public interface IAboutMeService
 {
     Task<GetAboutMeDto> GetAboutMeAsync();
-    Task UpdateAboutMeAsync(UpdateAboutMeDto aboutMe);
-    Task UploadHeroImageAsync(string PathOrContainer, IFormFile HeroImage);
-    Task UploadProfileImageAsync(string PathOrContainer, IFormFile ProfileImage);
+    Task UpdateAboutMeAsync(UpdateAboutMeDto aboutMeDto, IFormFile? heroImage, IFormFile? profileImage);
 }

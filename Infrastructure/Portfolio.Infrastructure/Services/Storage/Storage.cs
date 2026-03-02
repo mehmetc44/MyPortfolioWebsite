@@ -45,6 +45,7 @@ public class Storage
                         _fileNo++;
                         newFileName = newFileName.Remove(indexNo1 + 1, indexNo2 - indexNo1 - 1)
                                             .Insert(indexNo1 + 1, _fileNo.ToString());
+                        newFileName = Path.GetFileNameWithoutExtension(newFileName) + extension;
                     }
                     else
                         newFileName = $"{Path.GetFileNameWithoutExtension(newFileName)}-2{extension}";

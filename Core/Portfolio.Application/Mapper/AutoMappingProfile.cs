@@ -1,6 +1,7 @@
 using System;
 using AutoMapper;
 using Portfolio.Application.DTOs.AboutMe;
+using Portfolio.Application.DTOs.File;
 using Portfolio.Domain.Entities;
 
 
@@ -12,5 +13,7 @@ public class AutoMappingProfile : Profile
         // DTO'dan Entity'e çeviri yapar. 
         // Mevcut bir entity'i güncelleyeceğimiz için bu map işlemi kullanılacak.
         CreateMap<UpdateAboutMeDto, AboutMe>();
+        CreateMap<SiteImageFileUploadDto, SiteImageFile>();
+        CreateMap<SiteImageFile, SiteImageFileUploadDto>();
     }
 }

@@ -9,8 +9,8 @@
   <ItemGroup>
     <Folder Include="Abstraction/Storage/Azure/" />
     <Folder Include="Abstraction/Storage/Local/" />
-    <Folder Include="DTOs/" />
     <Folder Include="DTOs/AboutMe/" />
+    <Folder Include="DTOs/Fİle/" />
     <Folder Include="Repositories/AboutMe/" />
   </ItemGroup>
   <ItemGroup>

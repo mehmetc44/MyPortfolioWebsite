@@ -10,8 +10,8 @@
     <Folder Include="Extensions/" />
     <Folder Include="ViewComponents/About/" />
     <Folder Include="Views/Admin/" />
-    <Folder Include="Views/Shared/Modals/" />
-    <Folder Include="Views/Shared/Modals/Resume/" />
+    <Folder Include="Views/Shared/Modals/Site/" />
+    <Folder Include="wwwroot/aboutme-images/" />
   </ItemGroup>
 
   <ItemGroup>

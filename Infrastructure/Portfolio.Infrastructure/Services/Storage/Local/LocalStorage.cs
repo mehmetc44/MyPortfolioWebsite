@@ -14,18 +14,18 @@ public class LocalStorage : Storage, ILocalStorage
     }
     public Task DeleteAsync(string path, string fileName)
     {
-        File.Delete(Path.Combine(path, fileName));
+        File.Delete(Path.Combine(_webHostEnvironment.WebRootPath,path, fileName));
         return Task.CompletedTask;
     }
 
     public List<string> GetFiles(string path)
     {
-        DirectoryInfo directory = new(path);
+        DirectoryInfo directory = new(Path.Combine(_webHostEnvironment.WebRootPath,path));
         return directory.GetFiles().Select(f => f.Name).ToList();
     }
 
     public bool HasFile(string path, string fileName)
-        => File.Exists(Path.Combine(path, fileName));
+        => File.Exists(Path.Combine(_webHostEnvironment.WebRootPath,path, fileName));
     private async Task<bool> CopyFileAsync(string path, IFormFile file)
     {
         await using FileStream fileStream = new(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
@@ -45,11 +45,11 @@ public class LocalStorage : Storage, ILocalStorage
 
         foreach (IFormFile file in files)
         {
-            string fileNewName = await FileRenameAsync(path, file.Name, HasFile);
+            string fileNewName = await FileRenameAsync(path, file.FileName, HasFile);
             string fullPath = Path.Combine(uploadPath, fileNewName);
 
             await CopyFileAsync(fullPath, file);
-            datas.Add((fileNewName, Path.Combine(path, fileNewName)));
+            datas.Add((fileNewName, path));
         }
 
         return datas;
