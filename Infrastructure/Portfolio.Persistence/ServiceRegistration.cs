@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Portfolio.Application.Abstraction.Services;
 using Portfolio.Application.Repositories.AboutMe;
 using Portfolio.Application.Repositories.Category;
 using Portfolio.Application.Repositories.ContactMessage;
@@ -29,6 +30,7 @@ using Portfolio.Persistence.Repositories.SiteImageFile;
 using Portfolio.Persistence.Repositories.Skill;
 using Portfolio.Persistence.Repositories.Testimonial;
 using Portfolio.Persistence.Repositories.Timeline;
+using Portfolio.Persistence.Services;
 
 
 namespace Portfolio.Persistence;
@@ -43,6 +45,8 @@ public static class ServiceRegistration
         .AddEntityFrameworkStores<PortfolioDbContext>()
         .AddDefaultTokenProviders();
 
+        services.AddScoped<IAboutMeService, AboutMeService>();
+        
         services.AddScoped<IAboutMeReadRepository, AboutMeReadRepository>();
         services.AddScoped<IAboutMeWriteRepository, AboutMeWriteRepository>();
 

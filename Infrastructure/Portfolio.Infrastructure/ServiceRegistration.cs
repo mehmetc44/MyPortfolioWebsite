@@ -1,9 +1,12 @@
 using System;
 using Microsoft.Extensions.DependencyInjection;
+using Portfolio.Application.Abstraction.File;
 using Portfolio.Application.Abstraction.Services;
 using Portfolio.Application.Abstraction.Storage;
+using Portfolio.Domain.Entities;
 using Portfolio.Infrastructure.Enums;
 using Portfolio.Infrastructure.Services;
+using Portfolio.Infrastructure.Services.File;
 using Portfolio.Infrastructure.Services.Storage;
 using Portfolio.Infrastructure.Services.Storage.Azure;
 using Portfolio.Infrastructure.Services.Storage.Local;
@@ -12,27 +15,28 @@ namespace Portfolio.Infrastructure;
 
 public static class ServiceRegistration
 {
-    public static void AddInfrastructureServices(this IServiceCollection serviceCollection)
+    public static void AddInfrastructureServices(this IServiceCollection service)
     {
-        serviceCollection.AddScoped<IStorageService, StorageService>();
-        serviceCollection.AddScoped<IAboutMeService, AboutMeService>();
+        service.AddScoped<IStorageService, StorageService>();
+        service.AddScoped<ISiteImageFileService, SiteImageFileService>();
+
     }
-    public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : Storage, IStorage
+    public static void AddStorage<T>(this IServiceCollection service) where T : Storage, IStorage
     {
-        serviceCollection.AddScoped<IStorage, T>();
+        service.AddScoped<IStorage, T>();
     }
-    public static void AddStorage(this IServiceCollection serviceCollection, StorageType storageType)
+    public static void AddStorage(this IServiceCollection service, StorageType storageType)
     {
         switch (storageType)
         {
             case StorageType.Local:
-                serviceCollection.AddScoped<IStorage, LocalStorage>();
+                service.AddScoped<IStorage, LocalStorage>();
                 break;
             case StorageType.Azure:
-                serviceCollection.AddScoped<IStorage, AzureStorage>();
+                service.AddScoped<IStorage, AzureStorage>();
                 break;
             default:
-                serviceCollection.AddScoped<IStorage, LocalStorage>();
+                service.AddScoped<IStorage, LocalStorage>();
                 break;
         }
     }

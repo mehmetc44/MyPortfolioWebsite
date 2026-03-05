@@ -26,5 +26,7 @@ public class StorageService : IStorageService
 
     public Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string pathOrContainerName, IFormFileCollection files)
         => _storage.UploadAsync(pathOrContainerName, files);
+    public Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string pathOrContainerName, IFormFile file)
+    => UploadAsync(pathOrContainerName, new FormFileCollection { file });
 }
 

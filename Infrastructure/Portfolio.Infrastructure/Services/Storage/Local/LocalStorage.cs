@@ -1,4 +1,3 @@
-using System;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Portfolio.Application.Abstraction.Storage.Local;
@@ -14,7 +13,7 @@ public class LocalStorage : Storage, ILocalStorage
     }
     public Task DeleteAsync(string path, string fileName)
     {
-        File.Delete(Path.Combine(_webHostEnvironment.WebRootPath,path, fileName));
+        System.IO.File.Delete(Path.Combine(_webHostEnvironment.WebRootPath,path, fileName));
         return Task.CompletedTask;
     }
 
@@ -25,7 +24,7 @@ public class LocalStorage : Storage, ILocalStorage
     }
 
     public bool HasFile(string path, string fileName)
-        => File.Exists(Path.Combine(_webHostEnvironment.WebRootPath,path, fileName));
+        => System.IO.File.Exists(Path.Combine(_webHostEnvironment.WebRootPath,path, fileName));
     private async Task<bool> CopyFileAsync(string path, IFormFile file)
     {
         await using FileStream fileStream = new(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
