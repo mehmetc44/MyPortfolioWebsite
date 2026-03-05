@@ -23,7 +23,7 @@ public class PortfolioDbContext : IdentityDbContext<AspUser, AspRole, Guid>
     public DbSet<Language> Languages { get; set; }
     public DbSet<Timeline> Timelines { get; set; }
     public DbSet<Testimonial> Testimonials { get; set; }
-    public DbSet<AboutMe> AboutMe { get; set; }
+    public DbSet<PersonalInfo> AboutMe { get; set; }
     public DbSet<ContactMessage> ContactMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,8 +43,8 @@ public class PortfolioDbContext : IdentityDbContext<AspUser, AspRole, Guid>
         modelBuilder.Entity<Timeline>().OwnsOne(t => t.Description);
 
         modelBuilder.Entity<Testimonial>().OwnsOne(t => t.Comment);
-        modelBuilder.Entity<AboutMe>().OwnsOne(a=>a.Title);
-        modelBuilder.Entity<AboutMe>().OwnsOne(a => a.Biography);
+        modelBuilder.Entity<PersonalInfo>().OwnsOne(a=>a.Title);
+        modelBuilder.Entity<PersonalInfo>().OwnsOne(a => a.Biography);
 
         modelBuilder.Entity<Language>().OwnsOne(l => l.Name);
 

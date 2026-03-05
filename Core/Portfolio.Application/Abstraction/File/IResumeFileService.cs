@@ -1,11 +1,10 @@
 using System;
-using Microsoft.AspNetCore.Http;
 using Portfolio.Application.DTOs.File;
 using Portfolio.Domain.Entities;
 
 namespace Portfolio.Application.Abstraction.File;
 
-public interface ISiteImageFileService : IFileService<SiteImageFile,SiteImageFileUploadDto>
+public interface IResumeFileService:IFileService<ResumeFile, ResumeFileUploadDto>
 {
 
 }

@@ -1,9 +1,9 @@
 using System;
 using Portfolio.Domain.ValueObjects;
 
-namespace Portfolio.Application.DTOs.AboutMe;
+namespace Portfolio.Application.DTOs.PersonalInfo;
 
-public class GetAboutMeDto
+public class PersonalInfoDto
 {
         public string? HeroImageUrl {get; set; }
         public string? ImageUrl { get; set; }

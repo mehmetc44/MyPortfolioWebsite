@@ -2,9 +2,9 @@ using System;
 using Portfolio.Domain.Entities;
 using Portfolio.Domain.ValueObjects;
 
-namespace Portfolio.Application.DTOs.AboutMe;
+namespace Portfolio.Application.DTOs.PersonalInfo;
 
-public class UpdateAboutMeDto
+public class UpdatePersonalInfoDto
 {
     public MultiLanguageString Biography { get; set; } = new();
     public string? Email { get; set; }

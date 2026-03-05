@@ -3,48 +3,48 @@ using Microsoft.AspNetCore.Http;
 using Portfolio.Application.Abstraction.File;
 using Portfolio.Application.Abstraction.Services;
 using Portfolio.Application.Abstraction.Storage;
-using Portfolio.Application.DTOs.AboutMe;
+using Portfolio.Application.DTOs.PersonalInfo;
 using Portfolio.Application.DTOs.File;
-using Portfolio.Application.Repositories.AboutMe;
+using Portfolio.Application.Repositories.PersonalInfo;
 using Portfolio.Application.Repositories.SiteImageFile;
 using Portfolio.Domain.Entities;
 using Portfolio.Domain.Enums;
 
 namespace Portfolio.Persistence.Services;
 
-public class AboutMeService : IAboutMeService
+public class PersonalInfoService : IPersonalInfoService
 {
-    private readonly IAboutMeWriteRepository _aboutMeWriteRepository;
-    private readonly IAboutMeReadRepository _aboutMeReadRepository;
+    private readonly IPersonalInfoWriteRepository _personalInfoWriteRepository;
+    private readonly IPersonalInfoReadRepository _personalInfoReadRepository;
     private readonly ISiteImageFileService _siteImageFileService;
     private readonly IMapper _mapper;
 
-    public AboutMeService(
-        IAboutMeWriteRepository aboutMeWriteRepository,
-        IAboutMeReadRepository aboutMeReadRepository,
+    public PersonalInfoService(
+        IPersonalInfoWriteRepository personalInfoWriteRepository,
+        IPersonalInfoReadRepository personalInfoReadRepository,
         ISiteImageFileService siteImageFileService,
         IMapper mapper)
     {
-        _aboutMeWriteRepository = aboutMeWriteRepository;
-        _aboutMeReadRepository = aboutMeReadRepository;
+        _personalInfoWriteRepository = personalInfoWriteRepository;
+        _personalInfoReadRepository = personalInfoReadRepository;
         _siteImageFileService = siteImageFileService;
         _mapper = mapper;
     }
 
-    public async Task UpdateAboutMeAsync(UpdateAboutMeDto aboutMeDto, IFormFile? heroImage, IFormFile? profileImage)
+    public async Task UpdateAboutMeAsync(UpdatePersonalInfoDto aboutMeDto, IFormFile? heroImage, IFormFile? profileImage)
     {
         //AboutMe kaydını ekle veya güncelle
-        var existingAboutMe = _aboutMeReadRepository.GetAll().FirstOrDefault();
+        var existingAboutMe = _personalInfoReadRepository.GetAll().FirstOrDefault();
 
         if (existingAboutMe == null)
         {
-            var newAboutMe = _mapper.Map<AboutMe>(aboutMeDto);
-            await _aboutMeWriteRepository.AddAsync(newAboutMe);
+            var newAboutMe = _mapper.Map<PersonalInfo>(aboutMeDto);
+            await _personalInfoWriteRepository.AddAsync(newAboutMe);
         }
         else
         {
             _mapper.Map(aboutMeDto, existingAboutMe);
-            _aboutMeWriteRepository.Update(existingAboutMe);
+            _personalInfoWriteRepository.Update(existingAboutMe);
         }
 
         //Hero Image yükleme
@@ -69,9 +69,14 @@ public class AboutMeService : IAboutMeService
             };
             await _siteImageFileService.UploadAsync(profileDto, profileImage);
         }
-        await _aboutMeWriteRepository.SaveAsync();
+        await _personalInfoWriteRepository.SaveAsync();
     }
-    public Task<GetAboutMeDto> GetAboutMeAsync()
+    public Task<PersonalInfoDto> GetAboutMeAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task AddSkillAsync()
     {
         throw new NotImplementedException();
     }

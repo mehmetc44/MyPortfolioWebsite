@@ -2,7 +2,7 @@ using Portfolio.Domain.ValueObjects;
 
 namespace Portfolio.Domain.Entities
 {
-    public class AboutMe : BaseEntity
+    public class PersonalInfo : BaseEntity
     {
         public string FullName = null!;
         public MultiLanguageString Biography { get; set; } = new();   

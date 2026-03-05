@@ -4,5 +4,5 @@ namespace Portfolio.Domain.Entities;
 
 public class ProjectImageFile : File
 {
-    public Project? Project { get; set; }
+    public Project Project { get; set; }
 }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Portfolio.Application.Abstraction.Services;
-using Portfolio.Application.Repositories.AboutMe;
+using Portfolio.Application.Repositories.PersonalInfo;
 using Portfolio.Application.Repositories.Category;
 using Portfolio.Application.Repositories.ContactMessage;
 using Portfolio.Application.Repositories.File;
@@ -18,7 +18,7 @@ using Portfolio.Application.Repositories.Testimonial;
 using Portfolio.Application.Repositories.Timeline;
 using Portfolio.Domain.Entities.Identity;
 using Portfolio.Persistence.Context;
-using Portfolio.Persistence.Repositories.AboutMe;
+using Portfolio.Persistence.Repositories.PersonalInfo;
 using Portfolio.Persistence.Repositories.Category;
 using Portfolio.Persistence.Repositories.ContactMessage;
 using Portfolio.Persistence.Repositories.File;
@@ -44,11 +44,9 @@ public static class ServiceRegistration
         services.AddIdentity<AspUser, AspRole>()
         .AddEntityFrameworkStores<PortfolioDbContext>()
         .AddDefaultTokenProviders();
-
-        services.AddScoped<IAboutMeService, AboutMeService>();
-        
-        services.AddScoped<IAboutMeReadRepository, AboutMeReadRepository>();
-        services.AddScoped<IAboutMeWriteRepository, AboutMeWriteRepository>();
+        services.AddScoped<IPersonalInfoService,PersonalInfoService>();
+        services.AddScoped<IPersonalInfoReadRepository, PersonalInfoReadRepository>();
+        services.AddScoped<IPersonalInfoWriteRepository, PersonalInfoWriteRepository>();
 
         services.AddScoped<ICategoryReadRepository, CategoryReadRepository>();
         services.AddScoped<ICategoryWriteRepository, CategoryWriteRepository>();

@@ -1,21 +1,16 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.Application.Abstraction.Services;
-using Portfolio.Application.Abstraction.Storage;
-using Portfolio.Application.Abstraction.Storage.Local;
-using Portfolio.Application.DTOs.AboutMe;
-using Portfolio.Domain.ValueObjects;
-using Portfolio.Infrastructure.Services.Storage.Local;
+using Portfolio.Application.DTOs.PersonalInfo;
 
 namespace Portfolio.WebUI.Controllers
 {
     public class AdminController : Controller
     {
-        IAboutMeService _aboutMeService;
+        IPersonalInfoService _personalInfoService;
 
-        public AdminController(IAboutMeService aboutMeService)
+        public AdminController(IPersonalInfoService personalInfoService)
         {
-            _aboutMeService = aboutMeService;
+            _personalInfoService = personalInfoService;
         }
 
 
@@ -46,9 +41,9 @@ namespace Portfolio.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateAboutMe(UpdateAboutMeDto dto, IFormFile? heroPhoto, IFormFile? profilePhoto)
+        public async Task<IActionResult> UpdateAboutMe(UpdatePersonalInfoDto dto, IFormFile? heroPhoto, IFormFile? profilePhoto)
         {
-            await _aboutMeService.UpdateAboutMeAsync(dto,heroPhoto,profilePhoto);
+            await _personalInfoService.UpdateAboutMeAsync(dto,heroPhoto,profilePhoto);
             return Ok();
         }
     }

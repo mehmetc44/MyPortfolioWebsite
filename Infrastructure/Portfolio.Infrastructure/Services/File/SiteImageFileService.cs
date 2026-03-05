@@ -1,8 +1,8 @@
-using System;
+
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Portfolio.Application.Abstraction.File;
-using Portfolio.Application.Abstraction.Services;
 using Portfolio.Application.Abstraction.Storage;
 using Portfolio.Application.DTOs.File;
 using Portfolio.Application.Repositories.SiteImageFile;
@@ -24,11 +24,41 @@ public class SiteImageFileService : ISiteImageFileService
     {
         _readRepo = readRepo;
         _writeRepo = writeRepo;
-        _mapper=mapper;
+        _mapper = mapper;
         _storage = storage;
-
     }
 
+    public async Task<List<SiteImageFile>> GetAllAsync()
+    {
+        return await _readRepo.GetAll().ToListAsync();
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        if (id == Guid.Empty)
+            throw new ArgumentException("Geçerli bir ID gönderilmelidir.", nameof(id));
+        var existingImage = await _readRepo.GetSingleAsync(x => x.Id == id);
+
+        if (existingImage == null)
+            throw new Exception("Silinmek istenen görsel bulunamadı.");
+        if (!string.IsNullOrEmpty(existingImage.Path) && !string.IsNullOrEmpty(existingImage.FileName))
+        {
+            if (_storage.HasFile(existingImage.Path, existingImage.FileName))
+            {
+                await _storage.DeleteAsync(existingImage.Path, existingImage.FileName);
+            }
+        }
+        _writeRepo.Remove(existingImage);
+        await _writeRepo.SaveAsync();
+    }
+
+    public async Task<SiteImageFile> GetSingleAsync(Guid id)
+    {
+        if (id == Guid.Empty)
+            throw new ArgumentException("Geçerli bir ID gönderilmelidir.", nameof(id));
+        var image = await _readRepo.GetSingleAsync(x => x.Id == id);
+        return image;
+    }
 
     public async Task UploadAsync(SiteImageFileUploadDto dto, IFormFile file)
     {
@@ -37,16 +67,13 @@ public class SiteImageFileService : ISiteImageFileService
 
         var existing = await _readRepo.GetSingleAsync(x => x.SiteImageType == dto.SiteImageType);
 
-        // Mevcut dosya varsa StorageService kullanarak sil
-        if (existing != null 
+        if (existing != null
             && !string.IsNullOrEmpty(existing.Path)
             && !string.IsNullOrEmpty(existing.FileName)
             && _storage.HasFile(existing.Path, existing.FileName))
         {
             await _storage.DeleteAsync(existing.Path, existing.FileName);
         }
-
-        // StorageService’i kullanarak upload yap
         var uploadResult = await _storage.UploadAsync(dto.Path, file);
         var uploadedFile = uploadResult.FirstOrDefault();
         if (uploadResult == null || !uploadResult.Any())

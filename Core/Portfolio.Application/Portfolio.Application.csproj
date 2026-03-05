@@ -9,9 +9,8 @@
   <ItemGroup>
     <Folder Include="Abstraction/Storage/Azure/" />
     <Folder Include="Abstraction/Storage/Local/" />
-    <Folder Include="DTOs/AboutMe/" />
+    <Folder Include="DTOs/PersonalInfo/" />
     <Folder Include="DTOs/Fİle/" />
-    <Folder Include="Repositories/AboutMe/" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
