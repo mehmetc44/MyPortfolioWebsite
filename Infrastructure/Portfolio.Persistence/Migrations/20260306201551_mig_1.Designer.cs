@@ -11,8 +11,8 @@ using Portfolio.Persistence.Context;
 namespace Portfolio.Persistence.Migrations
 {
     [DbContext(typeof(PortfolioDbContext))]
-    [Migration("20260301190035_mig_4")]
-    partial class mig_4
+    [Migration("20260306201551_mig_1")]
+    partial class mig_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -117,41 +117,6 @@ namespace Portfolio.Persistence.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Portfolio.Domain.Entities.AboutMe", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Github")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Instagram")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LinkedIn")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Medium")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Telegram")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AboutMe");
                 });
 
             modelBuilder.Entity("Portfolio.Domain.Entities.Category", b =>
@@ -360,6 +325,41 @@ namespace Portfolio.Persistence.Migrations
                     b.ToTable("Languages");
                 });
 
+            modelBuilder.Entity("Portfolio.Domain.Entities.PersonalInfo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Github")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Instagram")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LinkedIn")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Medium")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Telegram")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PersonalInfo");
+                });
+
             modelBuilder.Entity("Portfolio.Domain.Entities.Project", b =>
                 {
                     b.Property<Guid>("Id")
@@ -372,7 +372,7 @@ namespace Portfolio.Persistence.Migrations
                     b.Property<string>("Client")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CoverImagePath")
+                    b.Property<Guid?>("CoverImageId")
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedDate")
@@ -381,9 +381,20 @@ namespace Portfolio.Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsVisible")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("OrderNo")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProjectUrl")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CoverImageId");
 
                     b.ToTable("Projects");
                 });
@@ -463,7 +474,7 @@ namespace Portfolio.Persistence.Migrations
                 {
                     b.HasBaseType("Portfolio.Domain.Entities.File");
 
-                    b.Property<Guid?>("ProjectId")
+                    b.Property<Guid>("ProjectId")
                         .HasColumnType("TEXT");
 
                     b.HasIndex("ProjectId");
@@ -542,61 +553,6 @@ namespace Portfolio.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Portfolio.Domain.Entities.AboutMe", b =>
-                {
-                    b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "Biography", b1 =>
-                        {
-                            b1.Property<Guid>("AboutMeId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("De")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("En")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Tr")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("AboutMeId");
-
-                            b1.ToTable("AboutMe");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AboutMeId");
-                        });
-
-                    b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "Title", b1 =>
-                        {
-                            b1.Property<Guid>("AboutMeId")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("De")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("En")
-                                .HasColumnType("TEXT");
-
-                            b1.Property<string>("Tr")
-                                .IsRequired()
-                                .HasColumnType("TEXT");
-
-                            b1.HasKey("AboutMeId");
-
-                            b1.ToTable("AboutMe");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AboutMeId");
-                        });
-
-                    b.Navigation("Biography")
-                        .IsRequired();
-
-                    b.Navigation("Title")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Portfolio.Domain.Entities.Category", b =>
                 {
                     b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "Name", b1 =>
@@ -655,6 +611,61 @@ namespace Portfolio.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Portfolio.Domain.Entities.PersonalInfo", b =>
+                {
+                    b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "Biography", b1 =>
+                        {
+                            b1.Property<Guid>("PersonalInfoId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("De")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("En")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Tr")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.HasKey("PersonalInfoId");
+
+                            b1.ToTable("PersonalInfo");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PersonalInfoId");
+                        });
+
+                    b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "Title", b1 =>
+                        {
+                            b1.Property<Guid>("PersonalInfoId")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("De")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("En")
+                                .HasColumnType("TEXT");
+
+                            b1.Property<string>("Tr")
+                                .IsRequired()
+                                .HasColumnType("TEXT");
+
+                            b1.HasKey("PersonalInfoId");
+
+                            b1.ToTable("PersonalInfo");
+
+                            b1.WithOwner()
+                                .HasForeignKey("PersonalInfoId");
+                        });
+
+                    b.Navigation("Biography")
+                        .IsRequired();
+
+                    b.Navigation("Title")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Portfolio.Domain.Entities.Project", b =>
                 {
                     b.HasOne("Portfolio.Domain.Entities.Category", "Category")
@@ -662,6 +673,11 @@ namespace Portfolio.Persistence.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Portfolio.Domain.Entities.ProjectImageFile", "CoverImage")
+                        .WithMany()
+                        .HasForeignKey("CoverImageId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.OwnsOne("Portfolio.Domain.ValueObjects.MultiLanguageString", "Description", b1 =>
                         {
@@ -710,6 +726,8 @@ namespace Portfolio.Persistence.Migrations
                         });
 
                     b.Navigation("Category");
+
+                    b.Navigation("CoverImage");
 
                     b.Navigation("Description")
                         .IsRequired();
@@ -861,7 +879,9 @@ namespace Portfolio.Persistence.Migrations
                 {
                     b.HasOne("Portfolio.Domain.Entities.Project", "Project")
                         .WithMany("Images")
-                        .HasForeignKey("ProjectId");
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Project");
                 });

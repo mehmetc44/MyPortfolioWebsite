@@ -5,5 +5,6 @@ namespace Portfolio.Domain.Entities;
 
 public class SiteImageFile : File
 {
-    public SiteImageType SiteImageType {get;set;} 
+    public SiteImageType SiteImageType {get;set;}
+
 }

@@ -12,33 +12,6 @@ namespace Portfolio.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "AboutMe",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    HeroImagePath = table.Column<string>(type: "TEXT", nullable: true),
-                    ProfileImagePath = table.Column<string>(type: "TEXT", nullable: true),
-                    Biography_Tr = table.Column<string>(type: "TEXT", nullable: false),
-                    Biography_En = table.Column<string>(type: "TEXT", nullable: true),
-                    Biography_De = table.Column<string>(type: "TEXT", nullable: true),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Title_Tr = table.Column<string>(type: "TEXT", nullable: false),
-                    Title_En = table.Column<string>(type: "TEXT", nullable: true),
-                    Title_De = table.Column<string>(type: "TEXT", nullable: true),
-                    Address = table.Column<string>(type: "TEXT", nullable: true),
-                    Telegram = table.Column<string>(type: "TEXT", nullable: true),
-                    LinkedIn = table.Column<string>(type: "TEXT", nullable: true),
-                    Github = table.Column<string>(type: "TEXT", nullable: true),
-                    Instagram = table.Column<string>(type: "TEXT", nullable: true),
-                    Medium = table.Column<string>(type: "TEXT", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AboutMe", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -127,6 +100,31 @@ namespace Portfolio.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PersonalInfo",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Biography_Tr = table.Column<string>(type: "TEXT", nullable: false),
+                    Biography_En = table.Column<string>(type: "TEXT", nullable: true),
+                    Biography_De = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    Title_Tr = table.Column<string>(type: "TEXT", nullable: false),
+                    Title_En = table.Column<string>(type: "TEXT", nullable: true),
+                    Title_De = table.Column<string>(type: "TEXT", nullable: true),
+                    Address = table.Column<string>(type: "TEXT", nullable: true),
+                    Telegram = table.Column<string>(type: "TEXT", nullable: true),
+                    LinkedIn = table.Column<string>(type: "TEXT", nullable: true),
+                    Github = table.Column<string>(type: "TEXT", nullable: true),
+                    Instagram = table.Column<string>(type: "TEXT", nullable: true),
+                    Medium = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PersonalInfo", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -296,20 +294,42 @@ namespace Portfolio.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    FileName = table.Column<string>(type: "TEXT", nullable: false),
+                    Path = table.Column<string>(type: "TEXT", nullable: false),
+                    Storage = table.Column<string>(type: "TEXT", nullable: true),
+                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 21, nullable: false),
+                    ProjectId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    resumeLanguage = table.Column<int>(type: "INTEGER", nullable: true),
+                    SiteImageType = table.Column<int>(type: "INTEGER", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    CoverImagePath = table.Column<string>(type: "TEXT", nullable: true),
                     Title_Tr = table.Column<string>(type: "TEXT", nullable: false),
                     Title_En = table.Column<string>(type: "TEXT", nullable: true),
                     Title_De = table.Column<string>(type: "TEXT", nullable: true),
                     Description_Tr = table.Column<string>(type: "TEXT", nullable: false),
                     Description_En = table.Column<string>(type: "TEXT", nullable: true),
                     Description_De = table.Column<string>(type: "TEXT", nullable: true),
+                    CoverImageId = table.Column<Guid>(type: "TEXT", nullable: true),
                     CategoryId = table.Column<Guid>(type: "TEXT", nullable: false),
                     Client = table.Column<string>(type: "TEXT", nullable: true),
+                    ProjectUrl = table.Column<string>(type: "TEXT", nullable: true),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    OrderNo = table.Column<int>(type: "INTEGER", nullable: false),
+                    IsVisible = table.Column<bool>(type: "INTEGER", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
@@ -321,30 +341,12 @@ namespace Portfolio.Persistence.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    FileName = table.Column<string>(type: "TEXT", nullable: false),
-                    Path = table.Column<string>(type: "TEXT", nullable: false),
-                    Storage = table.Column<string>(type: "TEXT", nullable: true),
-                    Discriminator = table.Column<string>(type: "TEXT", maxLength: 21, nullable: false),
-                    ProjectsId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    resumeLanguage = table.Column<int>(type: "INTEGER", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Files", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Files_Projects_ProjectsId",
-                        column: x => x.ProjectsId,
-                        principalTable: "Projects",
+                        name: "FK_Projects_Files_CoverImageId",
+                        column: x => x.CoverImageId,
+                        principalTable: "Files",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
@@ -385,21 +387,35 @@ namespace Portfolio.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Files_ProjectsId",
+                name: "IX_Files_ProjectId",
                 table: "Files",
-                column: "ProjectsId");
+                column: "ProjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_CategoryId",
                 table: "Projects",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_CoverImageId",
+                table: "Projects",
+                column: "CoverImageId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_Files_Projects_ProjectId",
+                table: "Files",
+                column: "ProjectId",
+                principalTable: "Projects",
+                principalColumn: "Id",
+                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AboutMe");
+            migrationBuilder.DropForeignKey(
+                name: "FK_Files_Projects_ProjectId",
+                table: "Files");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -420,10 +436,10 @@ namespace Portfolio.Persistence.Migrations
                 name: "ContactMessages");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "Languages");
 
             migrationBuilder.DropTable(
-                name: "Languages");
+                name: "PersonalInfo");
 
             migrationBuilder.DropTable(
                 name: "Skills");
@@ -445,6 +461,9 @@ namespace Portfolio.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Files");
         }
     }
 }

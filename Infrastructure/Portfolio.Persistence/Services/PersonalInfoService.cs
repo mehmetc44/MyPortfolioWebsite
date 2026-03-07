@@ -31,53 +31,32 @@ public class PersonalInfoService : IPersonalInfoService
         _mapper = mapper;
     }
 
-    public async Task UpdateAboutMeAsync(UpdatePersonalInfoDto aboutMeDto, IFormFile? heroImage, IFormFile? profileImage)
+    public async Task UpdatePersonalInfoAsync(UpdatePersonalInfoDto updatePersonalInfoDto)
     {
-        //AboutMe kaydını ekle veya güncelle
-        var existingAboutMe = _personalInfoReadRepository.GetAll().FirstOrDefault();
+        var existingPersonalInfo = _personalInfoReadRepository.GetAll().FirstOrDefault();
 
-        if (existingAboutMe == null)
+        if (existingPersonalInfo == null)
         {
-            var newAboutMe = _mapper.Map<PersonalInfo>(aboutMeDto);
-            await _personalInfoWriteRepository.AddAsync(newAboutMe);
+            var newPersonalInfo = _mapper.Map<PersonalInfo>(updatePersonalInfoDto);
+            await _personalInfoWriteRepository.AddAsync(newPersonalInfo);
         }
         else
         {
-            _mapper.Map(aboutMeDto, existingAboutMe);
-            _personalInfoWriteRepository.Update(existingAboutMe);
-        }
-
-        //Hero Image yükleme
-        if (heroImage != null && heroImage.Length > 0)
-        {
-            var heroDto = new SiteImageFileUploadDto
-            {
-                SiteImageType = SiteImageType.SiteHeroImage,
-                Path = "aboutme-images"
-            };
-
-            await _siteImageFileService.UploadAsync(heroDto, heroImage);
-        }
-
-        //Profile Image yükleme
-        if (profileImage != null && profileImage.Length > 0)
-        {
-            var profileDto = new SiteImageFileUploadDto
-            {
-                SiteImageType = SiteImageType.SiteProfileImage,
-                Path = "aboutme-images"
-            };
-            await _siteImageFileService.UploadAsync(profileDto, profileImage);
+            _mapper.Map(updatePersonalInfoDto, existingPersonalInfo);
+            _personalInfoWriteRepository.Update(existingPersonalInfo);
         }
         await _personalInfoWriteRepository.SaveAsync();
     }
-    public Task<PersonalInfoDto> GetAboutMeAsync()
+
+    public Task<PersonalInfoDto> GetPersonalInfoAsync()
     {
-        throw new NotImplementedException();
+        var existingPersonalInfo = _personalInfoReadRepository.GetAll().FirstOrDefault();
+        if (existingPersonalInfo == null)
+        {
+            throw new Exception("Kişisel bilgiler için veri bulunamadı.");
+        }
+        var personalInfoDto = _mapper.Map<PersonalInfoDto>(existingPersonalInfo);
+        return Task.FromResult(personalInfoDto);
     }
 
-    public Task AddSkillAsync()
-    {
-        throw new NotImplementedException();
-    }
 }

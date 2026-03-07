@@ -4,10 +4,10 @@ namespace Portfolio.Application.Abstraction.Services;
 
 using Microsoft.AspNetCore.Http;
 using Portfolio.Application.DTOs.PersonalInfo;
+using Portfolio.Domain.Entities;
 
 public interface IPersonalInfoService
 {
-    Task<PersonalInfoDto> GetAboutMeAsync();
-    Task UpdateAboutMeAsync(UpdatePersonalInfoDto aboutMeDto, IFormFile? heroImage, IFormFile? profileImage);
-    Task AddSkillAsync();
+    Task<PersonalInfoDto> GetPersonalInfoAsync();
+    Task UpdatePersonalInfoAsync(UpdatePersonalInfoDto aboutMeDto);
 }

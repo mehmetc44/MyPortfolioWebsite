@@ -1,0 +1,42 @@
+@model Portfolio.WebUI.Models.PersonalInfo.PersonalInfoViewModel
+,<div class="hero-wrapper position-relative mb-5" style="margin-bottom: 80px !important;">
+
+    <div class="hero-preview-box d-flex align-items-center justify-content-center text-white rounded-top"
+         id="heroPreview" style="height:250px;
+        background-size:cover;
+        background-position:center;
+        background-image: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)),
+        url('@Url.Content("~/img/hero-img.jpg")');">
+
+        <small><i class="bi bi-image"></i> Mevcut Kapak</small>
+    </div>
+
+    <div class="hero-overlay position-absolute top-0 end-0 p-3">
+        <button type="button" class="btn btn-light btn-sm shadow-sm" data-bs-toggle="modal" data-bs-target="#heroModal">
+            <i class="bi bi-pencil"></i> Kapağı Düzenle
+        </button>
+    </div>
+
+    <div class="position-absolute text-center"
+         style="bottom: -60px; left: 50%; transform: translateX(-50%); z-index: 10;">
+
+        <div class="position-relative d-inline-block">
+            <img src="~/img/profile-img.jpg" class="rounded border border-4 border-white shadow-sm" id="profilePreview"
+                 style="width: 120px; height: 120px; object-fit: cover; background-color: white;" alt="Mevcut Foto">
+
+                <button type="button" class="position-absolute bg-white rounded-circle p-2 border shadow text-primary"
+                        data-bs-toggle="modal" data-bs-target="#profileModal"
+                        style="right: -10px; bottom: -5px; line-height: 1; transition: 0.2s;">
+                    <i class="bi bi-camera-fill"></i>
+                </button>
+            </div>
+
+            <div class="d-block mt-2">
+                <small class="text-muted fw-bold bg-white px-2 py-1 rounded shadow-sm" style="font-size: 0.75rem;">
+                    Önerilen: 500x500px
+                </small>
+            </div>
+
+        </div>
+
+    </div>

@@ -7,7 +7,8 @@ namespace Portfolio.Domain.Entities
     {
         public MultiLanguageString Title { get; set; } = new();
         public MultiLanguageString Description { get; set; } = new();
-        public ProjectImageFile CoverImagePath { get; set; } = new();
+        public Guid? CoverImageId { get; set; }
+        public ProjectImageFile CoverImage { get; set; } = new();
         public ICollection<ProjectImageFile> Images { get; set; } = new List<ProjectImageFile>();
         public Guid CategoryId { get; set; }
         public Category Category { get; set; } = null!;

@@ -23,7 +23,7 @@ public class PortfolioDbContext : IdentityDbContext<AspUser, AspRole, Guid>
     public DbSet<Language> Languages { get; set; }
     public DbSet<Timeline> Timelines { get; set; }
     public DbSet<Testimonial> Testimonials { get; set; }
-    public DbSet<PersonalInfo> AboutMe { get; set; }
+    public DbSet<PersonalInfo> PersonalInfo { get; set; }
     public DbSet<ContactMessage> ContactMessages { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -33,7 +33,6 @@ public class PortfolioDbContext : IdentityDbContext<AspUser, AspRole, Guid>
 
         modelBuilder.Entity<Project>().OwnsOne(p => p.Title);
         modelBuilder.Entity<Project>().OwnsOne(p => p.Description);
-
         modelBuilder.Entity<Category>().OwnsOne(c => c.Name);
 
         modelBuilder.Entity<Skill>().OwnsOne(s => s.Title);
@@ -68,6 +67,17 @@ public class PortfolioDbContext : IdentityDbContext<AspUser, AspRole, Guid>
                         .HasConversion<string>();
         }
     }
+    modelBuilder.Entity<Project>()
+        .HasOne(p => p.CoverImage)
+        .WithMany() // Bir resim sadece bir projenin kapağı olacaksa burası boş kalabilir
+        .HasForeignKey(p => p.CoverImageId)
+        .OnDelete(DeleteBehavior.SetNull); 
+
+    modelBuilder.Entity<Project>()
+        .HasMany(p => p.Images)
+        .WithOne(i=>i.Project) 
+        .HasForeignKey("ProjectId") 
+        .OnDelete(DeleteBehavior.Cascade); // Proje silinince galeri resimleri de silinsin
 }
     }
 }

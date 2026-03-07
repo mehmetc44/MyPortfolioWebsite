@@ -1,0 +1,42 @@
+<div class="card shadow-sm">
+    <div class="card-body" id="skillsContainer">
+
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="card-title m-0">
+                <i class="bi bi-code-slash"></i> Beceriler & Yetenekler
+            </h5>
+
+            <button type="button" id="addSkillBtn" class="btn btn-sm btn-success">
+                <i class="bi bi-plus-lg"></i> Yeni Ekle
+            </button>
+        </div>
+
+        <!-- Skill Row -->
+        <div class="skill-row d-flex align-items-center gap-3 mt-2">
+
+            <div class="flex-grow-1">
+                <input type="text" class="form-control form-control-sm fw-bold"                                         placeholder="Yeni Yetenek">
+            </div>
+
+            <div class="flex-grow-1">
+                <div class="d-flex align-items-center gap-2">
+
+                    <input type="range" class="skill-range form-range" min="0" max="100" value="50">
+
+                    <span class="skill-val badge bg-primary rounded-pill" style="width:50px;">
+                        50%
+                    </span>
+
+                </div>
+            </div>
+
+            <div class="align-self-end pb-1">
+                <button type="button" class="btn btn-sm btn-outline-danger border-0 delete-btn">
+                    <i class="bi bi-trash-fill"></i>
+                </button>
+            </div>
+
+        </div>
+
+    </div>
+</div>

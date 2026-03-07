@@ -1,5 +1,6 @@
 
 using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.Application.Abstraction.File;
@@ -7,6 +8,7 @@ using Portfolio.Application.Abstraction.Storage;
 using Portfolio.Application.DTOs.File;
 using Portfolio.Application.Repositories.SiteImageFile;
 using Portfolio.Domain.Entities;
+using Portfolio.Domain.Enums;
 
 namespace Portfolio.Infrastructure.Services.File;
 
@@ -16,16 +18,19 @@ public class SiteImageFileService : ISiteImageFileService
     private readonly ISiteImageFileReadRepository _readRepo;
     private readonly IMapper _mapper;
     private readonly IStorageService _storage;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
     public SiteImageFileService(ISiteImageFileWriteRepository writeRepo,
         ISiteImageFileReadRepository readRepo,
         IMapper mapper,
-        IStorageService storage)
+        IStorageService storage,
+        IWebHostEnvironment webHostEnvironment)
     {
         _readRepo = readRepo;
         _writeRepo = writeRepo;
         _mapper = mapper;
         _storage = storage;
+        _webHostEnvironment=webHostEnvironment;
     }
 
     public async Task<List<SiteImageFile>> GetAllAsync()
@@ -81,6 +86,7 @@ public class SiteImageFileService : ISiteImageFileService
         if (existing != null)
         {
             existing.Path = uploadedFile.pathOrContainerName;
+            existing.FullPath = Path.Combine(_webHostEnvironment.WebRootPath,existing.Path);
             existing.FileName = uploadedFile.fileName;
             _writeRepo.Update(existing);
         }
@@ -88,9 +94,18 @@ public class SiteImageFileService : ISiteImageFileService
         {
             var newImage = _mapper.Map<SiteImageFile>(dto);
             newImage.Path = uploadedFile.pathOrContainerName;
+            newImage.FullPath = Path.Combine(_webHostEnvironment.WebRootPath,newImage.Path);
             newImage.FileName = uploadedFile.fileName;
             await _writeRepo.AddAsync(newImage);
         }
         await _writeRepo.SaveAsync();
+    }
+
+    public async Task<SiteImageFile> GetSiteImageFileByTypeAsync(SiteImageType type)
+    {
+        var image = await _readRepo.GetSingleAsync(x => x.SiteImageType == type);
+        if (image == null)
+            throw new Exception("Belirtilen türde görsel bulunamadı.");
+        return image;
     }
 }
