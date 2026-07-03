@@ -1,0 +1,21 @@
+<header class="site-header">
+    <nav class="navbar" aria-label="Main Navigation">
+        <div class="nav-container">
+            <a routerLink="/" class="nav-logo">
+                <span class="logo-accent">{{ logoName }}</span>
+                <span class="logo-text">.dev</span>
+            </a>
+            <div class="nav-links">
+                <a routerLink="/" class="nav-item">{{ 'NAV_HOME' | translate }}</a>
+                <a routerLink="/about" class="nav-item">{{ 'NAV_ABOUT' | translate }}</a>
+                <a routerLink="/portfolio" class="nav-item">{{ 'NAV_PORTFOLIO' | translate }}</a>
+                <a routerLink="/blog" class="nav-item">{{ 'NAV_BLOG' | translate }}</a>
+                <a href="#" (click)="openContact($event)" class="nav-item">{{ 'NAV_CONTACT' | translate }}</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<router-outlet></router-outlet>
+
+<app-contact-modal [isOpen]="showContact" (close)="onContactClose()"></app-contact-modal>

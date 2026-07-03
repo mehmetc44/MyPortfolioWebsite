@@ -1,0 +1,234 @@
+<div class="cv-page-container page-layout-container" *ngIf="profile">
+    <!-- The Paper-style CV Sheet Container -->
+    <main class="main-content-pane glass-card fade-in" id="cvSheet" aria-label="Curriculum Vitae Document">
+        
+        <!-- 1. HAKKIMDA (Intro Text) - Left-Aligned -->
+        <section class="about-intro-section">
+            <div class="pane-header-hero">
+                <span class="subtitle-tag">KİŞİSEL BİYOGRAFİ</span>
+                <h3 class="pane-main-title">Hakkımda</h3>
+                <div class="title-decorator-line"></div>
+            </div>
+            <p class="about-body-paragraph text-left">
+                Merhabalar, ben {{ profile.name }}. Bilişim sektöründe 10 yılı aşkın süredir kıdemli yazılım mühendisi ve sistem mimarı olarak görev almaktayım. Kariyerim boyunca yüksek ölçekli dağıtık arka uç servisleri, gerçek zamanlı veri akış mimarileri ve ilişkisel/ilişkisel olmayan veri tabanlarının ölçeklenmesi ve optimizasyonu üzerine odaklandım.
+            </p>
+            <p class="about-body-paragraph text-left">
+                Clean Code prensiplerine bağlı kalarak sürdürülebilir, modüler kod yazımı ve modern entegrasyon süreçlerinin (CI/CD) otomasyonu konularında ekiplere rehberlik etmekteyim. Teknolojik zorlukları çözmeyi, performansı en üst seviyeye taşımayı ve açık kaynak kodlu projeler ile topluluğa katkı sağlamayı amaç ediniyorum.
+            </p>
+        </section>
+
+        <hr class="pane-divider">
+
+        <!-- 2. İLGİ ALANLARI / FOCUS AREAS - Grid Layout -->
+        <section class="about-interests-section">
+            <h3 class="about-section-title">İlgi Alanları</h3>
+            <div class="interests-grid-pane">
+                <!-- Interest 1 -->
+                <div class="interest-card-widget sub-glass-card">
+                    <div class="interest-icon-box">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                    </div>
+                    <h4 class="interest-card-title">Sistem Mimarisi</h4>
+                    <p class="interest-card-desc">Dağınık sistemler, gerçek zamanlı veri akışı ve SignalR hub altyapıları.</p>
+                </div>
+
+                <!-- Interest 2 -->
+                <div class="interest-card-widget sub-glass-card">
+                    <div class="interest-icon-box">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><polygon points="12 2 2 7 12 12 22 7 12 2 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                    </div>
+                    <h4 class="interest-card-title">Performans Optimizasyonu</h4>
+                    <p class="interest-card-desc">Veri tabanı indeksleme, SQL sorgu iyileştirme ve arka uç cache yapılandırmaları.</p>
+                </div>
+
+                <!-- Interest 3 -->
+                <div class="interest-card-widget sub-glass-card">
+                    <div class="interest-icon-box">
+                        <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path><line x1="12" y1="11" x2="12" y2="17"></line><line x1="9" y1="14" x2="15" y2="14"></line></svg>
+                    </div>
+                    <h4 class="interest-card-title">Bulut Teknolojileri</h4>
+                    <p class="interest-card-desc">AWS bulut mimarileri, CI/CD hatları ve Docker konteynerizasyon süreçleri.</p>
+                </div>
+            </div>
+        </section>
+
+        <hr class="pane-divider">
+
+        <!-- 3. ÖZGEÇMİŞ BAŞLIĞI & BALANCED CV -->
+        <section class="about-cv-main-section">
+            <!-- Centered CV Main Header -->
+            <div class="cv-centered-header-group">
+                <h3 class="main-cv-section-title">Özgeçmiş</h3>
+                <p class="cv-centered-summary-text">
+                    Yüksek ölçekli web uygulamaları, dağınık arka uç servisleri ve veri tabanı optimizasyonları alanlarında 10 yılı aşkın mesleki tecrübeye sahip kıdemli yazılım mühendisi ve sistem mimarı. .NET Core, SQL ve modern JS ekosistemlerinde uzmanlaşmış olup temiz kod, modüler yapı ve sürdürülebilir sistem mimarilerini benimser.
+                </p>
+                
+                <!-- Centered Contact Badges -->
+                <div class="cv-contacts-centered">
+                    <div class="contact-badge-item">
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        <span>mehmet.dev&#64;example.com</span>
+                    </div>
+                    <div class="contact-badge-item">
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        <span>+90 (555) 123 45 67</span>
+                    </div>
+                    <div class="contact-badge-item">
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        <span>İstanbul, Türkiye</span>
+                    </div>
+                    <div class="contact-badge-item">
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                        <span>{{ profile.linkedin }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cv-columns-grid">
+                <!-- LEFT COLUMN (Tecrübeler - Long Section) -->
+                <div class="cv-col-left">
+                    <section class="cv-timeline-group">
+                        <h4 class="cv-column-sub-title">Tecrübeler</h4>
+                        
+                        <!-- Job 1 -->
+                        <div class="timeline-item">
+                            <span class="timeline-node"></span>
+                            <h5 class="timeline-item-title">Yazılım Teknolojileri Lideri (Tech Lead)</h5>
+                            <span class="timeline-item-subtitle">2023 - Günümüz</span>
+                            <p class="timeline-item-org">Platar Tech, İstanbul</p>
+                            <ul class="cv-item-bullets">
+                                <li>Gerçek zamanlı plaka tanıma ve yapay zeka entegrasyonu sunan WebUI projesinin mimari kurulumunu yönetti.</li>
+                                <li>SignalR tabanlı eşzamanlı veri akış altyapısını kurarak sunucu-istemci gecikmesini %40 oranında azalttı.</li>
+                                <li>5 kişilik kıdemli geliştirici ekibine liderlik etti, kod standartlarını belirledi ve CI/CD süreçlerini otomatikleştirdi.</li>
+                            </ul>
+                        </div>
+
+                        <!-- Job 2 -->
+                        <div class="timeline-item">
+                            <span class="timeline-node"></span>
+                            <h5 class="timeline-item-title">Kıdemli Tam Yığın Yazılım Mühendisi (Senior Full Stack Eng)</h5>
+                            <span class="timeline-item-subtitle">2020 - 2023</span>
+                            <p class="timeline-item-org">Nexus Systems, İstanbul (Uzaktan)</p>
+                            <ul class="cv-item-bullets">
+                                <li>Yüksek trafikli SaaS uygulamalarının C# .NET Core ve React bileşenlerini tasarladı ve geliştirdi.</li>
+                                <li>Veri tabanı indeks optimizasyonları ve sorgu revizyonları gerçekleştirerek SQL okuma sürelerini %35 hızlandırdı.</li>
+                                <li>Docker konteynerizasyon yapısını kurarak yerel geliştirme ve sunucu ortamları arasındaki farkları ortadan kaldırdı.</li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- RIGHT COLUMN (Eğitim, Sertifikalar, Gönüllülük, Diller - Grouped for Height Balance) -->
+                <div class="cv-col-right">
+                    
+                    <!-- Eğitim -->
+                    <section class="cv-timeline-group">
+                        <h4 class="cv-column-sub-title">Eğitim</h4>
+                        
+                        <div class="timeline-item">
+                            <span class="timeline-node"></span>
+                            <h5 class="timeline-item-title">Bilgisayar Mühendisliği Lisans Derecesi (B.Sc.)</h5>
+                            <span class="timeline-item-subtitle">2012 - 2017</span>
+                            <p class="timeline-item-org">İstanbul Teknik Üniversitesi, İstanbul</p>
+                            <p class="timeline-item-desc">Sistem mimarisi, yapay zeka altyapıları, algoritma analizi ve yüksek ölçekli veri tabanları üzerine odaklı akademik mühendislik derecesi.</p>
+                        </div>
+                    </section>
+
+                    <!-- Sertifikalar -->
+                    <section class="cv-timeline-group">
+                        <h4 class="cv-column-sub-title">Sertifikalar &amp; Kurslar</h4>
+                        
+                        <div class="timeline-item">
+                            <span class="timeline-node"></span>
+                            <ul class="cv-simple-list">
+                                <li>
+                                    <strong>AWS Çözüm Mimarı Sertifikası (Solutions Architect Associate)</strong>
+                                    <span class="cv-list-date">2024</span>
+                                </li>
+                                <li>
+                                    <strong>Microsoft Sertifikalı Çözüm Geliştirici (MCSD: App Builder)</strong>
+                                    <span class="cv-list-date">2021</span>
+                                </li>
+                                <li>
+                                    <strong>İleri Düzey SQL Sorgulama ve Optimizasyon Eğitimi</strong>
+                                    <span class="cv-list-date">2019</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <!-- Gönüllülük -->
+                    <section class="cv-timeline-group">
+                        <h4 class="cv-column-sub-title">Gönüllülük Faaliyetleri</h4>
+                        
+                        <div class="timeline-item">
+                            <span class="timeline-node"></span>
+                            <h5 class="timeline-item-title">Açık Kaynak Kod Mentorluğu &amp; Topluluk Liderliği</h5>
+                            <span class="timeline-item-subtitle">2022 - Günümüz</span>
+                            <p class="timeline-item-org">KodAkademi Topluluğu, Çevrimiçi</p>
+                            <p class="timeline-item-desc">
+                                Yazılıma yeni başlayan geliştirici adaylarına ve üniversite öğrencilerine haftalık kod inceleme ve sistem tasarımı mentörlüğü sağlamaktadır.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Diller -->
+                    <section class="cv-timeline-group">
+                        <h4 class="cv-column-sub-title">Diller</h4>
+                        
+                        <div class="timeline-item">
+                            <span class="timeline-node"></span>
+                            <div class="cv-languages-grid">
+                                <div class="lang-row">
+                                    <span class="lang-label">Türkçe</span>
+                                    <div class="lang-meter-container">
+                                        <div class="lang-meter-fill" style="width: 100%;"></div>
+                                    </div>
+                                    <span class="lang-status">Anadil</span>
+                                </div>
+                                <div class="lang-row">
+                                    <span class="lang-label">İngilizce</span>
+                                    <div class="lang-meter-container">
+                                        <div class="lang-meter-fill" style="width: 90%;"></div>
+                                    </div>
+                                    <span class="lang-status">İleri Düzey / Profesyonel</span>
+                                </div>
+                                <div class="lang-row">
+                                    <span class="lang-label">Almanca</span>
+                                    <div class="lang-meter-container">
+                                        <div class="lang-meter-fill" style="width: 40%;"></div>
+                                    </div>
+                                    <span class="lang-status">Temel Düzey</span>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+
+        <hr class="pane-divider">
+
+        <!-- 4. ÖZGEÇMİŞ İNDİR (BOTTOM PANEL - TR/EN/DE CV downloads) -->
+        <section class="cv-download-footer-section">
+            <p class="download-footer-text">Güncel özgeçmişimi tercih ettiğiniz dilde PDF formatında indirebilirsiniz:</p>
+            <div class="cv-downloads-button-row">
+                <!-- Turkish CV -->
+                <a href="assets/cv_tr.pdf" class="btn btn-primary cv-download-btn-lang" download>
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Türkçe CV İndir</span>
+                </a>
+                <!-- English CV -->
+                <a href="assets/cv_en.pdf" class="btn btn-secondary cv-download-btn-lang" download>
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>English CV Download</span>
+                </a>
+                <!-- German CV -->
+                <a href="assets/cv_de.pdf" class="btn btn-secondary cv-download-btn-lang" download>
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Deutsch Lebenslauf</span>
+                </a>
+            </div>
+        </section>
+    </main>
+</div>

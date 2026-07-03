@@ -1,0 +1,109 @@
+<div class="messages-container fade-in">
+    
+    <!-- Tab Title Section -->
+    <div class="pane-header-hero">
+        <span class="subtitle-tag">İLETİŞİM FORMU MESAJLARI</span>
+        <h3 class="pane-main-title">Gelen Mesajlar</h3>
+        <div class="title-decorator-line"></div>
+    </div>
+
+    <!-- Layout Grid: List vs Reader Pane -->
+    <div class="messages-workspace">
+        
+        <!-- Left Side: Messages list -->
+        <div class="messages-list-pane">
+            
+            <!-- Filters Tabs Row -->
+            <div class="messages-filters">
+                <button class="filter-tab-btn" [class.active]="activeFilter === 'all'" (click)="selectFilter('all')">
+                    Tümü ({{ messages.length }})
+                </button>
+                <button class="filter-tab-btn" [class.active]="activeFilter === 'unread'" (click)="selectFilter('unread')">
+                    Okunmamış ({{ getUnreadCount() }})
+                </button>
+                <button class="filter-tab-btn" [class.active]="activeFilter === 'read'" (click)="selectFilter('read')">
+                    Okunanlar
+                </button>
+            </div>
+
+            <!-- Messages Scroll area -->
+            <div class="messages-scroll-area">
+                <div *ngFor="let msg of filteredMessages" 
+                     class="message-list-card" 
+                     [class.unread]="!msg.isRead"
+                     [class.selected]="selectedMessage?.id === msg.id"
+                     (click)="readMessage(msg)">
+                    
+                    <div class="message-card-header">
+                        <div class="message-card-sender">
+                            <span class="unread-badge" *ngIf="!msg.isRead"></span>
+                            <span class="sender-name">{{ msg.name }}</span>
+                        </div>
+                        <span class="message-card-date">{{ msg.date | date:'dd.MM.yyyy HH:mm' }}</span>
+                    </div>
+                    
+                    <div class="sender-email-text">{{ msg.email }}</div>
+                    <p class="message-excerpt">{{ msg.message }}</p>
+
+                    <div class="message-card-actions">
+                        <button class="action-icon-btn delete-btn" (click)="deleteMessage(msg, $event)" title="Mesajı Sil">
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                        <button class="action-icon-btn toggle-read-btn" (click)="toggleRead(msg, $event)" [title]="msg.isRead ? 'Okunmamış İşaretle' : 'Okundu İşaretle'">
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" *ngIf="msg.isRead"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" *ngIf="!msg.isRead"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Empty list state -->
+                <div class="empty-list-indicator" *ngIf="filteredMessages.length === 0">
+                    <svg viewBox="0 0 24 24" width="40" height="40" stroke="currentColor" stroke-width="2" fill="none" class="empty-icon"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <p class="empty-text">Listelenecek mesaj bulunmamaktadır.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Full reader details -->
+        <div class="messages-reader-pane">
+            <div class="reader-detail-card sub-glass-card" *ngIf="selectedMessage; else noMessageSelected">
+                <div class="reader-header">
+                    <div class="sender-meta">
+                        <span class="unread-indicator-dot" *ngIf="!selectedMessage.isRead"></span>
+                        <h4 class="sender-full-name">{{ selectedMessage.name }}</h4>
+                        <div class="sender-email-link">{{ selectedMessage.email }}</div>
+                    </div>
+                    <div class="reader-actions">
+                        <button class="btn btn-secondary action-btn-text" (click)="toggleRead(selectedMessage, $event)">
+                            <span>{{ selectedMessage.isRead ? 'Okunmamış Yap' : 'Okundu Yap' }}</span>
+                        </button>
+                        <button class="btn btn-danger action-btn-text" (click)="deleteMessage(selectedMessage, $event)">
+                            <span>Mesajı Sil</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="reader-date-row">
+                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <span>Gönderim Tarihi: {{ selectedMessage.date | date:'dd MMMM yyyy HH:mm:ss' }}</span>
+                </div>
+
+                <hr class="pane-divider">
+
+                <div class="reader-body-content">
+                    <h5 class="message-label">Mesaj İçeriği:</h5>
+                    <div class="message-body-text">{{ selectedMessage.message }}</div>
+                </div>
+            </div>
+
+            <!-- Empty selected state template -->
+            <ng-template #noMessageSelected>
+                <div class="reader-empty-pane sub-glass-card">
+                    <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none" class="reader-empty-icon"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    <p class="reader-empty-text">Okumak istediğiniz mesajın üzerine tıklayarak içeriği görüntüleyebilirsiniz.</p>
+                </div>
+            </ng-template>
+        </div>
+
+    </div>
+</div>

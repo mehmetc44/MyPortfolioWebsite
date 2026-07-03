@@ -1,0 +1,203 @@
+/* ==========================================================================
+   BLOG STYLESHEET (Articles Listing Component Styles)
+   ========================================================================== */
+
+
+/* 1. Controls layout overrides */
+.portfolio-controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+/* 2. Blog Grid & Cards (Optimized 2-Column layout) */
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+    min-height: 250px;
+}
+
+.blog-card {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    animation: blogCardLoad 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+@keyframes blogCardLoad {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.blog-image-container {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+    background: var(--bg-secondary);
+}
+
+.blog-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.blog-card:hover .blog-card-image {
+    transform: scale(1.05);
+}
+
+.blog-card-content {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.blog-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+/* Category Tag Colors */
+.blog-category-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-tag-architecture {
+    background: #eff6ff;
+    color: #1e40af;
+    border: 1px solid #dbeafe;
+}
+
+.category-tag-ai {
+    background: #faf5ff;
+    color: #6b21a8;
+    border: 1px solid #f3e8ff;
+}
+
+.category-tag-frontend {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #dcfce7;
+}
+
+.category-tag-other {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.blog-date-text {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.blog-title {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--accent-navy);
+    line-height: 1.35;
+    margin-bottom: 12px;
+}
+
+.blog-excerpt {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.65;
+    margin-bottom: 24px;
+    flex-grow: 1;
+}
+
+/* Footer links */
+.blog-footer-links {
+    display: flex;
+    border-top: 1px solid var(--border-color);
+    padding: 16px 28px 24px 28px;
+    margin-top: auto;
+}
+
+.blog-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--accent-navy);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.blog-link svg {
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.blog-card:hover .blog-link {
+    color: var(--accent-slate);
+}
+
+.blog-card:hover .blog-link:hover {
+    color: var(--accent-navy-hover);
+}
+
+.blog-link:hover svg {
+    transform: translateX(4px);
+}
+
+/* 3. Empty query Warning Box */
+.no-results-widget {
+    grid-column: span 2;
+    text-align: center;
+    padding: 64px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Responsiveness overrides */
+@media (max-width: 860px) {
+    .blog-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .no-results-widget {
+        grid-column: span 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .blog-image-container {
+        height: 180px;
+    }
+    
+    .blog-card-content {
+        padding: 24px;
+    }
+    
+    .blog-footer-links {
+        padding: 16px 24px 24px 24px;
+    }
+}

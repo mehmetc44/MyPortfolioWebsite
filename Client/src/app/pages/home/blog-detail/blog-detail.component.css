@@ -1,0 +1,211 @@
+/* ==========================================================================
+   BLOG DETAIL STYLESHEET (Single-Column Article Reader Styles)
+   ========================================================================== */
+
+
+/* 1. Centered Reader Width Layout */
+.article-reader-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Metadata row */
+.article-meta-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    font-size: 0.92rem;
+    flex-wrap: wrap;
+}
+
+.article-meta-sep {
+    color: var(--border-glow);
+    font-weight: bold;
+}
+
+.article-date-read {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Category Tags */
+.blog-category-tag {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.category-tag-architecture {
+    background: #eff6ff;
+    color: #1e40af;
+    border: 1px solid #dbeafe;
+}
+
+.category-tag-ai {
+    background: #faf5ff;
+    color: #6b21a8;
+    border: 1px solid #f3e8ff;
+}
+
+.category-tag-frontend {
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #dcfce7;
+}
+
+.category-tag-other {
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+/* 2. Visual Banner */
+.article-banner-wrapper {
+    width: 100%;
+    height: 380px;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    margin-bottom: 40px;
+    box-shadow: 0 8px 24px rgba(11, 26, 48, 0.04);
+}
+
+.article-banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 3. Typography & Reading spacing overrides */
+.article-text-body {
+    text-align: left;
+}
+
+.article-text-body p {
+    font-size: 1.12rem;
+    color: var(--text-secondary);
+    line-height: 1.85; /* Generous spacing for reading comfort */
+    margin-bottom: 24px;
+    font-weight: 500;
+}
+
+/* Subheadings */
+.article-text-body h5 {
+    font-family: var(--font-body);
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--accent-navy);
+    margin-top: 40px;
+    margin-bottom: 18px;
+    letter-spacing: -0.3px;
+}
+
+/* Code Highlights Blocks */
+.article-text-body pre {
+    background: var(--accent-navy);
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 24px;
+    overflow-x: auto;
+    margin-bottom: 24px;
+    font-family: var(--font-code);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.article-text-body code {
+    font-family: var(--font-code);
+    background: var(--accent-slate-light);
+    color: var(--accent-navy);
+    padding: 2px 6px;
+    border-radius: 6px;
+    font-size: 0.92rem;
+    border: 1px solid rgba(11, 26, 48, 0.08);
+    font-weight: 600;
+}
+
+/* Custom list items inside text */
+.article-text-body ul {
+    list-style: none;
+    margin-bottom: 24px;
+    padding-left: 4px;
+}
+
+.article-text-body ul li {
+    position: relative;
+    padding-left: 24px;
+    font-size: 1.08rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.article-text-body ul li::before {
+    content: "•";
+    color: var(--accent-navy);
+    font-weight: bold;
+    position: absolute;
+    left: 6px;
+    font-size: 1.2rem;
+}
+
+/* 4. Footer controls */
+.article-navigation-footer {
+    display: flex;
+    justify-content: flex-start;
+    padding-top: 16px;
+}
+
+.btn-icon-left {
+    margin-right: 8px;
+    transition: transform 0.2s ease;
+}
+
+.btn-back-blog:hover .btn-icon-left {
+    transform: translateX(-4px);
+}
+
+/* Responsiveness overrides */
+@media (max-width: 768px) {
+    .article-banner-wrapper {
+        height: 260px;
+    }
+    
+    .article-text-body p {
+        font-size: 1.05rem;
+    }
+    
+    .article-text-body h5 {
+        font-size: 1.25rem;
+    }
+    
+    .main-content-pane {
+        padding: 40px 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    .article-banner-wrapper {
+        height: 180px;
+        margin-bottom: 24px;
+    }
+}
+
+/* Nested code inside pre blocks correction */
+.article-text-body pre code {
+    background: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+}

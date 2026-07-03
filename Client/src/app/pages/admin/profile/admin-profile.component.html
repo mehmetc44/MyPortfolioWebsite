@@ -1,0 +1,114 @@
+<div class="pane-header-hero">
+    <span class="subtitle-tag">KİMLİK YAPILANDIRMASI</span>
+    <h3 class="pane-main-title">Profil Ayarları</h3>
+    <div class="title-decorator-line"></div>
+</div>
+
+<form (ngSubmit)="saveProfile()" class="contact-form" *ngIf="profile">
+    <div class="form-double-row">
+        <div class="form-group">
+            <label for="profName">Ad Soyad</label>
+            <input type="text" id="profName" name="profName" [(ngModel)]="profile.name" required>
+        </div>
+        <div class="form-group">
+            <label for="profAvatar">Profil Fotoğrafı</label>
+            <div class="avatar-upload-container">
+                <img [src]="profile.avatarUrl || 'assets/avatar_senior.png'" alt="Avatar Önizleme" class="admin-avatar-preview">
+                <input type="file" id="profAvatar" (change)="onFileSelected($event)" accept="image/*" class="file-input">
+                <span *ngIf="isUploading" style="font-size: 0.8rem; color: var(--text-secondary);">Yükleniyor...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Translation Tabs Switcher -->
+    <div class="modal-tabs">
+        <button type="button" class="modal-tab-btn" [class.active]="activeFormTab === 'tr'" (click)="activeFormTab = 'tr'">Türkçe (TR)</button>
+        <button type="button" class="modal-tab-btn" [class.active]="activeFormTab === 'en'" (click)="activeFormTab = 'en'">English (EN)</button>
+        <button type="button" class="modal-tab-btn" [class.active]="activeFormTab === 'de'" (click)="activeFormTab = 'de'">Deutsch (DE)</button>
+    </div>
+
+    <!-- Tab Content: Türkçe -->
+    <div *ngIf="activeFormTab === 'tr'" class="tab-content-panel">
+        <div class="form-group">
+            <label for="profTagTR">Developer Etiketi (TR)</label>
+            <input type="text" id="profTagTR" name="profTagTR" [(ngModel)]="profile.tag_TR" required placeholder="Örn: Yazılım Mimarı">
+        </div>
+        <div class="form-group">
+            <label for="profTitleTR">Pozisyon Başlığı / Headline (TR)</label>
+            <input type="text" id="profTitleTR" name="profTitleTR" [(ngModel)]="profile.title_TR" required placeholder="Örn: Kıdemli Full Stack Mühendisi & Teknoloji Lideri">
+        </div>
+        <div class="form-group">
+            <label for="profBioTR">Kısa Biyografi (TR)</label>
+            <textarea id="profBioTR" name="profBioTR" [(ngModel)]="profile.bio_TR" rows="3" required placeholder="Giriş biyografi metni..."></textarea>
+        </div>
+    </div>
+
+    <!-- Tab Content: English -->
+    <div *ngIf="activeFormTab === 'en'" class="tab-content-panel">
+        <div class="form-group">
+            <label for="profTagEN">Developer Tag (EN)</label>
+            <input type="text" id="profTagEN" name="profTagEN" [(ngModel)]="profile.tag_EN" required placeholder="E.g. Software Architect">
+        </div>
+        <div class="form-group">
+            <label for="profTitleEN">Position Title / Headline (EN)</label>
+            <input type="text" id="profTitleEN" name="profTitleEN" [(ngModel)]="profile.title_EN" required placeholder="E.g. Senior Full Stack Engineer & Tech Lead">
+        </div>
+        <div class="form-group">
+            <label for="profBioEN">Short Biography (EN)</label>
+            <textarea id="profBioEN" name="profBioEN" [(ngModel)]="profile.bio_EN" rows="3" required placeholder="Intro bio text..."></textarea>
+        </div>
+    </div>
+
+    <!-- Tab Content: Deutsch -->
+    <div *ngIf="activeFormTab === 'de'" class="tab-content-panel">
+        <div class="form-group">
+            <label for="profTagDE">Entwickler-Etikett (DE)</label>
+            <input type="text" id="profTagDE" name="profTagDE" [(ngModel)]="profile.tag_DE" required placeholder="Z.B. Softwarearchitekt">
+        </div>
+        <div class="form-group">
+            <label for="profTitleDE">Headline / Position (DE)</label>
+            <input type="text" id="profTitleDE" name="profTitleDE" [(ngModel)]="profile.title_DE" required placeholder="Z.B. Senior Full Stack Engineer & Tech Lead">
+        </div>
+        <div class="form-group">
+            <label for="profBioDE">Kurze Biografie (DE)</label>
+            <textarea id="profBioDE" name="profBioDE" [(ngModel)]="profile.bio_DE" rows="3" required placeholder="Einführender Bio-Text..."></textarea>
+        </div>
+    </div>
+
+    <div class="form-double-row" style="margin-top: 20px;">
+        <div class="form-group">
+            <label for="profRepos">Repository Sayısı</label>
+            <input type="number" id="profRepos" name="profRepos" [(ngModel)]="profile.repos" required min="0">
+        </div>
+        <div class="form-group">
+            <label for="profPubs">Yayın/Makale Sayısı</label>
+            <input type="number" id="profPubs" name="profPubs" [(ngModel)]="profile.pubs" required min="0">
+        </div>
+    </div>
+
+    <div class="form-double-row">
+        <div class="form-group">
+            <label for="profGithub">GitHub URL</label>
+            <input type="url" id="profGithub" name="profGithub" [(ngModel)]="profile.github">
+        </div>
+        <div class="form-group">
+            <label for="profLinkedin">LinkedIn URL</label>
+            <input type="url" id="profLinkedin" name="profLinkedin" [(ngModel)]="profile.linkedin">
+        </div>
+    </div>
+
+    <div class="form-double-row">
+        <div class="form-group">
+            <label for="profInstagram">Instagram URL</label>
+            <input type="url" id="profInstagram" name="profInstagram" [(ngModel)]="profile.instagram">
+        </div>
+        <div class="form-group">
+            <label for="profMedium">Medium URL</label>
+            <input type="url" id="profMedium" name="profMedium" [(ngModel)]="profile.medium">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary submit-btn">
+        <span>Profil Bilgilerini Kaydet</span>
+    </button>
+</form>

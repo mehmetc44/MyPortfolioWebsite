@@ -1,0 +1,62 @@
+<div class="cv-page-container page-layout-container">
+    <!-- Unified Content Dashboard Card Pane -->
+    <main class="main-content-pane glass-card fade-in" aria-label="Blog Article Panel">
+        
+        <!-- Unified Page Title Header -->
+        <div class="pane-header-hero">
+            <span class="subtitle-tag">BİLGİ PAYLAŞIMI &amp; MAKALELER</span>
+            <h3 class="pane-main-title">Blog Yazılarım</h3>
+            <div class="title-decorator-line"></div>
+        </div>
+
+        <!-- Controls Row: Filters and Search Box -->
+        <div class="portfolio-controls-row">
+            <!-- Filter Tabs -->
+            <div class="portfolio-filter-tabs" role="tablist" aria-label="Makale Kategorileri">
+                <button class="filter-tab" [class.active]="activeCategory === 'all'" (click)="selectCategory('all')" role="tab" [attr.aria-selected]="activeCategory === 'all'">Tümü</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'architecture'" (click)="selectCategory('architecture')" role="tab" [attr.aria-selected]="activeCategory === 'architecture'">Yazılım Mimarisi</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'ai'" (click)="selectCategory('ai')" role="tab" [attr.aria-selected]="activeCategory === 'ai'">Yapay Zeka</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'frontend'" (click)="selectCategory('frontend')" role="tab" [attr.aria-selected]="activeCategory === 'frontend'">Ön Uç &amp; Tasarım</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'other'" (click)="selectCategory('other')" role="tab" [attr.aria-selected]="activeCategory === 'other'">Diğer</button>
+            </div>
+
+            <!-- Search Input Box -->
+            <div class="portfolio-search-box">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="blogSearchInput" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Makale başlığı veya etiket ara..." aria-label="Blog arama çubuğu">
+            </div>
+        </div>
+
+        <hr class="pane-divider">
+
+        <!-- Dynamic Blog Output Grid -->
+        <div class="blog-grid" id="blogGrid" aria-live="polite">
+            <div *ngFor="let art of filteredArticles" class="blog-card sub-glass-card">
+                <div class="blog-image-container">
+                    <img [src]="art.imageUrl || 'assets/blog_placeholder.png'" [alt]="art.title" class="blog-card-image">
+                    <span class="blog-category-tag category-tag-{{art.category}}">{{ getCategoryLabel(art.category) }}</span>
+                </div>
+                <div class="blog-card-content">
+                    <div class="blog-meta-row">
+                        <span class="blog-date-text">{{ art.date }} • {{ art.readTime }}</span>
+                    </div>
+                    <span class="blog-card-sub-tag" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-slate); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; display: inline-block;">{{ art.subTag }}</span>
+                    <h4 class="blog-title">{{ art.title }}</h4>
+                    <p class="blog-excerpt">{{ art.excerpt }}</p>
+                </div>
+                <div class="blog-footer-links">
+                    <a [routerLink]="['/blog', art.id]" class="card-action-btn">
+                        <span>Makaleyi Oku</span>
+                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div *ngIf="filteredArticles.length === 0" class="no-results-widget">
+                <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="2" fill="none" class="no-results-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <h4 class="no-results-title">Arama Sonucu</h4>
+                <p class="no-results-text">Arama kriterlerinize uygun makale bulunamadı.</p>
+            </div>
+        </div>
+    </main>
+</div>

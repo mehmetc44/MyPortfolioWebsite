@@ -1,0 +1,43 @@
+<div id="hireModal" class="modal-overlay" [class.show]="isOpen" (click)="closeModal()" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-content glass-card" (click)="$event.stopPropagation()">
+         <button class="modal-close-btn" (click)="closeModal()" aria-label="Close modal">
+             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+         </button>
+         
+         <h2 id="modalTitle" class="modal-title">{{ 'CONTACT_TITLE' | translate }}</h2>
+         <p class="modal-subtitle">{{ 'CONTACT_SUB' | translate }}</p>
+         
+         <div class="modal-actions-top">
+             <a [href]="cvPath" class="btn btn-secondary cv-btn" download>
+                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                 {{ 'CV_DOWNLOAD' | translate }}
+             </a>
+         </div>
+ 
+         <div class="modal-divider"><span>{{ 'OR_DIRECT' | translate }}</span></div>
+ 
+         <form (ngSubmit)="onSubmit()" #contactForm="ngForm" class="contact-form" [class.hide]="isSuccess">
+             <div class="form-group">
+                 <label for="contactName">{{ 'YOUR_NAME' | translate }}</label>
+                 <input type="text" id="contactName" name="name" [(ngModel)]="name" placeholder="John Doe" required>
+             </div>
+             <div class="form-group">
+                 <label for="contactEmail">{{ 'YOUR_EMAIL' | translate }}</label>
+                 <input type="email" id="contactEmail" name="email" [(ngModel)]="email" placeholder="john@example.com" required>
+             </div>
+             <div class="form-group">
+                 <label for="contactMessage">{{ 'MESSAGE' | translate }}</label>
+                 <textarea id="contactMessage" name="message" [(ngModel)]="message" rows="4" placeholder="Briefly describe your project details or timeline..." required></textarea>
+             </div>
+             
+             <button type="submit" [disabled]="!contactForm.form.valid || isSubmitting" class="btn btn-primary submit-btn">
+                 <span class="btn-text">{{ isSubmitting ? ('Submitting inquiry...' | translate) : ('SEND_MESSAGE' | translate) }}</span>
+             </button>
+         </form>
+         
+         <div class="form-success-alert" [class.hide]="!isSuccess">
+             <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="alert-icon"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+             <span>Thank you! Your message was sent successfully.</span>
+         </div>
+     </div>
+</div>

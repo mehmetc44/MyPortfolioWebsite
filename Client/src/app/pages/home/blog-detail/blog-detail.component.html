@@ -1,0 +1,43 @@
+<div class="cv-page-container page-layout-container" *ngIf="article">
+    <!-- Unified Content Dashboard Card Pane -->
+    <main class="main-content-pane glass-card fade-in" aria-label="Article Reader">
+        
+        <!-- Article Container (Medium-style Centered Readable Width) -->
+        <article class="article-reader-container">
+            
+            <!-- Dynamic Article Heading Banner -->
+            <div class="pane-header-hero text-left">
+                <span class="subtitle-tag" id="articleSubTag">{{ article.subTag }}</span>
+                <h3 class="pane-main-title" id="articleMainTitle">{{ article.title }}</h3>
+                <div class="title-decorator-line"></div>
+            </div>
+
+            <!-- Meta Row below Title -->
+            <div class="article-meta-info">
+                <span class="blog-category-tag category-tag-{{article.category}}">{{ getCategoryLabel(article.category) }}</span>
+                <span class="article-meta-sep">•</span>
+                <span class="article-date-read" id="articleMetaDate">{{ article.date }} • {{ article.readTime }}</span>
+            </div>
+
+            <!-- Article Banner Image Cover -->
+            <div class="article-banner-wrapper">
+                <img [src]="article.imageUrl || 'assets/blog_placeholder.png'" [alt]="article.title" class="article-banner-image" id="articleBannerImg">
+            </div>
+
+            <!-- Main Text Body (Single-column typography) -->
+            <div class="article-text-body" id="articleTextBody" [innerHTML]="sanitizedDetailText">
+            </div>
+
+            <hr class="pane-divider">
+
+            <!-- Navigation Controls Footer -->
+            <div class="article-navigation-footer">
+                <a routerLink="/blog" class="btn btn-secondary btn-back-blog">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <span>Blog Listesine Dön</span>
+                </a>
+            </div>
+
+        </article>
+    </main>
+</div>

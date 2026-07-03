@@ -1,0 +1,264 @@
+<!-- Main Dashboard Two Column Grid Sheet -->
+<div class="app-container page-layout-container" *ngIf="profile">
+    <!-- Sidebar Widget (Profile Info) -->
+    <aside class="profile-sidebar" aria-label="Profile Card">
+        <div class="profile-card-content glass-card">
+            <div class="avatar-container">
+                <img [src]="profile.avatarUrl || 'assets/avatar_senior.png'" [alt]="profile.name" class="profile-avatar" id="profileAvatar">
+            </div>
+
+            <div class="profile-info">
+                <h1 class="profile-name">{{ profile.name }}</h1>
+                <p class="profile-tag">{{ profile.tag }}</p>
+                <h2 class="profile-title">{{ profile.title }}</h2>
+                
+                <p class="profile-bio">{{ profile.bio }}</p>
+            </div>
+
+            <!-- Simplified Single-Line Metrics Row -->
+            <div class="profile-metrics-row">
+                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.repos }}</span> {{ 'Repositories' }}</span>
+                <span class="metric-separator">•</span>
+                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.pubs }}</span> {{ 'Publications' }}</span>
+            </div>
+
+            <!-- Contact Modal Trigger Button -->
+            <button (click)="openContactModal()" class="btn btn-primary hire-me-btn" aria-haspopup="dialog">
+                <span class="btn-text">{{ 'HIRE_ME' | translate }}</span>
+            </button>
+
+            <!-- Social links -->
+            <div class="social-links">
+                <a [href]="profile.github || '#'" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                </a>
+                <a [href]="profile.linkedin || '#'" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+                <a [href]="profile.instagram || '#'" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a [href]="profile.medium || '#'" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Medium">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42s-3.38-2.88-3.38-6.42 1.51-6.42 3.38-6.42 3.38 2.88 3.38 6.42zM24 12c0 3.17-.53 5.75-1.19 5.75s-1.19-2.58-1.19-5.75.53-5.75 1.19-5.75S24 8.83 24 12z"/></svg>
+                </a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content Column: Single Unified Dashboard Pane -->
+    <main class="profile-main" aria-label="Portfolio Content">
+        <div class="main-content-pane glass-card fade-in">
+            
+            <!-- About Me Section -->
+            <section class="pane-section" id="about-section">
+                <div class="pane-header-hero">
+                    <span class="subtitle-tag">{{ profile.tag }}</span>
+                    <h3 class="pane-main-title">{{ profile.title }}</h3>
+                    <div class="title-decorator-line"></div>
+                </div>
+                <div class="about-details">
+                    <p class="lead-text">
+                        {{ profile.bio }}
+                    </p>
+                </div>
+            </section>
+
+            <hr class="pane-divider">
+
+            <!-- Tech Stack & Skills Section -->
+            <section class="pane-section" id="skills-card">
+                <h3 class="section-title">
+                    {{ 'CORE_STACK' | translate }}
+                </h3>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">JavaScript &amp; TypeScript</span>
+                            <span class="skill-pct">92%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="92%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">C# &amp; .NET Core</span>
+                            <span class="skill-pct">88%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="88%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">HTML5 &amp; Vanilla CSS3</span>
+                            <span class="skill-pct">95%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="95%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">React &amp; Next.js</span>
+                            <span class="skill-pct">90%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="90%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">Node.js / Express</span>
+                            <span class="skill-pct">85%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="85%"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-item">
+                        <div class="skill-info">
+                            <span class="skill-name">SQL &amp; NoSQL Database Systems</span>
+                            <span class="skill-pct">80%</span>
+                        </div>
+                        <div class="skill-bar-container">
+                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="pane-divider">
+
+            <!-- Activity Contributions Section -->
+            <section class="pane-section" id="contributions-section">
+                <h3 class="section-title">
+                    {{ 'OPERATIONAL_MATRIX' | translate }}
+                </h3>
+                
+                <div class="heatmap-wrapper">
+                    <div class="calendar-grid" id="contributionsGrid" role="grid">
+                        <div *ngFor="let item of dateList"
+                             class="day-cell level-{{item.level}}"
+                             (mouseenter)="showTooltip($event, item)"
+                             (mouseleave)="hideTooltip()">
+                        </div>
+                    </div>
+                    
+                    <div class="heatmap-footer">
+                        <span class="activity-total">{{ 'LOGGED_DAYS' | translate }}</span>
+                        <div class="heatmap-legend">
+                            <span>Idle</span>
+                            <div class="legend-box level-0"></div>
+                            <div class="legend-box level-1"></div>
+                            <div class="legend-box level-2"></div>
+                            <div class="legend-box level-3"></div>
+                            <div class="legend-box level-4"></div>
+                            <span>Peak</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <hr class="pane-divider">
+
+            <!-- Recent Activity Cards Board Section -->
+            <section class="pane-section" id="activities-section">
+                <h3 class="section-title">
+                    {{ 'ENGINEERING_ACTIVITIES' | translate }}
+                </h3>
+
+                <div class="activities-board-grid">
+                    <!-- Feed Item 1 -->
+                    <div class="activity-board-card sub-glass-card">
+                        <div class="board-card-header">
+                            <span class="activity-tag tag-blog">Technical Publication</span>
+                            <span class="board-card-time">3 days ago</span>
+                        </div>
+                        <h4 class="board-card-title">Deep Dive into .NET Core SignalR and Real-time Clients</h4>
+                        <p class="board-card-desc">
+                            Analyzing core architectures for handling socket handshakes, client disconnections gracefully, and syncing telemetry streams using Hubs.
+                        </p>
+                        <div class="board-card-footer">
+                            <a routerLink="/portfolio/platar-lpr" class="btn-board-action">
+                                <span>{{ 'VIEW_DETAILS' | translate }}</span>
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Feed Item 2 -->
+                    <div class="activity-board-card sub-glass-card">
+                        <div class="board-card-header">
+                            <span class="activity-tag tag-repo">Package Release</span>
+                            <span class="board-card-time">1 week ago</span>
+                        </div>
+                        <h4 class="board-card-title">Platar LPR — License Plate Recognition Web Dashboard</h4>
+                        <p class="board-card-desc">
+                            Released a lightweight dashboard module in pure JS for visualizing, mapping, and cataloging live automatic number-plate reader inputs.
+                        </p>
+                        <div class="board-card-footer">
+                            <a routerLink="/portfolio/platar-lpr" class="btn-board-action">
+                                <span>{{ 'VIEW_DETAILS' | translate }}</span>
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Feed Item 3 -->
+                    <div class="activity-board-card sub-glass-card">
+                        <div class="board-card-header">
+                            <span class="activity-tag tag-blog">Technical Publication</span>
+                            <span class="board-card-time">2 weeks ago</span>
+                        </div>
+                        <h4 class="board-card-title">Aesthetic Web Design: Crafting Glassmorphism Effects using CSS</h4>
+                        <p class="board-card-desc">
+                            A modular tutorial detailing backdrop-filters, custom inner border shadow parameters, and CSS mask settings for glass dashboard containers.
+                        </p>
+                        <div class="board-card-footer">
+                            <a routerLink="/portfolio/glassui-kit" class="btn-board-action">
+                                <span>{{ 'VIEW_DETAILS' | translate }}</span>
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Feed Item 4 -->
+                    <div class="activity-board-card sub-glass-card">
+                        <div class="board-card-header">
+                            <span class="activity-tag tag-pr">Infrastructure Update</span>
+                            <span class="board-card-time">3 weeks ago</span>
+                        </div>
+                        <h4 class="board-card-title">Optimized database query indexes on telemetry logs</h4>
+                        <p class="board-card-desc">
+                            Merged structural index alterations which shortened query latency times by 35% across massive logs tables.
+                        </p>
+                        <div class="board-card-footer">
+                            <a routerLink="/portfolio/logstream-pipeline" class="btn-board-action">
+                                <span>{{ 'VIEW_DETAILS' | translate }}</span>
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<!-- Heatmap Tooltip Element -->
+<div id="gridTooltip"
+     class="grid-tooltip"
+     [class.show]="tooltipVisible"
+     [style.left]="tooltipLeft"
+     [style.top]="tooltipTop"
+     role="tooltip">
+    {{ tooltipText }}
+</div>
+
+<app-contact-modal [isOpen]="showContact" (close)="showContact = false"></app-contact-modal>

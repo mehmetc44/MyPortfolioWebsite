@@ -1,0 +1,19 @@
+{
+  "Version": 1,
+  "Hash": "vj1ZMG68DyqX0UMD8E7rWCKJsiQDzI+D0ZQbjzCZI5E=",
+  "Source": "Server",
+  "BasePath": "_content/Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "Server/wwwroot",
+      "Source": "Server",
+      "ContentRoot": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/",
+      "BasePath": "_content/Server",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": []
+}
