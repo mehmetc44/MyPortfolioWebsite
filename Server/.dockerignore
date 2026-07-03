@@ -1,0 +1,7 @@
+bin/
+obj/
+Db/
+wwwroot/uploads/
+.env
+*.user
+*.db

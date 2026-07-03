@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  portfolio-server:
+    build:
+      context: ./Server
+      dockerfile: Dockerfile
+    container_name: portfolio-server
+    ports:
+      - "5169:8080"
+    volumes:
+      - ./Server/Db:/app/Db
+      - ./Server/wwwroot/uploads:/app/wwwroot/uploads
+    env_file:
+      - .env
+    restart: always
