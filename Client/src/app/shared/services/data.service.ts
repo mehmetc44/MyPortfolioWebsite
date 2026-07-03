@@ -17,6 +17,17 @@ export class DataService {
   private cachedProjects: Project[] | null = null;
   private cachedArticles: Article[] | null = null;
 
+  public get apiBaseUrl(): string {
+    if (typeof window !== 'undefined') {
+      const hostname = window.location.hostname;
+      if (hostname === 'localhost' || hostname === '127.0.0.1') {
+        return 'http://localhost:5169';
+      }
+    }
+    // Deployed production API URL on Render
+    return 'https://myportfoliowebsite-xx7w.onrender.com';
+  }
+
   constructor() {
     this.loadDataFromServer();
   }
@@ -25,12 +36,12 @@ export class DataService {
     if (typeof window === 'undefined') return;
     const lang = localStorage.getItem('app_language') || 'tr';
     try {
-      const profRes = await fetch(`http://localhost:5169/api/profile?lang=${lang}`);
+      const profRes = await fetch(`${this.apiBaseUrl}/api/profile?lang=${lang}`);
       if (profRes.ok) {
         this.cachedProfile = await profRes.json();
       }
 
-      const projRes = await fetch(`http://localhost:5169/api/projects?lang=${lang}`);
+      const projRes = await fetch(`${this.apiBaseUrl}/api/projects?lang=${lang}`);
       if (projRes.ok) {
         const rawProjects = await projRes.json();
         this.cachedProjects = rawProjects.map((p: any) => {
@@ -47,7 +58,7 @@ export class DataService {
         });
       }
 
-      const artRes = await fetch(`http://localhost:5169/api/articles?lang=${lang}`);
+      const artRes = await fetch(`${this.apiBaseUrl}/api/articles?lang=${lang}`);
       if (artRes.ok) {
         this.cachedArticles = await artRes.json();
       }
@@ -109,7 +120,7 @@ export class DataService {
   // Raw Database CRUD APIs (for Admin Panel)
   async getRawProjects(): Promise<RawProject[]> {
     try {
-      const res = await fetch('http://localhost:5169/api/projects/raw');
+      const res = await fetch(`${this.apiBaseUrl}/api/projects/raw`);
       if (res.ok) {
         return await res.json();
       }
@@ -122,8 +133,8 @@ export class DataService {
   async saveRawProject(project: RawProject, isNew: boolean): Promise<boolean> {
     try {
       const url = isNew 
-        ? 'http://localhost:5169/api/projects' 
-        : `http://localhost:5169/api/projects/${project.id}`;
+        ? `${this.apiBaseUrl}/api/projects` 
+        : `${this.apiBaseUrl}/api/projects/${project.id}`;
       const method = isNew ? 'POST' : 'PUT';
       const res = await fetch(url, {
         method,
@@ -139,7 +150,7 @@ export class DataService {
 
   async deleteRawProject(id: string): Promise<boolean> {
     try {
-      const res = await fetch(`http://localhost:5169/api/projects/${id}`, {
+      const res = await fetch(`${this.apiBaseUrl}/api/projects/${id}`, {
         method: 'DELETE'
       });
       return res.ok;
@@ -151,7 +162,7 @@ export class DataService {
 
   async getRawProfile(): Promise<RawProfile | null> {
     try {
-      const res = await fetch('http://localhost:5169/api/profile/raw');
+      const res = await fetch(`${this.apiBaseUrl}/api/profile/raw`);
       if (res.ok) {
         return await res.json();
       }
@@ -163,7 +174,7 @@ export class DataService {
 
   async saveRawProfile(profile: RawProfile): Promise<boolean> {
     try {
-      const res = await fetch('http://localhost:5169/api/profile', {
+      const res = await fetch(`${this.apiBaseUrl}/api/profile`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile)
@@ -177,7 +188,7 @@ export class DataService {
 
   async getRawArticles(): Promise<RawArticle[]> {
     try {
-      const res = await fetch('http://localhost:5169/api/articles/raw');
+      const res = await fetch(`${this.apiBaseUrl}/api/articles/raw`);
       if (res.ok) {
         return await res.json();
       }
@@ -190,8 +201,8 @@ export class DataService {
   async saveRawArticle(article: RawArticle, isNew: boolean): Promise<boolean> {
     try {
       const url = isNew 
-        ? 'http://localhost:5169/api/articles' 
-        : `http://localhost:5169/api/articles/${article.id}`;
+        ? `${this.apiBaseUrl}/api/articles` 
+        : `${this.apiBaseUrl}/api/articles/${article.id}`;
       const method = isNew ? 'POST' : 'PUT';
       const res = await fetch(url, {
         method,
@@ -207,7 +218,7 @@ export class DataService {
 
   async deleteRawArticle(id: string): Promise<boolean> {
     try {
-      const res = await fetch(`http://localhost:5169/api/articles/${id}`, {
+      const res = await fetch(`${this.apiBaseUrl}/api/articles/${id}`, {
         method: 'DELETE'
       });
       return res.ok;
@@ -223,7 +234,7 @@ export class DataService {
       const formData = new FormData();
       formData.append('file', file);
       
-      let url = 'http://localhost:5169/api/upload/avatar';
+      let url = `${this.apiBaseUrl}/api/upload/avatar`;
       if (oldUrl) {
         url += `?oldUrl=${encodeURIComponent(oldUrl)}`;
       }
@@ -248,7 +259,7 @@ export class DataService {
       const formData = new FormData();
       formData.append('file', file);
       
-      let url = 'http://localhost:5169/api/upload/cv';
+      let url = `${this.apiBaseUrl}/api/upload/cv`;
       if (oldUrl) {
         url += `?oldUrl=${encodeURIComponent(oldUrl)}`;
       }
@@ -270,7 +281,7 @@ export class DataService {
 
   async postContactMessage(msg: { name: string; email: string; message: string }): Promise<boolean> {
     try {
-      const res = await fetch('http://localhost:5169/api/contact', {
+      const res = await fetch(`${this.apiBaseUrl}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(msg)
@@ -284,7 +295,7 @@ export class DataService {
 
   async getAdminMessages(): Promise<ContactMessage[]> {
     try {
-      const res = await fetch('http://localhost:5169/api/messages');
+      const res = await fetch(`${this.apiBaseUrl}/api/messages`);
       if (res.ok) {
         return await res.json();
       }
@@ -296,7 +307,7 @@ export class DataService {
 
   async markMessageAsRead(id: number, isRead: boolean): Promise<boolean> {
     try {
-      const res = await fetch(`http://localhost:5169/api/messages/${id}/read?isRead=${isRead}`, {
+      const res = await fetch(`${this.apiBaseUrl}/api/messages/${id}/read?isRead=${isRead}`, {
         method: 'PUT'
       });
       return res.ok;
@@ -308,7 +319,7 @@ export class DataService {
 
   async deleteMessage(id: number): Promise<boolean> {
     try {
-      const res = await fetch(`http://localhost:5169/api/messages/${id}`, {
+      const res = await fetch(`${this.apiBaseUrl}/api/messages/${id}`, {
         method: 'DELETE'
       });
       return res.ok;

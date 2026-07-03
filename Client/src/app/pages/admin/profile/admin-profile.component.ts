@@ -46,7 +46,7 @@ export class AdminProfileComponent implements OnInit {
       this.isUploading = false;
       
       if (uploadedPath) {
-        this.profile.avatarUrl = `http://localhost:5169/${uploadedPath}`;
+        this.profile.avatarUrl = `${this.dataService.apiBaseUrl}/${uploadedPath}`;
       } else {
         alert('Görsel yüklenirken sunucu hatası oluştu.');
       }
