@@ -423,7 +423,10 @@ app.UseSwaggerUI();
 
 app.UseCors("AllowAll");
 
-app.UseHttpsRedirection();
+if (app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
 
 app.UseAuthorization();
 

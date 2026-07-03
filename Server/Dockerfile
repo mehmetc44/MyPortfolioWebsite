@@ -20,7 +20,7 @@ WORKDIR /app
 EXPOSE 8080
 
 # Default environment variables
-ENV ASPNETCORE_HTTP_PORTS=8080
+ENV ASPNETCORE_URLS=http://0.0.0.0:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
 
 # Copy published application
