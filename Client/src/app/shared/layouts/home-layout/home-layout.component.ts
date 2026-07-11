@@ -19,6 +19,7 @@ export class HomeLayoutComponent implements OnInit {
   logoName = 'Mehmet';
   showContact = false;
   activeLang: LanguageCode = 'tr';
+  isMobileMenuOpen = false;
 
   constructor(
     private dataService: DataService,
@@ -35,6 +36,7 @@ export class HomeLayoutComponent implements OnInit {
   openContact(event: Event) {
     event.preventDefault();
     this.showContact = true;
+    this.isMobileMenuOpen = false;
   }
 
   onContactClose() {
@@ -53,5 +55,13 @@ export class HomeLayoutComponent implements OnInit {
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
+  }
+
+  toggleMobileMenu(): void {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu(): void {
+    this.isMobileMenuOpen = false;
   }
 }

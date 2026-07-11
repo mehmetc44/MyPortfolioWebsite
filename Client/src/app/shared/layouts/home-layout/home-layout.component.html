@@ -5,11 +5,19 @@
                 <span class="logo-accent">{{ logoName }}</span>
                 <span class="logo-text">.dev</span>
             </a>
-            <div class="nav-links">
-                <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">{{ 'NAV_HOME' | translate }}</a>
-                <a routerLink="/about" routerLinkActive="active" class="nav-item">{{ 'NAV_ABOUT' | translate }}</a>
-                <a routerLink="/portfolio" routerLinkActive="active" class="nav-item">{{ 'NAV_PORTFOLIO' | translate }}</a>
-                <a routerLink="/blog" routerLinkActive="active" class="nav-item">{{ 'NAV_BLOG' | translate }}</a>
+            
+            <!-- Mobile Menu Toggle Button -->
+            <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [class.open]="isMobileMenuOpen" aria-label="Toggle Navigation Menu">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
+
+            <div class="nav-links" [class.active]="isMobileMenuOpen">
+                <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="closeMobileMenu()">{{ 'NAV_HOME' | translate }}</a>
+                <a routerLink="/about" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">{{ 'NAV_ABOUT' | translate }}</a>
+                <a routerLink="/portfolio" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">{{ 'NAV_PORTFOLIO' | translate }}</a>
+                <a routerLink="/blog" routerLinkActive="active" class="nav-item" (click)="closeMobileMenu()">{{ 'NAV_BLOG' | translate }}</a>
                 <a href="#" (click)="openContact($event)" class="nav-item">{{ 'NAV_CONTACT' | translate }}</a>
                 <div class="nav-controls">
                     <select [ngModel]="activeLang" (ngModelChange)="changeLanguage($event)" class="lang-dropdown" aria-label="Language Selector">
