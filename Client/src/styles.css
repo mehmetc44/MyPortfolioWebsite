@@ -552,163 +552,7 @@ body {
     }
 }
 
-/* Responsive configurations */
-@media (max-width: 992px) {
-    .app-container {
-        grid-template-columns: 1fr;
-        gap: 32px;
-    }
-    
-    .main-content-pane {
-        padding: 40px 32px;
-    }
-}
-
-@media (max-width: 768px) {
-    .mobile-menu-toggle {
-        display: flex;
-    }
-
-    .nav-links {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        gap: 20px;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background-color: var(--bg-header);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        padding: 28px 24px;
-        border-bottom: 1px solid var(--border-color);
-        box-shadow: 0 10px 25px -5px rgba(11, 26, 48, 0.15);
-        z-index: 99;
-    }
-
-    .nav-links.active {
-        display: flex;
-        animation: slideDownMenu 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .nav-item {
-        font-size: 1.1rem;
-        width: 100%;
-        text-align: center;
-        padding: 8px 0;
-    }
-
-    .nav-controls {
-        margin-left: 0;
-        margin-top: 8px;
-        width: 100%;
-        justify-content: center;
-        gap: 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        padding-top: 16px;
-    }
-
-    .pane-main-title {
-        font-size: 1.6rem;
-    }
-
-    .page-layout-container {
-        padding: 24px 16px;
-    }
-
-    .main-content-pane {
-        padding: 32px 20px;
-    }
-
-    .profile-card-content {
-        padding: 32px 20px;
-    }
-
-    .avatar-container {
-        width: 160px;
-        height: 160px;
-        margin-bottom: 20px;
-    }
-
-    .profile-name {
-        font-size: 1.9rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .page-layout-container {
-        padding: 20px 12px;
-    }
-
-    .main-content-pane {
-        padding: 24px 16px;
-    }
-
-    .profile-card-content {
-        padding: 24px 16px;
-    }
-
-    .avatar-container {
-        width: 140px;
-        height: 140px;
-        margin-bottom: 16px;
-    }
-
-    .profile-name {
-        font-size: 1.7rem;
-    }
-
-    .profile-bio {
-        font-size: 0.9rem;
-        margin-bottom: 16px;
-    }
-
-    .profile-metrics-row {
-        font-size: 0.9rem;
-        margin-bottom: 20px;
-        gap: 8px;
-        flex-wrap: wrap;
-    }
-
-    .hire-me-btn {
-        margin-bottom: 20px;
-        padding: 12px 24px;
-        font-size: 0.9rem;
-    }
-
-    .social-icon {
-        height: 40px;
-    }
-
-    /* Modal dialog spacing adjustments */
-    .modal-overlay {
-        padding: 12px;
-    }
-
-    .modal-content {
-        padding: 24px 16px;
-    }
-
-    .modal-title {
-        font-size: 1.5rem;
-    }
-
-    .modal-subtitle {
-        margin-bottom: 20px;
-    }
-}
-
-@keyframes slideDownMenu {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+/* Responsive configurations moved to the end of the file to guarantee correct CSS cascade overrides */
 
 
 /* Shared Portfolio & Blog Page search bar & filter tabs */
@@ -982,6 +826,7 @@ body.dark-theme .blog-card:hover .card-action-btn {
     display: flex;
     flex-direction: column;
     gap: 40px;
+    min-width: 0;
 }
 
 /* Avatar Upload in Admin Panel */
@@ -1211,4 +1056,189 @@ body.dark-theme .article-text-body code {
     background: rgba(255, 255, 255, 0.06) !important;
     color: #3b82f6 !important;
     border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ==========================================================================
+   RESPONSIVE CONFIGURATIONS (Placed at the end to properly cascade/override)
+   ========================================================================== */
+@media (max-width: 992px) {
+    .app-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    
+    .profile-sidebar {
+        position: relative !important;
+        top: 0 !important;
+    }
+    
+    .main-content-pane {
+        padding: 40px 32px;
+    }
+
+    .calendar-grid {
+        min-width: auto !important;
+        justify-content: center;
+    }
+
+    /* Show only the last 24 weeks (168 days) on tablet. Hide first 203 days. */
+    .day-cell:nth-child(-n + 203) {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: var(--bg-header);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        padding: 28px 24px;
+        border-bottom: 1px solid var(--border-color);
+        box-shadow: 0 10px 25px -5px rgba(11, 26, 48, 0.15);
+        z-index: 99;
+    }
+
+    .nav-links.active {
+        display: flex;
+        animation: slideDownMenu 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .nav-item {
+        font-size: 1.1rem;
+        width: 100%;
+        text-align: center;
+        padding: 8px 0;
+    }
+
+    .nav-controls {
+        margin-left: 0;
+        margin-top: 8px;
+        width: 100%;
+        justify-content: center;
+        gap: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 16px;
+    }
+
+    .pane-main-title {
+        font-size: 1.6rem;
+    }
+
+    .page-layout-container {
+        padding: 24px 16px;
+    }
+
+    .main-content-pane {
+        padding: 32px 20px;
+    }
+
+    .profile-card-content {
+        padding: 32px 20px;
+    }
+
+    .avatar-container {
+        width: 160px;
+        height: 160px;
+        margin-bottom: 20px;
+    }
+
+    .profile-name {
+        font-size: 1.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-layout-container {
+        padding: 20px 12px;
+    }
+
+    .main-content-pane {
+        padding: 24px 16px;
+    }
+
+    .profile-card-content {
+        padding: 24px 16px;
+    }
+
+    .avatar-container {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 16px;
+    }
+
+    .profile-name {
+        font-size: 1.7rem;
+    }
+
+    .profile-bio {
+        font-size: 0.9rem;
+        margin-bottom: 16px;
+    }
+
+    .profile-metrics-row {
+        font-size: 0.9rem;
+        margin-bottom: 20px;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .hire-me-btn {
+        margin-bottom: 20px;
+        padding: 12px 24px;
+        font-size: 0.9rem;
+    }
+
+    .social-icon {
+        height: 40px;
+    }
+
+    /* Modal dialog spacing adjustments */
+    .modal-overlay {
+        padding: 12px;
+    }
+
+    .modal-content {
+        padding: 24px 16px;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+    }
+
+    .modal-subtitle {
+        margin-bottom: 20px;
+    }
+
+    .calendar-grid {
+        min-width: auto !important;
+        justify-content: center;
+    }
+
+    /* Show only the last 16 weeks (112 days) on mobile. Hide first 259 days. */
+    .day-cell:nth-child(-n + 259) {
+        display: none;
+    }
+}
+
+@keyframes slideDownMenu {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
