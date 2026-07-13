@@ -179,6 +179,9 @@ export class DataService {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile)
       });
+      if (res.ok) {
+        await this.loadDataFromServer();
+      }
       return res.ok;
     } catch(e) {
       console.error(e);

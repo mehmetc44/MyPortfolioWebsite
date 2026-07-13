@@ -127,39 +127,30 @@ namespace Server.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("AvatarUrl")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Bio_DE")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Bio_EN")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Bio_TR")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Github")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Instagram")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Linkedin")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Medium")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Pubs")
@@ -169,27 +160,21 @@ namespace Server.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Tag_DE")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Tag_EN")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Tag_TR")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title_DE")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title_EN")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Title_TR")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -281,6 +266,25 @@ namespace Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Projects");
+                });
+
+            modelBuilder.Entity("Server.Models.UserEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

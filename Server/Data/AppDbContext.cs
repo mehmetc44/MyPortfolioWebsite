@@ -13,6 +13,7 @@ namespace Server.Data
         public DbSet<ProjectEntity> Projects { get; set; }
         public DbSet<ArticleEntity> Articles { get; set; }
         public DbSet<MessageEntity> Messages { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,7 @@ namespace Server.Data
             modelBuilder.Entity<ProjectEntity>().HasKey(p => p.Id);
             modelBuilder.Entity<ArticleEntity>().HasKey(a => a.Id);
             modelBuilder.Entity<MessageEntity>().HasKey(m => m.Id);
+            modelBuilder.Entity<UserEntity>().HasKey(u => u.Id);
         }
     }
 }

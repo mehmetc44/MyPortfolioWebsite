@@ -13,14 +13,14 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
   styleUrls: ['./admin-layout.component.css']
 })
 export class AdminLayoutComponent implements OnInit {
-  logoName = 'Mehmet';
+  get logoName(): string {
+    return this.dataService.getProfile().name;
+  }
   showContact = false;
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    const profile = this.dataService.getProfile();
-    this.logoName = profile.name;
   }
 
   openContact(event: Event) {

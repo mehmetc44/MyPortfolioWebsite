@@ -25,13 +25,13 @@ import { AdminMessagesComponent } from './messages/admin-messages.component';
 })
 export class AdminComponent implements OnInit {
   activeTab = 'panelOverview';
-  profile!: Profile;
+  get profile(): Profile {
+    return this.dataService.getProfile();
+  }
 
   constructor(private dataService: DataService) {}
 
   async ngOnInit() {
-    this.profile = this.dataService.getProfile();
-    
     // Fetch and populate initial unread count in DataService
     try {
       const msgs = await this.dataService.getAdminMessages();

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Data;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Server.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
@@ -28,6 +30,7 @@ namespace Server.Controllers
         }
 
         // GET: api/projects?lang=tr
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetProjects([FromQuery] string lang = "tr")
         {
@@ -54,6 +57,7 @@ namespace Server.Controllers
         }
 
         // GET: api/projects/platar-lpr?lang=tr
+        [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProject(string id, [FromQuery] string lang = "tr")
         {

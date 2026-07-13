@@ -16,7 +16,9 @@ import { ThemeService } from '../../services/theme.service';
   styleUrls: ['./home-layout.component.css']
 })
 export class HomeLayoutComponent implements OnInit {
-  logoName = 'Mehmet';
+  get logoName(): string {
+    return this.dataService.getProfile().name;
+  }
   showContact = false;
   activeLang: LanguageCode = 'tr';
   isMobileMenuOpen = false;
@@ -28,8 +30,6 @@ export class HomeLayoutComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    const profile = this.dataService.getProfile();
-    this.logoName = profile.name;
     this.activeLang = this.localizationService.getLanguage();
   }
 

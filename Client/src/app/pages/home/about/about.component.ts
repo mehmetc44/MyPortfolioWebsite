@@ -10,11 +10,12 @@ import { DataService, Profile } from '../../../shared/services/data.service';
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent implements OnInit {
-  profile!: Profile;
+  get profile(): Profile {
+    return this.dataService.getProfile();
+  }
 
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
-    this.profile = this.dataService.getProfile();
   }
 }

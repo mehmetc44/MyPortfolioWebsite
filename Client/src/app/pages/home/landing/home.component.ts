@@ -20,7 +20,9 @@ interface DayCell {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit, AfterViewInit {
-  profile!: Profile;
+  get profile(): Profile {
+    return this.dataService.getProfile();
+  }
   projectCount = 0;
   articleCount = 0;
 
@@ -38,7 +40,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
   constructor(private dataService: DataService, private elRef: ElementRef) {}
 
   async ngOnInit() {
-    this.profile = this.dataService.getProfile();
     this.projectCount = this.dataService.getProjects().length;
     this.articleCount = this.dataService.getArticles().length;
     await this.generateContributionData();

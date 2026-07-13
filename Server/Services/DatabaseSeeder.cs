@@ -27,8 +27,22 @@ namespace Server.Services
             SeedProfile();
             SeedProjects();
             SeedArticles();
+            SeedUsers();
 
             _db.SaveChanges();
+        }
+
+        private void SeedUsers()
+        {
+            if (!_db.Users.Any())
+            {
+                _db.Users.Add(new UserEntity
+                {
+                    Id = 1,
+                    Username = "admin",
+                    PasswordHash = PasswordHasher.HashPassword("admin123")
+                });
+            }
         }
 
         private void SeedProfile()

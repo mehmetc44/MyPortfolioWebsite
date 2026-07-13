@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vj1ZMG68DyqX0UMD8E7rWCKJsiQDzI+D0ZQbjzCZI5E=",
+  "Hash": "6Um4k1ndui696y1Zfphh/X0WkVVelErmFBAh2ilDl+E=",
   "Source": "Server",
   "BasePath": "_content/Server",
   "Mode": "Default",
@@ -15,5 +15,82 @@
       "Pattern": "**"
     }
   ],
-  "Assets": []
+  "Assets": [
+    {
+      "Identity": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/0c4c0f56-44c2-46c7-8cf0-35bbe6959c05_LogIn_Background.png",
+      "SourceId": "Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/",
+      "BasePath": "_content/Server",
+      "RelativePath": "uploads/avatars/0c4c0f56-44c2-46c7-8cf0-35bbe6959c05_LogIn_Background.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/avatars/0c4c0f56-44c2-46c7-8cf0-35bbe6959c05_LogIn_Background.png"
+    },
+    {
+      "Identity": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg",
+      "SourceId": "Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/",
+      "BasePath": "_content/Server",
+      "RelativePath": "uploads/avatars/1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/avatars/1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg"
+    },
+    {
+      "Identity": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/2650dac0-c9fe-4593-b5a5-eb4a4a7d94a6_LogIn_Background.png",
+      "SourceId": "Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/",
+      "BasePath": "_content/Server",
+      "RelativePath": "uploads/avatars/2650dac0-c9fe-4593-b5a5-eb4a4a7d94a6_LogIn_Background.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/avatars/2650dac0-c9fe-4593-b5a5-eb4a4a7d94a6_LogIn_Background.png"
+    },
+    {
+      "Identity": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/64ed8207-bb51-4098-9fbd-624270e96371_LogIn_Background.png",
+      "SourceId": "Server",
+      "SourceType": "Discovered",
+      "ContentRoot": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/",
+      "BasePath": "_content/Server",
+      "RelativePath": "uploads/avatars/64ed8207-bb51-4098-9fbd-624270e96371_LogIn_Background.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/uploads/avatars/64ed8207-bb51-4098-9fbd-624270e96371_LogIn_Background.png"
+    }
+  ]
 }
