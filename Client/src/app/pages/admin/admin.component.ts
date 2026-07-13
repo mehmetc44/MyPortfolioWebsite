@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { DataService, Profile } from '../../shared/services/data.service';
 import { AdminOverviewComponent } from './overview/admin-overview.component';
 import { AdminProfileComponent } from './profile/admin-profile.component';
@@ -14,6 +15,7 @@ import { AdminMessagesComponent } from './messages/admin-messages.component';
   imports: [
     CommonModule,
     RouterLink,
+    FormsModule,
     AdminOverviewComponent,
     AdminProfileComponent,
     AdminProjectsComponent,
@@ -25,14 +27,28 @@ import { AdminMessagesComponent } from './messages/admin-messages.component';
 })
 export class AdminComponent implements OnInit {
   activeTab = 'panelOverview';
+  loginData = { username: '', password: '' };
+  isLoggingIn = false;
+  errorMessage = '';
+
   get profile(): Profile {
     return this.dataService.getProfile();
+  }
+
+  get isAuthenticated(): boolean {
+    return this.dataService.isAuthenticated;
   }
 
   constructor(private dataService: DataService) {}
 
   async ngOnInit() {
-    // Fetch and populate initial unread count in DataService
+    await this.dataService.checkAuthStatus();
+    if (this.isAuthenticated) {
+      await this.loadAdminData();
+    }
+  }
+
+  async loadAdminData() {
     try {
       const msgs = await this.dataService.getAdminMessages();
       const unread = msgs.filter(m => !m.isRead).length;
@@ -40,6 +56,30 @@ export class AdminComponent implements OnInit {
     } catch(e) {
       console.error(e);
     }
+  }
+
+  async onLogin() {
+    if (!this.loginData.username || !this.loginData.password) {
+      this.errorMessage = 'Lütfen kullanıcı adı ve şifreyi doldurun.';
+      return;
+    }
+
+    this.isLoggingIn = true;
+    this.errorMessage = '';
+    const success = await this.dataService.login(this.loginData.username, this.loginData.password);
+    this.isLoggingIn = false;
+
+    if (success) {
+      this.loginData = { username: '', password: '' };
+      await this.loadAdminData();
+    } else {
+      this.errorMessage = 'Geçersiz kullanıcı adı veya şifre.';
+    }
+  }
+
+  async onLogout() {
+    await this.dataService.logout();
+    this.activeTab = 'panelOverview';
   }
 
   get unreadMessagesCount(): number {

@@ -17,6 +17,12 @@ export class DataService {
   private cachedProjects: Project[] | null = null;
   private cachedArticles: Article[] | null = null;
 
+  private _isAuthenticated = false;
+
+  public get isAuthenticated(): boolean {
+    return this._isAuthenticated;
+  }
+
   public get apiBaseUrl(): string {
     if (typeof window !== 'undefined') {
       const hostname = window.location.hostname;
@@ -120,7 +126,9 @@ export class DataService {
   // Raw Database CRUD APIs (for Admin Panel)
   async getRawProjects(): Promise<RawProject[]> {
     try {
-      const res = await fetch(`${this.apiBaseUrl}/api/projects/raw`);
+      const res = await fetch(`${this.apiBaseUrl}/api/projects/raw`, {
+        credentials: 'include'
+      });
       if (res.ok) {
         return await res.json();
       }
@@ -139,7 +147,8 @@ export class DataService {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(project)
+        body: JSON.stringify(project),
+        credentials: 'include'
       });
       return res.ok;
     } catch(e) {
@@ -151,7 +160,8 @@ export class DataService {
   async deleteRawProject(id: string): Promise<boolean> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/projects/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       });
       return res.ok;
     } catch(e) {
@@ -162,7 +172,9 @@ export class DataService {
 
   async getRawProfile(): Promise<RawProfile | null> {
     try {
-      const res = await fetch(`${this.apiBaseUrl}/api/profile/raw`);
+      const res = await fetch(`${this.apiBaseUrl}/api/profile/raw`, {
+        credentials: 'include'
+      });
       if (res.ok) {
         return await res.json();
       }
@@ -177,7 +189,8 @@ export class DataService {
       const res = await fetch(`${this.apiBaseUrl}/api/profile`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile)
+        body: JSON.stringify(profile),
+        credentials: 'include'
       });
       if (res.ok) {
         await this.loadDataFromServer();
@@ -191,7 +204,9 @@ export class DataService {
 
   async getRawArticles(): Promise<RawArticle[]> {
     try {
-      const res = await fetch(`${this.apiBaseUrl}/api/articles/raw`);
+      const res = await fetch(`${this.apiBaseUrl}/api/articles/raw`, {
+        credentials: 'include'
+      });
       if (res.ok) {
         return await res.json();
       }
@@ -210,7 +225,8 @@ export class DataService {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(article)
+        body: JSON.stringify(article),
+        credentials: 'include'
       });
       return res.ok;
     } catch(e) {
@@ -222,7 +238,8 @@ export class DataService {
   async deleteRawArticle(id: string): Promise<boolean> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/articles/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       });
       return res.ok;
     } catch(e) {
@@ -244,7 +261,8 @@ export class DataService {
       
       const res = await fetch(url, {
         method: 'POST',
-        body: formData
+        body: formData,
+        credentials: 'include'
       });
       
       if (res.ok) {
@@ -269,7 +287,8 @@ export class DataService {
       
       const res = await fetch(url, {
         method: 'POST',
-        body: formData
+        body: formData,
+        credentials: 'include'
       });
       
       if (res.ok) {
@@ -298,7 +317,9 @@ export class DataService {
 
   async getAdminMessages(): Promise<ContactMessage[]> {
     try {
-      const res = await fetch(`${this.apiBaseUrl}/api/messages`);
+      const res = await fetch(`${this.apiBaseUrl}/api/messages`, {
+        credentials: 'include'
+      });
       if (res.ok) {
         return await res.json();
       }
@@ -311,7 +332,8 @@ export class DataService {
   async markMessageAsRead(id: number, isRead: boolean): Promise<boolean> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/messages/${id}/read?isRead=${isRead}`, {
-        method: 'PUT'
+        method: 'PUT',
+        credentials: 'include'
       });
       return res.ok;
     } catch (e) {
@@ -323,13 +345,68 @@ export class DataService {
   async deleteMessage(id: number): Promise<boolean> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/messages/${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include'
       });
       return res.ok;
     } catch (e) {
       console.error("Failed to delete message", e);
       return false;
     }
+  }
+
+  // Authentication APIs
+  async checkAuthStatus(): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/auth/status`, {
+        credentials: 'include'
+      });
+      if (res.ok) {
+        const data = await res.json();
+        this._isAuthenticated = data.isAuthenticated;
+        return this._isAuthenticated;
+      }
+    } catch(e) {
+      console.error("Failed to check auth status", e);
+    }
+    this._isAuthenticated = false;
+    return false;
+  }
+
+  async login(username: string, password: string): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/auth/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+        credentials: 'include'
+      });
+      if (res.ok) {
+        const data = await res.json();
+        this._isAuthenticated = data.success;
+        return this._isAuthenticated;
+      }
+    } catch(e) {
+      console.error("Login failed", e);
+    }
+    this._isAuthenticated = false;
+    return false;
+  }
+
+  async logout(): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/auth/logout`, {
+        method: 'POST',
+        credentials: 'include'
+      });
+      if (res.ok) {
+        this._isAuthenticated = false;
+        return true;
+      }
+    } catch(e) {
+      console.error("Logout failed", e);
+    }
+    return false;
   }
 
   private unreadCount = 0;
