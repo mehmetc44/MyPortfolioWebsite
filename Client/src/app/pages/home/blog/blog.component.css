@@ -3,15 +3,7 @@
    ========================================================================== */
 
 
-/* 1. Controls layout overrides */
-.portfolio-controls-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-    gap: 16px;
-}
+
 
 /* 2. Blog Grid & Cards (Optimized 2-Column layout) */
 .blog-grid {
