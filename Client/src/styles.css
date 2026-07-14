@@ -41,6 +41,10 @@
 }
 
 /* Global Reset */
+html {
+    font-size: 15px;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -51,7 +55,7 @@ body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 15px;
     line-height: 1.6;
     overflow-x: hidden;
     position: relative;
@@ -89,7 +93,7 @@ body {
 .navbar {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 24px;
+    padding: 16px 24px;
 }
 
 .nav-container {
@@ -203,7 +207,7 @@ body {
 .page-layout-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 40px 16px;
+    padding: 32px 16px;
     position: relative;
     z-index: 1;
 }
@@ -212,7 +216,7 @@ body {
 .app-container {
     display: grid;
     grid-template-columns: 360px 1fr;
-    gap: 40px;
+    gap: 32px;
 }
 
 /* About & Portfolio specific single column container */
@@ -252,7 +256,7 @@ body {
 
 /* Right Content Main Dashboard Pane */
 .main-content-pane {
-    padding: 56px 48px;
+    padding: 48px 36px;
 }
 
 .main-content-pane:hover {
@@ -684,7 +688,7 @@ body.dark-theme .blog-card:hover .card-action-btn {
 }
 
 .profile-card-content {
-    padding: 48px 32px;
+    padding: 36px 24px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -730,10 +734,14 @@ body.dark-theme .blog-card:hover .card-action-btn {
 
 .profile-name {
     font-family: var(--font-heading);
-    font-size: 2.3rem;
+    font-size: 1.85rem;
     font-weight: 700;
     color: var(--accent-navy-text);
     margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .profile-tag {
@@ -1073,7 +1081,7 @@ body.dark-theme .article-text-body code {
     }
     
     .main-content-pane {
-        padding: 40px 32px;
+        padding: 32px 24px;
     }
 
     .calendar-grid {
@@ -1137,15 +1145,15 @@ body.dark-theme .article-text-body code {
     }
 
     .page-layout-container {
-        padding: 24px 16px;
+        padding: 20px 16px;
     }
 
     .main-content-pane {
-        padding: 32px 20px;
+        padding: 24px 16px;
     }
 
     .profile-card-content {
-        padding: 32px 20px;
+        padding: 24px 16px;
     }
 
     .avatar-container {
@@ -1155,21 +1163,21 @@ body.dark-theme .article-text-body code {
     }
 
     .profile-name {
-        font-size: 1.9rem;
+        font-size: 1.6rem;
     }
 }
 
 @media (max-width: 480px) {
     .page-layout-container {
-        padding: 20px 12px;
+        padding: 16px 12px;
     }
 
     .main-content-pane {
-        padding: 24px 16px;
+        padding: 20px 12px;
     }
 
     .profile-card-content {
-        padding: 24px 16px;
+        padding: 20px 12px;
     }
 
     .avatar-container {
@@ -1179,7 +1187,7 @@ body.dark-theme .article-text-body code {
     }
 
     .profile-name {
-        font-size: 1.7rem;
+        font-size: 1.4rem;
     }
 
     .profile-bio {
