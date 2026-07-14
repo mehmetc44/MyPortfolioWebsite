@@ -52,7 +52,7 @@ namespace Server.Extensions
         {
             // Database connection string setup
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlite(configuration["DB_CONNECTION_STRING"]));
+                options.UseNpgsql(configuration["DB_CONNECTION_STRING"]));
 
             // File and email services
             services.AddScoped<IFileService, FileService>();

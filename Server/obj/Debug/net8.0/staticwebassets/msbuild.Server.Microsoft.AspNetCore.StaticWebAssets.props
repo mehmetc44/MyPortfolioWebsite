@@ -1,21 +1,5 @@
 ﻿<Project>
   <ItemGroup>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\0c4c0f56-44c2-46c7-8cf0-35bbe6959c05_LogIn_Background.png))">
-      <SourceType>Package</SourceType>
-      <SourceId>Server</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/Server</BasePath>
-      <RelativePath>uploads/avatars/0c4c0f56-44c2-46c7-8cf0-35bbe6959c05_LogIn_Background.png</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\0c4c0f56-44c2-46c7-8cf0-35bbe6959c05_LogIn_Background.png))</OriginalItemSpec>
-    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg))">
       <SourceType>Package</SourceType>
       <SourceId>Server</SourceId>
@@ -31,38 +15,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\2650dac0-c9fe-4593-b5a5-eb4a4a7d94a6_LogIn_Background.png))">
-      <SourceType>Package</SourceType>
-      <SourceId>Server</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/Server</BasePath>
-      <RelativePath>uploads/avatars/2650dac0-c9fe-4593-b5a5-eb4a4a7d94a6_LogIn_Background.png</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\2650dac0-c9fe-4593-b5a5-eb4a4a7d94a6_LogIn_Background.png))</OriginalItemSpec>
-    </StaticWebAsset>
-    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\64ed8207-bb51-4098-9fbd-624270e96371_LogIn_Background.png))">
-      <SourceType>Package</SourceType>
-      <SourceId>Server</SourceId>
-      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
-      <BasePath>_content/Server</BasePath>
-      <RelativePath>uploads/avatars/64ed8207-bb51-4098-9fbd-624270e96371_LogIn_Background.png</RelativePath>
-      <AssetKind>All</AssetKind>
-      <AssetMode>All</AssetMode>
-      <AssetRole>Primary</AssetRole>
-      <RelatedAsset></RelatedAsset>
-      <AssetTraitName></AssetTraitName>
-      <AssetTraitValue></AssetTraitValue>
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-      <OriginalItemSpec>$([System.IO.Path]::GetFullPath($(MSBuildThisFileDirectory)..\staticwebassets\uploads\avatars\64ed8207-bb51-4098-9fbd-624270e96371_LogIn_Background.png))</OriginalItemSpec>
     </StaticWebAsset>
   </ItemGroup>
 </Project>

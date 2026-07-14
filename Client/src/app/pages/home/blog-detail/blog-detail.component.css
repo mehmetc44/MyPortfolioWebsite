@@ -2,10 +2,9 @@
    BLOG DETAIL STYLESHEET (Single-Column Article Reader Styles)
    ========================================================================== */
 
-
-/* 1. Centered Reader Width Layout */
+/* 1. Centered Reader Width Layout (Medium Style) */
 .article-reader-container {
-    max-width: 800px;
+    max-width: 680px; /* Perfect reading line length */
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -16,7 +15,7 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     font-size: 0.92rem;
     flex-wrap: wrap;
 }
@@ -68,8 +67,8 @@
 /* 2. Visual Banner */
 .article-banner-wrapper {
     width: 100%;
-    height: 380px;
-    border-radius: 16px;
+    height: 420px;
+    border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border-color);
     margin-bottom: 40px;
@@ -82,79 +81,163 @@
     object-fit: cover;
 }
 
-/* 3. Typography & Reading spacing overrides */
+/* 3. Typography & Reading spacing overrides (Medium typography style) */
 .article-text-body {
     text-align: left;
+    font-family: var(--font-heading), Lora, Georgia, serif;
 }
 
 .article-text-body p {
-    font-size: 1.12rem;
-    color: var(--text-secondary);
-    line-height: 1.85; /* Generous spacing for reading comfort */
-    margin-bottom: 24px;
-    font-weight: 500;
+    font-size: 1.25rem; /* Larger font size like Medium */
+    color: var(--text-primary);
+    line-height: 1.8; /* Generous spacing for reading comfort */
+    margin-bottom: 28px;
+    font-weight: 400;
+    letter-spacing: -0.003em;
 }
 
-/* Subheadings */
-.article-text-body h5 {
-    font-family: var(--font-body);
-    font-size: 1.45rem;
-    font-weight: 800;
+/* Styled Drop Cap for the first letter of first paragraph */
+.article-text-body > p:first-of-type::first-letter {
+    font-size: 4.8rem;
+    float: left;
+    line-height: 0.8;
+    margin-top: 6px;
+    margin-right: 10px;
+    font-weight: 700;
+    font-family: var(--font-heading), Lora, Georgia, serif;
     color: var(--accent-navy);
-    margin-top: 40px;
-    margin-bottom: 18px;
-    letter-spacing: -0.3px;
+}
+
+body.dark-theme .article-text-body > p:first-of-type::first-letter {
+    color: #60a5fa;
+}
+
+/* Headings inside body */
+.article-text-body h1,
+.article-text-body h2,
+.article-text-body h3,
+.article-text-body h4,
+.article-text-body h5,
+.article-text-body h6 {
+    font-family: var(--font-heading), Lora, Georgia, serif;
+    font-weight: 700;
+    color: var(--accent-navy);
+    line-height: 1.4;
+    margin-top: 48px;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+}
+
+.article-text-body h1 { font-size: 2.1rem; }
+.article-text-body h2 { font-size: 1.85rem; }
+.article-text-body h3 { font-size: 1.65rem; }
+.article-text-body h4 { font-size: 1.45rem; }
+.article-text-body h5 { font-size: 1.3rem; }
+.article-text-body h6 { font-size: 1.15rem; }
+
+/* Custom list items inside text */
+.article-text-body ul,
+.article-text-body ol {
+    margin-bottom: 28px;
+    padding-left: 24px;
+}
+
+.article-text-body ul li,
+.article-text-body ol li {
+    font-size: 1.18rem;
+    color: var(--text-primary);
+    line-height: 1.75;
+    margin-bottom: 12px;
+    font-weight: 400;
+}
+
+/* Styled Blockquotes */
+.article-text-body blockquote {
+    font-family: var(--font-heading), Lora, Georgia, serif;
+    font-style: italic;
+    font-size: 1.35rem;
+    line-height: 1.65;
+    color: var(--text-secondary);
+    border-left: 4px solid var(--accent-navy);
+    padding-left: 24px;
+    margin: 36px 0;
+}
+
+body.dark-theme .article-text-body blockquote {
+    border-left-color: #60a5fa;
 }
 
 /* Code Highlights Blocks */
 .article-text-body pre {
-    background: var(--accent-navy);
-    color: #ffffff;
-    border-radius: 12px;
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 8px;
     padding: 24px;
     overflow-x: auto;
-    margin-bottom: 24px;
-    font-family: var(--font-code);
+    margin: 32px 0;
+    font-family: var(--font-code), monospace;
     font-size: 0.92rem;
-    line-height: 1.5;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    line-height: 1.6;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .article-text-body code {
-    font-family: var(--font-code);
+    font-family: var(--font-code), monospace;
     background: var(--accent-slate-light);
     color: var(--accent-navy);
-    padding: 2px 6px;
-    border-radius: 6px;
-    font-size: 0.92rem;
+    padding: 3px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
     border: 1px solid rgba(11, 26, 48, 0.08);
-    font-weight: 600;
-}
-
-/* Custom list items inside text */
-.article-text-body ul {
-    list-style: none;
-    margin-bottom: 24px;
-    padding-left: 4px;
-}
-
-.article-text-body ul li {
-    position: relative;
-    padding-left: 24px;
-    font-size: 1.08rem;
-    color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: 12px;
     font-weight: 500;
 }
 
-.article-text-body ul li::before {
-    content: "•";
-    color: var(--accent-navy);
+/* Nesting correction inside pre tags */
+.article-text-body pre code {
+    background: transparent !important;
+    color: inherit !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-weight: inherit !important;
+    font-size: inherit !important;
+}
+
+/* Custom separator dots */
+.article-text-body hr {
+    border: none;
+    text-align: center;
+    margin: 48px 0;
+}
+
+.article-text-body hr::after {
+    content: "...";
+    letter-spacing: 1.2em;
+    padding-left: 1.2em;
+    font-family: var(--font-heading), Lora, Georgia, serif;
+    font-size: 2.2rem;
+    color: var(--text-muted);
     font-weight: bold;
-    position: absolute;
-    left: 6px;
-    font-size: 1.2rem;
+    display: inline-block;
+}
+
+/* Inline images with captions */
+.article-text-body figure {
+    margin: 36px 0;
+    text-align: center;
+}
+
+.article-text-body figure img {
+    max-width: 100%;
+    border-radius: 8px;
+    height: auto;
+}
+
+.article-text-body figcaption {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    margin-top: 10px;
+    font-style: italic;
 }
 
 /* 4. Footer controls */
@@ -176,36 +259,34 @@
 /* Responsiveness overrides */
 @media (max-width: 768px) {
     .article-banner-wrapper {
-        height: 260px;
+        height: 280px;
+        margin-bottom: 28px;
     }
     
     .article-text-body p {
-        font-size: 1.05rem;
+        font-size: 1.15rem;
     }
     
-    .article-text-body h5 {
-        font-size: 1.25rem;
-    }
+    .article-text-body h1 { font-size: 1.8rem; }
+    .article-text-body h2 { font-size: 1.6rem; }
+    .article-text-body h3 { font-size: 1.45rem; }
     
     .main-content-pane {
         padding: 40px 24px;
+    }
+    
+    .article-text-body > p:first-of-type::first-letter {
+        font-size: 4rem;
     }
 }
 
 @media (max-width: 576px) {
     .article-banner-wrapper {
-        height: 180px;
+        height: 200px;
         margin-bottom: 24px;
     }
-}
-
-/* Nested code inside pre blocks correction */
-.article-text-body pre code {
-    background: transparent !important;
-    color: inherit !important;
-    padding: 0 !important;
-    border: none !important;
-    border-radius: 0 !important;
-    font-weight: inherit !important;
-    font-size: inherit !important;
+    
+    .main-content-pane {
+        padding: 32px 16px;
+    }
 }

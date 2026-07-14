@@ -48,7 +48,7 @@
 
 <!-- BLOG CRUD FORM MODAL OVERLAY -->
 <div id="blogCrudModal" class="modal-overlay" [class.show]="showArticleModal" role="dialog" aria-modal="true" aria-labelledby="blogModalTitle">
-    <div class="modal-content glass-card admin-modal">
+    <div class="modal-content glass-card admin-modal blog-editor-modal">
         <button class="modal-close-btn" (click)="closeArticleModal()" aria-label="Close modal">
             <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </button>
@@ -93,7 +93,7 @@
             </div>
 
             <!-- Tab content: Türkçe -->
-            <div *ngIf="activeFormTab === 'tr'" class="tab-content-panel">
+            <div [hidden]="activeFormTab !== 'tr'" class="tab-content-panel">
                 <div class="form-group">
                     <label for="crudBlogTitleTR">Makale Başlığı (TR)</label>
                     <input type="text" id="crudBlogTitleTR" name="artTitleTR" [(ngModel)]="artTitle_TR" required placeholder="Örn: SaaS Mimarilerinde Çok Kiracılı Veri Güvenliği">
@@ -107,13 +107,25 @@
                     <textarea id="crudBlogExcerptTR" name="artExcerptTR" [(ngModel)]="artExcerpt_TR" rows="2" required placeholder="Giriş özet metni..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="crudBlogDetailTR">Makale İçeriği (TR - HTML Formatında)</label>
-                    <textarea id="crudBlogDetailTR" name="artDetailTR" [(ngModel)]="artDetail_TR" rows="6" required placeholder="Detay makalesi içeriği..."></textarea>
+                    <label>Makale İçeriği (TR - Görsel Editör)</label>
+                    <div class="wysiwyg-editor-container">
+                        <div class="wysiwyg-toolbar">
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('bold')" title="Kalın (Bold)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('italic')" title="Eğik (Italic)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('underline')" title="Altı Çizili"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path><line x1="4" y1="21" x2="20" y2="21"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h3')" title="Başlık H3"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H3</span></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'blockquote')" title="Alıntı (Quote)"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M11.192 15.757c0-.907-.188-1.754-.565-2.54a5.72 5.72 0 0 0-1.502-1.97 6.643 6.643 0 0 0-2.222-1.255C6.73 9.61 6.543 8.35 7.917 6.188c.282-.44.63-.83 1.042-1.171L7.755 3.79c-.846.666-1.537 1.48-2.074 2.443-.537.962-.843 1.954-.919 2.977-.076 1.023.076 1.93.454 2.72.378.79.919 1.43 1.624 1.92.705.49 1.492.735 2.361.735.666 0 1.25-.19 1.753-.57.502-.38.753-.872.753-1.478zm10.12 0c0-.907-.188-1.754-.566-2.54a5.72 5.72 0 0 0-1.501-1.97 6.647 6.647 0 0 0-2.223-1.255C16.852 9.61 16.666 8.35 18.04 6.188c.283-.44.63-.83 1.043-1.171l-1.205-1.227c-.846.666-1.536 1.48-2.073 2.443-.537.962-.843 1.954-.92 2.977-.076 1.023.077 1.93.454 2.72.378.79.92 1.43 1.625 1.92.705.49 1.491.735 2.36.735.667 0 1.25-.19 1.754-.57.503-.38.753-.872.753-1.478z"/></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertUnorderedList')" title="Liste (Bullets)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'pre')" title="Kod Bloğu (Code Block)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertHorizontalRule')" title="Ayırıcı Çizgi / 3 Nokta"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">●●●</span></button>
+                        </div>
+                        <div #editorTR class="wysiwyg-editor" contenteditable="true" (input)="onEditorInput('tr', editorTR.innerHTML)" placeholder="Yazmaya başlayın..."></div>
+                    </div>
                 </div>
             </div>
 
             <!-- Tab content: English -->
-            <div *ngIf="activeFormTab === 'en'" class="tab-content-panel">
+            <div [hidden]="activeFormTab !== 'en'" class="tab-content-panel">
                 <div class="form-group">
                     <label for="crudBlogTitleEN">Article Title (EN)</label>
                     <input type="text" id="crudBlogTitleEN" name="artTitleEN" [(ngModel)]="artTitle_EN" required placeholder="E.g. Multi-Tenant Data Isolation in SaaS Systems">
@@ -127,13 +139,25 @@
                     <textarea id="crudBlogExcerptEN" name="artExcerptEN" [(ngModel)]="artExcerpt_EN" rows="2" required placeholder="Card excerpt description..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="crudBlogDetailEN">Article Body (EN - HTML Format)</label>
-                    <textarea id="crudBlogDetailEN" name="artDetailEN" [(ngModel)]="artDetail_EN" rows="6" required placeholder="Detailed markup page..."></textarea>
+                    <label>Article Body (EN - Visual Editor)</label>
+                    <div class="wysiwyg-editor-container">
+                        <div class="wysiwyg-toolbar">
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('bold')" title="Bold"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('italic')" title="Italic"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('underline')" title="Underline"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path><line x1="4" y1="21" x2="20" y2="21"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h3')" title="Heading H3"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H3</span></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'blockquote')" title="Quote"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M11.192 15.757c0-.907-.188-1.754-.565-2.54a5.72 5.72 0 0 0-1.502-1.97 6.643 6.643 0 0 0-2.222-1.255C6.73 9.61 6.543 8.35 7.917 6.188c.282-.44.63-.83 1.042-1.171L7.755 3.79c-.846.666-1.537 1.48-2.074 2.443-.537.962-.843 1.954-.919 2.977-.076 1.023.076 1.93.454 2.72.378.79.919 1.43 1.624 1.92.705.49 1.492.735 2.361.735.666 0 1.25-.19 1.753-.57.502-.38.753-.872.753-1.478zm10.12 0c0-.907-.188-1.754-.566-2.54a5.72 5.72 0 0 0-1.501-1.97 6.647 6.647 0 0 0-2.223-1.255C16.852 9.61 16.666 8.35 18.04 6.188c.283-.44.63-.83 1.043-1.171l-1.205-1.227c-.846.666-1.536 1.48-2.073 2.443-.537.962-.843 1.954-.92 2.977-.076 1.023.077 1.93.454 2.72.378.79.92 1.43 1.625 1.92.705.49 1.491.735 2.36.735.667 0 1.25-.19 1.754-.57.503-.38.753-.872.753-1.478z"/></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertUnorderedList')" title="Unordered List"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'pre')" title="Code Block"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertHorizontalRule')" title="Separator Dots"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">●●●</span></button>
+                        </div>
+                        <div #editorEN class="wysiwyg-editor" contenteditable="true" (input)="onEditorInput('en', editorEN.innerHTML)" placeholder="Start writing..."></div>
+                    </div>
                 </div>
             </div>
 
             <!-- Tab content: Deutsch -->
-            <div *ngIf="activeFormTab === 'de'" class="tab-content-panel">
+            <div [hidden]="activeFormTab !== 'de'" class="tab-content-panel">
                 <div class="form-group">
                     <label for="crudBlogTitleDE">Artikelüberschrift (DE)</label>
                     <input type="text" id="crudBlogTitleDE" name="artTitleDE" [(ngModel)]="artTitle_DE" required placeholder="Z.B. Mandantenfähige Datenisolation in SaaS-Architekturen">
@@ -147,8 +171,20 @@
                     <textarea id="crudBlogExcerptDE" name="artExcerptDE" [(ngModel)]="artExcerpt_DE" rows="2" required placeholder="Beschreibungstext..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="crudBlogDetailDE">Artikelinhalt (DE - HTML-Format)</label>
-                    <textarea id="crudBlogDetailDE" name="artDetailDE" [(ngModel)]="artDetail_DE" rows="6" required placeholder="Ausführlicher Artikeltext..."></textarea>
+                    <label>Artikelinhalt (DE - Visueller Editor)</label>
+                    <div class="wysiwyg-editor-container">
+                        <div class="wysiwyg-toolbar">
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('bold')" title="Fett"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('italic')" title="Kursiv"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('underline')" title="Unterstrichen"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path><line x1="4" y1="21" x2="20" y2="21"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h3')" title="Überschrift H3"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H3</span></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'blockquote')" title="Zitat"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M11.192 15.757c0-.907-.188-1.754-.565-2.54a5.72 5.72 0 0 0-1.502-1.97 6.643 6.643 0 0 0-2.222-1.255C6.73 9.61 6.543 8.35 7.917 6.188c.282-.44.63-.83 1.042-1.171L7.755 3.79c-.846.666-1.537 1.48-2.074 2.443-.537.962-.843 1.954-.919 2.977-.076 1.023.076 1.93.454 2.72.378.79.919 1.43 1.624 1.92.705.49 1.492.735 2.361.735.666 0 1.25-.19 1.753-.57.502-.38.753-.872.753-1.478zm10.12 0c0-.907-.188-1.754-.566-2.54a5.72 5.72 0 0 0-1.501-1.97 6.647 6.647 0 0 0-2.223-1.255C16.852 9.61 16.666 8.35 18.04 6.188c.283-.44.63-.83 1.043-1.171l-1.205-1.227c-.846.666-1.536 1.48-2.073 2.443-.537.962-.843 1.954-.92 2.977-.076 1.023.077 1.93.454 2.72.378.79.92 1.43 1.625 1.92.705.49 1.491.735 2.36.735.667 0 1.25-.19 1.754-.57.503-.38.753-.872.753-1.478z"/></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertUnorderedList')" title="Liste"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'pre')" title="Code-Block"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg></button>
+                            <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertHorizontalRule')" title="Trennlinie"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">●●●</span></button>
+                        </div>
+                        <div #editorDE class="wysiwyg-editor" contenteditable="true" (input)="onEditorInput('de', editorDE.innerHTML)" placeholder="Schreiben Sie etwas..."></div>
+                    </div>
                 </div>
             </div>
 

@@ -1067,6 +1067,122 @@ body.dark-theme .article-text-body code {
     border-color: rgba(255, 255, 255, 0.1) !important;
 }
 
+/* WYSIWYG Premium Editor Styles */
+.blog-editor-modal {
+    max-width: 900px !important;
+}
+
+.wysiwyg-editor-container {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-primary);
+    overflow: hidden;
+    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+}
+
+.wysiwyg-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    background: var(--bg-secondary);
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-color);
+    align-items: center;
+}
+
+.wysiwyg-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-secondary);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+    outline: none;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.wysiwyg-btn:hover {
+    background: rgba(11, 26, 48, 0.08);
+    color: var(--accent-navy-text);
+}
+
+body.dark-theme .wysiwyg-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.wysiwyg-editor {
+    min-height: 320px;
+    max-height: 480px;
+    overflow-y: auto;
+    padding: 24px;
+    background: #ffffff;
+    color: var(--text-primary);
+    font-family: var(--font-heading), Lora, Georgia, serif;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    text-align: left;
+    outline: none;
+}
+
+.wysiwyg-editor p {
+    margin-bottom: 20px;
+}
+
+.wysiwyg-editor h3 {
+    font-family: var(--font-heading), Lora, Georgia, serif;
+    font-size: 1.45rem;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 12px;
+    color: var(--accent-navy-text);
+}
+
+.wysiwyg-editor blockquote {
+    font-family: var(--font-heading), Lora, Georgia, serif;
+    font-style: italic;
+    border-left: 4px solid var(--accent-navy);
+    padding-left: 18px;
+    margin: 24px 0;
+    color: var(--text-secondary);
+}
+
+.wysiwyg-editor pre {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: var(--font-code), monospace;
+    font-size: 0.88rem;
+    overflow-x: auto;
+    margin: 24px 0;
+    line-height: 1.5;
+}
+
+body.dark-theme .wysiwyg-editor {
+    background: #0b0f19;
+}
+
+body.dark-theme .wysiwyg-editor blockquote {
+    border-left-color: #60a5fa;
+}
+
+/* Empty content placeholder */
+.wysiwyg-editor[contenteditable="true"]:empty:before {
+    content: attr(placeholder);
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 /* ==========================================================================
    RESPONSIVE CONFIGURATIONS (Placed at the end to properly cascade/override)
    ========================================================================== */

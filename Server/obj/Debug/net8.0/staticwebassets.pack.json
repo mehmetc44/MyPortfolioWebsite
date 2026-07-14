@@ -1,20 +1,8 @@
 {
   "Files": [
     {
-      "Id": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/0c4c0f56-44c2-46c7-8cf0-35bbe6959c05_LogIn_Background.png",
-      "PackagePath": "staticwebassets/uploads/avatars/0c4c0f56-44c2-46c7-8cf0-35bbe6959c05_LogIn_Background.png"
-    },
-    {
       "Id": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg",
       "PackagePath": "staticwebassets/uploads/avatars/1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg"
-    },
-    {
-      "Id": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/2650dac0-c9fe-4593-b5a5-eb4a4a7d94a6_LogIn_Background.png",
-      "PackagePath": "staticwebassets/uploads/avatars/2650dac0-c9fe-4593-b5a5-eb4a4a7d94a6_LogIn_Background.png"
-    },
-    {
-      "Id": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/64ed8207-bb51-4098-9fbd-624270e96371_LogIn_Background.png",
-      "PackagePath": "staticwebassets/uploads/avatars/64ed8207-bb51-4098-9fbd-624270e96371_LogIn_Background.png"
     },
     {
       "Id": "obj/Debug/net8.0/staticwebassets/msbuild.Server.Microsoft.AspNetCore.StaticWebAssets.props",

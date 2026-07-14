@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataService, RawArticle } from '../../../shared/services/data.service';
@@ -11,6 +11,10 @@ import { DataService, RawArticle } from '../../../shared/services/data.service';
   styleUrls: ['../admin.component.css']
 })
 export class AdminBlogComponent implements OnInit {
+  @ViewChild('editorTR') editorTR!: ElementRef<HTMLDivElement>;
+  @ViewChild('editorEN') editorEN!: ElementRef<HTMLDivElement>;
+  @ViewChild('editorDE') editorDE!: ElementRef<HTMLDivElement>;
+
   articles: RawArticle[] = [];
   showArticleModal = false;
   articleModalTitle = 'Yeni Makale Ekle';
@@ -66,6 +70,7 @@ export class AdminBlogComponent implements OnInit {
     this.artDetail_EN = '';
     this.artDetail_DE = '';
     this.showArticleModal = true;
+    this.initializeEditors();
   }
 
   openEditArticleModal(idx: number) {
@@ -91,10 +96,36 @@ export class AdminBlogComponent implements OnInit {
     this.artDetail_EN = art.detailText_EN;
     this.artDetail_DE = art.detailText_DE;
     this.showArticleModal = true;
+    this.initializeEditors();
   }
 
   closeArticleModal() {
     this.showArticleModal = false;
+  }
+
+  initializeEditors() {
+    setTimeout(() => {
+      if (this.editorTR) this.editorTR.nativeElement.innerHTML = this.artDetail_TR || '';
+      if (this.editorEN) this.editorEN.nativeElement.innerHTML = this.artDetail_EN || '';
+      if (this.editorDE) this.editorDE.nativeElement.innerHTML = this.artDetail_DE || '';
+    }, 150);
+  }
+
+  onEditorInput(lang: 'tr' | 'en' | 'de', html: string) {
+    if (lang === 'tr') this.artDetail_TR = html;
+    else if (lang === 'en') this.artDetail_EN = html;
+    else if (lang === 'de') this.artDetail_DE = html;
+  }
+
+  execCmd(command: string, value: string = '') {
+    document.execCommand(command, false, value);
+    this.updateValuesFromDOM();
+  }
+
+  updateValuesFromDOM() {
+    if (this.editorTR) this.artDetail_TR = this.editorTR.nativeElement.innerHTML;
+    if (this.editorEN) this.artDetail_EN = this.editorEN.nativeElement.innerHTML;
+    if (this.editorDE) this.artDetail_DE = this.editorDE.nativeElement.innerHTML;
   }
 
   async saveArticle() {
