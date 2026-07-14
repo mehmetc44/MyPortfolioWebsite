@@ -84,128 +84,85 @@
                 </div>
             </div>
 
-            <div class="cv-columns-grid">
+            <div class="cv-columns-grid" *ngIf="cvData">
                 <!-- LEFT COLUMN (Tecrübeler - Long Section) -->
                 <div class="cv-col-left">
                     <section class="cv-timeline-group">
-                        <h4 class="cv-column-sub-title">Tecrübeler</h4>
+                        <h4 class="cv-column-sub-title">
+                            {{ activeLanguage === 'en' ? 'Experiences' : (activeLanguage === 'de' ? 'Berufserfahrung' : 'Tecrübeler') }}
+                        </h4>
                         
-                        <!-- Job 1 -->
-                        <div class="timeline-item">
+                        <div class="timeline-item" *ngFor="let exp of cvData.experiences">
                             <span class="timeline-node"></span>
-                            <h5 class="timeline-item-title">Yazılım Teknolojileri Lideri (Tech Lead)</h5>
-                            <span class="timeline-item-subtitle">2023 - Günümüz</span>
-                            <p class="timeline-item-org">Platar Tech, İstanbul</p>
+                            <h5 class="timeline-item-title">{{ exp.title }}</h5>
+                            <span class="timeline-item-subtitle">{{ exp.date }}</span>
+                            <p class="timeline-item-org">{{ exp.org }}</p>
                             <ul class="cv-item-bullets">
-                                <li>Gerçek zamanlı plaka tanıma ve yapay zeka entegrasyonu sunan WebUI projesinin mimari kurulumunu yönetti.</li>
-                                <li>SignalR tabanlı eşzamanlı veri akış altyapısını kurarak sunucu-istemci gecikmesini %40 oranında azalttı.</li>
-                                <li>5 kişilik kıdemli geliştirici ekibine liderlik etti, kod standartlarını belirledi ve CI/CD süreçlerini otomatikleştirdi.</li>
-                            </ul>
-                        </div>
-
-                        <!-- Job 2 -->
-                        <div class="timeline-item">
-                            <span class="timeline-node"></span>
-                            <h5 class="timeline-item-title">Kıdemli Tam Yığın Yazılım Mühendisi (Senior Full Stack Eng)</h5>
-                            <span class="timeline-item-subtitle">2020 - 2023</span>
-                            <p class="timeline-item-org">Nexus Systems, İstanbul (Uzaktan)</p>
-                            <ul class="cv-item-bullets">
-                                <li>Yüksek trafikli SaaS uygulamalarının C# .NET Core ve React bileşenlerini tasarladı ve geliştirdi.</li>
-                                <li>Veri tabanı indeks optimizasyonları ve sorgu revizyonları gerçekleştirerek SQL okuma sürelerini %35 hızlandırdı.</li>
-                                <li>Docker konteynerizasyon yapısını kurarak yerel geliştirme ve sunucu ortamları arasındaki farkları ortadan kaldırdı.</li>
+                                <li *ngFor="let bullet of exp.bullets">{{ bullet }}</li>
                             </ul>
                         </div>
                     </section>
                 </div>
 
-                <!-- RIGHT COLUMN (Eğitim, Sertifikalar, Gönüllülük, Diller - Grouped for Height Balance) -->
+                <!-- RIGHT COLUMN -->
                 <div class="cv-col-right">
-                    
                     <!-- Eğitim -->
-                    <section class="cv-timeline-group">
-                        <h4 class="cv-column-sub-title">Eğitim</h4>
+                    <section class="cv-timeline-group" *ngIf="cvData.educations && cvData.educations.length > 0">
+                        <h4 class="cv-column-sub-title">
+                            {{ activeLanguage === 'en' ? 'Education' : (activeLanguage === 'de' ? 'Ausbildung' : 'Eğitim') }}
+                        </h4>
                         
-                        <div class="timeline-item">
+                        <div class="timeline-item" *ngFor="let edu of cvData.educations">
                             <span class="timeline-node"></span>
-                            <h5 class="timeline-item-title">Bilgisayar Mühendisliği Lisans Derecesi (B.Sc.)</h5>
-                            <span class="timeline-item-subtitle">2012 - 2017</span>
-                            <p class="timeline-item-org">İstanbul Teknik Üniversitesi, İstanbul</p>
-                            <p class="timeline-item-desc">Sistem mimarisi, yapay zeka altyapıları, algoritma analizi ve yüksek ölçekli veri tabanları üzerine odaklı akademik mühendislik derecesi.</p>
+                            <h5 class="timeline-item-title">{{ edu.title }}</h5>
+                            <span class="timeline-item-subtitle">{{ edu.date }}</span>
+                            <p class="timeline-item-org">{{ edu.org }}</p>
+                            <p class="timeline-item-desc" *ngIf="edu.desc">{{ edu.desc }}</p>
                         </div>
                     </section>
 
                     <!-- Sertifikalar -->
-                    <section class="cv-timeline-group">
-                        <h4 class="cv-column-sub-title">Sertifikalar &amp; Kurslar</h4>
+                    <section class="cv-timeline-group" *ngIf="cvData.certificates && cvData.certificates.length > 0">
+                        <h4 class="cv-column-sub-title">
+                            {{ activeLanguage === 'en' ? 'Certificates & Courses' : (activeLanguage === 'de' ? 'Zertifikate' : 'Sertifikalar') }}
+                        </h4>
                         
-                        <div class="timeline-item">
+                        <div class="timeline-item" *ngFor="let cert of cvData.certificates">
                             <span class="timeline-node"></span>
-                            <h5 class="timeline-item-title">AWS Çözüm Mimarı Sertifikası (Solutions Architect Associate)</h5>
-                            <span class="timeline-item-subtitle">2024</span>
-                        </div>
-
-                        <div class="timeline-item">
-                            <span class="timeline-node"></span>
-                            <h5 class="timeline-item-title">Microsoft Sertifikalı Çözüm Geliştirici (MCSD: App Builder)</h5>
-                            <span class="timeline-item-subtitle">2021</span>
-                        </div>
-
-                        <div class="timeline-item">
-                            <span class="timeline-node"></span>
-                            <h5 class="timeline-item-title">İleri Düzey SQL Sorgulama ve Optimizasyon Eğitimi</h5>
-                            <span class="timeline-item-subtitle">2019</span>
+                            <h5 class="timeline-item-title">{{ cert.title }}</h5>
+                            <span class="timeline-item-subtitle">{{ cert.date }}</span>
                         </div>
                     </section>
 
                     <!-- Gönüllülük -->
-                    <section class="cv-timeline-group">
-                        <h4 class="cv-column-sub-title">Gönüllülük Faaliyetleri</h4>
+                    <section class="cv-timeline-group" *ngIf="cvData.volunteering && cvData.volunteering.length > 0">
+                        <h4 class="cv-column-sub-title">
+                            {{ activeLanguage === 'en' ? 'Volunteering' : (activeLanguage === 'de' ? 'Freiwillige Arbeit' : 'Gönüllülük Faaliyetleri') }}
+                        </h4>
                         
-                        <div class="timeline-item">
+                        <div class="timeline-item" *ngFor="let vol of cvData.volunteering">
                             <span class="timeline-node"></span>
-                            <h5 class="timeline-item-title">Açık Kaynak Kod Mentorluğu &amp; Topluluk Liderliği</h5>
-                            <span class="timeline-item-subtitle">2022 - Günümüz</span>
-                            <p class="timeline-item-org">KodAkademi Topluluğu, Çevrimiçi</p>
-                            <p class="timeline-item-desc">
-                                Yazılıma yeni başlayan geliştirici adaylarına ve üniversite öğrencilerine haftalık kod inceleme ve sistem tasarımı mentörlüğü sağlamaktadır.
-                            </p>
+                            <h5 class="timeline-item-title">{{ vol.title }}</h5>
+                            <span class="timeline-item-subtitle">{{ vol.date }}</span>
+                            <p class="timeline-item-org">{{ vol.org }}</p>
+                            <p class="timeline-item-desc" *ngIf="vol.desc">{{ vol.desc }}</p>
                         </div>
                     </section>
 
                     <!-- Diller -->
-                    <section class="cv-timeline-group">
-                        <h4 class="cv-column-sub-title">Diller</h4>
+                    <section class="cv-timeline-group" *ngIf="cvData.languages && cvData.languages.length > 0">
+                        <h4 class="cv-column-sub-title">
+                            {{ activeLanguage === 'en' ? 'Languages' : (activeLanguage === 'de' ? 'Sprachen' : 'Yabancı Diller') }}
+                        </h4>
                         
-                        <div class="timeline-item">
+                        <div class="timeline-item" *ngFor="let lang of cvData.languages">
                             <span class="timeline-node"></span>
                             <div class="lang-row">
-                                <span class="lang-label">Türkçe</span>
+                                <span class="lang-label">{{ lang.name }}</span>
                                 <div class="lang-meter-container">
-                                    <div class="lang-meter-fill" style="width: 100%;"></div>
+                                    <div class="lang-meter-fill" [style.width.%]="lang.percentage"></div>
                                 </div>
-                                <span class="lang-status">Anadil</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <span class="timeline-node"></span>
-                            <div class="lang-row">
-                                <span class="lang-label">İngilizce</span>
-                                <div class="lang-meter-container">
-                                    <div class="lang-meter-fill" style="width: 90%;"></div>
-                                </div>
-                                <span class="lang-status">İleri Düzey / Profesyonel</span>
-                            </div>
-                        </div>
-
-                        <div class="timeline-item">
-                            <span class="timeline-node"></span>
-                            <div class="lang-row">
-                                <span class="lang-label">Almanca</span>
-                                <div class="lang-meter-container">
-                                    <div class="lang-meter-fill" style="width: 40%;"></div>
-                                </div>
-                                <span class="lang-status">Temel Düzey</span>
+                                <span class="lang-status">{{ lang.level }}</span>
                             </div>
                         </div>
                     </section>
@@ -220,17 +177,17 @@
             <p class="download-footer-text">Güncel özgeçmişimi tercih ettiğiniz dilde PDF formatında indirebilirsiniz:</p>
             <div class="cv-downloads-button-row">
                 <!-- Turkish CV -->
-                <a href="assets/cv_tr.pdf" class="btn btn-primary cv-download-btn-lang" download>
+                <a [href]="getCvDownloadUrl('tr')" class="btn btn-primary cv-download-btn-lang" download>
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     <span>Türkçe CV İndir</span>
                 </a>
                 <!-- English CV -->
-                <a href="assets/cv_en.pdf" class="btn btn-secondary cv-download-btn-lang" download>
+                <a [href]="getCvDownloadUrl('en')" class="btn btn-secondary cv-download-btn-lang" download>
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     <span>English CV Download</span>
                 </a>
                 <!-- German CV -->
-                <a href="assets/cv_de.pdf" class="btn btn-secondary cv-download-btn-lang" download>
+                <a [href]="getCvDownloadUrl('de')" class="btn btn-secondary cv-download-btn-lang" download>
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     <span>Deutsch Lebenslauf</span>
                 </a>

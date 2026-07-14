@@ -12,6 +12,9 @@ export interface Profile {
   medium: string;
   cvText?: string;
   cvPdfUrl?: string;
+  cvPdfUrl_TR?: string;
+  cvPdfUrl_EN?: string;
+  cvPdfUrl_DE?: string;
 }
 
 export interface RawProfile {
@@ -48,4 +51,44 @@ export interface ContactMessage {
   message: string;
   date: string;
   isRead: boolean;
+}
+
+export interface CvItemExperience {
+  title: string;
+  org: string;
+  date: string;
+  bullets: string[];
+}
+
+export interface CvItemEducation {
+  title: string;
+  org: string;
+  date: string;
+  desc: string;
+}
+
+export interface CvItemCertificate {
+  title: string;
+  date: string;
+}
+
+export interface CvItemVolunteering {
+  title: string;
+  org: string;
+  date: string;
+  desc: string;
+}
+
+export interface CvItemLanguage {
+  name: string;
+  level: string;
+  percentage: number;
+}
+
+export interface CvStructuredData {
+  experiences: CvItemExperience[];
+  educations: CvItemEducation[];
+  certificates: CvItemCertificate[];
+  volunteering: CvItemVolunteering[];
+  languages: CvItemLanguage[];
 }

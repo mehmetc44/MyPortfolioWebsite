@@ -1,7 +1,15 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataService, RawProfile } from '../../../shared/services/data.service';
+import { 
+  CvStructuredData, 
+  CvItemExperience, 
+  CvItemEducation, 
+  CvItemCertificate, 
+  CvItemVolunteering, 
+  CvItemLanguage 
+} from '../../../shared/models/profile.model';
 
 @Component({
   selector: 'app-admin-cv',
@@ -11,14 +19,14 @@ import { DataService, RawProfile } from '../../../shared/services/data.service';
   styleUrls: ['../admin.component.css']
 })
 export class AdminCvComponent implements OnInit {
-  @ViewChild('editorTR') editorTR!: ElementRef<HTMLDivElement>;
-  @ViewChild('editorEN') editorEN!: ElementRef<HTMLDivElement>;
-  @ViewChild('editorDE') editorDE!: ElementRef<HTMLDivElement>;
-
   profile: RawProfile | null = null;
   activeFormTab: 'tr' | 'en' | 'de' = 'tr';
   isUploading = { tr: false, en: false, de: false };
   isSaving = false;
+
+  cvTR: CvStructuredData = { experiences: [], educations: [], certificates: [], volunteering: [], languages: [] };
+  cvEN: CvStructuredData = { experiences: [], educations: [], certificates: [], volunteering: [], languages: [] };
+  cvDE: CvStructuredData = { experiences: [], educations: [], certificates: [], volunteering: [], languages: [] };
 
   constructor(private dataService: DataService) {}
 
@@ -30,41 +38,113 @@ export class AdminCvComponent implements OnInit {
     const raw = await this.dataService.getRawProfile();
     if (raw) {
       this.profile = raw;
-      this.initializeEditors();
+      this.cvTR = this.parseCvData(raw.cvText_TR);
+      this.cvEN = this.parseCvData(raw.cvText_EN);
+      this.cvDE = this.parseCvData(raw.cvText_DE);
     }
   }
 
-  initializeEditors() {
-    setTimeout(() => {
-      if (this.profile) {
-        if (this.editorTR) this.editorTR.nativeElement.innerHTML = this.profile.cvText_TR || '';
-        if (this.editorEN) this.editorEN.nativeElement.innerHTML = this.profile.cvText_EN || '';
-        if (this.editorDE) this.editorDE.nativeElement.innerHTML = this.profile.cvText_DE || '';
-      }
-    }, 150);
-  }
-
-  onEditorInput(lang: 'tr' | 'en' | 'de', html: string) {
-    if (this.profile) {
-      if (lang === 'tr') this.profile.cvText_TR = html;
-      else if (lang === 'en') this.profile.cvText_EN = html;
-      else if (lang === 'de') this.profile.cvText_DE = html;
+  parseCvData(jsonStr?: string): CvStructuredData {
+    const defaultData: CvStructuredData = { experiences: [], educations: [], certificates: [], volunteering: [], languages: [] };
+    if (!jsonStr) return defaultData;
+    try {
+      const parsed = JSON.parse(jsonStr);
+      return {
+        experiences: parsed.experiences || [],
+        educations: parsed.educations || [],
+        certificates: parsed.certificates || [],
+        volunteering: parsed.volunteering || [],
+        languages: parsed.languages || []
+      };
+    } catch (e) {
+      console.error("Failed to parse CV JSON", e);
+      return defaultData;
     }
   }
 
-  execCmd(command: string, value: string = '') {
-    document.execCommand(command, false, value);
-    this.updateValuesFromDOM();
+  get currentCv(): CvStructuredData {
+    if (this.activeFormTab === 'tr') return this.cvTR;
+    if (this.activeFormTab === 'en') return this.cvEN;
+    return this.cvDE;
   }
 
-  updateValuesFromDOM() {
-    if (this.profile) {
-      if (this.editorTR) this.profile.cvText_TR = this.editorTR.nativeElement.innerHTML;
-      if (this.editorEN) this.profile.cvText_EN = this.editorEN.nativeElement.innerHTML;
-      if (this.editorDE) this.profile.cvText_DE = this.editorDE.nativeElement.innerHTML;
-    }
+  // --- List Item Addition & Removal Methods ---
+
+  addExperience() {
+    this.currentCv.experiences.push({
+      title: '',
+      org: '',
+      date: '',
+      bullets: ['']
+    });
   }
 
+  removeExperience(index: number) {
+    this.currentCv.experiences.splice(index, 1);
+  }
+
+  addBullet(exp: CvItemExperience) {
+    exp.bullets.push('');
+  }
+
+  removeBullet(exp: CvItemExperience, index: number) {
+    exp.bullets.splice(index, 1);
+  }
+
+  addEducation() {
+    this.currentCv.educations.push({
+      title: '',
+      org: '',
+      date: '',
+      desc: ''
+    });
+  }
+
+  removeEducation(index: number) {
+    this.currentCv.educations.splice(index, 1);
+  }
+
+  addCertificate() {
+    this.currentCv.certificates.push({
+      title: '',
+      date: ''
+    });
+  }
+
+  removeCertificate(index: number) {
+    this.currentCv.certificates.splice(index, 1);
+  }
+
+  addVolunteering() {
+    this.currentCv.volunteering.push({
+      title: '',
+      org: '',
+      date: '',
+      desc: ''
+    });
+  }
+
+  removeVolunteering(index: number) {
+    this.currentCv.volunteering.splice(index, 1);
+  }
+
+  addLanguage() {
+    this.currentCv.languages.push({
+      name: '',
+      level: '',
+      percentage: 80
+    });
+  }
+
+  removeLanguage(index: number) {
+    this.currentCv.languages.splice(index, 1);
+  }
+
+  trackByFn(index: any, item: any) {
+    return index;
+  }
+
+  // --- PDF CV File Uploader ---
   async onFileSelected(event: any, lang: 'tr' | 'en' | 'de') {
     const file = event.target.files[0];
     if (!file || !this.profile) return;
@@ -88,19 +168,23 @@ export class AdminCvComponent implements OnInit {
     }
   }
 
+  // --- Save Changes ---
   async saveCv() {
     if (!this.profile) return;
 
     this.isSaving = true;
-    this.updateValuesFromDOM();
     
+    // Stringify structured arrays back to JSON columns
+    this.profile.cvText_TR = JSON.stringify(this.cvTR);
+    this.profile.cvText_EN = JSON.stringify(this.cvEN);
+    this.profile.cvText_DE = JSON.stringify(this.cvDE);
+
     const ok = await this.dataService.saveRawProfile(this.profile);
     this.isSaving = false;
 
     if (ok) {
       alert('Özgeçmiş bilgileri başarıyla kaydedildi.');
-      // Refresh current public profile values
-      await this.dataService.loadProfile('tr');
+      await this.dataService.loadDataFromServer();
     } else {
       alert('Kaydedilirken bir sunucu hatası oluştu.');
     }

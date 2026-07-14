@@ -8,6 +8,7 @@ import { AdminProfileComponent } from './profile/admin-profile.component';
 import { AdminProjectsComponent } from './projects/admin-projects.component';
 import { AdminBlogComponent } from './blog/admin-blog.component';
 import { AdminMessagesComponent } from './messages/admin-messages.component';
+import { AdminCvComponent } from './cv/admin-cv.component';
 
 @Component({
   selector: 'app-admin',
@@ -20,7 +21,8 @@ import { AdminMessagesComponent } from './messages/admin-messages.component';
     AdminProfileComponent,
     AdminProjectsComponent,
     AdminBlogComponent,
-    AdminMessagesComponent
+    AdminMessagesComponent,
+    AdminCvComponent
   ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']

@@ -12,97 +12,221 @@
         <button type="button" class="modal-tab-btn" [class.active]="activeFormTab === 'de'" (click)="activeFormTab = 'de'">Deutsch (DE)</button>
     </div>
 
-    <!-- Tab Content: Türkçe -->
-    <div [hidden]="activeFormTab !== 'tr'" class="tab-content-panel">
-        <div class="form-group">
-            <label>Türkçe Özgeçmiş PDF Dosyası (.pdf)</label>
-            <div class="avatar-upload-container">
-                <input type="file" (change)="onFileSelected($event, 'tr')" accept=".pdf" class="file-input">
-                <span *ngIf="isUploading.tr" style="font-size: 0.85rem; color: var(--text-secondary);">Yükleniyor...</span>
-                <div class="cv-file-info" style="margin-top: 8px;" *ngIf="profile.cvPdfUrl_TR">
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">Mevcut PDF: <code>{{ profile.cvPdfUrl_TR }}</code></span>
-                </div>
+    <!-- PDF CV Upload Section (Dil Bazlı) -->
+    <div class="form-group sub-glass-card" style="padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+        <h4 style="color: var(--text-primary); margin-bottom: 12px; font-weight: 700; font-size: 1.1rem;">
+            PDF Özgeçmiş Yükle ({{ activeFormTab.toUpperCase() }})
+        </h4>
+        <div class="avatar-upload-container">
+            <input type="file" (change)="onFileSelected($event, activeFormTab)" accept=".pdf" class="file-input">
+            <span *ngIf="isUploading[activeFormTab]" style="font-size: 0.85rem; color: var(--text-secondary);">Yükleniyor...</span>
+            <div class="cv-file-info" style="margin-top: 8px;" *ngIf="activeFormTab === 'tr' && profile.cvPdfUrl_TR">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Mevcut TR PDF: <code>{{ profile.cvPdfUrl_TR }}</code></span>
             </div>
-        </div>
-
-        <div class="form-group">
-            <label>Özgeçmiş Metin İçeriği (TR - Görsel Editör)</label>
-            <div class="wysiwyg-editor-container">
-                <div class="wysiwyg-toolbar">
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('bold')" title="Kalın (Bold)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('italic')" title="Eğik (Italic)"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('underline')" title="Altı Çizili"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path><line x1="4" y1="21" x2="20" y2="21"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h4')" title="Başlık H4"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H4</span></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h5')" title="Başlık H5"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H5</span></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertUnorderedList')" title="Liste"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertHorizontalRule')" title="Ayırıcı Çizgi"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">●●●</span></button>
-                </div>
-                <div #editorTR class="wysiwyg-editor" contenteditable="true" (input)="onEditorInput('tr', editorTR.innerHTML)" placeholder="Özgeçmişinizi yazın..."></div>
+            <div class="cv-file-info" style="margin-top: 8px;" *ngIf="activeFormTab === 'en' && profile.cvPdfUrl_EN">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Mevcut EN PDF: <code>{{ profile.cvPdfUrl_EN }}</code></span>
+            </div>
+            <div class="cv-file-info" style="margin-top: 8px;" *ngIf="activeFormTab === 'de' && profile.cvPdfUrl_DE">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Mevcut DE PDF: <code>{{ profile.cvPdfUrl_DE }}</code></span>
             </div>
         </div>
     </div>
 
-    <!-- Tab Content: English -->
-    <div [hidden]="activeFormTab !== 'en'" class="tab-content-panel">
-        <div class="form-group">
-            <label>English CV PDF File (.pdf)</label>
-            <div class="avatar-upload-container">
-                <input type="file" (change)="onFileSelected($event, 'en')" accept=".pdf" class="file-input">
-                <span *ngIf="isUploading.en" style="font-size: 0.85rem; color: var(--text-secondary);">Uploading...</span>
-                <div class="cv-file-info" style="margin-top: 8px;" *ngIf="profile.cvPdfUrl_EN">
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">Current PDF: <code>{{ profile.cvPdfUrl_EN }}</code></span>
-                </div>
-            </div>
+    <hr class="pane-divider" style="margin: 32px 0;">
+
+    <!-- ================= 1. TECRÜBELER SECTION ================= -->
+    <div class="cv-section-block">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h4 style="color: var(--text-primary); font-weight: 700; font-size: 1.25rem;">Tecrübeler (Work Experiences)</h4>
+            <button type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;" (click)="addExperience()">+ Tecrübe Ekle</button>
         </div>
 
-        <div class="form-group">
-            <label>CV Text Content (EN - Visual Editor)</label>
-            <div class="wysiwyg-editor-container">
-                <div class="wysiwyg-toolbar">
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('bold')" title="Bold"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('italic')" title="Italic"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('underline')" title="Underline"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path><line x1="4" y1="21" x2="20" y2="21"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h4')" title="Heading H4"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H4</span></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h5')" title="Heading H5"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H5</span></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertUnorderedList')" title="Unordered List"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertHorizontalRule')" title="Separator Line"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">●●●</span></button>
+        <div *ngIf="currentCv.experiences.length === 0" style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9rem;">
+            Kayıtlı tecrübe bulunamadı. Yeni bir tecrübe eklemek için "+ Tecrübe Ekle" butonunu kullanın.
+        </div>
+
+        <div class="sub-glass-card" *ngFor="let exp of currentCv.experiences; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+            <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeExperience(i)">Kaldır</button>
+            <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Tecrübe #{{ i + 1 }}</span>
+            
+            <div class="form-double-row" style="margin-top: 12px;">
+                <div class="form-group">
+                    <label>Pozisyon / Başlık</label>
+                    <input type="text" name="expTitle_{{activeFormTab}}_{{i}}" [(ngModel)]="exp.title" required placeholder="Örn: Yazılım Teknolojileri Lideri (Tech Lead)">
                 </div>
-                <div #editorEN class="wysiwyg-editor" contenteditable="true" (input)="onEditorInput('en', editorEN.innerHTML)" placeholder="Write your CV here..."></div>
+                <div class="form-group">
+                    <label>Şirket / Organizasyon</label>
+                    <input type="text" name="expOrg_{{activeFormTab}}_{{i}}" [(ngModel)]="exp.org" required placeholder="Örn: Platar Tech, İstanbul">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Tarih Aralığı</label>
+                <input type="text" name="expDate_{{activeFormTab}}_{{i}}" [(ngModel)]="exp.date" required placeholder="Örn: 2023 - Günümüz">
+            </div>
+
+            <!-- Experience Bullets -->
+            <div class="form-group" style="margin-top: 16px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <label style="margin: 0;">Yapılan İşler & Başarılar (Maddeler halinde)</label>
+                    <button type="button" class="btn btn-secondary" style="padding: 2px 8px; font-size: 0.75rem;" (click)="addBullet(exp)">+ Madde Ekle</button>
+                </div>
+                <div *ngFor="let bullet of exp.bullets; let bi = index; trackBy: trackByFn" style="display: flex; gap: 8px; margin-bottom: 8px; align-items: center;">
+                    <input type="text" name="expBullet_{{activeFormTab}}_{{i}}_{{bi}}" [(ngModel)]="exp.bullets[bi]" style="flex: 1; margin: 0;" placeholder="Detay maddesi...">
+                    <button type="button" class="btn btn-danger" style="padding: 8px 12px; margin: 0;" (click)="removeBullet(exp, bi)">×</button>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Tab Content: Deutsch -->
-    <div [hidden]="activeFormTab !== 'de'" class="tab-content-panel">
-        <div class="form-group">
-            <label>Deutsche Lebenslauf PDF Datei (.pdf)</label>
-            <div class="avatar-upload-container">
-                <input type="file" (change)="onFileSelected($event, 'de')" accept=".pdf" class="file-input">
-                <span *ngIf="isUploading.de" style="font-size: 0.85rem; color: var(--text-secondary);">Hochladen...</span>
-                <div class="cv-file-info" style="margin-top: 8px;" *ngIf="profile.cvPdfUrl_DE">
-                    <span style="font-size: 0.85rem; color: var(--text-muted);">Aktuelles PDF: <code>{{ profile.cvPdfUrl_DE }}</code></span>
-                </div>
-            </div>
+    <hr class="pane-divider" style="margin: 32px 0;">
+
+    <!-- ================= 2. EĞİTİM SECTION ================= -->
+    <div class="cv-section-block">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h4 style="color: var(--text-primary); font-weight: 700; font-size: 1.25rem;">Eğitim (Education)</h4>
+            <button type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;" (click)="addEducation()">+ Eğitim Ekle</button>
         </div>
 
-        <div class="form-group">
-            <label>Lebenslaufinhalt (DE - Visueller Editor)</label>
-            <div class="wysiwyg-editor-container">
-                <div class="wysiwyg-toolbar">
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('bold')" title="Fett"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('italic')" title="Kursiv"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('underline')" title="Unterstrichen"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M6 3v7a6 6 0 0 0 6 6 6 6 0 0 0 6-6V3"></path><line x1="4" y1="21" x2="20" y2="21"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h4')" title="H4 Überschrift"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H4</span></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('formatBlock', 'h5')" title="H5 Überschrift"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">H5</span></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertUnorderedList')" title="Liste"><svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg></button>
-                    <button type="button" class="wysiwyg-btn" (mousedown)="$event.preventDefault(); execCmd('insertHorizontalRule')" title="Trennlinie"><span style="font-family: var(--font-body); font-weight:800; font-size:11px;">●●●</span></button>
+        <div *ngIf="currentCv.educations.length === 0" style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9rem;">
+            Kayıtlı eğitim bilgisi bulunamadı.
+        </div>
+
+        <div class="sub-glass-card" *ngFor="let edu of currentCv.educations; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+            <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeEducation(i)">Kaldır</button>
+            <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Eğitim #{{ i + 1 }}</span>
+            
+            <div class="form-double-row" style="margin-top: 12px;">
+                <div class="form-group">
+                    <label>Bölüm / Derece</label>
+                    <input type="text" name="eduTitle_{{activeFormTab}}_{{i}}" [(ngModel)]="edu.title" required placeholder="Örn: Bilgisayar Mühendisliği Lisans Derecesi (B.Sc.)">
                 </div>
-                <div #editorDE class="wysiwyg-editor" contenteditable="true" (input)="onEditorInput('de', editorDE.innerHTML)" placeholder="Schreiben Sie Ihren Lebenslauf..."></div>
+                <div class="form-group">
+                    <label>Okul / Üniversite</label>
+                    <input type="text" name="eduOrg_{{activeFormTab}}_{{i}}" [(ngModel)]="edu.org" required placeholder="Örn: İstanbul Teknik Üniversitesi, İstanbul">
+                </div>
+            </div>
+
+            <div class="form-double-row">
+                <div class="form-group">
+                    <label>Tarih Aralığı</label>
+                    <input type="text" name="eduDate_{{activeFormTab}}_{{i}}" [(ngModel)]="edu.date" required placeholder="Örn: 2012 - 2017">
+                </div>
+                <div class="form-group">
+                    <label>Açıklama (İsteğe bağlı)</label>
+                    <input type="text" name="eduDesc_{{activeFormTab}}_{{i}}" [(ngModel)]="edu.desc" placeholder="Eğitim detayları...">
+                </div>
             </div>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary submit-btn" [disabled]="isSaving" style="margin-top: 24px;">
+    <hr class="pane-divider" style="margin: 32px 0;">
+
+    <!-- ================= 3. SERTİFİKALAR SECTION ================= -->
+    <div class="cv-section-block">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h4 style="color: var(--text-primary); font-weight: 700; font-size: 1.25rem;">Sertifikalar & Kurslar</h4>
+            <button type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;" (click)="addCertificate()">+ Sertifika Ekle</button>
+        </div>
+
+        <div *ngIf="currentCv.certificates.length === 0" style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9rem;">
+            Kayıtlı sertifika bulunamadı.
+        </div>
+
+        <div class="sub-glass-card" *ngFor="let cert of currentCv.certificates; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+            <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeCertificate(i)">Kaldır</button>
+            <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Sertifika #{{ i + 1 }}</span>
+            
+            <div class="form-double-row" style="margin-top: 12px;">
+                <div class="form-group">
+                    <label>Sertifika Adı</label>
+                    <input type="text" name="certTitle_{{activeFormTab}}_{{i}}" [(ngModel)]="cert.title" required placeholder="Örn: AWS Certified Solutions Architect">
+                </div>
+                <div class="form-group">
+                    <label>Tarih / Yıl</label>
+                    <input type="text" name="certDate_{{activeFormTab}}_{{i}}" [(ngModel)]="cert.date" required placeholder="Örn: 2024">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="pane-divider" style="margin: 32px 0;">
+
+    <!-- ================= 4. GÖNÜLLÜLÜK SECTION ================= -->
+    <div class="cv-section-block">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h4 style="color: var(--text-primary); font-weight: 700; font-size: 1.25rem;">Gönüllülük Faaliyetleri</h4>
+            <button type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;" (click)="addVolunteering()">+ Faaliyet Ekle</button>
+        </div>
+
+        <div *ngIf="currentCv.volunteering.length === 0" style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9rem;">
+            Kayıtlı gönüllülük faaliyeti bulunamadı.
+        </div>
+
+        <div class="sub-glass-card" *ngFor="let vol of currentCv.volunteering; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+            <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeVolunteering(i)">Kaldır</button>
+            <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Faaliyet #{{ i + 1 }}</span>
+            
+            <div class="form-double-row" style="margin-top: 12px;">
+                <div class="form-group">
+                    <label>Rol / Başlık</label>
+                    <input type="text" name="volTitle_{{activeFormTab}}_{{i}}" [(ngModel)]="vol.title" required placeholder="Örn: Açık Kaynak Kod Mentorluğu & Topluluk Liderliği">
+                </div>
+                <div class="form-group">
+                    <label>Organizasyon</label>
+                    <input type="text" name="volOrg_{{activeFormTab}}_{{i}}" [(ngModel)]="vol.org" required placeholder="Örn: KodAkademi Topluluğu, Çevrimiçi">
+                </div>
+            </div>
+
+            <div class="form-double-row">
+                <div class="form-group">
+                    <label>Tarih Aralığı</label>
+                    <input type="text" name="volDate_{{activeFormTab}}_{{i}}" [(ngModel)]="vol.date" required placeholder="Örn: 2022 - Günümüz">
+                </div>
+                <div class="form-group">
+                    <label>Detay Açıklaması</label>
+                    <input type="text" name="volDesc_{{activeFormTab}}_{{i}}" [(ngModel)]="vol.desc" required placeholder="Neler yaptınız...">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr class="pane-divider" style="margin: 32px 0;">
+
+    <!-- ================= 5. DİLLER SECTION ================= -->
+    <div class="cv-section-block">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h4 style="color: var(--text-primary); font-weight: 700; font-size: 1.25rem;">Yabancı Diller</h4>
+            <button type="button" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;" (click)="addLanguage()">+ Dil Ekle</button>
+        </div>
+
+        <div *ngIf="currentCv.languages.length === 0" style="text-align: center; padding: 20px; color: var(--text-muted); font-size: 0.9rem;">
+            Kayıtlı dil bilgisi bulunamadı.
+        </div>
+
+        <div class="sub-glass-card" *ngFor="let lang of currentCv.languages; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+            <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeLanguage(i)">Kaldır</button>
+            <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Dil #{{ i + 1 }}</span>
+            
+            <div class="form-double-row" style="margin-top: 12px;">
+                <div class="form-group" style="flex: 2;">
+                    <label>Dil Adı</label>
+                    <input type="text" name="langName_{{activeFormTab}}_{{i}}" [(ngModel)]="lang.name" required placeholder="Örn: İngilizce">
+                </div>
+                <div class="form-group" style="flex: 2;">
+                    <label>Seviye Etiketi</label>
+                    <input type="text" name="langLevel_{{activeFormTab}}_{{i}}" [(ngModel)]="lang.level" required placeholder="Örn: İleri Düzey / Profesyonel">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Yüzde (10-100)</label>
+                    <input type="number" name="langPct_{{activeFormTab}}_{{i}}" [(ngModel)]="lang.percentage" required min="10" max="100">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary submit-btn" [disabled]="isSaving" style="margin-top: 32px;">
         <span *ngIf="!isSaving">Özgeçmiş Bilgilerini Kaydet</span>
         <span *ngIf="isSaving">Kaydediliyor...</span>
     </button>

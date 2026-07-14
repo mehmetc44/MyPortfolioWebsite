@@ -58,7 +58,10 @@ namespace Server.Controllers
                 Title = lang == "en" ? profile.Title_EN : (lang == "de" ? profile.Title_DE : profile.Title_TR),
                 Bio = lang == "en" ? profile.Bio_EN : (lang == "de" ? profile.Bio_DE : profile.Bio_TR),
                 CvText = lang == "en" ? profile.CvText_EN : (lang == "de" ? profile.CvText_DE : profile.CvText_TR),
-                CvPdfUrl = lang == "en" ? profile.CvPdfUrl_EN : (lang == "de" ? profile.CvPdfUrl_DE : profile.CvPdfUrl_TR)
+                CvPdfUrl = lang == "en" ? profile.CvPdfUrl_EN : (lang == "de" ? profile.CvPdfUrl_DE : profile.CvPdfUrl_TR),
+                CvPdfUrl_TR = profile.CvPdfUrl_TR,
+                CvPdfUrl_EN = profile.CvPdfUrl_EN,
+                CvPdfUrl_DE = profile.CvPdfUrl_DE
             };
 
             return Ok(mapped);
