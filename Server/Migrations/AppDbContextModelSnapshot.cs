@@ -147,6 +147,24 @@ namespace Server.Migrations
                     b.Property<string>("Bio_TR")
                         .HasColumnType("text");
 
+                    b.Property<string>("CvPdfUrl_DE")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CvPdfUrl_EN")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CvPdfUrl_TR")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CvText_DE")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CvText_EN")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CvText_TR")
+                        .HasColumnType("text");
+
                     b.Property<string>("Github")
                         .HasColumnType("text");
 

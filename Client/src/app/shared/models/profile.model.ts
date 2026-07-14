@@ -10,6 +10,8 @@ export interface Profile {
   linkedin: string;
   instagram: string;
   medium: string;
+  cvText?: string;
+  cvPdfUrl?: string;
 }
 
 export interface RawProfile {
@@ -31,6 +33,12 @@ export interface RawProfile {
   linkedin: string;
   instagram: string;
   medium: string;
+  cvText_TR?: string;
+  cvText_EN?: string;
+  cvText_DE?: string;
+  cvPdfUrl_TR?: string;
+  cvPdfUrl_EN?: string;
+  cvPdfUrl_DE?: string;
 }
 
 export interface ContactMessage {

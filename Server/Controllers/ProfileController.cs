@@ -56,7 +56,9 @@ namespace Server.Controllers
                 Medium = profile.Medium,
                 Tag = lang == "en" ? profile.Tag_EN : (lang == "de" ? profile.Tag_DE : profile.Tag_TR),
                 Title = lang == "en" ? profile.Title_EN : (lang == "de" ? profile.Title_DE : profile.Title_TR),
-                Bio = lang == "en" ? profile.Bio_EN : (lang == "de" ? profile.Bio_DE : profile.Bio_TR)
+                Bio = lang == "en" ? profile.Bio_EN : (lang == "de" ? profile.Bio_DE : profile.Bio_TR),
+                CvText = lang == "en" ? profile.CvText_EN : (lang == "de" ? profile.CvText_DE : profile.CvText_TR),
+                CvPdfUrl = lang == "en" ? profile.CvPdfUrl_EN : (lang == "de" ? profile.CvPdfUrl_DE : profile.CvPdfUrl_TR)
             };
 
             return Ok(mapped);
@@ -90,6 +92,12 @@ namespace Server.Controllers
             existingProfile.Linkedin = updatedProfile.Linkedin ?? existingProfile.Linkedin;
             existingProfile.Instagram = updatedProfile.Instagram ?? existingProfile.Instagram;
             existingProfile.Medium = updatedProfile.Medium ?? existingProfile.Medium;
+            existingProfile.CvText_TR = updatedProfile.CvText_TR ?? existingProfile.CvText_TR;
+            existingProfile.CvText_EN = updatedProfile.CvText_EN ?? existingProfile.CvText_EN;
+            existingProfile.CvText_DE = updatedProfile.CvText_DE ?? existingProfile.CvText_DE;
+            existingProfile.CvPdfUrl_TR = updatedProfile.CvPdfUrl_TR ?? existingProfile.CvPdfUrl_TR;
+            existingProfile.CvPdfUrl_EN = updatedProfile.CvPdfUrl_EN ?? existingProfile.CvPdfUrl_EN;
+            existingProfile.CvPdfUrl_DE = updatedProfile.CvPdfUrl_DE ?? existingProfile.CvPdfUrl_DE;
 
             _context.Entry(existingProfile).State = EntityState.Modified;
             await _context.SaveChangesAsync();

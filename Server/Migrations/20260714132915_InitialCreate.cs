@@ -78,7 +78,13 @@ namespace Server.Migrations
                     Github = table.Column<string>(type: "text", nullable: true),
                     Linkedin = table.Column<string>(type: "text", nullable: true),
                     Instagram = table.Column<string>(type: "text", nullable: true),
-                    Medium = table.Column<string>(type: "text", nullable: true)
+                    Medium = table.Column<string>(type: "text", nullable: true),
+                    CvText_TR = table.Column<string>(type: "text", nullable: true),
+                    CvText_EN = table.Column<string>(type: "text", nullable: true),
+                    CvText_DE = table.Column<string>(type: "text", nullable: true),
+                    CvPdfUrl_TR = table.Column<string>(type: "text", nullable: true),
+                    CvPdfUrl_EN = table.Column<string>(type: "text", nullable: true),
+                    CvPdfUrl_DE = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {

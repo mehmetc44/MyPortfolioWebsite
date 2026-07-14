@@ -68,7 +68,196 @@ namespace Server.Services
                     Github = "https://github.com/mehmetc44",
                     Linkedin = "https://linkedin.com",
                     Instagram = "https://instagram.com",
-                    Medium = "https://medium.com"
+                    Medium = "https://medium.com",
+                    CvPdfUrl_TR = "assets/cv_tr.pdf",
+                    CvPdfUrl_EN = "assets/cv_en.pdf",
+                    CvPdfUrl_DE = "assets/cv_de.pdf",
+                    CvText_TR = @"<div class=""cv-col-left"">
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Tecrübeler</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Yazılım Teknolojileri Lideri (Tech Lead)</h5>
+            <span class=""timeline-item-subtitle"">2023 - Günümüz</span>
+            <p class=""timeline-item-org"">Platar Tech, İstanbul</p>
+            <ul class=""cv-item-bullets"">
+                <li>Gerçek zamanlı plaka tanıma ve yapay zeka entegrasyonu sunan WebUI projesinin mimari kurulumunu yönetti.</li>
+                <li>SignalR tabanlı eşzamanlı veri akış altyapısını kurarak sunucu-istemci gecikmesini %40 oranında azalttı.</li>
+                <li>5 kişilik kıdemli geliştirici ekibine liderlik etti, kod standartlarını belirledi ve CI/CD süreçlerini otomatikleştirdi.</li>
+            </ul>
+        </div>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Kıdemli Tam Yığın Yazılım Mühendisi (Senior Full Stack Eng)</h5>
+            <span class=""timeline-item-subtitle"">2020 - 2023</span>
+            <p class=""timeline-item-org"">Nexus Systems, İstanbul (Uzaktan)</p>
+            <ul class=""cv-item-bullets"">
+                <li>Yüksek trafikli SaaS uygulamalarının C# .NET Core ve React bileşenlerini tasarladı ve geliştirdi.</li>
+                <li>Veri tabanı indeks optimizasyonları ve sorgu revizyonları gerçekleştirerek SQL okuma sürelerini %35 hızlandırdı.</li>
+                <li>Docker konteynerizasyon yapısını kurarak yerel geliştirme ve sunucu ortamları arasındaki farkları ortadan kaldırdı.</li>
+            </ul>
+        </div>
+    </section>
+</div>
+<div class=""cv-col-right"">
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Eğitim</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Bilgisayar Mühendisliği Lisans Derecesi (B.Sc.)</h5>
+            <span class=""timeline-item-subtitle"">2012 - 2017</span>
+            <p class=""timeline-item-org"">İstanbul Teknik Üniversitesi, İstanbul</p>
+            <p class=""timeline-item-desc"">Sistem mimarisi, yapay zeka altyapıları, algoritma analizi ve yüksek ölçekli veri tabanları üzerine odaklı akademik mühendislik derecesi.</p>
+        </div>
+    </section>
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Sertifikalar &amp; Kurslar</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">AWS Çözüm Mimarı Sertifikası (Solutions Architect Associate)</h5>
+            <span class=""timeline-item-subtitle"">2024</span>
+        </div>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Microsoft Sertifikalı Çözüm Geliştirici (MCSD: App Builder)</h5>
+            <span class=""timeline-item-subtitle"">2021</span>
+        </div>
+    </section>
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Gönüllülük Faaliyetleri</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Açık Kaynak Kod Mentorluğu &amp; Topluluk Liderliği</h5>
+            <span class=""timeline-item-subtitle"">2022 - Günümüz</span>
+            <p class=""timeline-item-org"">KodAkademi Topluluğu, Çevrimiçi</p>
+            <p class=""timeline-item-desc"">Yazılıma yeni başlayan geliştirici adaylarına ve üniversite öğrencilerine haftalık kod inceleme ve sistem tasarımı mentörlüğü sağlamaktadır.</p>
+        </div>
+    </section>
+</div>",
+                    CvText_EN = @"<div class=""cv-col-left"">
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Work Experience</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Software Technology Lead (Tech Lead)</h5>
+            <span class=""timeline-item-subtitle"">2023 - Present</span>
+            <p class=""timeline-item-org"">Platar Tech, Istanbul</p>
+            <ul class=""cv-item-bullets"">
+                <li>Managed the architectural setup of the WebUI project featuring real-time license plate recognition.</li>
+                <li>Established SignalR-based concurrent data flow, reducing server-to-client latency by 40%.</li>
+                <li>Led a team of 5 senior developers, defined coding standards, and automated CI/CD pipelines.</li>
+            </ul>
+        </div>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Senior Full Stack Software Engineer</h5>
+            <span class=""timeline-item-subtitle"">2020 - 2023</span>
+            <p class=""timeline-item-org"">Nexus Systems, Istanbul (Remote)</p>
+            <ul class=""cv-item-bullets"">
+                <li>Designed and developed C# .NET Core and React components for high-traffic SaaS applications.</li>
+                <li>Implemented database index optimizations, speeding up SQL query execution times by 35%.</li>
+                <li>Established Docker containerization workflow to align local development and staging environments.</li>
+            </ul>
+        </div>
+    </section>
+</div>
+<div class=""cv-col-right"">
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Education</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Bachelor of Science in Computer Engineering (B.Sc.)</h5>
+            <span class=""timeline-item-subtitle"">2012 - 2017</span>
+            <p class=""timeline-item-org"">Istanbul Technical University, Istanbul</p>
+            <p class=""timeline-item-desc"">Focused on system architecture, database optimization, and machine learning infrastructure.</p>
+        </div>
+    </section>
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Certificates &amp; Courses</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">AWS Certified Solutions Architect Associate</h5>
+            <span class=""timeline-item-subtitle"">2024</span>
+        </div>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Microsoft Certified Solutions Developer (MCSD)</h5>
+            <span class=""timeline-item-subtitle"">2021</span>
+        </div>
+    </section>
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Volunteer Work</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Open Source Mentorship &amp; Tech Lead</h5>
+            <span class=""timeline-item-subtitle"">2022 - Present</span>
+            <p class=""timeline-item-org"">KodAkademi Tech Community, Online</p>
+            <p class=""timeline-item-desc"">Provides weekly code review and system design mentorship to junior developers and college students.</p>
+        </div>
+    </section>
+</div>",
+                    CvText_DE = @"<div class=""cv-col-left"">
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Berufserfahrung</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Leiter Software-Technologien (Tech Lead)</h5>
+            <span class=""timeline-item-subtitle"">2023 - Heute</span>
+            <p class=""timeline-item-org"">Platar Tech, Istanbul</p>
+            <ul class=""cv-item-bullets"">
+                <li>Leitung der Architektur eines Echtzeit-Kennzeichenerkennungssystems.</li>
+                <li>Aufbau eines SignalR-basierten Datenflusses, der Latenzen um 40% reduzierte.</li>
+                <li>Führung von 5 Entwicklern, Definition von Code-Standards und CI/CD-Automatisierung.</li>
+            </ul>
+        </div>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Senior Full Stack Softwareentwickler</h5>
+            <span class=""timeline-item-subtitle"">2020 - 2023</span>
+            <p class=""timeline-item-org"">Nexus Systems, Istanbul (Remote)</p>
+            <ul class=""cv-item-bullets"">
+                <li>Entwicklung von C# .NET Core und React-Komponenten für SaaS-Anwendungen.</li>
+                <li>Datenbank-Optimierungen, wodurch SQL-Abfragezeiten um 35% verkürzt wurden.</li>
+                <li>Einführung von Docker zur Vereinheitlichung lokaler und Testumgebungen.</li>
+            </ul>
+        </div>
+    </section>
+</div>
+<div class=""cv-col-right"">
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Ausbildung</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Bachelor in Informatik (B.Sc.)</h5>
+            <span class=""timeline-item-subtitle"">2012 - 2017</span>
+            <p class=""timeline-item-org"">Technische Universität Istanbul, Istanbul</p>
+            <p class=""timeline-item-desc"">Studienschwerpunkte in Systemarchitektur, Datenbankoptimierung und maschinellem Lernen.</p>
+        </div>
+    </section>
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Zertifikate</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">AWS Certified Solutions Architect Associate</h5>
+            <span class=""timeline-item-subtitle"">2024</span>
+        </div>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Microsoft Certified Solutions Developer (MCSD)</h5>
+            <span class=""timeline-item-subtitle"">2021</span>
+        </div>
+    </section>
+    <section class=""cv-timeline-group"">
+        <h4 class=""cv-column-sub-title"">Freiwillige Arbeit</h4>
+        <div class=""timeline-item"">
+            <span class=""timeline-node""></span>
+            <h5 class=""timeline-item-title"">Open-Source-Mentorschaft</h5>
+            <span class=""timeline-item-subtitle"">2022 - Heute</span>
+            <p class=""timeline-item-org"">KodAkademi Community, Online</p>
+            <p class=""timeline-item-desc"">Wöchentliches Code-Review- und Systemdesign-Mentoring für Junior-Entwickler.</p>
+        </div>
+    </section>
+</div>"
                 });
             }
         }

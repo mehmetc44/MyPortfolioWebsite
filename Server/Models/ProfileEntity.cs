@@ -20,5 +20,11 @@ namespace Server.Models
         public string? Linkedin { get; set; }
         public string? Instagram { get; set; }
         public string? Medium { get; set; }
+        public string? CvText_TR { get; set; }
+        public string? CvText_EN { get; set; }
+        public string? CvText_DE { get; set; }
+        public string? CvPdfUrl_TR { get; set; }
+        public string? CvPdfUrl_EN { get; set; }
+        public string? CvPdfUrl_DE { get; set; }
     }
 }
