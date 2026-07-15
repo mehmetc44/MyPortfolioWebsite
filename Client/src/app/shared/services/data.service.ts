@@ -50,7 +50,12 @@ export class DataService {
     try {
       const profRes = await fetch(`${this.apiBaseUrl}/api/profile?lang=${lang}`);
       if (profRes.ok) {
-        this.cachedProfile = await profRes.json();
+        const prof = await profRes.json();
+        // Resolve avatar URL: if it's a relative upload path, prepend the API base URL
+        if (prof.avatarUrl && !prof.avatarUrl.startsWith('http') && !prof.avatarUrl.startsWith('assets/')) {
+          prof.avatarUrl = `${this.apiBaseUrl}/${prof.avatarUrl}`;
+        }
+        this.cachedProfile = prof;
       }
 
       const projRes = await fetch(`${this.apiBaseUrl}/api/projects?lang=${lang}`);
@@ -63,16 +68,30 @@ export class DataService {
           } catch(e) {
             console.error("Failed to parse imagesJson", e);
           }
+          // Resolve each project image URL
+          const resolvedImages = parsedImages.map((img: string) => {
+            if (img && !img.startsWith('http') && !img.startsWith('assets/')) {
+              return `${this.apiBaseUrl}/${img}`;
+            }
+            return img;
+          });
           return {
             ...p,
-            images: parsedImages
+            images: resolvedImages
           };
         });
       }
 
       const artRes = await fetch(`${this.apiBaseUrl}/api/articles?lang=${lang}`);
       if (artRes.ok) {
-        this.cachedArticles = await artRes.json();
+        const articles = await artRes.json();
+        // Resolve article imageUrl: if relative upload path, prepend the API base URL
+        this.cachedArticles = articles.map((a: any) => {
+          if (a.imageUrl && !a.imageUrl.startsWith('http') && !a.imageUrl.startsWith('assets/')) {
+            a.imageUrl = `${this.apiBaseUrl}/${a.imageUrl}`;
+          }
+          return a;
+        });
       }
 
       const skillsRes = await fetch(`${this.apiBaseUrl}/api/skills`);

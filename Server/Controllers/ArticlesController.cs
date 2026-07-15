@@ -46,7 +46,7 @@ namespace Server.Controllers
                 ReadTime = a.ReadTime,
                 SubTag = lang == "en" ? a.SubTag_EN : (lang == "de" ? a.SubTag_DE : a.SubTag_TR),
                 Excerpt = lang == "en" ? a.Excerpt_EN : (lang == "de" ? a.Excerpt_DE : a.Excerpt_TR),
-                ImageUrl = a.ImageUrl,
+                ImageUrl = NormalizeRelativeUrl(a.ImageUrl),
                 DetailText = lang == "en" ? a.DetailText_EN : (lang == "de" ? a.DetailText_DE : a.DetailText_TR)
             });
 
@@ -74,7 +74,7 @@ namespace Server.Controllers
                 ReadTime = a.ReadTime,
                 SubTag = lang == "en" ? a.SubTag_EN : (lang == "de" ? a.SubTag_DE : a.SubTag_TR),
                 Excerpt = lang == "en" ? a.Excerpt_EN : (lang == "de" ? a.Excerpt_DE : a.Excerpt_TR),
-                ImageUrl = a.ImageUrl,
+                ImageUrl = NormalizeRelativeUrl(a.ImageUrl),
                 DetailText = lang == "en" ? a.DetailText_EN : (lang == "de" ? a.DetailText_DE : a.DetailText_TR)
             };
 
@@ -156,5 +156,24 @@ namespace Server.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Strips any absolute URL host prefix from a stored URL, returning only the relative path.
+        /// </summary>
+        private static string? NormalizeRelativeUrl(string? url)
+        {
+            if (string.IsNullOrEmpty(url)) return url;
+            if (!url.StartsWith("http")) return url;
+            try
+            {
+                var uri = new System.Uri(url);
+                return uri.AbsolutePath.TrimStart('/');
+            }
+            catch
+            {
+                return url;
+            }
+        }
     }
 }
+

@@ -49,7 +49,7 @@ namespace Server.Controllers
                 Tech = p.Tech,
                 RepoUrl = p.RepoUrl,
                 DemoUrl = p.DemoUrl,
-                ImagesJson = p.ImagesJson,
+                ImagesJson = NormalizeImagesJson(p.ImagesJson),
                 DetailText = lang == "en" ? p.DetailText_EN : (lang == "de" ? p.DetailText_DE : p.DetailText_TR)
             });
 
@@ -80,7 +80,7 @@ namespace Server.Controllers
                 Tech = p.Tech,
                 RepoUrl = p.RepoUrl,
                 DemoUrl = p.DemoUrl,
-                ImagesJson = p.ImagesJson,
+                ImagesJson = NormalizeImagesJson(p.ImagesJson),
                 DetailText = lang == "en" ? p.DetailText_EN : (lang == "de" ? p.DetailText_DE : p.DetailText_TR)
             };
 
@@ -165,5 +165,31 @@ namespace Server.Controllers
 
             return NoContent();
         }
+
+        /// <summary>
+        /// Strips any absolute URL host prefix from each image path in a JSON array string.
+        /// e.g. ["http://localhost:5169/uploads/images/file.jpg"] => ["uploads/images/file.jpg"]
+        /// </summary>
+        private static string? NormalizeImagesJson(string? imagesJson)
+        {
+            if (string.IsNullOrEmpty(imagesJson)) return imagesJson;
+            try
+            {
+                var urls = System.Text.Json.JsonSerializer.Deserialize<string[]>(imagesJson);
+                if (urls == null) return imagesJson;
+                var normalized = System.Array.ConvertAll(urls, url =>
+                {
+                    if (string.IsNullOrEmpty(url) || !url.StartsWith("http")) return url;
+                    try { return new System.Uri(url).AbsolutePath.TrimStart('/'); }
+                    catch { return url; }
+                });
+                return System.Text.Json.JsonSerializer.Serialize(normalized);
+            }
+            catch
+            {
+                return imagesJson;
+            }
+        }
     }
 }
+

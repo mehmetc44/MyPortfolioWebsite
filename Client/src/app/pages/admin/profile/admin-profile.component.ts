@@ -56,7 +56,9 @@ export class AdminProfileComponent implements OnInit {
       this.isUploading = false;
       
       if (uploadedPath) {
-        this.profile.avatarUrl = `${this.dataService.apiBaseUrl}/${uploadedPath}`;
+        // Store only the relative path (e.g. 'uploads/avatars/file.jpg')
+        // The full URL is resolved at display time based on the current API environment
+        this.profile.avatarUrl = uploadedPath;
       } else {
         alert('Görsel yüklenirken sunucu hatası oluştu.');
       }

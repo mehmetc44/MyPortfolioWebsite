@@ -43,11 +43,16 @@ namespace Server.Controllers
             }
 
             lang = lang.ToLower();
+
+            // Normalize avatarUrl: strip any host prefix so the frontend always receives
+            // a relative path like "uploads/avatars/file.jpg"
+            var avatarUrl = NormalizeRelativeUrl(profile.AvatarUrl);
+
             var mapped = new
             {
                 Id = profile.Id,
                 Name = profile.Name,
-                AvatarUrl = profile.AvatarUrl,
+                AvatarUrl = avatarUrl,
                 Repos = profile.Repos,
                 Pubs = profile.Pubs,
                 Github = profile.Github,
@@ -71,6 +76,28 @@ namespace Server.Controllers
             };
 
             return Ok(mapped);
+        }
+
+        /// <summary>
+        /// Strips any absolute URL host prefix (http://localhost:PORT/ or https://host/) from a stored URL,
+        /// returning only the relative path (e.g. "uploads/avatars/file.jpg").
+        /// Non-upload paths (assets/, null, external social links) are returned as-is.
+        /// </summary>
+        private static string? NormalizeRelativeUrl(string? url)
+        {
+            if (string.IsNullOrEmpty(url)) return url;
+            if (!url.StartsWith("http")) return url; // already relative or assets/
+
+            try
+            {
+                var uri = new System.Uri(url);
+                // Return path without the leading slash: "uploads/avatars/file.jpg"
+                return uri.AbsolutePath.TrimStart('/');
+            }
+            catch
+            {
+                return url;
+            }
         }
 
         // PUT: api/profile
