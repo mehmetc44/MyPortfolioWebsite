@@ -8,6 +8,7 @@ import { ProjectDetailComponent } from './pages/home/project-detail/project-deta
 import { BlogComponent } from './pages/home/blog/blog.component';
 import { BlogDetailComponent } from './pages/home/blog-detail/blog-detail.component';
 import { AdminComponent } from './pages/admin/admin.component';
+import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 
 export const routes: Routes = [
   {
@@ -26,7 +27,8 @@ export const routes: Routes = [
     path: '',
     component: AdminLayoutComponent,
     children: [
-      { path: 'admin', component: AdminComponent }
+      { path: 'admin', component: AdminComponent },
+      { path: 'reset-password', component: ResetPasswordComponent }
     ]
   },
   {

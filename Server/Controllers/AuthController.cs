@@ -18,11 +18,16 @@ namespace Server.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IEmailService _emailService;
 
-        public AuthController(AppDbContext context, IConfiguration configuration)
+        private static string? _resetToken;
+        private static DateTime? _resetTokenExpiry;
+
+        public AuthController(AppDbContext context, IConfiguration configuration, IEmailService emailService)
         {
             _context = context;
             _configuration = configuration;
+            _emailService = emailService;
         }
 
         public class LoginDto
@@ -63,6 +68,73 @@ namespace Server.Controllers
         public IActionResult Status()
         {
             return Ok(new { isAuthenticated = true });
+        }
+
+        public class ForgotPasswordDto
+        {
+            public string Email { get; set; } = "";
+        }
+
+        // POST: api/auth/forgot-password
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+        {
+            _resetToken = Guid.NewGuid().ToString("N");
+            _resetTokenExpiry = DateTime.UtcNow.AddMinutes(15);
+
+            var origin = Request.Headers["Origin"].ToString();
+            if (string.IsNullOrEmpty(origin)) origin = Request.Headers["Referer"].ToString();
+            if (string.IsNullOrEmpty(origin)) origin = "http://localhost:4200"; // fallback
+
+            origin = origin.TrimEnd('/');
+            var resetLink = $"{origin}/reset-password?token={_resetToken}";
+
+            var subject = "Portfolio Admin Panel - Şifre Sıfırlama Talebi";
+            var body = $"Merhaba,\n\nAdmin paneli şifrenizi sıfırlamak için aşağıdaki bağlantıya tıklayın:\n\n{resetLink}\n\nBu bağlantı 15 dakika boyunca geçerlidir.\n\nEğer bu talebi siz göndermediyseniz lütfen bu e-postayı dikkate almayın.";
+
+            await _emailService.SendEmailAsync(subject, body);
+
+            return Ok(new { success = true });
+        }
+
+        public class ResetPasswordDto
+        {
+            public string Token { get; set; } = "";
+            public string NewPassword { get; set; } = "";
+        }
+
+        // POST: api/auth/reset-password
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            if (string.IsNullOrEmpty(dto.Token) || 
+                dto.Token != _resetToken || 
+                !_resetTokenExpiry.HasValue || 
+                _resetTokenExpiry.Value < DateTime.UtcNow)
+            {
+                return BadRequest("Geçersiz veya süresi dolmuş şifre sıfırlama anahtarı.");
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.NewPassword) || dto.NewPassword.Length < 6)
+            {
+                return BadRequest("Şifre en az 6 karakter olmalıdır.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username.ToLower() == "admin");
+            if (user == null)
+            {
+                return NotFound("Admin kullanıcısı bulunamadı.");
+            }
+
+            user.PasswordHash = PasswordHasher.HashPassword(dto.NewPassword);
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            // Clear token
+            _resetToken = null;
+            _resetTokenExpiry = null;
+
+            return Ok(new { success = true });
         }
     }
 }

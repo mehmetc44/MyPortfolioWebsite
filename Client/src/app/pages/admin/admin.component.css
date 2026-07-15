@@ -4,10 +4,19 @@
 
 
 /* 1. Premium Glassmorphic Login Card & Form Styles */
+.admin-login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+
 .admin-login-wrapper {
     max-width: 440px;
     width: 100%;
-    margin: 80px auto;
+    margin: 0 auto;
     padding: 40px;
     background: rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(12px);
@@ -19,6 +28,82 @@
     flex-direction: column;
     gap: 30px;
     animation: loginCardFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    box-sizing: border-box;
+}
+
+.forgot-pass-link-container {
+    text-align: right;
+    margin-top: -8px;
+}
+
+.btn-link {
+    background: transparent;
+    border: none;
+    color: var(--accent-navy);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    font-family: var(--font-body);
+    transition: var(--transition-smooth);
+    text-decoration: underline;
+}
+
+.btn-link:hover {
+    color: var(--accent-slate);
+}
+
+.login-success-alert {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    margin-top: 10px;
+    animation: slideUpAlert 0.4s ease;
+}
+
+.login-back-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 12px;
+    background: rgba(11, 26, 48, 0.05);
+    color: var(--accent-navy);
+    border: 1px solid rgba(11, 26, 48, 0.1);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    margin-top: 5px;
+    text-align: center;
+}
+
+.login-back-btn:hover {
+    background: rgba(11, 26, 48, 0.1);
+}
+
+body.dark-theme .btn-link {
+    color: #cbd5e1;
+}
+body.dark-theme .btn-link:hover {
+    color: #ffffff;
+}
+body.dark-theme .login-success-alert {
+    background: rgba(22, 101, 52, 0.1);
+    border-color: rgba(22, 101, 52, 0.2);
+    color: #4ade80;
+}
+body.dark-theme .login-back-btn {
+    background: rgba(255, 255, 255, 0.05);
+    color: #f1f5f9;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+body.dark-theme .login-back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
 }
 
 @keyframes loginCardFadeIn {

@@ -434,6 +434,34 @@ export class DataService {
     return false;
   }
 
+  async forgotPassword(email: string): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/auth/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      return res.ok;
+    } catch(e) {
+      console.error("Forgot password request failed", e);
+      return false;
+    }
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/auth/reset-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ token, newPassword })
+      });
+      return res.ok;
+    } catch(e) {
+      console.error("Reset password request failed", e);
+      return false;
+    }
+  }
+
   private unreadCount = 0;
 
   getUnreadCount(): number {

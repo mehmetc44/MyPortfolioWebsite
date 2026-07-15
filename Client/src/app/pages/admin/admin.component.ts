@@ -33,6 +33,41 @@ export class AdminComponent implements OnInit {
   isLoggingIn = false;
   errorMessage = '';
 
+  isForgotPasswordMode = false;
+  forgotPasswordEmail = '';
+  forgotPasswordSuccessMessage = '';
+  forgotPasswordErrorMessage = '';
+  isSendingResetLink = false;
+
+  toggleForgotPasswordMode() {
+    this.isForgotPasswordMode = !this.isForgotPasswordMode;
+    this.forgotPasswordEmail = '';
+    this.forgotPasswordSuccessMessage = '';
+    this.forgotPasswordErrorMessage = '';
+    this.errorMessage = '';
+  }
+
+  async onSendResetLink() {
+    if (!this.forgotPasswordEmail) {
+      this.forgotPasswordErrorMessage = 'Lütfen e-posta adresinizi girin.';
+      return;
+    }
+    
+    this.isSendingResetLink = true;
+    this.forgotPasswordErrorMessage = '';
+    this.forgotPasswordSuccessMessage = '';
+
+    const success = await this.dataService.forgotPassword(this.forgotPasswordEmail);
+    this.isSendingResetLink = false;
+
+    if (success) {
+      this.forgotPasswordSuccessMessage = 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.';
+      this.forgotPasswordEmail = '';
+    } else {
+      this.forgotPasswordErrorMessage = 'Talep gönderilemedi. Lütfen tekrar deneyin.';
+    }
+  }
+
   get profile(): Profile {
     return this.dataService.getProfile();
   }
