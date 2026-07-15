@@ -62,14 +62,14 @@ namespace Server.Extensions
             services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
 
             // Configure Cookie Authentication
-            var isLocal = Environment.GetEnvironmentVariable("API_ENV") == "Development";
+            var isProd = Environment.GetEnvironmentVariable("API_ENV") == "Production";
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
                     options.Cookie.Name = "PortfolioAuthCookie";
                     options.Cookie.HttpOnly = true;
-                    options.Cookie.SameSite = isLocal ? SameSiteMode.Lax : SameSiteMode.None;
-                    options.Cookie.SecurePolicy = isLocal ? CookieSecurePolicy.SameAsRequest : CookieSecurePolicy.Always;
+                    options.Cookie.SameSite = isProd ? SameSiteMode.None : SameSiteMode.Lax;
+                    options.Cookie.SecurePolicy = isProd ? CookieSecurePolicy.Always : CookieSecurePolicy.SameAsRequest;
                     options.Events.OnRedirectToLogin = context =>
                     {
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
