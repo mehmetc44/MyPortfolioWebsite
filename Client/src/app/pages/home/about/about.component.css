@@ -17,6 +17,14 @@
     font-weight: 500;
 }
 
+.about-body-paragraph.lead-text {
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
 .about-body-paragraph:last-of-type {
     margin-bottom: 0;
 }
@@ -28,7 +36,7 @@
 
 .about-section-title {
     font-family: var(--font-body);
-    font-size: 1.35rem;
+    font-size: 1rem;
     font-weight: 800;
     text-transform: uppercase;
     color: var(--accent-navy);
@@ -192,7 +200,8 @@ body.dark-theme .about-section-title {
     height: 12px;
     border-radius: 50%;
     border: 2.5px solid var(--accent-navy);
-    background-color: var(--bg-card); /* Blends with blue dashboard card backing */
+    background-color: var(--bg-card);
+    /* Blends with blue dashboard card backing */
     z-index: 2;
 }
 
@@ -367,11 +376,13 @@ body.dark-theme .about-section-title {
         grid-template-columns: 1fr;
         gap: 32px;
     }
+
     .cv-contacts-centered {
         flex-direction: column;
         align-items: center;
         gap: 12px;
     }
+
     .interests-grid-pane {
         grid-template-columns: 1fr;
         gap: 16px;
@@ -382,10 +393,12 @@ body.dark-theme .about-section-title {
     .main-content-pane {
         padding: 40px 24px;
     }
+
     .cv-downloads-button-row {
         flex-direction: column;
         width: 100%;
     }
+
     .cv-download-btn-lang {
         width: 100%;
         justify-content: center;
@@ -396,34 +409,35 @@ body.dark-theme .about-section-title {
    PRINT-READY STYLESHEET (Ctrl+P Formatting)
    ========================================== */
 @media print {
-    .site-header, 
+
+    .site-header,
     .about-interests-section,
     .cv-download-footer-section,
     .modal-overlay,
     #gridTooltip {
         display: none !important;
     }
-    
+
     body {
         background-color: #ffffff !important;
         color: #000000 !important;
         font-size: 11pt !important;
         line-height: 1.35 !important;
     }
-    
+
     .cv-page-container {
         max-width: 100% !important;
         padding: 0 !important;
         margin: 0 !important;
     }
-    
+
     .main-content-pane {
         padding: 0 !important;
         border: none !important;
         box-shadow: none !important;
         background: transparent !important;
     }
-    
+
     /* Print Header */
     .about-intro-section::before {
         content: "MEHMET\nSenior Full Stack Engineer & Systems Architect";
@@ -438,50 +452,50 @@ body.dark-theme .about-section-title {
         border-bottom: 1.5pt solid #000000;
         padding-bottom: 12pt;
     }
-    
+
     .cv-column-sub-title {
         font-size: 11pt !important;
         color: #000000 !important;
         margin-top: 14pt !important;
         margin-bottom: 12pt !important;
     }
-    
+
     .timeline-item {
         border-left: 1pt solid #000000 !important;
         padding-bottom: 14pt !important;
     }
-    
+
     .timeline-node {
         border: 1.5pt solid #000000 !important;
         background-color: #ffffff !important;
     }
-    
+
     .timeline-item-title {
         font-size: 10pt !important;
         color: #000000 !important;
     }
-    
+
     .timeline-item-subtitle,
     .cv-list-date {
         color: #000000 !important;
         font-weight: bold !important;
     }
-    
+
     .cv-item-bullets li {
         font-size: 9pt !important;
         color: #111111 !important;
     }
-    
+
     .cv-timeline-group,
     .timeline-item {
         page-break-inside: avoid !important;
     }
-    
+
     .lang-meter-container {
         border: 0.5pt solid #000000 !important;
         background: transparent !important;
     }
-    
+
     .lang-meter-fill {
         background: #000000 !important;
     }

@@ -40,7 +40,6 @@ namespace Server.Models
         public string? Motto_EN { get; set; }
         public string? Motto_DE { get; set; }
 
-        public string? TechTags { get; set; }
         public bool IsOpenToOffers { get; set; }
     }
 }

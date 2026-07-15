@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { DataService, Profile } from '../../../shared/services/data.service';
+import { DataService, Profile, Skill, TechTag } from '../../../shared/services/data.service';
 import { ContactModalComponent } from '../../../components/home/contact-modal/contact-modal.component';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
@@ -25,6 +25,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
   projectCount = 0;
   articleCount = 0;
+  skills: Skill[] = [];
+  techTags: TechTag[] = [];
 
   dateList: DayCell[] = [];
   
@@ -42,7 +44,26 @@ export class HomeComponent implements OnInit, AfterViewInit {
   async ngOnInit() {
     this.projectCount = this.dataService.getProjects().length;
     this.articleCount = this.dataService.getArticles().length;
+    
+    // Load dynamic skills
+    this.skills = this.dataService.getSkills();
+    if (this.skills.length === 0) {
+      await this.dataService.loadDataFromServer();
+      this.skills = this.dataService.getSkills();
+    }
+
+    // Load dynamic tech tags
+    this.techTags = this.dataService.getTechTagsList();
+    if (this.techTags.length === 0) {
+      await this.dataService.loadDataFromServer();
+      this.techTags = this.dataService.getTechTagsList();
+    }
+
     await this.generateContributionData();
+    
+    setTimeout(() => {
+      this.setupSkillsAnimation();
+    }, 300);
   }
 
   ngAfterViewInit() {

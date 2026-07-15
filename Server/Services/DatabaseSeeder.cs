@@ -76,6 +76,7 @@ namespace Server.Services
             SeedUsers();
             SeedProfileDetails();
             SeedSkills();
+            SeedTechTags();
 
             _db.SaveChanges();
         }
@@ -120,11 +121,6 @@ namespace Server.Services
                     profile.Motto_DE = "\"Ich verwandele Ideen in Code und Code in lebendige, skalierbare Produkte.\"";
                     modified = true;
                 }
-                if (string.IsNullOrEmpty(profile.TechTags))
-                {
-                    profile.TechTags = ".NET Core, EF Core, Angular, Agentic AI, Fedora Linux";
-                    modified = true;
-                }
                 if (!profile.IsOpenToOffers && _db.Entry(profile).State == EntityState.Detached)
                 {
                     profile.IsOpenToOffers = true;
@@ -150,6 +146,21 @@ namespace Server.Services
                     new SkillEntity { Name = "React & Next.js", Percentage = 90 },
                     new SkillEntity { Name = "Node.js / Express", Percentage = 85 },
                     new SkillEntity { Name = "SQL & NoSQL Database Systems", Percentage = 80 }
+                });
+            }
+        }
+
+        private void SeedTechTags()
+        {
+            if (!_db.TechTags.Any())
+            {
+                _db.TechTags.AddRange(new List<TechTagEntity>
+                {
+                    new TechTagEntity { Name = ".NET Core" },
+                    new TechTagEntity { Name = "EF Core" },
+                    new TechTagEntity { Name = "Angular" },
+                    new TechTagEntity { Name = "Agentic AI" },
+                    new TechTagEntity { Name = "Fedora Linux" }
                 });
             }
         }

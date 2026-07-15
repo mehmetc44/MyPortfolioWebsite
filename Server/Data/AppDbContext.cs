@@ -15,6 +15,7 @@ namespace Server.Data
         public DbSet<MessageEntity> Messages { get; set; }
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<SkillEntity> Skills { get; set; }
+        public DbSet<TechTagEntity> TechTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,6 +28,7 @@ namespace Server.Data
             modelBuilder.Entity<MessageEntity>().HasKey(m => m.Id);
             modelBuilder.Entity<UserEntity>().HasKey(u => u.Id);
             modelBuilder.Entity<SkillEntity>().HasKey(s => s.Id);
+            modelBuilder.Entity<TechTagEntity>().HasKey(t => t.Id);
         }
     }
 }

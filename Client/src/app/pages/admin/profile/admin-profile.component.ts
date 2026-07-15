@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DataService, RawProfile } from '../../../shared/services/data.service';
+import { DataService, RawProfile, TechTag } from '../../../shared/services/data.service';
 
 @Component({
   selector: 'app-admin-profile',
@@ -15,14 +15,24 @@ export class AdminProfileComponent implements OnInit {
   activeFormTab: 'tr' | 'en' | 'de' = 'tr';
   isUploading = false;
 
+  // Tech tags management
+  techTags: TechTag[] = [];
+  selectedTag: TechTag | null = null;
+  isTagNew = false;
+
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
     this.loadProfile();
+    this.loadTechTags();
   }
 
   async loadProfile() {
     this.profile = await this.dataService.getRawProfile();
+  }
+
+  async loadTechTags() {
+    this.techTags = await this.dataService.getRawTechTags();
   }
 
   async saveProfile() {
@@ -49,6 +59,54 @@ export class AdminProfileComponent implements OnInit {
         this.profile.avatarUrl = `${this.dataService.apiBaseUrl}/${uploadedPath}`;
       } else {
         alert('Görsel yüklenirken sunucu hatası oluştu.');
+      }
+    }
+  }
+
+  // Tech tag methods
+  selectTag(tag: TechTag) {
+    this.selectedTag = { ...tag };
+    this.isTagNew = false;
+  }
+
+  createNewTag() {
+    this.selectedTag = {
+      id: 0,
+      name: ''
+    };
+    this.isTagNew = true;
+  }
+
+  cancelTagEdit() {
+    this.selectedTag = null;
+  }
+
+  async saveTag() {
+    if (!this.selectedTag) return;
+    if (!this.selectedTag.name.trim()) {
+      alert('Teknoloji paketi adı boş olamaz.');
+      return;
+    }
+
+    const success = await this.dataService.saveRawTechTag(this.selectedTag, this.isTagNew);
+    if (success) {
+      this.selectedTag = null;
+      await this.loadTechTags();
+    } else {
+      alert('Teknoloji paketi kaydedilirken bir hata oluştu.');
+    }
+  }
+
+  async deleteTag(id: number) {
+    if (confirm('Bu teknoloji paketini silmek istediğinize emin misiniz?')) {
+      const success = await this.dataService.deleteRawTechTag(id);
+      if (success) {
+        if (this.selectedTag?.id === id) {
+          this.selectedTag = null;
+        }
+        await this.loadTechTags();
+      } else {
+        alert('Teknoloji paketi silinirken bir hata oluştu.');
       }
     }
   }

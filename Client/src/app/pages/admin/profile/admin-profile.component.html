@@ -41,6 +41,18 @@
             <label for="profBioTR">Kısa Biyografi (TR)</label>
             <textarea id="profBioTR" name="profBioTR" [(ngModel)]="profile.bio_TR" rows="3" required placeholder="Giriş biyografi metni..."></textarea>
         </div>
+        <div class="form-group">
+            <label for="profJobTR">Güncel İş/Pozisyon Bilgisi (TR)</label>
+            <input type="text" id="profJobTR" name="profJobTR" [(ngModel)]="profile.job_TR" placeholder="Örn: Yazılım Mühendisi @ Apex Tech">
+        </div>
+        <div class="form-group">
+            <label for="profEducationTR">Eğitim Bilgisi (TR)</label>
+            <input type="text" id="profEducationTR" name="profEducationTR" [(ngModel)]="profile.education_TR" placeholder="Örn: Erciyes Üni. Yazılım Müh. (3. Sınıf)">
+        </div>
+        <div class="form-group">
+            <label for="profMottoTR">Slogan / Motto (TR)</label>
+            <input type="text" id="profMottoTR" name="profMottoTR" [(ngModel)]="profile.motto_TR" placeholder="Örn: &quot;Fikirleri koda, kodları yaşayan ve ölçeklenebilir ürünlere dönüştürüyorum.&quot;">
+        </div>
     </div>
 
     <!-- Tab Content: English -->
@@ -57,6 +69,18 @@
             <label for="profBioEN">Short Biography (EN)</label>
             <textarea id="profBioEN" name="profBioEN" [(ngModel)]="profile.bio_EN" rows="3" required placeholder="Intro bio text..."></textarea>
         </div>
+        <div class="form-group">
+            <label for="profJobEN">Current Position/Job (EN)</label>
+            <input type="text" id="profJobEN" name="profJobEN" [(ngModel)]="profile.job_EN" placeholder="E.g. Software Engineer @ Apex Tech">
+        </div>
+        <div class="form-group">
+            <label for="profEducationEN">Education Info (EN)</label>
+            <input type="text" id="profEducationEN" name="profEducationEN" [(ngModel)]="profile.education_EN" placeholder="E.g. Erciyes Uni. Software Eng. (3rd Grade)">
+        </div>
+        <div class="form-group">
+            <label for="profMottoEN">Slogan / Motto (EN)</label>
+            <input type="text" id="profMottoEN" name="profMottoEN" [(ngModel)]="profile.motto_EN" placeholder="E.g. &quot;Transforming ideas to code...&quot;">
+        </div>
     </div>
 
     <!-- Tab Content: Deutsch -->
@@ -72,6 +96,18 @@
         <div class="form-group">
             <label for="profBioDE">Kurze Biografie (DE)</label>
             <textarea id="profBioDE" name="profBioDE" [(ngModel)]="profile.bio_DE" rows="3" required placeholder="Einführender Bio-Text..."></textarea>
+        </div>
+        <div class="form-group">
+            <label for="profJobDE">Aktuelle Position (DE)</label>
+            <input type="text" id="profJobDE" name="profJobDE" [(ngModel)]="profile.job_DE" placeholder="Z.B. Softwareentwickler @ Apex Tech">
+        </div>
+        <div class="form-group">
+            <label for="profEducationDE">Ausbildung (DE)</label>
+            <input type="text" id="profEducationDE" name="profEducationDE" [(ngModel)]="profile.education_DE" placeholder="Z.B. Erciyes Uni. Softwaretechnik (3. Klasse)">
+        </div>
+        <div class="form-group">
+            <label for="profMottoDE">Slogan / Motto (DE)</label>
+            <input type="text" id="profMottoDE" name="profMottoDE" [(ngModel)]="profile.motto_DE" placeholder="Z.B. &quot;Ideen in Code verwandeln...&quot;">
         </div>
     </div>
 
@@ -108,7 +144,86 @@
         </div>
     </div>
 
+    <!-- Availability switch row -->
+    <div class="form-double-row" style="margin-top: 10px;">
+        <div class="form-group">
+            <label>Yeni Teklif Fırsat Durumu</label>
+            <button type="button" 
+                    class="btn toggle-status-btn" 
+                    [class.btn-success]="profile.isOpenToOffers" 
+                    [class.btn-secondary]="!profile.isOpenToOffers"
+                    (click)="profile.isOpenToOffers = !profile.isOpenToOffers"
+                    style="height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: bold; width: 100%; border: 1px solid var(--border-color); border-radius: 8px; cursor: pointer; transition: background-color 0.25s ease-in-out;">
+                <span class="status-dot" [class.status-closed]="!profile.isOpenToOffers"></span>
+                <span>{{ profile.isOpenToOffers ? 'Yeni Tekliflere Açık' : 'Tekliflere Kapalı' }}</span>
+            </button>
+        </div>
+        <div class="form-group"></div>
+    </div>
+
     <button type="submit" class="btn btn-primary submit-btn">
         <span>Profil Bilgilerini Kaydet</span>
     </button>
 </form>
+
+<!-- Divider -->
+<hr style="margin: 40px 0; border: none; border-top: 1px solid var(--border-color);">
+
+<div class="admin-panel-title-row" style="margin-bottom: 20px;">
+    <div class="pane-header-hero">
+        <span class="subtitle-tag">PROFİL KART ETİKETLERİ</span>
+        <h3 class="pane-main-title">Teknoloji Paketlerini Yönet</h3>
+        <div class="title-decorator-line"></div>
+    </div>
+    <button class="btn btn-primary btn-add-new" (click)="createNewTag()" *ngIf="!selectedTag">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon-left"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Teknoloji Paketi Ekle</span>
+    </button>
+</div>
+
+<!-- Edit / Create Tech Tag Form Block -->
+<div class="glass-card" style="padding: 24px; margin-bottom: 24px; border: 1px solid var(--border-color);" *ngIf="selectedTag">
+    <h4 style="margin-bottom: 20px; font-weight: 700; color: var(--accent-navy-text);">{{ isTagNew ? 'Yeni Teknoloji Paketi Ekle' : 'Teknoloji Paketini Düzenle' }}</h4>
+    <form (ngSubmit)="saveTag()" class="contact-form">
+        <div class="form-double-row">
+            <div class="form-group" style="flex: 1;">
+                <label for="tagName">Paket/Etiket Adı</label>
+                <input type="text" id="tagName" name="tagName" [(ngModel)]="selectedTag.name" required placeholder="Örn: .NET Core" style="width: 100%;">
+            </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <button type="button" class="btn btn-secondary" (click)="cancelTagEdit()">İptal</button>
+        </div>
+    </form>
+</div>
+
+<!-- Tech Tags Table List -->
+<div class="table-wrapper" *ngIf="!selectedTag">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Teknoloji Paket Adı</th>
+                <th style="width: 150px; text-align: center;">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let t of techTags">
+                <td style="font-weight: 700; color: var(--accent-navy-text, var(--accent-navy));">{{ t.name }}</td>
+                <td>
+                    <div class="actions-col-cell">
+                        <button class="btn-action-edit" (click)="selectTag(t)" title="Düzenle">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                        <button class="btn-action-delete" (click)="deleteTag(t.id)" title="Sil">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="techTags.length === 0">
+                <td colspan="2" style="text-align: center; padding: 24px;">Kayıtlı teknoloji paketi bulunmamaktadır.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

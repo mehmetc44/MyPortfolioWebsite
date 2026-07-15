@@ -2,10 +2,14 @@ import { Injectable } from '@angular/core';
 import { Profile, RawProfile, ContactMessage } from '../models/profile.model';
 import { Project, RawProject } from '../models/project.model';
 import { Article, RawArticle } from '../models/article.model';
+import { Skill } from '../models/skill.model';
+import { TechTag } from '../models/techtag.model';
 
 export type { Profile, RawProfile, ContactMessage } from '../models/profile.model';
 export type { Project, RawProject } from '../models/project.model';
 export type { Article, RawArticle } from '../models/article.model';
+export type { Skill } from '../models/skill.model';
+export type { TechTag } from '../models/techtag.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +20,8 @@ export class DataService {
   private cachedProfile: Profile | null = null;
   private cachedProjects: Project[] | null = null;
   private cachedArticles: Article[] | null = null;
+  private cachedSkills: Skill[] | null = null;
+  private cachedTechTags: TechTag[] | null = null;
 
   private _isAuthenticated = false;
 
@@ -68,6 +74,16 @@ export class DataService {
       if (artRes.ok) {
         this.cachedArticles = await artRes.json();
       }
+
+      const skillsRes = await fetch(`${this.apiBaseUrl}/api/skills`);
+      if (skillsRes.ok) {
+        this.cachedSkills = await skillsRes.json();
+      }
+
+      const tagsRes = await fetch(`${this.apiBaseUrl}/api/techtags`);
+      if (tagsRes.ok) {
+        this.cachedTechTags = await tagsRes.json();
+      }
     } catch (e) {
       console.warn("API Server not available.", e);
     }
@@ -104,7 +120,8 @@ export class DataService {
       github: "https://github.com/mehmetc44",
       linkedin: "https://linkedin.com",
       instagram: "https://instagram.com",
-      medium: "https://medium.com"
+      medium: "https://medium.com",
+      isOpenToOffers: true
     };
   }
 
@@ -124,6 +141,14 @@ export class DataService {
   getArticle(id: string): Article | undefined {
     const list = this.getArticles();
     return list.find(a => a.id === id);
+  }
+
+  getSkills(): Skill[] {
+    return this.cachedSkills || [];
+  }
+
+  getTechTagsList(): TechTag[] {
+    return this.cachedTechTags || [];
   }
 
   logUpdate() {
@@ -198,6 +223,108 @@ export class DataService {
         method: 'PUT',
         headers: this.getAuthHeaders(true),
         body: JSON.stringify(profile)
+      });
+      if (res.ok) {
+        await this.loadDataFromServer();
+      }
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+  async getRawSkills(): Promise<Skill[]> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/skills`, {
+        headers: this.getAuthHeaders()
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch(e) {
+      console.error(e);
+    }
+    return [];
+  }
+
+  async saveRawSkill(skill: Skill, isNew: boolean): Promise<boolean> {
+    try {
+      const url = isNew 
+        ? `${this.apiBaseUrl}/api/skills` 
+        : `${this.apiBaseUrl}/api/skills/${skill.id}`;
+      const method = isNew ? 'POST' : 'PUT';
+      const res = await fetch(url, {
+        method,
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(skill)
+      });
+      if (res.ok) {
+        await this.loadDataFromServer();
+      }
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+  async deleteRawSkill(id: number): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/skills/${id}`, {
+        method: 'DELETE',
+        headers: this.getAuthHeaders()
+      });
+      if (res.ok) {
+        await this.loadDataFromServer();
+      }
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+  async getRawTechTags(): Promise<TechTag[]> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/techtags`, {
+        headers: this.getAuthHeaders()
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch(e) {
+      console.error(e);
+    }
+    return [];
+  }
+
+  async saveRawTechTag(tag: TechTag, isNew: boolean): Promise<boolean> {
+    try {
+      const url = isNew 
+        ? `${this.apiBaseUrl}/api/techtags` 
+        : `${this.apiBaseUrl}/api/techtags/${tag.id}`;
+      const method = isNew ? 'POST' : 'PUT';
+      const res = await fetch(url, {
+        method,
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(tag)
+      });
+      if (res.ok) {
+        await this.loadDataFromServer();
+      }
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+  async deleteRawTechTag(id: number): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/techtags/${id}`, {
+        method: 'DELETE',
+        headers: this.getAuthHeaders()
       });
       if (res.ok) {
         await this.loadDataFromServer();

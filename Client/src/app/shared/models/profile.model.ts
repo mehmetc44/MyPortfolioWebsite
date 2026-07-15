@@ -15,6 +15,12 @@ export interface Profile {
   cvPdfUrl_TR?: string;
   cvPdfUrl_EN?: string;
   cvPdfUrl_DE?: string;
+
+  // New fields
+  job?: string;
+  education?: string;
+  motto?: string;
+  isOpenToOffers?: boolean;
 }
 
 export interface RawProfile {
@@ -42,6 +48,18 @@ export interface RawProfile {
   cvPdfUrl_TR?: string;
   cvPdfUrl_EN?: string;
   cvPdfUrl_DE?: string;
+
+  // New fields
+  job_TR?: string;
+  job_EN?: string;
+  job_DE?: string;
+  education_TR?: string;
+  education_EN?: string;
+  education_DE?: string;
+  motto_TR?: string;
+  motto_EN?: string;
+  motto_DE?: string;
+  isOpenToOffers?: boolean;
 }
 
 export interface ContactMessage {

@@ -11,7 +11,7 @@
             <div class="profile-info">
                 <h1 class="profile-name">{{ profile.name }}</h1>
                 <p class="profile-tag">{{ profile.tag }}</p>
-                <p class="profile-slogan">"Fikirleri koda, kodları yaşayan ve ölçeklenebilir ürünlere dönüştürüyorum."</p>
+                <p class="profile-slogan" *ngIf="profile.motto">"{{ profile.motto }}"</p>
             </div>
 
             <!-- Divider Line -->
@@ -19,25 +19,26 @@
 
             <!-- Quick Info Block -->
             <div class="profile-quick-info">
-                <div class="info-item">
-                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"
-                        stroke-linecap="round" stroke-linejoin="round" class="info-svg-icon">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                    </svg>
-                    <span class="info-text">Yazılım Mühendisi &#64; Apex Tech</span>
-                </div>
-                <div class="info-item">
+                <div class="info-item" *ngIf="profile.education">
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"
                         stroke-linecap="round" stroke-linejoin="round" class="info-svg-icon">
                         <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
                         <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
                     </svg>
-                    <span class="info-text">Erciyes Üni. Yazılım Müh. (3. Sınıf)</span>
+                    <span class="info-text">{{ profile.education }}</span>
+                </div>
+                <div class="info-item" *ngIf="profile.job">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" class="info-svg-icon">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    <span class="info-text">{{ profile.job }}</span>
                 </div>
                 <div class="info-item">
-                    <span class="status-dot"></span>
-                    <span class="info-text">Yeni Tekliflere Açık</span>
+                    <span class="status-dot" [class.status-closed]="!profile.isOpenToOffers"></span>
+                    <span class="info-text">{{ profile.isOpenToOffers ? ('OPEN_TO_OFFERS' | translate) :
+                        ('CLOSED_TO_OFFERS' | translate) }}</span>
                 </div>
                 <div class="info-item">
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"
@@ -53,12 +54,8 @@
             <hr class="profile-divider-line">
 
             <!-- Tech Stack Badges -->
-            <div class="profile-tech-stack">
-                <span class="tech-badge">.NET Core</span>
-                <span class="tech-badge">EF Core</span>
-                <span class="tech-badge">Angular</span>
-                <span class="tech-badge">Agentic AI</span>
-                <span class="tech-badge">Fedora Linux</span>
+            <div class="profile-tech-stack" *ngIf="techTags.length > 0">
+                <span class="tech-badge" *ngFor="let tag of techTags">{{ tag.name }}</span>
             </div>
 
             <!-- Divider Line -->
@@ -146,63 +143,14 @@
                     {{ 'CORE_STACK' | translate }}
                 </h3>
                 <div class="skills-grid">
-                    <div class="skill-item">
+                    <div class="skill-item" *ngFor="let s of skills">
                         <div class="skill-info">
-                            <span class="skill-name">JavaScript &amp; TypeScript</span>
-                            <span class="skill-pct">92%</span>
+                            <span class="skill-name">{{ s.name }}</span>
+                            <span class="skill-pct">{{ s.percentage }}%</span>
                         </div>
                         <div class="skill-bar-container">
-                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="92%"></div>
-                        </div>
-                    </div>
-
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">C# &amp; .NET Core</span>
-                            <span class="skill-pct">88%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="88%"></div>
-                        </div>
-                    </div>
-
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">HTML5 &amp; Vanilla CSS3</span>
-                            <span class="skill-pct">95%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="95%"></div>
-                        </div>
-                    </div>
-
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">React &amp; Next.js</span>
-                            <span class="skill-pct">90%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="90%"></div>
-                        </div>
-                    </div>
-
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">Node.js / Express</span>
-                            <span class="skill-pct">85%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="85%"></div>
-                        </div>
-                    </div>
-
-                    <div class="skill-item">
-                        <div class="skill-info">
-                            <span class="skill-name">SQL &amp; NoSQL Database Systems</span>
-                            <span class="skill-pct">80%</span>
-                        </div>
-                        <div class="skill-bar-container">
-                            <div class="skill-bar-progress" style="width: 0%;" data-target-width="80%"></div>
+                            <div class="skill-bar-progress" style="width: 0%;"
+                                [attr.data-target-width]="s.percentage + '%'"></div>
                         </div>
                     </div>
                 </div>

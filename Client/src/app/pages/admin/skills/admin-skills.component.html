@@ -1,0 +1,69 @@
+<div class="admin-panel-title-row">
+    <div class="pane-header-hero">
+        <span class="subtitle-tag">UZMANLIK ALANLARI</span>
+        <h3 class="pane-main-title">Yetenekleri Yönet</h3>
+        <div class="title-decorator-line"></div>
+    </div>
+    <button class="btn btn-primary btn-add-new" (click)="createNew()" *ngIf="!selectedSkill">
+        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon-left"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>Yeni Yetenek Ekle</span>
+    </button>
+</div>
+
+<!-- Edit / Create Form Block -->
+<div class="glass-card" style="padding: 24px; margin-bottom: 24px; border: 1px solid var(--border-color);" *ngIf="selectedSkill">
+    <h4 style="margin-bottom: 20px; font-weight: 700; color: var(--accent-navy-text);">{{ isNew ? 'Yeni Yetenek Ekle' : 'Yeteneği Düzenle' }}</h4>
+    <form (ngSubmit)="saveSkill()" class="contact-form">
+        <div class="form-double-row">
+            <div class="form-group">
+                <label for="skillName">Yetenek Adı</label>
+                <input type="text" id="skillName" name="skillName" [(ngModel)]="selectedSkill.name" required placeholder="Örn: JavaScript & TypeScript">
+            </div>
+            <div class="form-group">
+                <label for="skillPct">Uzmanlık Seviyesi (%) - {{ selectedSkill.percentage }}%</label>
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">
+                    <input type="range" id="skillPct" name="skillPct" [(ngModel)]="selectedSkill.percentage" min="0" max="100" style="flex: 1; accent-color: var(--accent-navy);">
+                    <input type="number" name="skillPctVal" [(ngModel)]="selectedSkill.percentage" min="0" max="100" style="width: 70px;">
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; gap: 12px; margin-top: 20px;">
+            <button type="submit" class="btn btn-primary">Kaydet</button>
+            <button type="button" class="btn btn-secondary" (click)="cancelEdit()">İptal</button>
+        </div>
+    </form>
+</div>
+
+<!-- Skills Table List -->
+<div class="table-wrapper" *ngIf="!selectedSkill">
+    <table class="admin-table">
+        <thead>
+            <tr>
+                <th>Yetenek Adı</th>
+                <th style="width: 150px; text-align: center;">Yüzde (%)</th>
+                <th style="width: 150px; text-align: center;">İşlemler</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let s of skills">
+                <td style="font-weight: 700; color: var(--accent-navy-text, var(--accent-navy));">{{ s.name }}</td>
+                <td style="text-align: center;">
+                    <span class="project-category-tag" style="background: rgba(30, 58, 138, 0.08); color: var(--accent-navy-text);">{{ s.percentage }}%</span>
+                </td>
+                <td>
+                    <div class="actions-col-cell">
+                        <button class="btn-action-edit" (click)="selectSkill(s)" title="Düzenle">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                        </button>
+                        <button class="btn-action-delete" (click)="deleteSkill(s.id)" title="Sil">
+                            <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            <tr *ngIf="skills.length === 0">
+                <td colspan="3" style="text-align: center; padding: 24px;">Kayıtlı yetenek bulunmamaktadır.</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

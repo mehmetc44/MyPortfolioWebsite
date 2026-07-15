@@ -61,7 +61,13 @@ namespace Server.Controllers
                 CvPdfUrl = lang == "en" ? profile.CvPdfUrl_EN : (lang == "de" ? profile.CvPdfUrl_DE : profile.CvPdfUrl_TR),
                 CvPdfUrl_TR = profile.CvPdfUrl_TR,
                 CvPdfUrl_EN = profile.CvPdfUrl_EN,
-                CvPdfUrl_DE = profile.CvPdfUrl_DE
+                CvPdfUrl_DE = profile.CvPdfUrl_DE,
+
+                // New fields mapping
+                Job = lang == "en" ? profile.Job_EN : (lang == "de" ? profile.Job_DE : profile.Job_TR),
+                Education = lang == "en" ? profile.Education_EN : (lang == "de" ? profile.Education_DE : profile.Education_TR),
+                Motto = lang == "en" ? profile.Motto_EN : (lang == "de" ? profile.Motto_DE : profile.Motto_TR),
+                IsOpenToOffers = profile.IsOpenToOffers
             };
 
             return Ok(mapped);
@@ -101,6 +107,18 @@ namespace Server.Controllers
             existingProfile.CvPdfUrl_TR = updatedProfile.CvPdfUrl_TR ?? existingProfile.CvPdfUrl_TR;
             existingProfile.CvPdfUrl_EN = updatedProfile.CvPdfUrl_EN ?? existingProfile.CvPdfUrl_EN;
             existingProfile.CvPdfUrl_DE = updatedProfile.CvPdfUrl_DE ?? existingProfile.CvPdfUrl_DE;
+
+            // New fields mapping
+            existingProfile.Job_TR = updatedProfile.Job_TR ?? existingProfile.Job_TR;
+            existingProfile.Job_EN = updatedProfile.Job_EN ?? existingProfile.Job_EN;
+            existingProfile.Job_DE = updatedProfile.Job_DE ?? existingProfile.Job_DE;
+            existingProfile.Education_TR = updatedProfile.Education_TR ?? existingProfile.Education_TR;
+            existingProfile.Education_EN = updatedProfile.Education_EN ?? existingProfile.Education_EN;
+            existingProfile.Education_DE = updatedProfile.Education_DE ?? existingProfile.Education_DE;
+            existingProfile.Motto_TR = updatedProfile.Motto_TR ?? existingProfile.Motto_TR;
+            existingProfile.Motto_EN = updatedProfile.Motto_EN ?? existingProfile.Motto_EN;
+            existingProfile.Motto_DE = updatedProfile.Motto_DE ?? existingProfile.Motto_DE;
+            existingProfile.IsOpenToOffers = updatedProfile.IsOpenToOffers;
 
             _context.Entry(existingProfile).State = EntityState.Modified;
             await _context.SaveChangesAsync();

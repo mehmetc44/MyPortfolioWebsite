@@ -53,7 +53,8 @@ export class LocalizationService {
       "ABOUT_INTRO_1_PREFIX": "Merhabalar, ben ",
       "ABOUT_INTRO_1_SUFFIX": "Bilişim sektöründe 10 yılı aşkın süredir kıdemli yazılım mühendisi ve sistem mimarı olarak görev almaktayım. Kariyerim boyunca yüksek ölçekli dağıtık arka uç servisleri, gerçek zamanlı veri akış mimarileri ve ilişkisel/ilişkisel olmayan veri tabanlarının ölçeklenmesi ve optimizasyonu üzerine odaklandım.",
       "ABOUT_INTRO_2": "Clean Code prensiplerine bağlı kalarak sürdürülebilir, modüler kod yazımı ve modern entegrasyon süreçlerinin (CI/CD) otomasyonu konularında ekiplere rehberlik etmekteyim. Teknolojik zorlukları çözmeyi, performansı en üst seviyeye taşımayı ve açık kaynak kodlu projeler ile topluluğa katkı sağlamayı amaç ediniyorum.",
-      "ABOUT_INTERESTS": "İlgi Alanları",
+      "ABOUT_INTERESTS": "Hizmetler",
+      "SERVICES_SUBTITLE": "UZMANLIK & HİZMETLER",
       "INTEREST_1_TITLE": "Sistem Mimarisi",
       "INTEREST_1_DESC": "Dağınık sistemler, gerçek zamanlı veri akışı ve SignalR hub altyapıları.",
       "INTEREST_2_TITLE": "Performans Optimizasyonu",
@@ -61,9 +62,10 @@ export class LocalizationService {
       "INTEREST_3_TITLE": "Bulut Teknolojileri",
       "INTEREST_3_DESC": "AWS bulut mimarileri, CI/CD hatları ve Docker konteynerizasyon süreçleri.",
       "CV_TITLE": "Özgeçmiş",
+      "CV_SUBTITLE": "PROFESYONEL GEÇMİŞ",
       "CV_LOCATION": "İstanbul, Türkiye",
       "CV_DOWNLOAD_FOOTER": "Güncel özgeçmişimi tercih ettiğiniz dilde PDF formatında indirebilirsiniz:",
-      "CV_SUMMARY": "Yüksek ölçekli web uygulamaları, dağınık arka uç servisleri ve veri tabanı optimizasyonları alanlarında 10 yılı aşkın mesleki tecrübeye sahip kıdemli yazılım mühendisi ve sistem mimarı. .NET Core, SQL ve modern JS ekosistemlerinde uzmanlaşmış olup temiz kod, modüler yapı ve sürdürülebilir sistem mimarilerini benimser.",
+      "CV_SUMMARY": "Kariyer yolculuğum, üstlendiğim roller ve teknik yetkinliklerime ait detaylı özgeçmişime aşağıdan ulaşabilirsiniz.",
       "HEATMAP_IDLE": "Sakin",
       "HEATMAP_PEAK": "Yoğun",
       "ACT_TAG_PUB": "Yayın / Makale",
@@ -107,7 +109,9 @@ export class LocalizationService {
       "IMAGE_ALT": "Görseli",
       "BACK_TO_BLOG": "Blog Listesine Dön",
       "MIN_READ": "dk okuma",
-      "LOCATION_VAL": "Kayseri, Türkiye"
+      "LOCATION_VAL": "Kayseri, Türkiye",
+      "OPEN_TO_OFFERS": "Yeni Tekliflere Açık",
+      "CLOSED_TO_OFFERS": "Tekliflere Kapalı"
     },
     en: {
       "NAV_HOME": "HOME",
@@ -148,7 +152,8 @@ export class LocalizationService {
       "ABOUT_INTRO_1_PREFIX": "Hello, I am ",
       "ABOUT_INTRO_1_SUFFIX": "I have been working in the IT sector for over 10 years as a senior software engineer and system architect. Throughout my career, I have focused on large-scale distributed backend services, real-time data streaming architectures, and the scaling and optimization of relational/non-relational databases.",
       "ABOUT_INTRO_2": "Adhering to Clean Code principles, I guide teams in writing sustainable, modular code and automating modern integration processes (CI/CD). I aim to solve technological challenges, maximize performance, and contribute to the community with open-source projects.",
-      "ABOUT_INTERESTS": "Focus Areas",
+      "ABOUT_INTERESTS": "Services",
+      "SERVICES_SUBTITLE": "EXPERTISE & SERVICES",
       "INTEREST_1_TITLE": "System Architecture",
       "INTEREST_1_DESC": "Distributed systems, real-time data flows, and SignalR hub infrastructures.",
       "INTEREST_2_TITLE": "Performance Optimization",
@@ -156,9 +161,10 @@ export class LocalizationService {
       "INTEREST_3_TITLE": "Cloud Technologies",
       "INTEREST_3_DESC": "AWS cloud architectures, CI/CD pipelines, and Docker containerization processes.",
       "CV_TITLE": "Resume",
+      "CV_SUBTITLE": "PROFESSIONAL PROFILE",
       "CV_LOCATION": "Istanbul, Turkey",
       "CV_DOWNLOAD_FOOTER": "You can download my current resume in your preferred language in PDF format:",
-      "CV_SUMMARY": "Senior software engineer and system architect with over 10 years of professional experience in large-scale web applications, distributed backend services, and database optimizations. Specialized in .NET Core, SQL, and modern JS ecosystems; values clean code, modular design, and sustainable system architectures.",
+      "CV_SUMMARY": "You can access my detailed resume below, highlighting my career journey, roles, and technical expertise.",
       "HEATMAP_IDLE": "Idle",
       "HEATMAP_PEAK": "Peak",
       "ACT_TAG_PUB": "Technical Publication",
@@ -202,7 +208,9 @@ export class LocalizationService {
       "IMAGE_ALT": "Image",
       "BACK_TO_BLOG": "Back to Blog List",
       "MIN_READ": "min read",
-      "LOCATION_VAL": "Kayseri, Turkey"
+      "LOCATION_VAL": "Kayseri, Turkey",
+      "OPEN_TO_OFFERS": "Open to Opportunities",
+      "CLOSED_TO_OFFERS": "Not Seeking Opportunities"
     },
     de: {
       "NAV_HOME": "STARTSEITE",
@@ -243,7 +251,8 @@ export class LocalizationService {
       "ABOUT_INTRO_1_PREFIX": "Hallo, ich bin ",
       "ABOUT_INTRO_1_SUFFIX": "Ich bin seit über 10 Jahren in der IT-Branche als Senior Software Engineer und Systemarchitekt tätig. Im Laufe meiner Karriere habe ich mich auf hochskalierbare verteilte Backend-Dienste, Echtzeit-Daten-Streaming-Architekturen sowie die Skalierung und Optimierung von relationalen/nicht-relationalen Datenbanken konzentriert.",
       "ABOUT_INTRO_2": "Unter Einhaltung von Clean-Code-Prinzipien leite ich Teams beim Schreiben von nachhaltigem, modularem Code und der Automatisierung moderner Integrationsprozesse (CI/CD) an. Mein Ziel ist es, technologische Herausforderungen zu lösen, die Performance zu maximieren und mit Open-Source-Projekten zur Community beizutragen.",
-      "ABOUT_INTERESTS": "Interessen & Fokus",
+      "ABOUT_INTERESTS": "Dienstleistungen",
+      "SERVICES_SUBTITLE": "EXPERTISE & LEISTUNGEN",
       "INTEREST_1_TITLE": "Systemarchitektur",
       "INTEREST_1_DESC": "Verteilte Systeme, Echtzeit-Datenströme und SignalR-Hub-Infrastrukturen.",
       "INTEREST_2_TITLE": "Performance-Optimierung",
@@ -251,9 +260,10 @@ export class LocalizationService {
       "INTEREST_3_TITLE": "Wolken-Technologien",
       "INTEREST_3_DESC": "AWS-Cloud-Architekturen, CI/CD-Pipelines und Docker-Containerisierungsprozesse.",
       "CV_TITLE": "Lebenslauf",
+      "CV_SUBTITLE": "BERUFLICHER WERDEGANG",
       "CV_LOCATION": "Istanbul, Türkei",
       "CV_DOWNLOAD_FOOTER": "Sie können meinen aktuellen Lebenslauf in Ihrer bevorzugten Sprache als PDF herunterladen:",
-      "CV_SUMMARY": "Senior-Softwareentwickler und Systemarchitekt mit über 10 Jahren Berufserfahrung in hochskalierbaren Webanwendungen, verteilten Backend-Diensten und Datenbankoptimierungen. Spezialisiert auf .NET Core, SQL und moderne JS-Ökosysteme; legt Wert auf sauberen Code, modulares Design und nachhaltige Systemarchitekturen.",
+      "CV_SUMMARY": "Meinen detaillierten Lebenslauf mit Informationen zu meinem Werdegang, meinen Rollen und technischen Kompetenzen finden Sie unten.",
       "HEATMAP_IDLE": "Inaktiv",
       "HEATMAP_PEAK": "Spitze",
       "ACT_TAG_PUB": "Veröffentlichung",
@@ -297,7 +307,9 @@ export class LocalizationService {
       "IMAGE_ALT": "Bild",
       "BACK_TO_BLOG": "Zurück zur Blog-Liste",
       "MIN_READ": "Min. Lesezeit",
-      "LOCATION_VAL": "Kayseri, Türkei"
+      "LOCATION_VAL": "Kayseri, Türkei",
+      "OPEN_TO_OFFERS": "Offen für Angebote",
+      "CLOSED_TO_OFFERS": "Keine Angebote gesucht"
     }
   };
 
