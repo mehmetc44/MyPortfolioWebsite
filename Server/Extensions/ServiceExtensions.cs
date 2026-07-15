@@ -81,14 +81,12 @@ namespace Server.Extensions
                     };
                 });
 
-            // CORS policy config with allowed credentials and loaded origins
-            var origins = (configuration["AllowedOrigins"] ?? "http://localhost:4200")
-                .Split(',', StringSplitOptions.RemoveEmptyEntries);
+            // CORS policy config with allowed credentials allowing any origin dynamically
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
                 {
-                    policy.WithOrigins(origins)
+                    policy.SetIsOriginAllowed(origin => true)
                           .AllowAnyMethod()
                           .AllowAnyHeader()
                           .AllowCredentials();
