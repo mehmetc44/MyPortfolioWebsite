@@ -61,26 +61,9 @@ namespace Server.Extensions
             // Database seeding service
             services.AddScoped<IDatabaseSeeder, DatabaseSeeder>();
 
-            // Configure Cookie Authentication
-            var isProd = Environment.GetEnvironmentVariable("API_ENV") == "Production";
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.Cookie.Name = "PortfolioAuthCookie";
-                    options.Cookie.HttpOnly = true;
-                    options.Cookie.SameSite = isProd ? SameSiteMode.None : SameSiteMode.Lax;
-                    options.Cookie.SecurePolicy = isProd ? CookieSecurePolicy.Always : CookieSecurePolicy.SameAsRequest;
-                    options.Events.OnRedirectToLogin = context =>
-                    {
-                        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-                        return Task.CompletedTask;
-                    };
-                    options.Events.OnRedirectToAccessDenied = context =>
-                    {
-                        context.Response.StatusCode = StatusCodes.Status403Forbidden;
-                        return Task.CompletedTask;
-                    };
-                });
+            // Configure Simple Token Authentication (for cross-site CORS robustness)
+            services.AddAuthentication("SimpleToken")
+                .AddScheme<SimpleTokenAuthOptions, SimpleTokenAuthHandler>("SimpleToken", null);
 
             // CORS policy config with allowed credentials allowing any origin dynamically
             services.AddCors(options =>

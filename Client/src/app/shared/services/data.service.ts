@@ -136,7 +136,7 @@ export class DataService {
   async getRawProjects(): Promise<RawProject[]> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/projects/raw`, {
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       if (res.ok) {
         return await res.json();
@@ -155,9 +155,8 @@ export class DataService {
       const method = isNew ? 'POST' : 'PUT';
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(project),
-        credentials: 'include'
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(project)
       });
       return res.ok;
     } catch(e) {
@@ -170,7 +169,7 @@ export class DataService {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/projects/${id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       return res.ok;
     } catch(e) {
@@ -182,7 +181,7 @@ export class DataService {
   async getRawProfile(): Promise<RawProfile | null> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/profile/raw`, {
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       if (res.ok) {
         return await res.json();
@@ -197,9 +196,8 @@ export class DataService {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/profile`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(profile),
-        credentials: 'include'
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(profile)
       });
       if (res.ok) {
         await this.loadDataFromServer();
@@ -214,7 +212,7 @@ export class DataService {
   async getRawArticles(): Promise<RawArticle[]> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/articles/raw`, {
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       if (res.ok) {
         return await res.json();
@@ -233,9 +231,8 @@ export class DataService {
       const method = isNew ? 'POST' : 'PUT';
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(article),
-        credentials: 'include'
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(article)
       });
       return res.ok;
     } catch(e) {
@@ -248,7 +245,7 @@ export class DataService {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/articles/${id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       return res.ok;
     } catch(e) {
@@ -271,7 +268,7 @@ export class DataService {
       const res = await fetch(url, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       
       if (res.ok) {
@@ -297,7 +294,7 @@ export class DataService {
       const res = await fetch(url, {
         method: 'POST',
         body: formData,
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       
       if (res.ok) {
@@ -327,7 +324,7 @@ export class DataService {
   async getAdminMessages(): Promise<ContactMessage[]> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/messages`, {
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       if (res.ok) {
         return await res.json();
@@ -342,7 +339,7 @@ export class DataService {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/messages/${id}/read?isRead=${isRead}`, {
         method: 'PUT',
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       return res.ok;
     } catch (e) {
@@ -355,7 +352,7 @@ export class DataService {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/messages/${id}`, {
         method: 'DELETE',
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       return res.ok;
     } catch (e) {
@@ -364,11 +361,23 @@ export class DataService {
     }
   }
 
+  private getAuthHeaders(includeJsonContentType = false): Record<string, string> {
+    const token = typeof window !== 'undefined' ? (localStorage.getItem('admin_token') || '') : '';
+    const headers: Record<string, string> = {
+      'X-Admin-Token': token
+    };
+    if (includeJsonContentType) {
+      headers['Content-Type'] = 'application/json';
+    }
+    return headers;
+  }
+
   // Authentication APIs
   async checkAuthStatus(): Promise<boolean> {
     try {
+      const token = typeof window !== 'undefined' ? (localStorage.getItem('admin_token') || '') : '';
       const res = await fetch(`${this.apiBaseUrl}/api/auth/status`, {
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       if (res.ok) {
         const data = await res.json();
@@ -387,13 +396,17 @@ export class DataService {
       const res = await fetch(`${this.apiBaseUrl}/api/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-        credentials: 'include'
+        body: JSON.stringify({ username, password })
       });
       if (res.ok) {
         const data = await res.json();
-        this._isAuthenticated = data.success;
-        return this._isAuthenticated;
+        if (data.success && data.token) {
+          if (typeof window !== 'undefined') {
+            localStorage.setItem('admin_token', data.token);
+          }
+          this._isAuthenticated = true;
+          return true;
+        }
       }
     } catch(e) {
       console.error("Login failed", e);
@@ -406,9 +419,12 @@ export class DataService {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/auth/logout`, {
         method: 'POST',
-        credentials: 'include'
+        headers: this.getAuthHeaders()
       });
       if (res.ok) {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('admin_token');
+        }
         this._isAuthenticated = false;
         return true;
       }

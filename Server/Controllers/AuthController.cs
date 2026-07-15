@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Server.Data;
 using Server.Models;
 using Server.Services;
@@ -16,10 +17,12 @@ namespace Server.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(AppDbContext context)
+        public AuthController(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         public class LoginDto
@@ -43,41 +46,23 @@ namespace Server.Controllers
                 return Unauthorized("Geçersiz kullanıcı adı veya şifre.");
             }
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true,
-                AllowRefresh = true
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
-
-            return Ok(new { success = true });
+            var token = _configuration["JWT_SECRET"] ?? "super_secret_development_token_key_123456";
+            return Ok(new { success = true, token = token });
         }
 
         // POST: api/auth/logout
         [HttpPost("logout")]
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Ok(new { success = true });
         }
 
         // GET: api/auth/status
+        [Authorize]
         [HttpGet("status")]
         public IActionResult Status()
         {
-            return Ok(new { isAuthenticated = User.Identity?.IsAuthenticated ?? false });
+            return Ok(new { isAuthenticated = true });
         }
     }
 }
