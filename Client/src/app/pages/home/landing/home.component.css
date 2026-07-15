@@ -43,19 +43,50 @@
 
 .skill-bar-container {
     width: 100%;
-    height: 7px;
-    background: #cbd5e1;
+    height: 8px;
+    background: rgba(15, 23, 42, 0.08);
     border-radius: 10px;
     overflow: hidden;
     position: relative;
 }
 
+:host-context(body.dark-theme) .skill-bar-container {
+    background: rgba(255, 255, 255, 0.1);
+}
+
 .skill-bar-progress {
     height: 100%;
-    background: var(--accent-navy);
+    background: var(--skill-bar-bg);
     border-radius: 10px;
     width: 0%;
     transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.skill-bar-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    animation: progress-shimmer 2.5s infinite;
+}
+
+@keyframes progress-shimmer {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 
 /* 3. Heatmap Grid Starmap */
@@ -82,7 +113,7 @@
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
     cursor: pointer;
     position: relative;
-    border: 1px solid rgba(15, 23, 42, 0.02);
+    border: 1px solid rgba(15, 23, 42, 0.1);
 }
 
 .day-cell:hover {
@@ -117,6 +148,7 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
+    border: 1px solid rgba(15, 23, 42, 0.1);
 }
 
 .legend-box.level-0 { background-color: var(--level-0); }
@@ -261,4 +293,13 @@
         grid-template-columns: 1fr;
         gap: 16px;
     }
+}
+
+/* Dark theme overrides for matrix points and legend circles */
+:host-context(body.dark-theme) .day-cell {
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+:host-context(body.dark-theme) .legend-box {
+    border-color: rgba(255, 255, 255, 0.12);
 }

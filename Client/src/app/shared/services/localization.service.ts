@@ -45,8 +45,8 @@ export class LocalizationService {
       "SEND_MESSAGE": "Mesajı Gönder",
       "OR_DIRECT": "VEYA DOĞRUDAN CV İNDİRİN",
       "CLOSE": "Kapat",
-      "LOGGED_DAYS": "365 Günlük Log",
-      "REPOSITORIES": "Depo",
+      "DAYS_LOG": "Günlük Log",
+      "REPOSITORIES": "Proje",
       "PUBLICATIONS": "Yayın",
       "ABOUT_SUBTITLE": "KİŞİSEL BİYOGRAFİ",
       "ABOUT_TITLE": "Hakkımda",
@@ -107,7 +107,7 @@ export class LocalizationService {
       "IMAGE_ALT": "Görseli",
       "BACK_TO_BLOG": "Blog Listesine Dön",
       "MIN_READ": "dk okuma",
-      "LOCATION_VAL": "Ankara, Türkiye"
+      "LOCATION_VAL": "Kayseri, Türkiye"
     },
     en: {
       "NAV_HOME": "HOME",
@@ -140,8 +140,8 @@ export class LocalizationService {
       "SEND_MESSAGE": "Send Message",
       "OR_DIRECT": "OR DOWNLOAD DIRECT CV",
       "CLOSE": "Close",
-      "LOGGED_DAYS": "365 Days Log",
-      "REPOSITORIES": "Repos",
+      "DAYS_LOG": "Days Log",
+      "REPOSITORIES": "Projects",
       "PUBLICATIONS": "Publications",
       "ABOUT_SUBTITLE": "PERSONAL BIOGRAPHY",
       "ABOUT_TITLE": "About Me",
@@ -202,7 +202,7 @@ export class LocalizationService {
       "IMAGE_ALT": "Image",
       "BACK_TO_BLOG": "Back to Blog List",
       "MIN_READ": "min read",
-      "LOCATION_VAL": "Ankara, Turkey"
+      "LOCATION_VAL": "Kayseri, Turkey"
     },
     de: {
       "NAV_HOME": "STARTSEITE",
@@ -235,7 +235,7 @@ export class LocalizationService {
       "SEND_MESSAGE": "Nachricht senden",
       "OR_DIRECT": "ODER CV DIREKT HERUNTERLADEN",
       "CLOSE": "Schließen",
-      "LOGGED_DAYS": "365 Tage Log",
+      "DAYS_LOG": "Tage Log",
       "REPOSITORIES": "Projekte",
       "PUBLICATIONS": "Veröffentlichungen",
       "ABOUT_SUBTITLE": "PERSÖNLICHE BIOGRAFIE",
@@ -297,7 +297,7 @@ export class LocalizationService {
       "IMAGE_ALT": "Bild",
       "BACK_TO_BLOG": "Zurück zur Blog-Liste",
       "MIN_READ": "Min. Lesezeit",
-      "LOCATION_VAL": "Ankara, Türkei"
+      "LOCATION_VAL": "Kayseri, Türkei"
     }
   };
 

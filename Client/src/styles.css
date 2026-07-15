@@ -25,11 +25,12 @@
     --accent-slate-text: #4f5e71;
     
     /* Heatmap Levels - Slate/Navy Corporate Wave */
-    --level-0: #e2e8f0;
-    --level-1: #b9cbe1;
-    --level-2: #8aa3c2;
-    --level-3: #4f6d91;
-    --level-4: #0b1a30;
+    --level-0: #ebedf0;
+    --level-1: #cbd5e1;
+    --level-2: #94a3b8;
+    --level-3: #475569;
+    --level-4: #0f172a;
+    --skill-bar-bg: linear-gradient(90deg, #0f172a, #475569);
     
     /* Transitions & Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -104,21 +105,13 @@ body {
 
 .nav-logo {
     font-family: var(--font-heading);
-    font-size: 1.6rem;
-    font-weight: 700;
+    font-size: 1.8rem;
+    font-weight: 800;
     text-decoration: none;
     color: #ffffff;
     display: flex;
     align-items: center;
-}
-
-.logo-accent {
-    color: #60a5fa; /* Modern soft blue */
-    margin-right: 2px;
-}
-
-.logo-text {
-    color: #e2e8f0;
+    letter-spacing: 1px;
 }
 
 .nav-links {
@@ -197,6 +190,16 @@ body {
 
 .nav-item:hover::after {
     width: 100%;
+}
+
+.nav-item.active {
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.nav-item.active::after {
+    width: 100%;
+    background-color: #60a5fa;
 }
 /* ==========================================================================
    UTILITIES STYLESHEET (Shared Layout Blocks & Common Components)
@@ -684,12 +687,12 @@ body.dark-theme .blog-card:hover .card-action-btn {
 /* 1. Sidebar Widgets Layout */
 .profile-sidebar {
     position: sticky;
-    top: 112px;
+    top: 96px;
     height: fit-content;
 }
 
 .profile-card-content {
-    padding: 36px 24px;
+    padding: 22px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -705,9 +708,9 @@ body.dark-theme .blog-card:hover .card-action-btn {
 /* Circular Avatar with Solid Navy Frame */
 .avatar-container {
     position: relative;
-    width: 200px;
-    height: 200px;
-    margin-bottom: 28px;
+    width: 160px;
+    height: 160px;
+    margin-bottom: 16px;
     border-radius: 50%;
     padding: 5px;
     background: var(--bg-card);
@@ -749,18 +752,20 @@ body.dark-theme .blog-card:hover .card-action-btn {
     font-family: var(--font-code);
     font-size: 0.9rem;
     color: var(--accent-slate-text);
-    margin-bottom: 16px;
+    margin-bottom: 8px;
     letter-spacing: -0.2px;
     font-weight: 600;
 }
 
-.profile-title {
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 16px;
-    line-height: 1.4;
-    padding: 0 4px;
+.profile-slogan {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: var(--text-secondary);
+    line-height: 1.45;
+    margin: 4px auto 0 auto;
+    max-width: 90%;
+    text-align: center;
+    opacity: 0.85;
 }
 
 .profile-bio {
@@ -769,6 +774,115 @@ body.dark-theme .blog-card:hover .card-action-btn {
     line-height: 1.6;
     margin-bottom: 24px;
 }
+
+/* Quick Info Block */
+.profile-quick-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+    align-items: center;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.info-svg-icon {
+    color: var(--accent-navy);
+    flex-shrink: 0;
+    transition: var(--transition-smooth);
+}
+
+body.dark-theme .info-svg-icon {
+    color: #3b82f6;
+}
+
+/* Status Indicator Dot */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #10b981;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    flex-shrink: 0;
+    margin: 0 4px;
+}
+
+.status-dot::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border: 1.5px solid #10b981;
+    border-radius: 50%;
+    animation: statusGlow 2s infinite ease-in-out;
+}
+
+@keyframes statusGlow {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(2.2);
+        opacity: 0;
+    }
+}
+
+/* Tech Stack Badges */
+.profile-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 12px;
+    padding: 0 8px;
+}
+
+.tech-badge {
+    background: var(--accent-slate-light);
+    color: var(--accent-navy);
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+    border: 1px solid rgba(15, 23, 42, 0.05);
+}
+
+body.dark-theme .tech-badge {
+    background: rgba(59, 130, 246, 0.1);
+    color: #60a5fa;
+    border: 1px solid rgba(96, 165, 250, 0.15);
+}
+
+.tech-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+
+body.dark-theme .tech-badge:hover {
+    box-shadow: 0 4px 12px rgba(96, 165, 250, 0.1);
+}
+
+/* Divider Line */
+.profile-divider-line {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-color), transparent);
+    margin: 12px auto;
+    width: 85%;
+}
+
 
 .profile-location {
     display: flex;
@@ -791,7 +905,7 @@ body.dark-theme .blog-card:hover .card-action-btn {
     justify-content: center;
     align-items: center;
     gap: 12px;
-    margin-bottom: 28px;
+    margin-bottom: 16px;
     font-size: 1rem;
     color: var(--text-secondary);
     font-weight: 500;
@@ -814,7 +928,7 @@ body.dark-theme .blog-card:hover .card-action-btn {
 
 .hire-me-btn {
     width: 100%;
-    margin-bottom: 28px;
+    margin-bottom: 18px;
 }
 
 /* Social links icons */
@@ -954,11 +1068,12 @@ body.dark-theme {
     --accent-navy-text: #f8fafc;
     --accent-slate-text: #94a3b8;
     
-    --level-0: #1e293b;
-    --level-1: #1e3a8a;
-    --level-2: #2563eb;
-    --level-3: #3b82f6;
-    --level-4: #60a5fa;
+    --level-0: #161b22;
+    --level-1: #0d2d5e;
+    --level-2: #1b4d8f;
+    --level-3: #3882e5;
+    --level-4: #58a6ff;
+    --skill-bar-bg: linear-gradient(90deg, #3b82f6, #60a5fa);
 }
 
 /* Additional dark mode refinements */
@@ -1198,6 +1313,10 @@ body.dark-theme .wysiwyg-editor blockquote {
     font-style: italic;
 }
 
+.log-label-desktop { display: inline; }
+.log-label-tablet { display: none; }
+.log-label-mobile { display: none; }
+
 /* ==========================================================================
    RESPONSIVE CONFIGURATIONS (Placed at the end to properly cascade/override)
    ========================================================================== */
@@ -1225,6 +1344,10 @@ body.dark-theme .wysiwyg-editor blockquote {
     .day-cell:nth-child(-n + 203) {
         display: none;
     }
+
+    .log-label-desktop { display: none !important; }
+    .log-label-tablet { display: inline !important; }
+    .log-label-mobile { display: none !important; }
 }
 
 @media (max-width: 768px) {
@@ -1393,6 +1516,10 @@ body.dark-theme .wysiwyg-editor blockquote {
     .day-cell:nth-child(-n + 259) {
         display: none;
     }
+
+    .log-label-desktop { display: none !important; }
+    .log-label-tablet { display: none !important; }
+    .log-label-mobile { display: inline !important; }
 }
 
 @keyframes slideDownMenu {

@@ -26,5 +26,21 @@ namespace Server.Models
         public string? CvPdfUrl_TR { get; set; }
         public string? CvPdfUrl_EN { get; set; }
         public string? CvPdfUrl_DE { get; set; }
+
+        // New configurable profile details
+        public string? Job_TR { get; set; }
+        public string? Job_EN { get; set; }
+        public string? Job_DE { get; set; }
+
+        public string? Education_TR { get; set; }
+        public string? Education_EN { get; set; }
+        public string? Education_DE { get; set; }
+
+        public string? Motto_TR { get; set; }
+        public string? Motto_EN { get; set; }
+        public string? Motto_DE { get; set; }
+
+        public string? TechTags { get; set; }
+        public bool IsOpenToOffers { get; set; }
     }
 }

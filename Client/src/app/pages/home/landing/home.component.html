@@ -4,28 +4,73 @@
     <aside class="profile-sidebar" aria-label="Profile Card">
         <div class="profile-card-content glass-card">
             <div class="avatar-container">
-                <img [src]="profile.avatarUrl || 'assets/avatar_senior.png'" [alt]="profile.name" class="profile-avatar" id="profileAvatar">
+                <img [src]="profile.avatarUrl || 'assets/avatar_senior.png'" [alt]="profile.name" class="profile-avatar"
+                    id="profileAvatar">
             </div>
 
             <div class="profile-info">
                 <h1 class="profile-name">{{ profile.name }}</h1>
                 <p class="profile-tag">{{ profile.tag }}</p>
-                <h2 class="profile-title">{{ profile.title }}</h2>
-                
-                <p class="profile-bio">{{ profile.bio }}</p>
+                <p class="profile-slogan">"Fikirleri koda, kodları yaşayan ve ölçeklenebilir ürünlere dönüştürüyorum."</p>
             </div>
 
-            <!-- Location Section -->
-            <div class="profile-location">
-                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="location-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                <span>{{ 'LOCATION_VAL' | translate }}</span>
+            <!-- Divider Line -->
+            <hr class="profile-divider-line">
+
+            <!-- Quick Info Block -->
+            <div class="profile-quick-info">
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" class="info-svg-icon">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    <span class="info-text">Yazılım Mühendisi &#64; Apex Tech</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" class="info-svg-icon">
+                        <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                        <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+                    </svg>
+                    <span class="info-text">Erciyes Üni. Yazılım Müh. (3. Sınıf)</span>
+                </div>
+                <div class="info-item">
+                    <span class="status-dot"></span>
+                    <span class="info-text">Yeni Tekliflere Açık</span>
+                </div>
+                <div class="info-item">
+                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round" class="info-svg-icon">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span class="info-text">{{ 'LOCATION_VAL' | translate }}</span>
+                </div>
             </div>
+
+            <!-- Divider Line -->
+            <hr class="profile-divider-line">
+
+            <!-- Tech Stack Badges -->
+            <div class="profile-tech-stack">
+                <span class="tech-badge">.NET Core</span>
+                <span class="tech-badge">EF Core</span>
+                <span class="tech-badge">Angular</span>
+                <span class="tech-badge">Agentic AI</span>
+                <span class="tech-badge">Fedora Linux</span>
+            </div>
+
+            <!-- Divider Line -->
+            <hr class="profile-divider-line">
 
             <!-- Simplified Single-Line Metrics Row -->
             <div class="profile-metrics-row">
-                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.repos }}</span> {{ 'REPOSITORIES' | translate }}</span>
+                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.repos }}</span> {{
+                    'REPOSITORIES' | translate }}</span>
                 <span class="metric-separator">•</span>
-                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.pubs }}</span> {{ 'PUBLICATIONS' | translate }}</span>
+                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.pubs }}</span> {{
+                    'PUBLICATIONS' | translate }}</span>
             </div>
 
             <!-- Contact Modal Trigger Button -->
@@ -35,17 +80,39 @@
 
             <!-- Social links -->
             <div class="social-links">
-                <a [href]="profile.github || '#'" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                <a [href]="profile.github || '#'" target="_blank" rel="noopener noreferrer" class="social-icon"
+                    aria-label="GitHub">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path
+                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                        </path>
+                    </svg>
                 </a>
-                <a [href]="profile.linkedin || '#'" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                <a [href]="profile.linkedin || '#'" target="_blank" rel="noopener noreferrer" class="social-icon"
+                    aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
                 </a>
-                <a [href]="profile.instagram || '#'" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Instagram">
-                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                <a [href]="profile.instagram || '#'" target="_blank" rel="noopener noreferrer" class="social-icon"
+                    aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
                 </a>
-                <a [href]="profile.medium || '#'" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Medium">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42s-3.38-2.88-3.38-6.42 1.51-6.42 3.38-6.42 3.38 2.88 3.38 6.42zM24 12c0 3.17-.53 5.75-1.19 5.75s-1.19-2.58-1.19-5.75.53-5.75 1.19-5.75S24 8.83 24 12z"/></svg>
+                <a [href]="profile.medium || '#'" target="_blank" rel="noopener noreferrer" class="social-icon"
+                    aria-label="Medium">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                        <path
+                            d="M13.54 12a6.8 6.8 0 0 1-6.77 6.82A6.8 6.8 0 0 1 0 12a6.8 6.8 0 0 1 6.77-6.82A6.8 6.8 0 0 1 13.54 12zm7.42 0c0 3.54-1.51 6.42-3.38 6.42s-3.38-2.88-3.38-6.42 1.51-6.42 3.38-6.42 3.38 2.88 3.38 6.42zM24 12c0 3.17-.53 5.75-1.19 5.75s-1.19-2.58-1.19-5.75.53-5.75 1.19-5.75S24 8.83 24 12z" />
+                    </svg>
                 </a>
             </div>
         </div>
@@ -54,17 +121,19 @@
     <!-- Main Content Column: Single Unified Dashboard Pane -->
     <main class="profile-main" aria-label="Portfolio Content">
         <div class="main-content-pane glass-card fade-in">
-            
+
             <!-- About Me Section -->
             <section class="pane-section" id="about-section">
                 <div class="pane-header-hero">
-                    <span class="subtitle-tag">{{ profile.tag }}</span>
-                    <h3 class="pane-main-title">{{ profile.title }}</h3>
+                    <span class="subtitle-tag">ÇALIŞMA FELSEFESİ</span>
+                    <h3 class="pane-main-title">Fikirden Koda, Koddan Ürüne</h3>
                     <div class="title-decorator-line"></div>
                 </div>
                 <div class="about-details">
                     <p class="lead-text">
-                        {{ profile.bio }}
+                        {{ profile.bio }} Yalnızca kod yazmakla kalmıyor, ihtiyaçlara yönelik uçtan uca sistemler
+                        tasarlıyorum. Temiz mimari (Clean Architecture) prensipleriyle geliştirdiğim uygulamalara,
+                        makine öğrenimi ve AI yetenekleri kazandırarak katma değer yaratıyorum.
                     </p>
                 </div>
             </section>
@@ -86,7 +155,7 @@
                             <div class="skill-bar-progress" style="width: 0%;" data-target-width="92%"></div>
                         </div>
                     </div>
-                    
+
                     <div class="skill-item">
                         <div class="skill-info">
                             <span class="skill-name">C# &amp; .NET Core</span>
@@ -146,18 +215,20 @@
                 <h3 class="section-title">
                     {{ 'OPERATIONAL_MATRIX' | translate }}
                 </h3>
-                
+
                 <div class="heatmap-wrapper">
                     <div class="calendar-grid" id="contributionsGrid" role="grid">
-                        <div *ngFor="let item of dateList"
-                             class="day-cell level-{{item.level}}"
-                             (mouseenter)="showTooltip($event, item)"
-                             (mouseleave)="hideTooltip()">
+                        <div *ngFor="let item of dateList" class="day-cell level-{{item.level}}"
+                            (mouseenter)="showTooltip($event, item)" (mouseleave)="hideTooltip()">
                         </div>
                     </div>
-                    
+
                     <div class="heatmap-footer">
-                        <span class="activity-total">{{ 'LOGGED_DAYS' | translate }}</span>
+                        <span class="activity-total">
+                            <span class="log-label-desktop">360 {{ 'DAYS_LOG' | translate }}</span>
+                            <span class="log-label-tablet">168 {{ 'DAYS_LOG' | translate }}</span>
+                            <span class="log-label-mobile">112 {{ 'DAYS_LOG' | translate }}</span>
+                        </span>
                         <div class="heatmap-legend">
                             <span>{{ 'HEATMAP_IDLE' | translate }}</span>
                             <div class="legend-box level-0"></div>
@@ -193,7 +264,11 @@
                         <div class="board-card-footer">
                             <a routerLink="/portfolio/platar-lpr" class="btn-board-action">
                                 <span>{{ 'VIEW_DETAILS' | translate }}</span>
-                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5"
+                                    fill="none">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
                             </a>
                         </div>
                     </div>
@@ -211,7 +286,11 @@
                         <div class="board-card-footer">
                             <a routerLink="/portfolio/platar-lpr" class="btn-board-action">
                                 <span>{{ 'VIEW_DETAILS' | translate }}</span>
-                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5"
+                                    fill="none">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
                             </a>
                         </div>
                     </div>
@@ -229,7 +308,11 @@
                         <div class="board-card-footer">
                             <a routerLink="/portfolio/glassui-kit" class="btn-board-action">
                                 <span>{{ 'VIEW_DETAILS' | translate }}</span>
-                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5"
+                                    fill="none">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
                             </a>
                         </div>
                     </div>
@@ -247,7 +330,11 @@
                         <div class="board-card-footer">
                             <a routerLink="/portfolio/logstream-pipeline" class="btn-board-action">
                                 <span>{{ 'VIEW_DETAILS' | translate }}</span>
-                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5"
+                                    fill="none">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
                             </a>
                         </div>
                     </div>
@@ -258,12 +345,8 @@
 </div>
 
 <!-- Heatmap Tooltip Element -->
-<div id="gridTooltip"
-     class="grid-tooltip"
-     [class.show]="tooltipVisible"
-     [style.left]="tooltipLeft"
-     [style.top]="tooltipTop"
-     role="tooltip">
+<div id="gridTooltip" class="grid-tooltip" [class.show]="tooltipVisible" [style.left]="tooltipLeft"
+    [style.top]="tooltipTop" role="tooltip">
     {{ tooltipText }}
 </div>
 

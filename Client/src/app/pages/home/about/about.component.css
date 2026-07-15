@@ -26,6 +26,25 @@
     padding: 12px 0;
 }
 
+.about-section-title {
+    font-family: var(--font-body);
+    font-size: 1.35rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: var(--accent-navy);
+    margin-bottom: 24px;
+    letter-spacing: 0.8px;
+    position: relative;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent-slate-light);
+    display: inline-block;
+}
+
+body.dark-theme .about-section-title {
+    color: #f1f5f9;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
 .interests-grid-pane {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
