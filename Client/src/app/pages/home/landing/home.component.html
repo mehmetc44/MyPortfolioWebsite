@@ -15,11 +15,17 @@
                 <p class="profile-bio">{{ profile.bio }}</p>
             </div>
 
+            <!-- Location Section -->
+            <div class="profile-location">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="location-icon"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                <span>{{ 'LOCATION_VAL' | translate }}</span>
+            </div>
+
             <!-- Simplified Single-Line Metrics Row -->
             <div class="profile-metrics-row">
-                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.repos }}</span> {{ 'Repositories' }}</span>
+                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.repos }}</span> {{ 'REPOSITORIES' | translate }}</span>
                 <span class="metric-separator">•</span>
-                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.pubs }}</span> {{ 'Publications' }}</span>
+                <span class="metric-item-simple"><span class="metric-num-simple">{{ profile.pubs }}</span> {{ 'PUBLICATIONS' | translate }}</span>
             </div>
 
             <!-- Contact Modal Trigger Button -->
@@ -153,13 +159,13 @@
                     <div class="heatmap-footer">
                         <span class="activity-total">{{ 'LOGGED_DAYS' | translate }}</span>
                         <div class="heatmap-legend">
-                            <span>Idle</span>
+                            <span>{{ 'HEATMAP_IDLE' | translate }}</span>
                             <div class="legend-box level-0"></div>
                             <div class="legend-box level-1"></div>
                             <div class="legend-box level-2"></div>
                             <div class="legend-box level-3"></div>
                             <div class="legend-box level-4"></div>
-                            <span>Peak</span>
+                            <span>{{ 'HEATMAP_PEAK' | translate }}</span>
                         </div>
                     </div>
                 </div>
@@ -177,12 +183,12 @@
                     <!-- Feed Item 1 -->
                     <div class="activity-board-card sub-glass-card">
                         <div class="board-card-header">
-                            <span class="activity-tag tag-blog">Technical Publication</span>
-                            <span class="board-card-time">3 days ago</span>
+                            <span class="activity-tag tag-blog">{{ 'ACT_TAG_PUB' | translate }}</span>
+                            <span class="board-card-time">{{ 'ACT_TIME_3D' | translate }}</span>
                         </div>
-                        <h4 class="board-card-title">Deep Dive into .NET Core SignalR and Real-time Clients</h4>
+                        <h4 class="board-card-title">{{ 'ACT_1_TITLE' | translate }}</h4>
                         <p class="board-card-desc">
-                            Analyzing core architectures for handling socket handshakes, client disconnections gracefully, and syncing telemetry streams using Hubs.
+                            {{ 'ACT_1_DESC' | translate }}
                         </p>
                         <div class="board-card-footer">
                             <a routerLink="/portfolio/platar-lpr" class="btn-board-action">
@@ -195,12 +201,12 @@
                     <!-- Feed Item 2 -->
                     <div class="activity-board-card sub-glass-card">
                         <div class="board-card-header">
-                            <span class="activity-tag tag-repo">Package Release</span>
-                            <span class="board-card-time">1 week ago</span>
+                            <span class="activity-tag tag-repo">{{ 'ACT_TAG_RELEASE' | translate }}</span>
+                            <span class="board-card-time">{{ 'ACT_TIME_1W' | translate }}</span>
                         </div>
-                        <h4 class="board-card-title">Platar LPR — License Plate Recognition Web Dashboard</h4>
+                        <h4 class="board-card-title">{{ 'ACT_2_TITLE' | translate }}</h4>
                         <p class="board-card-desc">
-                            Released a lightweight dashboard module in pure JS for visualizing, mapping, and cataloging live automatic number-plate reader inputs.
+                            {{ 'ACT_2_DESC' | translate }}
                         </p>
                         <div class="board-card-footer">
                             <a routerLink="/portfolio/platar-lpr" class="btn-board-action">
@@ -213,12 +219,12 @@
                     <!-- Feed Item 3 -->
                     <div class="activity-board-card sub-glass-card">
                         <div class="board-card-header">
-                            <span class="activity-tag tag-blog">Technical Publication</span>
-                            <span class="board-card-time">2 weeks ago</span>
+                            <span class="activity-tag tag-blog">{{ 'ACT_TAG_PUB' | translate }}</span>
+                            <span class="board-card-time">{{ 'ACT_TIME_2W' | translate }}</span>
                         </div>
-                        <h4 class="board-card-title">Aesthetic Web Design: Crafting Glassmorphism Effects using CSS</h4>
+                        <h4 class="board-card-title">{{ 'ACT_3_TITLE' | translate }}</h4>
                         <p class="board-card-desc">
-                            A modular tutorial detailing backdrop-filters, custom inner border shadow parameters, and CSS mask settings for glass dashboard containers.
+                            {{ 'ACT_3_DESC' | translate }}
                         </p>
                         <div class="board-card-footer">
                             <a routerLink="/portfolio/glassui-kit" class="btn-board-action">
@@ -231,12 +237,12 @@
                     <!-- Feed Item 4 -->
                     <div class="activity-board-card sub-glass-card">
                         <div class="board-card-header">
-                            <span class="activity-tag tag-pr">Infrastructure Update</span>
-                            <span class="board-card-time">3 weeks ago</span>
+                            <span class="activity-tag tag-pr">{{ 'ACT_TAG_INFRA' | translate }}</span>
+                            <span class="board-card-time">{{ 'ACT_TIME_3W' | translate }}</span>
                         </div>
-                        <h4 class="board-card-title">Optimized database query indexes on telemetry logs</h4>
+                        <h4 class="board-card-title">{{ 'ACT_4_TITLE' | translate }}</h4>
                         <p class="board-card-desc">
-                            Merged structural index alterations which shortened query latency times by 35% across massive logs tables.
+                            {{ 'ACT_4_DESC' | translate }}
                         </p>
                         <div class="board-card-footer">
                             <a routerLink="/portfolio/logstream-pipeline" class="btn-board-action">

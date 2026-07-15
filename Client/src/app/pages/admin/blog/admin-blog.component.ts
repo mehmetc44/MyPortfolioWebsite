@@ -48,6 +48,10 @@ export class AdminBlogComponent implements OnInit {
     this.articles = await this.dataService.getRawArticles();
   }
 
+  formatDate(dateStr?: string): string {
+    return this.dataService.formatDate(dateStr);
+  }
+
   openNewArticleModal() {
     this.editingArticleIdx = -1;
     this.articleModalTitle = 'Yeni Makale Ekle';

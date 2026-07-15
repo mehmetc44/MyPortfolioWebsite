@@ -26,7 +26,7 @@
             <tr *ngFor="let art of articles; let idx = index">
                 <td style="font-weight: 700; color: var(--accent-navy-text, var(--accent-navy));">{{ art.title_TR }}</td>
                 <td><span class="blog-category-tag category-tag-{{art.category}}">{{ art.category }}</span></td>
-                <td>{{ art.date }}</td>
+                <td>{{ formatDate(art.date) }}</td>
                 <td>{{ art.readTime }}</td>
                 <td>
                     <div class="actions-col-cell">
@@ -77,11 +77,11 @@
             <div class="form-double-row">
                 <div class="form-group">
                     <label for="crudBlogDate">Tarih</label>
-                    <input type="text" id="crudBlogDate" name="artDate" [(ngModel)]="artDate" required placeholder="Örn: Nisan 2026">
+                    <input type="date" id="crudBlogDate" name="artDate" [(ngModel)]="artDate" required>
                 </div>
                 <div class="form-group">
-                    <label for="crudBlogReadTime">Okuma Süresi</label>
-                    <input type="text" id="crudBlogReadTime" name="artReadTime" [(ngModel)]="artReadTime" required placeholder="Örn: 6 dk okuma">
+                    <label for="crudBlogReadTime">Okuma Süresi (Dakika)</label>
+                    <input type="text" id="crudBlogReadTime" name="artReadTime" [(ngModel)]="artReadTime" required placeholder="Örn: 6">
                 </div>
             </div>
 

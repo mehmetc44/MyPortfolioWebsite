@@ -145,15 +145,24 @@ export class HomeComponent implements OnInit, AfterViewInit {
         }
       }
 
+      const activeLang = typeof window !== 'undefined' ? (localStorage.getItem('app_language') || 'tr') : 'tr';
       const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
-      const formattedDate = currentDate.toLocaleDateString('en-US', options);
-      const countText = count === 0 ? 'No active operations' : `${count} active operation${count > 1 ? 's' : ''}`;
+      const formattedDate = currentDate.toLocaleDateString(activeLang === 'en' ? 'en-US' : (activeLang === 'de' ? 'de-DE' : 'tr-TR'), options);
+      
+      let countText = '';
+      if (activeLang === 'en') {
+        countText = count === 0 ? 'No active operations' : `${count} active operation${count > 1 ? 's' : ''}`;
+      } else if (activeLang === 'de') {
+        countText = count === 0 ? 'Keine aktiven Vorgänge' : `${count} aktive${count > 1 ? 's' : ''} Vorgänge`;
+      } else {
+        countText = count === 0 ? 'Aktif işlem yok' : `${count} aktif işlem`;
+      }
 
       tempDateList.push({
         date: currentDate,
         level: level,
         count: count,
-        tooltip: `${countText} on ${formattedDate}`
+        tooltip: activeLang === 'en' ? `${countText} on ${formattedDate}` : (activeLang === 'de' ? `${countText} am ${formattedDate}` : `${formattedDate} tarihinde ${countText}`)
       });
     }
 

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DataService, Project } from '../../../shared/services/data.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-portfolio',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, TranslatePipe],
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css']
 })
@@ -18,6 +19,10 @@ export class PortfolioComponent implements OnInit {
   searchQuery = '';
 
   constructor(private dataService: DataService) {}
+
+  formatDate(dateStr?: string): string {
+    return this.dataService.formatDate(dateStr);
+  }
 
   ngOnInit() {
     this.projects = this.dataService.getProjects();

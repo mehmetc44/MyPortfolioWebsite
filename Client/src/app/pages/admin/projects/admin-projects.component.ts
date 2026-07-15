@@ -47,6 +47,10 @@ export class AdminProjectsComponent implements OnInit {
     this.projects = await this.dataService.getRawProjects();
   }
 
+  formatDate(dateStr?: string): string {
+    return this.dataService.formatDate(dateStr);
+  }
+
   openNewProjectModal() {
     this.editingProjectIdx = -1;
     this.projectModalTitle = 'Yeni Proje Ekle';

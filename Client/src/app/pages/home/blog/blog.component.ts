@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DataService, Article } from '../../../shared/services/data.service';
+import { LocalizationService } from '../../../shared/services/localization.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-blog',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, TranslatePipe],
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css']
 })
@@ -17,7 +19,14 @@ export class BlogComponent implements OnInit {
   activeCategory = 'all';
   searchQuery = '';
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private localizationService: LocalizationService
+  ) {}
+
+  formatDate(dateStr?: string): string {
+    return this.dataService.formatDate(dateStr);
+  }
 
   ngOnInit() {
     this.articles = this.dataService.getArticles();
@@ -51,10 +60,10 @@ export class BlogComponent implements OnInit {
 
   getCategoryLabel(category: string): string {
     switch (category) {
-      case 'architecture': return 'Yazılım Mimarisi';
-      case 'ai': return 'Yapay Zeka';
-      case 'frontend': return 'Ön Uç & Tasarım';
-      default: return 'Diğer';
+      case 'architecture': return this.localizationService.translate('CAT_ARCHITECTURE');
+      case 'ai': return this.localizationService.translate('CAT_AI');
+      case 'frontend': return this.localizationService.translate('CAT_FRONTEND');
+      default: return this.localizationService.translate('CAT_OTHER');
     }
   }
 }

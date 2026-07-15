@@ -13,14 +13,14 @@
         <div class="project-slider-wrapper" *ngIf="project.images && project.images.length > 0">
             <div class="project-slides" id="projectSlides">
                 <div *ngFor="let img of project.images; let idx = index" class="slide" [class.active]="idx === currentSlide">
-                    <img [src]="img" [alt]="project.title + ' Görseli ' + (idx + 1)">
+                    <img [src]="img" [alt]="project.title + ' ' + ('IMAGE_ALT' | translate) + ' ' + (idx + 1)">
                 </div>
             </div>
             <!-- Navigation Arrows -->
-            <button class="slider-arrow prev" (click)="prevSlide()" aria-label="Önceki Görsel">
+            <button class="slider-arrow prev" (click)="prevSlide()" [attr.aria-label]="'PREV_IMAGE' | translate">
                 <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
-            <button class="slider-arrow next" (click)="nextSlide()" aria-label="Sonraki Görsel">
+            <button class="slider-arrow next" (click)="nextSlide()" [attr.aria-label]="'NEXT_IMAGE' | translate">
                 <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
             
@@ -38,7 +38,7 @@
         <div class="project-detail-grid">
             <!-- Left Column: Detailed description text -->
             <div class="project-detail-content">
-                <h4 class="detail-section-title">PROJE DETAYLI BİLGİLERİ</h4>
+                <h4 class="detail-section-title">{{ 'PROJECT_DETAILS_TITLE' | translate }}</h4>
                 <div class="detail-text-body" id="detailDescBody" [innerHTML]="sanitizedDetailText">
                 </div>
             </div>
@@ -46,26 +46,26 @@
             <!-- Right Column: Specs Sidebar panel -->
             <aside class="project-detail-sidebar" aria-label="Project Specifications">
                 <div class="project-spec-panel sub-glass-card">
-                    <h4 class="spec-panel-title">Masaüstü Verileri</h4>
+                    <h4 class="spec-panel-title">{{ 'PROJECT_METADATA' | translate }}</h4>
                     
                     <ul class="spec-list">
                         <li class="spec-row">
-                            <span class="spec-label">Müşteri</span>
+                            <span class="spec-label">{{ 'CLIENT' | translate }}</span>
                             <span class="spec-value" id="specClient">{{ project.client }}</span>
                         </li>
                         <li class="spec-row">
-                            <span class="spec-label">Kategori</span>
+                            <span class="spec-label">{{ 'CATEGORY' | translate }}</span>
                             <span class="spec-value" id="specCategory" style="text-transform: uppercase;">{{ project.category }}</span>
                         </li>
                         <li class="spec-row">
-                            <span class="spec-label">Tarih</span>
-                            <span class="spec-value" id="specDate">{{ project.date }}</span>
+                            <span class="spec-label">{{ 'DATE' | translate }}</span>
+                            <span class="spec-value" id="specDate">{{ formatDate(project.date) }}</span>
                         </li>
                         <li class="spec-row" *ngIf="project.demoUrl">
-                            <span class="spec-label">Proje Linki</span>
+                            <span class="spec-label">{{ 'PROJECT_LINK' | translate }}</span>
                             <span class="spec-value">
                                 <a [href]="project.demoUrl" target="_blank" rel="noopener noreferrer" class="spec-link-item" id="specDemoLink">
-                                    <span>Demo Ziyaret Et</span>
+                                    <span>{{ 'DEMO' | translate }}</span>
                                     <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
                                 </a>
                             </span>
@@ -81,7 +81,7 @@
         <div class="project-source-footer" *ngIf="project.repoUrl">
             <a [href]="project.repoUrl" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-source-large" id="projectSourceBtn">
                 <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-                <span>KODLARI GÖRÜNTÜLE (GITHUB)</span>
+                <span>{{ 'VIEW_CODE_GITHUB' | translate }}</span>
             </a>
         </div>
     </main>

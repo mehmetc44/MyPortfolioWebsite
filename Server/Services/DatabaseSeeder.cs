@@ -58,6 +58,36 @@ namespace Server.Services
             SeedArticles();
             SeedUsers();
 
+            // Perform data format migration for existing dates & read times
+            var oldProjects = _db.Projects.ToList();
+            foreach (var proj in oldProjects)
+            {
+                if (proj.Date == "Haziran 2026") { proj.Date = "2026-06-15"; }
+                else if (proj.Date == "Nisan 2026") { proj.Date = "2026-04-15"; }
+                else if (proj.Date == "Şubat 2026") { proj.Date = "2026-02-15"; }
+                else if (proj.Date == "Kasım 2025") { proj.Date = "2025-11-15"; }
+                else if (proj.Date == "Ağustos 2025") { proj.Date = "2025-08-15"; }
+                else if (proj.Date == "Mayıs 2025") { proj.Date = "2025-05-15"; }
+                else if (proj.Date == "Mart 2025") { proj.Date = "2025-03-15"; }
+                else if (proj.Date == "Ocak 2025") { proj.Date = "2025-01-15"; }
+            }
+
+            var oldArticles = _db.Articles.ToList();
+            foreach (var art in oldArticles)
+            {
+                if (art.Date == "Haziran 2026") { art.Date = "2026-06-15"; }
+                else if (art.Date == "Nisan 2026") { art.Date = "2026-04-15"; }
+                else if (art.Date == "Mart 2026") { art.Date = "2026-03-15"; }
+                else if (art.Date == "Şubat 2026") { art.Date = "2026-02-15"; }
+                else if (art.Date == "Ocak 2026") { art.Date = "2026-01-15"; }
+                else if (art.Date == "Ağustos 2025") { art.Date = "2025-08-15"; }
+
+                if (art.ReadTime.EndsWith(" dk okuma"))
+                {
+                    art.ReadTime = art.ReadTime.Replace(" dk okuma", "").Trim();
+                }
+            }
+
             _db.SaveChanges();
         }
 
@@ -323,7 +353,7 @@ namespace Server.Services
                         Title_EN = "Platar LPR — License Plate Recognition System",
                         Title_DE = "Platar LPR — Kennzeichenerkennungssystem",
                         Category = "ml-dl",
-                        Date = "Haziran 2026",
+                        Date = "2026-06-15",
                         Client = "Platar Tech",
                         SubTag_TR = "MAKİNE ÖĞRENİMİ & DERİN ÖĞRENME",
                         SubTag_EN = "MACHINE LEARNING & DEEP LEARNING",
@@ -346,7 +376,7 @@ namespace Server.Services
                         Title_EN = "Nexus Enterprise SaaS CRM",
                         Title_DE = "Nexus Enterprise SaaS CRM",
                         Category = "web",
-                        Date = "Nisan 2026",
+                        Date = "2026-04-15",
                         Client = "Nexus Systems",
                         SubTag_TR = "KURUMSAL WEB PLATFORMLARI",
                         SubTag_EN = "ENTERPRISE WEB PLATFORMS",
@@ -369,7 +399,7 @@ namespace Server.Services
                         Title_EN = "Local DocuQuery RAG Agent",
                         Title_DE = "Lokaler DocuQuery RAG Agent",
                         Category = "ai-rag",
-                        Date = "Şubat 2026",
+                        Date = "2026-02-15",
                         Client = "Açık Kaynak Projesi",
                         SubTag_TR = "YAPAY ZEKA & RAG",
                         SubTag_EN = "ARTIFICIAL INTELLIGENCE & RAG",
@@ -392,7 +422,7 @@ namespace Server.Services
                         Title_EN = "Greenhouse ML Telemetry Predictor",
                         Title_DE = "Gewächshaus-ML-Telemetrie-Prädiktor",
                         Category = "ml-dl",
-                        Date = "Kasım 2025",
+                        Date = "2025-11-15",
                         Client = "AgriTech Ltd",
                         SubTag_TR = "MAKİNE ÖĞRENİMİ & TELEMETRİ",
                         SubTag_EN = "MACHINE LEARNING & TELEMETRY",
@@ -415,7 +445,7 @@ namespace Server.Services
                         Title_EN = "AST Fira Parser Compiler",
                         Title_DE = "AST Fira Parser Compiler",
                         Category = "other",
-                        Date = "Ağustos 2025",
+                        Date = "2025-08-15",
                         Client = "Açık Kaynak Projesi",
                         SubTag_TR = "DERLEYİCİ TASARIMI & SİSTEMLER",
                         SubTag_EN = "COMPILER DESIGN & SYSTEMS",
@@ -438,7 +468,7 @@ namespace Server.Services
                         Title_EN = "LogStream Distributed Telemetry Pipeline",
                         Title_DE = "LogStream Verteilte Telemetriepipeline",
                         Category = "web",
-                        Date = "Mayıs 2025",
+                        Date = "2025-05-15",
                         Client = "Nexus Systems",
                         SubTag_TR = "DAĞITIK BULUT SERVİSLERİ",
                         SubTag_EN = "DISTRIBUTED CLOUD SERVICES",
@@ -461,7 +491,7 @@ namespace Server.Services
                         Title_EN = "AI Dev Helper Agent Orchestrator",
                         Title_DE = "AI Dev Helper Agenten-Orchestrator",
                         Category = "ai-rag",
-                        Date = "Mart 2025",
+                        Date = "2025-03-15",
                         Client = "Açık Kaynak Projesi",
                         SubTag_TR = "YAPAY ZEKA & AJANLAR",
                         SubTag_EN = "ARTIFICIAL INTELLIGENCE & AGENTIC",
@@ -484,7 +514,7 @@ namespace Server.Services
                         Title_EN = "Frosty GlassUI Kit",
                         Title_DE = "Frosty GlassUI Kit",
                         Category = "other",
-                        Date = "Ocak 2025",
+                        Date = "2025-01-15",
                         Client = "Açık Kaynak Projesi",
                         SubTag_TR = "ESTETİK & ÖN UÇ BİLEŞENLERİ",
                         SubTag_EN = "AESTHETICS & FRONTEND UTILS",
@@ -517,8 +547,8 @@ namespace Server.Services
                         Title_EN = "Multi-Tenant Data Security in SaaS Architectures with EF Core",
                         Title_DE = "Mandantenfähige Datensicherheit in SaaS-Architekturen mit EF Core",
                         Category = "architecture",
-                        Date = "Nisan 2026",
-                        ReadTime = "6 dk okuma",
+                        Date = "2026-04-15",
+                        ReadTime = "6",
                         SubTag_TR = "YAZILIM MİMARİSİ & POSTGRESQL",
                         SubTag_EN = "SOFTWARE ARCHITECTURE & POSTGRESQL",
                         SubTag_DE = "SOFTWAREARCHITEKTUR & POSTGRESQL",
@@ -537,8 +567,8 @@ namespace Server.Services
                         Title_EN = "Deep Dive into .NET Core SignalR and Real-time Telemetry Streams",
                         Title_DE = "Deep Dive in .NET Core SignalR und Echtzeit-Telemetrieströme",
                         Category = "architecture",
-                        Date = "Haziran 2026",
-                        ReadTime = "8 dk okuma",
+                        Date = "2026-06-15",
+                        ReadTime = "8",
                         SubTag_TR = "SOKET PROGRAMLAMA & WEBSOCKETS",
                         SubTag_EN = "SOCKET PROGRAMMING & WEBSOCKETS",
                         SubTag_DE = "SOCKETPROGRAMMIERUNG & WEBSOCKETS",
@@ -557,8 +587,8 @@ namespace Server.Services
                         Title_EN = "AI-Powered Autonomous Code Review Agents",
                         Title_DE = "KI-gestützte autonome Code-Review-Agenten",
                         Category = "ai",
-                        Date = "Mart 2026",
-                        ReadTime = "7 dk okuma",
+                        Date = "2026-03-15",
+                        ReadTime = "7",
                         SubTag_TR = "YAPAY ZEKA & OTONOM AJANLAR",
                         SubTag_EN = "ARTIFICIAL INTELLIGENCE & AGENTS",
                         SubTag_DE = "KÜNSTLICHE INTELLIGENZ & AGENTEN",
@@ -577,8 +607,8 @@ namespace Server.Services
                         Title_EN = "Vector Databases and Search Speed in RAG Systems",
                         Title_DE = "Vektordatenbanken und Suchgeschwindigkeit in RAG-Systemen",
                         Category = "ai",
-                        Date = "Şubat 2026",
-                        ReadTime = "5 dk okuma",
+                        Date = "2026-02-15",
+                        ReadTime = "5",
                         SubTag_TR = "VEKTÖR VERİTABANLARI & LLM ARAMA",
                         SubTag_EN = "VECTOR DATABASES & LLM SEARCH",
                         SubTag_DE = "VEKTORDATENBANKEN & LLM SUCHE",
@@ -597,8 +627,8 @@ namespace Server.Services
                         Title_EN = "Modern Glassmorphism Effects and GPU Optimization",
                         Title_DE = "Moderne Glassmorphismus-Effekte und GPU-Optimierung",
                         Category = "frontend",
-                        Date = "Ocak 2026",
-                        ReadTime = "4 dk okuma",
+                        Date = "2026-01-15",
+                        ReadTime = "4",
                         SubTag_TR = "ESTETİK & DONANIMSAL HIZLANDIRMA",
                         SubTag_EN = "AESTHETICS & HARDWARE ACCELERATION",
                         SubTag_DE = "ÄSTHETIK & HARDWARE-BESCHLEUNIGUNG",
@@ -617,8 +647,8 @@ namespace Server.Services
                         Title_EN = "Developing Zero-Copy Compiler Frontend in Rust",
                         Title_DE = "Entwicklung eines Zero-Copy-Compiler-Frontends in Rust",
                         Category = "other",
-                        Date = "Ağustos 2025",
-                        ReadTime = "10 dk okuma",
+                        Date = "2025-08-15",
+                        ReadTime = "10",
                         SubTag_TR = "DERLEYİCİ MÜHENDİSLİĞİ & BELLEK YÖNETİMİ",
                         SubTag_EN = "COMPILER ENGINEERING & MEMORY MANAGEMENT",
                         SubTag_DE = "COMPILER-ENGINEERING & SPEICHERVERWALTUNG",

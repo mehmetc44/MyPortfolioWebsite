@@ -16,7 +16,7 @@
             <div class="article-meta-info">
                 <span class="blog-category-tag category-tag-{{article.category}}">{{ getCategoryLabel(article.category) }}</span>
                 <span class="article-meta-sep">•</span>
-                <span class="article-date-read" id="articleMetaDate">{{ article.date }} • {{ article.readTime }}</span>
+                <span class="article-date-read" id="articleMetaDate">{{ formatDate(article.date) }} • {{ article.readTime }} {{ 'MIN_READ' | translate }}</span>
             </div>
 
             <!-- Article Banner Image Cover -->
@@ -34,7 +34,7 @@
             <div class="article-navigation-footer">
                 <a routerLink="/blog" class="btn btn-secondary btn-back-blog">
                     <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-                    <span>Blog Listesine Dön</span>
+                    <span>{{ 'BACK_TO_BLOG' | translate }}</span>
                 </a>
             </div>
 

@@ -4,27 +4,27 @@
         
         <!-- Portfolio Top Header Details -->
         <div class="pane-header-hero">
-            <span class="subtitle-tag">PROJELER &amp; UYGULAMALAR</span>
-            <h3 class="pane-main-title">Projelerim</h3>
+            <span class="subtitle-tag">{{ 'PORTFOLIO_SUBTITLE' | translate }}</span>
+            <h3 class="pane-main-title">{{ 'PORTFOLIO_TITLE' | translate }}</h3>
             <div class="title-decorator-line"></div>
         </div>
-        <p class="portfolio-pane-subtitle" style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; text-align: left;">Geliştirdiğim açık kaynak kodlu modüller, ticari platformlar ve yapay zeka entegrasyonları.</p>
+        <p class="portfolio-pane-subtitle" style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px; text-align: left;">{{ 'PORTFOLIO_DESC' | translate }}</p>
 
         <!-- Controls Row: Filter buttons and Search Box -->
         <div class="portfolio-controls-row">
             <!-- Filter Tabs -->
             <div class="portfolio-filter-tabs" role="tablist" aria-label="Project Categories">
-                <button class="filter-tab" [class.active]="activeCategory === 'all'" (click)="selectCategory('all')" role="tab" [attr.aria-selected]="activeCategory === 'all'">Tümü</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'all'" (click)="selectCategory('all')" role="tab" [attr.aria-selected]="activeCategory === 'all'">{{ 'FILTER_ALL' | translate }}</button>
                 <button class="filter-tab" [class.active]="activeCategory === 'web'" (click)="selectCategory('web')" role="tab" [attr.aria-selected]="activeCategory === 'web'">Web</button>
                 <button class="filter-tab" [class.active]="activeCategory === 'ai-rag'" (click)="selectCategory('ai-rag')" role="tab" [attr.aria-selected]="activeCategory === 'ai-rag'">AI &amp; RAG</button>
                 <button class="filter-tab" [class.active]="activeCategory === 'ml-dl'" (click)="selectCategory('ml-dl')" role="tab" [attr.aria-selected]="activeCategory === 'ml-dl'">ML &amp; DL</button>
-                <button class="filter-tab" [class.active]="activeCategory === 'other'" (click)="selectCategory('other')" role="tab" [attr.aria-selected]="activeCategory === 'other'">Diğer</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'other'" (click)="selectCategory('other')" role="tab" [attr.aria-selected]="activeCategory === 'other'">{{ 'FILTER_OTHER' | translate }}</button>
             </div>
 
             <!-- Search Input Bar -->
             <div class="portfolio-search-box">
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" id="projSearchInput" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" placeholder="Proje veya teknoloji ara..." aria-label="Search Projects">
+                <input type="text" id="projSearchInput" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" [placeholder]="'SEARCH_PROJ_PLACEHOLDER' | translate" aria-label="Search Projects">
             </div>
         </div>
 
@@ -39,7 +39,7 @@
                 </div>
                 <div class="project-card-content">
                     <div class="project-card-header">
-                        <span class="project-date">{{ proj.date }}</span>
+                        <span class="project-date">{{ formatDate(proj.date) }}</span>
                     </div>
                     <h4 class="project-title">{{ proj.title }}</h4>
                     <p class="project-desc">{{ proj.description }}</p>
@@ -50,7 +50,7 @@
                 </div>
                 <div class="project-footer-links">
                     <a [routerLink]="['/portfolio', proj.id]" class="card-action-btn">
-                        <span>Detayları İncele</span>
+                        <span>{{ 'VIEW_DETAILS' | translate }}</span>
                         <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" class="btn-icon-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                     </a>
                 </div>
@@ -58,8 +58,8 @@
             
             <div *ngIf="filteredProjects.length === 0" class="no-results-widget">
                 <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="2" fill="none" class="no-results-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <h4 class="no-results-title">Arama Sonucu</h4>
-                <p class="no-results-text">Arama kriterlerinize uygun proje bulunamadı.</p>
+                <h4 class="no-results-title">{{ 'SEARCH_RESULT' | translate }}</h4>
+                <p class="no-results-text">{{ 'NO_PROJECTS_FOUND' | translate }}</p>
             </div>
         </div>
     </main>

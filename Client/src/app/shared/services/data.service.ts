@@ -80,6 +80,15 @@ export class DataService {
     return new Date().toLocaleString('tr-TR');
   }
 
+  formatDate(dateStr?: string): string {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return dateStr; // fallback if parsing fails
+    const activeLang = typeof window !== 'undefined' ? (localStorage.getItem('app_language') || 'tr') : 'tr';
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long' };
+    return date.toLocaleDateString(activeLang === 'en' ? 'en-US' : (activeLang === 'de' ? 'de-DE' : 'tr-TR'), options);
+  }
+
   getProfile(): Profile {
     if (this.cachedProfile) {
       return this.cachedProfile;

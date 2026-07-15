@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService, Profile } from '../../../shared/services/data.service';
 import { CvStructuredData } from '../../../shared/models/profile.model';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })

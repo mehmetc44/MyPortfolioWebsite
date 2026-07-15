@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { DataService, Project } from '../../../shared/services/data.service';
+import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-project-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css']
 })
@@ -22,6 +23,10 @@ export class ProjectDetailComponent implements OnInit {
     private dataService: DataService,
     private sanitizer: DomSanitizer
   ) {}
+
+  formatDate(dateStr?: string): string {
+    return this.dataService.formatDate(dateStr);
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
