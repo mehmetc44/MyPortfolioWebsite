@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { DataService, Article } from '../../../shared/services/data.service';
 import { LocalizationService } from '../../../shared/services/localization.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -13,11 +14,13 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
   templateUrl: './blog.component.html',
   styleUrls: ['./blog.component.css']
 })
-export class BlogComponent implements OnInit {
+export class BlogComponent implements OnInit, OnDestroy {
   articles: Article[] = [];
   filteredArticles: Article[] = [];
   activeCategory = 'all';
   searchQuery = '';
+
+  private subscription = new Subscription();
 
   constructor(
     private dataService: DataService,
@@ -29,8 +32,16 @@ export class BlogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.articles = this.dataService.getArticles();
-    this.filterArticles();
+    this.subscription.add(
+      this.dataService.dataUpdated$.subscribe(() => {
+        this.articles = this.dataService.getArticles();
+        this.filterArticles();
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   selectCategory(cat: string) {

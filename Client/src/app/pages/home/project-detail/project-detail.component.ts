@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 import { DataService, Project } from '../../../shared/services/data.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
@@ -12,10 +13,12 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.css']
 })
-export class ProjectDetailComponent implements OnInit {
+export class ProjectDetailComponent implements OnInit, OnDestroy {
   project?: Project;
   sanitizedDetailText?: SafeHtml;
   currentSlide = 0;
+
+  private subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -29,20 +32,36 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        const found = this.dataService.getProject(id);
-        if (found) {
-          this.project = found;
-          this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText);
-          this.currentSlide = 0;
-        } else {
-          // If project not found, redirect to portfolio listing
-          this.router.navigate(['/portfolio']);
-        }
+    this.subscription.add(
+      this.route.paramMap.subscribe(params => {
+        this.loadProject(params.get('id'));
+      })
+    );
+
+    this.subscription.add(
+      this.dataService.dataUpdated$.subscribe(() => {
+        const id = this.route.snapshot.paramMap.get('id');
+        this.loadProject(id);
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  loadProject(id: string | null) {
+    if (id) {
+      const found = this.dataService.getProject(id);
+      if (found) {
+        this.project = found;
+        this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText);
+        this.currentSlide = 0;
+      } else {
+        // If project not found, redirect to portfolio listing
+        this.router.navigate(['/portfolio']);
       }
-    });
+    }
   }
 
   nextSlide() {

@@ -46,7 +46,7 @@ export class HomeLayoutComponent implements OnInit {
   changeLanguage(lang: LanguageCode) {
     this.localizationService.setLanguage(lang);
     this.activeLang = lang;
-    window.location.reload();
+    this.dataService.loadDataFromServer();
   }
 
   get isDarkMode(): boolean {

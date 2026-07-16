@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { DataService, Project } from '../../../shared/services/data.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
@@ -12,11 +13,13 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css']
 })
-export class PortfolioComponent implements OnInit {
+export class PortfolioComponent implements OnInit, OnDestroy {
   projects: Project[] = [];
   filteredProjects: Project[] = [];
   activeCategory = 'all';
   searchQuery = '';
+
+  private subscription = new Subscription();
 
   constructor(private dataService: DataService) {}
 
@@ -25,8 +28,16 @@ export class PortfolioComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.projects = this.dataService.getProjects();
-    this.filterList();
+    this.subscription.add(
+      this.dataService.dataUpdated$.subscribe(() => {
+        this.projects = this.dataService.getProjects();
+        this.filterList();
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   selectCategory(cat: string) {

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Subscription } from 'rxjs';
 import { DataService, Article } from '../../../shared/services/data.service';
 import { LocalizationService } from '../../../shared/services/localization.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -13,9 +14,11 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
   templateUrl: './blog-detail.component.html',
   styleUrls: ['./blog-detail.component.css']
 })
-export class BlogDetailComponent implements OnInit {
+export class BlogDetailComponent implements OnInit, OnDestroy {
   article?: Article;
   sanitizedDetailText?: SafeHtml;
+
+  private subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -30,18 +33,34 @@ export class BlogDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
-      if (id) {
-        const found = this.dataService.getArticle(id);
-        if (found) {
-          this.article = found;
-          this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText);
-        } else {
-          this.router.navigate(['/blog']);
-        }
+    this.subscription.add(
+      this.route.paramMap.subscribe(params => {
+        this.loadArticle(params.get('id'));
+      })
+    );
+
+    this.subscription.add(
+      this.dataService.dataUpdated$.subscribe(() => {
+        const id = this.route.snapshot.paramMap.get('id');
+        this.loadArticle(id);
+      })
+    );
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
+  loadArticle(id: string | null) {
+    if (id) {
+      const found = this.dataService.getArticle(id);
+      if (found) {
+        this.article = found;
+        this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText);
+      } else {
+        this.router.navigate(['/blog']);
       }
-    });
+    }
   }
 
   getCategoryLabel(category: string): string {

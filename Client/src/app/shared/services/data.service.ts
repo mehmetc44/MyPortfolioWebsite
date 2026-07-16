@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { Profile, RawProfile, ContactMessage } from '../models/profile.model';
 import { Project, RawProject } from '../models/project.model';
 import { Article, RawArticle } from '../models/article.model';
@@ -16,6 +17,9 @@ export type { TechTag } from '../models/techtag.model';
 })
 export class DataService {
   private readonly updateTimeKey = 'admin_last_updated';
+
+  private dataUpdatedSubject = new BehaviorSubject<void>(undefined);
+  public dataUpdated$ = this.dataUpdatedSubject.asObservable();
 
   private cachedProfile: Profile | null = null;
   private cachedProjects: Project[] | null = null;
@@ -105,6 +109,8 @@ export class DataService {
       }
     } catch (e) {
       console.warn("API Server not available.", e);
+    } finally {
+      this.dataUpdatedSubject.next();
     }
   }
 

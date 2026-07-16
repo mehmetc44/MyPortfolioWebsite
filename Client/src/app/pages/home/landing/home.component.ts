@@ -1,6 +1,7 @@
-import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { DataService, Profile, Skill, TechTag } from '../../../shared/services/data.service';
 import { ContactModalComponent } from '../../../components/home/contact-modal/contact-modal.component';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -19,7 +20,7 @@ interface DayCell {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   get profile(): Profile {
     return this.dataService.getProfile();
   }
@@ -39,31 +40,29 @@ export class HomeComponent implements OnInit, AfterViewInit {
   // Hire me trigger modal
   showContact = false;
 
+  private subscription = new Subscription();
+
   constructor(private dataService: DataService, private elRef: ElementRef) {}
 
   async ngOnInit() {
-    this.projectCount = this.dataService.getProjects().length;
-    this.articleCount = this.dataService.getArticles().length;
-    
-    // Load dynamic skills
-    this.skills = this.dataService.getSkills();
-    if (this.skills.length === 0) {
-      await this.dataService.loadDataFromServer();
-      this.skills = this.dataService.getSkills();
-    }
+    this.subscription.add(
+      this.dataService.dataUpdated$.subscribe(async () => {
+        this.projectCount = this.dataService.getProjects().length;
+        this.articleCount = this.dataService.getArticles().length;
+        this.skills = this.dataService.getSkills();
+        this.techTags = this.dataService.getTechTagsList();
 
-    // Load dynamic tech tags
-    this.techTags = this.dataService.getTechTagsList();
-    if (this.techTags.length === 0) {
-      await this.dataService.loadDataFromServer();
-      this.techTags = this.dataService.getTechTagsList();
-    }
+        await this.generateContributionData();
+        
+        setTimeout(() => {
+          this.setupSkillsAnimation();
+        }, 300);
+      })
+    );
+  }
 
-    await this.generateContributionData();
-    
-    setTimeout(() => {
-      this.setupSkillsAnimation();
-    }, 300);
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   ngAfterViewInit() {
