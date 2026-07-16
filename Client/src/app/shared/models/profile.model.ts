@@ -1,7 +1,6 @@
 export interface Profile {
   name: string;
   tag: string;
-  title: string;
   bio: string;
   avatarUrl: string;
   repos: number;
@@ -29,9 +28,6 @@ export interface RawProfile {
   tag_TR: string;
   tag_EN: string;
   tag_DE: string;
-  title_TR: string;
-  title_EN: string;
-  title_DE: string;
   bio_TR: string;
   bio_EN: string;
   bio_DE: string;

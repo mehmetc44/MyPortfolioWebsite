@@ -7,9 +7,6 @@ namespace Server.Models
         public string? Tag_TR { get; set; }
         public string? Tag_EN { get; set; }
         public string? Tag_DE { get; set; }
-        public string? Title_TR { get; set; }
-        public string? Title_EN { get; set; }
-        public string? Title_DE { get; set; }
         public string? Bio_TR { get; set; }
         public string? Bio_EN { get; set; }
         public string? Bio_DE { get; set; }

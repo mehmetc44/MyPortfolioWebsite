@@ -137,7 +137,6 @@ export class DataService {
     return {
       name: "Mehmet",
       tag: "Software Architect",
-      title: "Senior Full Stack Engineer & Tech Lead",
       bio: "Loading...",
       avatarUrl: "assets/avatar_senior.png",
       repos: 0,

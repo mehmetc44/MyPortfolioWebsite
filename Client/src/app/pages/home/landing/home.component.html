@@ -122,16 +122,12 @@
             <!-- About Me Section -->
             <section class="pane-section" id="about-section">
                 <div class="pane-header-hero">
-                    <span class="subtitle-tag">ÇALIŞMA FELSEFESİ</span>
-                    <h3 class="pane-main-title">Fikirden Koda, Koddan Ürüne</h3>
+                    <span class="subtitle-tag">{{ 'PHILOSOPHY_SUBTITLE' | translate }}</span>
+                    <h3 class="pane-main-title">{{ 'PHILOSOPHY_TITLE' | translate }}</h3>
                     <div class="title-decorator-line"></div>
                 </div>
                 <div class="about-details">
-                    <p class="lead-text">
-                        {{ profile.bio }} Yalnızca kod yazmakla kalmıyor, ihtiyaçlara yönelik uçtan uca sistemler
-                        tasarlıyorum. Temiz mimari (Clean Architecture) prensipleriyle geliştirdiğim uygulamalara,
-                        makine öğrenimi ve AI yetenekleri kazandırarak katma değer yaratıyorum.
-                    </p>
+                    <p class="lead-text">{{ profile.bio }}</p>
                 </div>
             </section>
 

@@ -60,7 +60,6 @@ namespace Server.Controllers
                 Instagram = profile.Instagram,
                 Medium = profile.Medium,
                 Tag = lang == "en" ? profile.Tag_EN : (lang == "de" ? profile.Tag_DE : profile.Tag_TR),
-                Title = lang == "en" ? profile.Title_EN : (lang == "de" ? profile.Title_DE : profile.Title_TR),
                 Bio = lang == "en" ? profile.Bio_EN : (lang == "de" ? profile.Bio_DE : profile.Bio_TR),
                 CvText = lang == "en" ? profile.CvText_EN : (lang == "de" ? profile.CvText_DE : profile.CvText_TR),
                 CvPdfUrl = lang == "en" ? profile.CvPdfUrl_EN : (lang == "de" ? profile.CvPdfUrl_DE : profile.CvPdfUrl_TR),
@@ -115,9 +114,6 @@ namespace Server.Controllers
             existingProfile.Tag_TR = updatedProfile.Tag_TR ?? existingProfile.Tag_TR;
             existingProfile.Tag_EN = updatedProfile.Tag_EN ?? existingProfile.Tag_EN;
             existingProfile.Tag_DE = updatedProfile.Tag_DE ?? existingProfile.Tag_DE;
-            existingProfile.Title_TR = updatedProfile.Title_TR ?? existingProfile.Title_TR;
-            existingProfile.Title_EN = updatedProfile.Title_EN ?? existingProfile.Title_EN;
-            existingProfile.Title_DE = updatedProfile.Title_DE ?? existingProfile.Title_DE;
             existingProfile.Bio_TR = updatedProfile.Bio_TR ?? existingProfile.Bio_TR;
             existingProfile.Bio_EN = updatedProfile.Bio_EN ?? existingProfile.Bio_EN;
             existingProfile.Bio_DE = updatedProfile.Bio_DE ?? existingProfile.Bio_DE;
