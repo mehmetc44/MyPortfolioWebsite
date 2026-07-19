@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import { marked } from 'marked';
 import { DataService, Project } from '../../../shared/services/data.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
@@ -55,7 +56,13 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       const found = this.dataService.getProject(id);
       if (found) {
         this.project = found;
-        this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText);
+        try {
+          const parsed = marked.parse(found.detailText || '') as string;
+          this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(parsed);
+        } catch (e) {
+          console.error("Markdown parsing failed", e);
+          this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText || '');
+        }
         this.currentSlide = 0;
       } else {
         // If project not found, redirect to portfolio listing

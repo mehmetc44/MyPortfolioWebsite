@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { marked } from 'marked';
 import { DataService, RawProject } from '../../../shared/services/data.service';
 
 @Component({
@@ -12,10 +14,15 @@ import { DataService, RawProject } from '../../../shared/services/data.service';
 })
 export class AdminProjectsComponent implements OnInit {
   projects: RawProject[] = [];
-  showProjectModal = false;
+  isEditing = false;
   projectModalTitle = 'Yeni Proje Ekle';
   editingProjectIdx = -1;
   activeFormTab: 'tr' | 'en' | 'de' = 'tr';
+
+  // Markdown Editor states for TR, EN, DE
+  activeEditorTab_TR: 'write' | 'preview' = 'write';
+  activeEditorTab_EN: 'write' | 'preview' = 'write';
+  activeEditorTab_DE: 'write' | 'preview' = 'write';
 
   // Drag & Drop state
   dragIndex: number | null = null;
@@ -42,7 +49,7 @@ export class AdminProjectsComponent implements OnInit {
   projRepo = '';
   projDemo = '';
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.loadProjects();
@@ -56,10 +63,88 @@ export class AdminProjectsComponent implements OnInit {
     return this.dataService.formatDate(dateStr);
   }
 
+  getPreviewHtml(markdown: string): SafeHtml {
+    try {
+      const parsed = marked.parse(markdown || '') as string;
+      return this.sanitizer.bypassSecurityTrustHtml(parsed);
+    } catch (e) {
+      console.error(e);
+      return this.sanitizer.bypassSecurityTrustHtml(markdown || '');
+    }
+  }
+
+  insertMarkdown(lang: 'tr' | 'en' | 'de', type: string) {
+    const textareaId = 'crudProjDetail' + lang.toUpperCase();
+    const textarea = document.getElementById(textareaId) as HTMLTextAreaElement;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const selectedText = text.substring(start, end);
+
+    let replacement = '';
+    let cursorOffset = 0;
+
+    switch (type) {
+      case 'bold':
+        replacement = `**${selectedText || 'kalın yazı'}**`;
+        cursorOffset = selectedText ? 0 : 2;
+        break;
+      case 'italic':
+        replacement = `*${selectedText || 'eğik yazı'}*`;
+        cursorOffset = selectedText ? 0 : 1;
+        break;
+      case 'code':
+        replacement = `\`${selectedText || 'kod'}\``;
+        cursorOffset = selectedText ? 0 : 1;
+        break;
+      case 'code-block':
+        replacement = `\n\`\`\`\n${selectedText || 'kod bloğu'}\n\`\`\`\n`;
+        cursorOffset = selectedText ? 0 : 4;
+        break;
+      case 'link':
+        replacement = `[${selectedText || 'bağlantı metni'}](https://)`;
+        cursorOffset = selectedText ? 12 : 1;
+        break;
+      case 'list':
+        replacement = `\n- ${selectedText || 'liste elemanı'}`;
+        cursorOffset = selectedText ? 0 : 2;
+        break;
+      case 'h1':
+        replacement = `\n# ${selectedText || 'Başlık 1'}\n`;
+        cursorOffset = selectedText ? 0 : 2;
+        break;
+      case 'h2':
+        replacement = `\n## ${selectedText || 'Başlık 2'}\n`;
+        cursorOffset = selectedText ? 0 : 3;
+        break;
+      case 'h3':
+        replacement = `\n### ${selectedText || 'Başlık 3'}\n`;
+        cursorOffset = selectedText ? 0 : 4;
+        break;
+    }
+
+    const newValue = text.substring(0, start) + replacement + text.substring(end);
+    
+    if (lang === 'tr') this.projDetail_TR = newValue;
+    else if (lang === 'en') this.projDetail_EN = newValue;
+    else if (lang === 'de') this.projDetail_DE = newValue;
+
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = start + replacement.length - cursorOffset;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 50);
+  }
+
   openNewProjectModal() {
     this.editingProjectIdx = -1;
     this.projectModalTitle = 'Yeni Proje Ekle';
     this.activeFormTab = 'tr';
+    this.activeEditorTab_TR = 'write';
+    this.activeEditorTab_EN = 'write';
+    this.activeEditorTab_DE = 'write';
     
     this.projId = '';
     this.projTitle_TR = '';
@@ -80,13 +165,16 @@ export class AdminProjectsComponent implements OnInit {
     this.projTech = '';
     this.projRepo = '';
     this.projDemo = '';
-    this.showProjectModal = true;
+    this.isEditing = true;
   }
 
   openEditProjectModal(idx: number) {
     this.editingProjectIdx = idx;
     this.projectModalTitle = 'Proje Düzenle';
     this.activeFormTab = 'tr';
+    this.activeEditorTab_TR = 'write';
+    this.activeEditorTab_EN = 'write';
+    this.activeEditorTab_DE = 'write';
     const proj = this.projects[idx];
     
     this.projId = proj.id;
@@ -108,11 +196,11 @@ export class AdminProjectsComponent implements OnInit {
     this.projTech = proj.tech;
     this.projRepo = proj.repoUrl;
     this.projDemo = proj.demoUrl || '';
-    this.showProjectModal = true;
+    this.isEditing = true;
   }
 
   closeProjectModal() {
-    this.showProjectModal = false;
+    this.isEditing = false;
   }
 
   async saveProject() {
