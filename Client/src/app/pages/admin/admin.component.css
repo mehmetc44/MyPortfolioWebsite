@@ -650,3 +650,128 @@ body.dark-theme .modal-tab-btn.active {
     background: var(--accent-navy);
     color: #ffffff;
 }
+
+/* ========== Drag & Drop Sıralama Stilleri ========== */
+
+/* Tablo satırı sürükle bırak */
+.drag-row {
+    cursor: default;
+    transition: background 0.15s ease, opacity 0.15s ease;
+}
+
+.drag-row.dragging {
+    opacity: 0.45;
+    background: rgba(11, 26, 48, 0.06) !important;
+}
+
+.drag-row.drag-over-top {
+    border-top: 2px solid var(--accent-navy) !important;
+}
+
+.drag-row.drag-over-bottom {
+    border-bottom: 2px solid var(--accent-navy) !important;
+}
+
+/* Drag Handle Butonu */
+.drag-handle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    cursor: grab;
+    color: var(--text-muted);
+    border-radius: 6px;
+    transition: var(--transition-smooth);
+    background: transparent;
+    border: none;
+    flex-shrink: 0;
+}
+
+.drag-handle:hover {
+    color: var(--accent-navy);
+    background: rgba(11, 26, 48, 0.06);
+}
+
+.drag-handle:active {
+    cursor: grabbing;
+}
+
+body.dark-theme .drag-handle:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f1f5f9;
+}
+
+/* CV Kartları için drag & drop */
+.cv-drag-card {
+    position: relative;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+    cursor: default;
+}
+
+.cv-drag-card.dragging {
+    opacity: 0.4;
+    transform: scale(0.98);
+}
+
+.cv-drag-card.drag-over {
+    box-shadow: 0 0 0 2px var(--accent-navy), 0 8px 24px rgba(11, 26, 48, 0.12);
+}
+
+.cv-card-drag-handle {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    cursor: grab;
+    color: var(--text-muted);
+    opacity: 0.5;
+    transition: opacity 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.cv-drag-card:hover .cv-card-drag-handle {
+    opacity: 1;
+}
+
+.cv-card-drag-handle:active {
+    cursor: grabbing;
+}
+
+/* Sıra Kaydediliyor Toast */
+.order-save-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--accent-navy);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    box-shadow: 0 8px 24px rgba(11, 26, 48, 0.2);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    animation: toastSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes toastSlideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0);   opacity: 1; }
+}
+
+.toast-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

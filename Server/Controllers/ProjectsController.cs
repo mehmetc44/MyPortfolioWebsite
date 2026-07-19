@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace Server.Controllers
         [HttpGet("raw")]
         public async Task<IActionResult> GetRawProjects()
         {
-            var list = await _context.Projects.ToListAsync();
+            var list = await _context.Projects.OrderBy(p => p.OrderIndex).ToListAsync();
             return Ok(list);
         }
 
@@ -34,7 +35,7 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProjects([FromQuery] string lang = "tr")
         {
-            var list = await _context.Projects.ToListAsync();
+            var list = await _context.Projects.OrderBy(p => p.OrderIndex).ToListAsync();
             lang = lang.ToLower();
 
             var mappedList = list.Select(p => new
@@ -150,6 +151,26 @@ namespace Server.Controllers
             return Ok(existing);
         }
 
+        // PUT: api/projects/reorder
+        [HttpPut("reorder")]
+        public async Task<IActionResult> ReorderProjects([FromBody] List<ProjectReorderItem> items)
+        {
+            if (items == null || items.Count == 0)
+                return BadRequest("Geçersiz sıralama verisi.");
+
+            foreach (var item in items)
+            {
+                var project = await _context.Projects.FindAsync(item.Id);
+                if (project != null)
+                {
+                    project.OrderIndex = item.OrderIndex;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         // DELETE: api/projects/platar-lpr
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(string id)
@@ -191,5 +212,10 @@ namespace Server.Controllers
             }
         }
     }
-}
 
+    public class ProjectReorderItem
+    {
+        public string Id { get; set; } = "";
+        public int OrderIndex { get; set; }
+    }
+}

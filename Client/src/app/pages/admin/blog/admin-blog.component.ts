@@ -21,6 +21,11 @@ export class AdminBlogComponent implements OnInit {
   editingArticleIdx = -1;
   activeFormTab: 'tr' | 'en' | 'de' = 'tr';
 
+  // Drag & Drop state
+  dragIndex: number | null = null;
+  dragOverIndex: number | null = null;
+  isSavingOrder = false;
+
   artId = '';
   artTitle_TR = '';
   artTitle_EN = '';
@@ -176,5 +181,46 @@ export class AdminBlogComponent implements OnInit {
         alert("Makale silinirken sunucu hatası oluştu.");
       }
     }
+  }
+
+  // ── Drag & Drop Handlers ──────────────────────────────────────
+
+  onDragStart(index: number) {
+    this.dragIndex = index;
+  }
+
+  onDragOver(event: DragEvent, index: number) {
+    event.preventDefault();
+    this.dragOverIndex = index;
+  }
+
+  onDragLeave() {
+    this.dragOverIndex = null;
+  }
+
+  async onDrop(event: DragEvent, dropIndex: number) {
+    event.preventDefault();
+    if (this.dragIndex === null || this.dragIndex === dropIndex) {
+      this.dragIndex = null;
+      this.dragOverIndex = null;
+      return;
+    }
+    const moved = this.articles.splice(this.dragIndex, 1)[0];
+    this.articles.splice(dropIndex, 0, moved);
+    this.dragIndex = null;
+    this.dragOverIndex = null;
+    await this.saveOrder();
+  }
+
+  onDragEnd() {
+    this.dragIndex = null;
+    this.dragOverIndex = null;
+  }
+
+  async saveOrder() {
+    this.isSavingOrder = true;
+    const items = this.articles.map((a, i) => ({ id: a.id, orderIndex: i }));
+    await this.dataService.reorderArticles(items);
+    this.isSavingOrder = false;
   }
 }

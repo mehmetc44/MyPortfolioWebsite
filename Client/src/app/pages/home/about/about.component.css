@@ -217,18 +217,20 @@ body.dark-theme .about-section-title {
 }
 
 .timeline-item-subtitle {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: var(--text-secondary);
+    color: var(--text-muted);
     display: inline-block;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 .timeline-item-org {
-    font-size: 0.92rem;
-    font-weight: 600;
+    font-size: 0.98rem;
+    font-weight: 700;
     color: var(--text-secondary);
-    margin-bottom: 8px;
+    margin-bottom: 12px;
 }
 
 .timeline-item-desc {
@@ -247,15 +249,16 @@ body.dark-theme .about-section-title {
 .cv-item-bullets li {
     font-size: 0.92rem;
     color: var(--text-secondary);
-    line-height: 1.55;
-    margin-bottom: 6px;
+    line-height: 1.6;
+    margin-bottom: 8px;
     position: relative;
-    padding-left: 16px;
+    padding-left: 18px;
+    opacity: 0.9;
 }
 
 .cv-item-bullets li::before {
     content: "•";
-    color: var(--accent-slate);
+    color: var(--accent-navy);
     font-weight: bold;
     position: absolute;
     left: 2px;

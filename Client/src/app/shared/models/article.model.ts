@@ -28,4 +28,5 @@ export interface RawArticle {
   detailText_TR: string;
   detailText_EN: string;
   detailText_DE: string;
+  orderIndex?: number;
 }

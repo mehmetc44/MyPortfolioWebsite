@@ -34,18 +34,38 @@
     </form>
 </div>
 
-<!-- Skills Table List -->
+<!-- Skills Table List with Drag & Drop -->
 <div class="table-wrapper" *ngIf="!selectedSkill">
     <table class="admin-table">
         <thead>
             <tr>
+                <th style="width: 40px;"></th>
                 <th>Yetenek Adı</th>
                 <th style="width: 150px; text-align: center;">Yüzde (%)</th>
                 <th style="width: 150px; text-align: center;">İşlemler</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let s of skills">
+            <tr *ngFor="let s of skills; let i = index"
+                class="drag-row"
+                [class.dragging]="dragIndex === i"
+                [class.drag-over-top]="dragOverIndex === i && dragIndex !== null && dragIndex > i"
+                [class.drag-over-bottom]="dragOverIndex === i && dragIndex !== null && dragIndex < i"
+                draggable="true"
+                (dragstart)="onDragStart(i)"
+                (dragover)="onDragOver($event, i)"
+                (dragleave)="onDragLeave()"
+                (drop)="onDrop($event, i)"
+                (dragend)="onDragEnd()">
+                <td style="padding: 12px 8px; text-align: center;">
+                    <span class="drag-handle" title="Sırayı değiştirmek için sürükleyin">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+                            <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+                            <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+                        </svg>
+                    </span>
+                </td>
                 <td style="font-weight: 700; color: var(--accent-navy-text, var(--accent-navy));">{{ s.name }}</td>
                 <td style="text-align: center;">
                     <span class="project-category-tag" style="background: rgba(30, 58, 138, 0.08); color: var(--accent-navy-text);">{{ s.percentage }}%</span>
@@ -62,8 +82,14 @@
                 </td>
             </tr>
             <tr *ngIf="skills.length === 0">
-                <td colspan="3" style="text-align: center; padding: 24px;">Kayıtlı yetenek bulunmamaktadır.</td>
+                <td colspan="4" style="text-align: center; padding: 24px;">Kayıtlı yetenek bulunmamaktadır.</td>
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Sıra Kaydediliyor Toast -->
+<div class="order-save-toast" *ngIf="isSavingOrder">
+    <div class="toast-spinner"></div>
+    <span>Sıra kaydediliyor...</span>
 </div>

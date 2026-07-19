@@ -34,4 +34,5 @@ export interface RawProject {
   detailText_TR: string;
   detailText_EN: string;
   detailText_DE: string;
+  orderIndex?: number;
 }

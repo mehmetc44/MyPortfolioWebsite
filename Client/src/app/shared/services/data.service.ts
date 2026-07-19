@@ -309,6 +309,57 @@ export class DataService {
     }
   }
 
+  async reorderSkills(items: { id: number, orderIndex: number }[]): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/skills/reorder`, {
+        method: 'PUT',
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(items)
+      });
+      if (res.ok) {
+        await this.loadDataFromServer();
+      }
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+  async reorderProjects(items: { id: string, orderIndex: number }[]): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/projects/reorder`, {
+        method: 'PUT',
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(items)
+      });
+      if (res.ok) {
+        await this.loadDataFromServer();
+      }
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+  async reorderArticles(items: { id: string, orderIndex: number }[]): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/articles/reorder`, {
+        method: 'PUT',
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(items)
+      });
+      if (res.ok) {
+        await this.loadDataFromServer();
+      }
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
+    }
+  }
+
   async getRawTechTags(): Promise<TechTag[]> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/techtags`, {

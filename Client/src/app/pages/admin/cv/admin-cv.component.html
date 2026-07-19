@@ -45,7 +45,25 @@
             Kayıtlı tecrübe bulunamadı. Yeni bir tecrübe eklemek için "+ Tecrübe Ekle" butonunu kullanın.
         </div>
 
-        <div class="sub-glass-card" *ngFor="let exp of currentCv.experiences; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+        <div class="sub-glass-card cv-drag-card"
+             *ngFor="let exp of currentCv.experiences; let i = index; trackBy: trackByFn"
+             style="padding: 20px; padding-left: 44px; border-radius: 12px; margin-bottom: 16px; position: relative;"
+             [class.dragging]="isDragging('experiences', i)"
+             [class.drag-over]="isDragOver('experiences', i)"
+             draggable="true"
+             (dragstart)="onSectionDragStart('experiences', i)"
+             (dragover)="onSectionDragOver($event, 'experiences', i)"
+             (dragleave)="onSectionDragLeave('experiences')"
+             (drop)="onSectionDrop($event, 'experiences', i)"
+             (dragend)="onSectionDragEnd('experiences')">
+            <!-- Drag Handle -->
+            <span class="cv-card-drag-handle" title="Sırayı değiştirmek için sürükleyin">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: var(--text-muted);">
+                    <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+                    <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+                    <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+                </svg>
+            </span>
             <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeExperience(i)">Kaldır</button>
             <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Tecrübe #{{ i + 1 }}</span>
             
@@ -92,7 +110,24 @@
             Kayıtlı eğitim bilgisi bulunamadı.
         </div>
 
-        <div class="sub-glass-card" *ngFor="let edu of currentCv.educations; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+        <div class="sub-glass-card cv-drag-card"
+             *ngFor="let edu of currentCv.educations; let i = index; trackBy: trackByFn"
+             style="padding: 20px; padding-left: 44px; border-radius: 12px; margin-bottom: 16px; position: relative;"
+             [class.dragging]="isDragging('educations', i)"
+             [class.drag-over]="isDragOver('educations', i)"
+             draggable="true"
+             (dragstart)="onSectionDragStart('educations', i)"
+             (dragover)="onSectionDragOver($event, 'educations', i)"
+             (dragleave)="onSectionDragLeave('educations')"
+             (drop)="onSectionDrop($event, 'educations', i)"
+             (dragend)="onSectionDragEnd('educations')">
+            <span class="cv-card-drag-handle" title="Sırayı değiştirmek için sürükleyin">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: var(--text-muted);">
+                    <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+                    <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+                    <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+                </svg>
+            </span>
             <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeEducation(i)">Kaldır</button>
             <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Eğitim #{{ i + 1 }}</span>
             
@@ -133,7 +168,24 @@
             Kayıtlı sertifika bulunamadı.
         </div>
 
-        <div class="sub-glass-card" *ngFor="let cert of currentCv.certificates; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+        <div class="sub-glass-card cv-drag-card"
+             *ngFor="let cert of currentCv.certificates; let i = index; trackBy: trackByFn"
+             style="padding: 20px; padding-left: 44px; border-radius: 12px; margin-bottom: 16px; position: relative;"
+             [class.dragging]="isDragging('certificates', i)"
+             [class.drag-over]="isDragOver('certificates', i)"
+             draggable="true"
+             (dragstart)="onSectionDragStart('certificates', i)"
+             (dragover)="onSectionDragOver($event, 'certificates', i)"
+             (dragleave)="onSectionDragLeave('certificates')"
+             (drop)="onSectionDrop($event, 'certificates', i)"
+             (dragend)="onSectionDragEnd('certificates')">
+            <span class="cv-card-drag-handle" title="Sırayı değiştirmek için sürükleyin">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: var(--text-muted);">
+                    <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+                    <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+                    <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+                </svg>
+            </span>
             <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeCertificate(i)">Kaldır</button>
             <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Sertifika #{{ i + 1 }}</span>
             
@@ -163,7 +215,24 @@
             Kayıtlı gönüllülük faaliyeti bulunamadı.
         </div>
 
-        <div class="sub-glass-card" *ngFor="let vol of currentCv.volunteering; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+        <div class="sub-glass-card cv-drag-card"
+             *ngFor="let vol of currentCv.volunteering; let i = index; trackBy: trackByFn"
+             style="padding: 20px; padding-left: 44px; border-radius: 12px; margin-bottom: 16px; position: relative;"
+             [class.dragging]="isDragging('volunteering', i)"
+             [class.drag-over]="isDragOver('volunteering', i)"
+             draggable="true"
+             (dragstart)="onSectionDragStart('volunteering', i)"
+             (dragover)="onSectionDragOver($event, 'volunteering', i)"
+             (dragleave)="onSectionDragLeave('volunteering')"
+             (drop)="onSectionDrop($event, 'volunteering', i)"
+             (dragend)="onSectionDragEnd('volunteering')">
+            <span class="cv-card-drag-handle" title="Sırayı değiştirmek için sürükleyin">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: var(--text-muted);">
+                    <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+                    <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+                    <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+                </svg>
+            </span>
             <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeVolunteering(i)">Kaldır</button>
             <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Faaliyet #{{ i + 1 }}</span>
             
@@ -204,7 +273,24 @@
             Kayıtlı dil bilgisi bulunamadı.
         </div>
 
-        <div class="sub-glass-card" *ngFor="let lang of currentCv.languages; let i = index; trackBy: trackByFn" style="padding: 20px; border-radius: 12px; margin-bottom: 16px; position: relative;">
+        <div class="sub-glass-card cv-drag-card"
+             *ngFor="let lang of currentCv.languages; let i = index; trackBy: trackByFn"
+             style="padding: 20px; padding-left: 44px; border-radius: 12px; margin-bottom: 16px; position: relative;"
+             [class.dragging]="isDragging('languages', i)"
+             [class.drag-over]="isDragOver('languages', i)"
+             draggable="true"
+             (dragstart)="onSectionDragStart('languages', i)"
+             (dragover)="onSectionDragOver($event, 'languages', i)"
+             (dragleave)="onSectionDragLeave('languages')"
+             (drop)="onSectionDrop($event, 'languages', i)"
+             (dragend)="onSectionDragEnd('languages')">
+            <span class="cv-card-drag-handle" title="Sırayı değiştirmek için sürükleyin">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="color: var(--text-muted);">
+                    <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+                    <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+                    <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+                </svg>
+            </span>
             <button type="button" class="btn btn-danger" style="position: absolute; top: 12px; right: 12px; padding: 4px 8px; font-size: 0.75rem;" (click)="removeLanguage(i)">Kaldır</button>
             <span style="font-size: 0.75rem; color: var(--accent-cyan); font-weight: 800; text-transform: uppercase;">Dil #{{ i + 1 }}</span>
             

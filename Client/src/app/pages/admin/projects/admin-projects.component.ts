@@ -17,6 +17,11 @@ export class AdminProjectsComponent implements OnInit {
   editingProjectIdx = -1;
   activeFormTab: 'tr' | 'en' | 'de' = 'tr';
 
+  // Drag & Drop state
+  dragIndex: number | null = null;
+  dragOverIndex: number | null = null;
+  isSavingOrder = false;
+
   projId = '';
   projTitle_TR = '';
   projTitle_EN = '';
@@ -157,5 +162,46 @@ export class AdminProjectsComponent implements OnInit {
         alert("Proje silinirken sunucu hatası oluştu.");
       }
     }
+  }
+
+  // ── Drag & Drop Handlers ──────────────────────────────────────
+
+  onDragStart(index: number) {
+    this.dragIndex = index;
+  }
+
+  onDragOver(event: DragEvent, index: number) {
+    event.preventDefault();
+    this.dragOverIndex = index;
+  }
+
+  onDragLeave() {
+    this.dragOverIndex = null;
+  }
+
+  async onDrop(event: DragEvent, dropIndex: number) {
+    event.preventDefault();
+    if (this.dragIndex === null || this.dragIndex === dropIndex) {
+      this.dragIndex = null;
+      this.dragOverIndex = null;
+      return;
+    }
+    const moved = this.projects.splice(this.dragIndex, 1)[0];
+    this.projects.splice(dropIndex, 0, moved);
+    this.dragIndex = null;
+    this.dragOverIndex = null;
+    await this.saveOrder();
+  }
+
+  onDragEnd() {
+    this.dragIndex = null;
+    this.dragOverIndex = null;
+  }
+
+  async saveOrder() {
+    this.isSavingOrder = true;
+    const items = this.projects.map((p, i) => ({ id: p.id, orderIndex: i }));
+    await this.dataService.reorderProjects(items);
+    this.isSavingOrder = false;
   }
 }

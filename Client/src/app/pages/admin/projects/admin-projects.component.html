@@ -15,6 +15,7 @@
     <table class="admin-table">
         <thead>
             <tr>
+                <th style="width: 40px;"></th>
                 <th>Proje Başlığı (TR)</th>
                 <th>Kategori</th>
                 <th>Tarih</th>
@@ -23,7 +24,26 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let proj of projects; let idx = index">
+            <tr *ngFor="let proj of projects; let idx = index"
+                class="drag-row"
+                [class.dragging]="dragIndex === idx"
+                [class.drag-over-top]="dragOverIndex === idx && dragIndex !== null && dragIndex > idx"
+                [class.drag-over-bottom]="dragOverIndex === idx && dragIndex !== null && dragIndex < idx"
+                draggable="true"
+                (dragstart)="onDragStart(idx)"
+                (dragover)="onDragOver($event, idx)"
+                (dragleave)="onDragLeave()"
+                (drop)="onDrop($event, idx)"
+                (dragend)="onDragEnd()">
+                <td style="padding: 12px 8px; text-align: center;">
+                    <span class="drag-handle" title="Sırayı değiştirmek için sürükleyin">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                            <circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/>
+                            <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
+                            <circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/>
+                        </svg>
+                    </span>
+                </td>
                 <td style="font-weight: 700; color: var(--accent-navy-text, var(--accent-navy));">{{ proj.title_TR }}</td>
                 <td><span class="project-category-tag category-tag-{{proj.category}}">{{ proj.category }}</span></td>
                 <td>{{ formatDate(proj.date) }}</td>
@@ -40,11 +60,18 @@
                 </td>
             </tr>
             <tr *ngIf="projects.length === 0">
-                <td colspan="5" style="text-align: center; padding: 24px;">Kayıtlı proje bulunmamaktadır.</td>
+                <td colspan="6" style="text-align: center; padding: 24px;">Kayıtlı proje bulunmamaktadır.</td>
             </tr>
         </tbody>
     </table>
 </div>
+
+<!-- Sıra Kaydediliyor Toast -->
+<div class="order-save-toast" *ngIf="isSavingOrder">
+    <div class="toast-spinner"></div>
+    <span>Sıra kaydediliyor...</span>
+</div>
+
 
 <!-- PROJECT CRUD FORM MODAL OVERLAY -->
 <div id="projectCrudModal" class="modal-overlay" [class.show]="showProjectModal" role="dialog" aria-modal="true" aria-labelledby="projModalTitle">

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace Server.Controllers
         [HttpGet("raw")]
         public async Task<IActionResult> GetRawArticles()
         {
-            var list = await _context.Articles.ToListAsync();
+            var list = await _context.Articles.OrderBy(a => a.OrderIndex).ToListAsync();
             return Ok(list);
         }
 
@@ -34,7 +35,7 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetArticles([FromQuery] string lang = "tr")
         {
-            var list = await _context.Articles.ToListAsync();
+            var list = await _context.Articles.OrderBy(a => a.OrderIndex).ToListAsync();
             lang = lang.ToLower();
 
             var mappedList = list.Select(a => new
@@ -141,6 +142,26 @@ namespace Server.Controllers
             return Ok(existing);
         }
 
+        // PUT: api/articles/reorder
+        [HttpPut("reorder")]
+        public async Task<IActionResult> ReorderArticles([FromBody] List<ArticleReorderItem> items)
+        {
+            if (items == null || items.Count == 0)
+                return BadRequest("Geçersiz sıralama verisi.");
+
+            foreach (var item in items)
+            {
+                var article = await _context.Articles.FindAsync(item.Id);
+                if (article != null)
+                {
+                    article.OrderIndex = item.OrderIndex;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         // DELETE: api/articles/saas-multitenancy
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(string id)
@@ -175,5 +196,10 @@ namespace Server.Controllers
             }
         }
     }
-}
 
+    public class ArticleReorderItem
+    {
+        public string Id { get; set; } = "";
+        public int OrderIndex { get; set; }
+    }
+}

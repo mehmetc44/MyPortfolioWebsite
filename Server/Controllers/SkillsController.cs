@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -25,7 +26,7 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetSkills()
         {
-            var skills = await _context.Skills.OrderBy(s => s.Id).ToListAsync();
+            var skills = await _context.Skills.OrderBy(s => s.OrderIndex).ThenBy(s => s.Id).ToListAsync();
             return Ok(skills);
         }
 
@@ -67,6 +68,26 @@ namespace Server.Controllers
             return Ok(existing);
         }
 
+        // PUT: api/skills/reorder
+        [HttpPut("reorder")]
+        public async Task<IActionResult> ReorderSkills([FromBody] List<SkillReorderItem> items)
+        {
+            if (items == null || items.Count == 0)
+                return BadRequest("Geçersiz sıralama verisi.");
+
+            foreach (var item in items)
+            {
+                var skill = await _context.Skills.FindAsync(item.Id);
+                if (skill != null)
+                {
+                    skill.OrderIndex = item.OrderIndex;
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            return Ok();
+        }
+
         // DELETE: api/skills/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSkill(int id)
@@ -82,5 +103,11 @@ namespace Server.Controllers
 
             return NoContent();
         }
+    }
+
+    public class SkillReorderItem
+    {
+        public int Id { get; set; }
+        public int OrderIndex { get; set; }
     }
 }

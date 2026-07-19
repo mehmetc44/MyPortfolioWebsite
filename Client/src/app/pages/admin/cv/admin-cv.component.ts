@@ -28,6 +28,15 @@ export class AdminCvComponent implements OnInit {
   cvEN: CvStructuredData = { experiences: [], educations: [], certificates: [], volunteering: [], languages: [] };
   cvDE: CvStructuredData = { experiences: [], educations: [], certificates: [], volunteering: [], languages: [] };
 
+  // Drag & Drop state — her section için ayrı
+  drag: Record<string, { dragIndex: number | null, dragOverIndex: number | null }> = {
+    experiences:   { dragIndex: null, dragOverIndex: null },
+    educations:    { dragIndex: null, dragOverIndex: null },
+    certificates:  { dragIndex: null, dragOverIndex: null },
+    volunteering:  { dragIndex: null, dragOverIndex: null },
+    languages:     { dragIndex: null, dragOverIndex: null },
+  };
+
   constructor(private dataService: DataService) {}
 
   async ngOnInit() {
@@ -71,12 +80,7 @@ export class AdminCvComponent implements OnInit {
   // --- List Item Addition & Removal Methods ---
 
   addExperience() {
-    this.currentCv.experiences.push({
-      title: '',
-      org: '',
-      date: '',
-      bullets: ['']
-    });
+    this.currentCv.experiences.push({ title: '', org: '', date: '', bullets: [''] });
   }
 
   removeExperience(index: number) {
@@ -92,12 +96,7 @@ export class AdminCvComponent implements OnInit {
   }
 
   addEducation() {
-    this.currentCv.educations.push({
-      title: '',
-      org: '',
-      date: '',
-      desc: ''
-    });
+    this.currentCv.educations.push({ title: '', org: '', date: '', desc: '' });
   }
 
   removeEducation(index: number) {
@@ -105,10 +104,7 @@ export class AdminCvComponent implements OnInit {
   }
 
   addCertificate() {
-    this.currentCv.certificates.push({
-      title: '',
-      date: ''
-    });
+    this.currentCv.certificates.push({ title: '', date: '' });
   }
 
   removeCertificate(index: number) {
@@ -116,12 +112,7 @@ export class AdminCvComponent implements OnInit {
   }
 
   addVolunteering() {
-    this.currentCv.volunteering.push({
-      title: '',
-      org: '',
-      date: '',
-      desc: ''
-    });
+    this.currentCv.volunteering.push({ title: '', org: '', date: '', desc: '' });
   }
 
   removeVolunteering(index: number) {
@@ -129,11 +120,7 @@ export class AdminCvComponent implements OnInit {
   }
 
   addLanguage() {
-    this.currentCv.languages.push({
-      name: '',
-      level: '',
-      percentage: 80
-    });
+    this.currentCv.languages.push({ name: '', level: '', percentage: 80 });
   }
 
   removeLanguage(index: number) {
@@ -142,6 +129,51 @@ export class AdminCvComponent implements OnInit {
 
   trackByFn(index: any, item: any) {
     return index;
+  }
+
+  // ── Drag & Drop Handlers (Generic per-section) ────────────────
+
+  onSectionDragStart(section: string, index: number) {
+    this.drag[section].dragIndex = index;
+  }
+
+  onSectionDragOver(event: DragEvent, section: string, index: number) {
+    event.preventDefault();
+    this.drag[section].dragOverIndex = index;
+  }
+
+  onSectionDragLeave(section: string) {
+    this.drag[section].dragOverIndex = null;
+  }
+
+  onSectionDrop(event: DragEvent, section: string, dropIndex: number) {
+    event.preventDefault();
+    const from = this.drag[section].dragIndex;
+    if (from === null || from === dropIndex) {
+      this.drag[section].dragIndex = null;
+      this.drag[section].dragOverIndex = null;
+      return;
+    }
+
+    const arr = (this.currentCv as any)[section] as any[];
+    const moved = arr.splice(from, 1)[0];
+    arr.splice(dropIndex, 0, moved);
+
+    this.drag[section].dragIndex = null;
+    this.drag[section].dragOverIndex = null;
+  }
+
+  onSectionDragEnd(section: string) {
+    this.drag[section].dragIndex = null;
+    this.drag[section].dragOverIndex = null;
+  }
+
+  isDragging(section: string, index: number): boolean {
+    return this.drag[section].dragIndex === index;
+  }
+
+  isDragOver(section: string, index: number): boolean {
+    return this.drag[section].dragOverIndex === index && this.drag[section].dragIndex !== null;
   }
 
   // --- PDF CV File Uploader ---

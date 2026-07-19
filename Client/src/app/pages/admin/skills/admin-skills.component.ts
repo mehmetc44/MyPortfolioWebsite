@@ -15,6 +15,11 @@ export class AdminSkillsComponent implements OnInit {
   selectedSkill: Skill | null = null;
   isNew = false;
 
+  // Drag & Drop state
+  dragIndex: number | null = null;
+  dragOverIndex: number | null = null;
+  isSavingOrder = false;
+
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
@@ -73,5 +78,51 @@ export class AdminSkillsComponent implements OnInit {
         alert('Yetenek silinirken bir hata oluştu.');
       }
     }
+  }
+
+  // ── Drag & Drop Handlers ──────────────────────────────────────
+
+  onDragStart(index: number) {
+    this.dragIndex = index;
+  }
+
+  onDragOver(event: DragEvent, index: number) {
+    event.preventDefault();
+    this.dragOverIndex = index;
+  }
+
+  onDragLeave() {
+    this.dragOverIndex = null;
+  }
+
+  async onDrop(event: DragEvent, dropIndex: number) {
+    event.preventDefault();
+    if (this.dragIndex === null || this.dragIndex === dropIndex) {
+      this.dragIndex = null;
+      this.dragOverIndex = null;
+      return;
+    }
+
+    // Reorder array
+    const moved = this.skills.splice(this.dragIndex, 1)[0];
+    this.skills.splice(dropIndex, 0, moved);
+
+    this.dragIndex = null;
+    this.dragOverIndex = null;
+
+    // Save to backend
+    await this.saveOrder();
+  }
+
+  onDragEnd() {
+    this.dragIndex = null;
+    this.dragOverIndex = null;
+  }
+
+  async saveOrder() {
+    this.isSavingOrder = true;
+    const items = this.skills.map((s, i) => ({ id: s.id, orderIndex: i }));
+    await this.dataService.reorderSkills(items);
+    this.isSavingOrder = false;
   }
 }
