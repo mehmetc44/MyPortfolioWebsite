@@ -29,6 +29,10 @@ export class AdminProjectsComponent implements OnInit {
   dragOverIndex: number | null = null;
   isSavingOrder = false;
 
+  // Project Images State
+  projectImages: string[] = [];
+  isUploadingImage = false;
+
   projId = '';
   projTitle_TR = '';
   projTitle_EN = '';
@@ -165,6 +169,7 @@ export class AdminProjectsComponent implements OnInit {
     this.projTech = '';
     this.projRepo = '';
     this.projDemo = '';
+    this.projectImages = [];
     this.isEditing = true;
   }
 
@@ -196,11 +201,47 @@ export class AdminProjectsComponent implements OnInit {
     this.projTech = proj.tech;
     this.projRepo = proj.repoUrl;
     this.projDemo = proj.demoUrl || '';
+    this.projectImages = proj.imagesJson ? JSON.parse(proj.imagesJson) : [];
     this.isEditing = true;
   }
 
   closeProjectModal() {
     this.isEditing = false;
+  }
+
+  resolveImagePreview(img: string): string {
+    if (!img) return 'assets/project_placeholder.png';
+    if (img.startsWith('http') || img.startsWith('assets/')) {
+      return img;
+    }
+    return `${this.dataService.apiBaseUrl}/${img}`;
+  }
+
+  setAsCover(idx: number) {
+    if (idx <= 0 || idx >= this.projectImages.length) return;
+    const img = this.projectImages.splice(idx, 1)[0];
+    this.projectImages.unshift(img);
+  }
+
+  removeImage(idx: number) {
+    if (idx < 0 || idx >= this.projectImages.length) return;
+    if (confirm('Bu görseli projeden kaldırmak istediğinizden emin misiniz?')) {
+      this.projectImages.splice(idx, 1);
+    }
+  }
+
+  async onProjectImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (file && this.projId) {
+      this.isUploadingImage = true;
+      const uploadedPath = await this.dataService.uploadProjectImage(file, this.projId);
+      this.isUploadingImage = false;
+      if (uploadedPath) {
+        this.projectImages.push(uploadedPath);
+      } else {
+        alert('Görsel yüklenirken bir hata oluştu.');
+      }
+    }
   }
 
   async saveProject() {
@@ -227,7 +268,7 @@ export class AdminProjectsComponent implements OnInit {
       tech: this.projTech,
       repoUrl: this.projRepo,
       demoUrl: this.projDemo || `portfolio/${this.editingProjectIdx >= 0 ? this.projects[this.editingProjectIdx].id : slugId}`,
-      imagesJson: this.editingProjectIdx >= 0 ? (this.projects[this.editingProjectIdx].imagesJson || "[]") : "[\"assets/project_placeholder.png\", \"assets/project_slide1.png\", \"assets/project_slide2.png\"]"
+      imagesJson: JSON.stringify(this.projectImages)
     };
 
     const isNew = this.editingProjectIdx < 0;

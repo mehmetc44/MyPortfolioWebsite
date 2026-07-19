@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 using Server.Extensions;
 
 // 1. Initialize environment variables and verify/create directories
@@ -19,6 +21,17 @@ var app = builder.Build();
 
 // 3. Configure HTTP pipeline
 app.UseStaticFiles();
+
+var storagePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "Storage");
+if (!Directory.Exists(storagePath))
+{
+    Directory.CreateDirectory(storagePath);
+}
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(storagePath),
+    RequestPath = "/storage"
+});
 
 // 4. Migrate database and run data seeding
 app.SeedDatabase();

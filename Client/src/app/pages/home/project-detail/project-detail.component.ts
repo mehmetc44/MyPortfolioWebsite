@@ -71,13 +71,22 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     }
   }
 
-  nextSlide() {
+  private swipeStartX = 0;
+  private swipeStartY = 0;
+
+  nextSlide(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     if (this.project && this.project.images.length > 0) {
       this.currentSlide = (this.currentSlide + 1) % this.project.images.length;
     }
   }
 
-  prevSlide() {
+  prevSlide(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
     if (this.project && this.project.images.length > 0) {
       this.currentSlide = (this.currentSlide - 1 + this.project.images.length) % this.project.images.length;
     }
@@ -85,5 +94,41 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
 
   setSlide(index: number) {
     this.currentSlide = index;
+  }
+
+  onTouchStart(event: TouchEvent) {
+    this.swipeStartX = event.changedTouches[0].screenX;
+    this.swipeStartY = event.changedTouches[0].screenY;
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    const endX = event.changedTouches[0].screenX;
+    const endY = event.changedTouches[0].screenY;
+    this.handleSwipe(this.swipeStartX, this.swipeStartY, endX, endY);
+  }
+
+  onMouseDown(event: MouseEvent) {
+    this.swipeStartX = event.screenX;
+    this.swipeStartY = event.screenY;
+  }
+
+  onMouseUp(event: MouseEvent) {
+    const endX = event.screenX;
+    const endY = event.screenY;
+    this.handleSwipe(this.swipeStartX, this.swipeStartY, endX, endY);
+  }
+
+  private handleSwipe(startX: number, startY: number, endX: number, endY: number) {
+    const diffX = endX - startX;
+    const diffY = endY - startY;
+    
+    // Check if horizontal swipe is dominant and significant
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        this.prevSlide();
+      } else {
+        this.nextSlide();
+      }
+    }
   }
 }

@@ -40,11 +40,22 @@ namespace Server.Extensions
                 Directory.CreateDirectory(dbFolder);
             }
 
-            // Ensure uploads directory exists
-            var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-            if (!Directory.Exists(uploadsFolder))
+            // Ensure Storage folders exist at the same level as Client and Server
+            var rootFolder = Path.Combine(Directory.GetCurrentDirectory(), "..");
+            var storageFolder = Path.Combine(rootFolder, "Storage");
+            if (!Directory.Exists(storageFolder))
             {
-                Directory.CreateDirectory(uploadsFolder);
+                Directory.CreateDirectory(storageFolder);
+            }
+            
+            var subfolders = new[] { "cv", "avatar", "projects", "articles" };
+            foreach (var sub in subfolders)
+            {
+                var p = Path.Combine(storageFolder, sub);
+                if (!Directory.Exists(p))
+                {
+                    Directory.CreateDirectory(p);
+                }
             }
         }
 

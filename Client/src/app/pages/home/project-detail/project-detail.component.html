@@ -9,29 +9,45 @@
             <div class="title-decorator-line"></div>
         </div>
 
-        <!-- Image Photo Slider Section -->
-        <div class="project-slider-wrapper" *ngIf="project.images && project.images.length > 0">
-            <div class="project-slides" id="projectSlides">
-                <div *ngFor="let img of project.images; let idx = index" class="slide" [class.active]="idx === currentSlide">
-                    <img [src]="img" [alt]="project.title + ' ' + ('IMAGE_ALT' | translate) + ' ' + (idx + 1)">
-                </div>
-            </div>
-            <!-- Navigation Arrows -->
-            <button class="slider-arrow prev" (click)="prevSlide()" [attr.aria-label]="'PREV_IMAGE' | translate">
-                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
-            </button>
-            <button class="slider-arrow next" (click)="nextSlide()" [attr.aria-label]="'NEXT_IMAGE' | translate">
-                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
-            </button>
+        <!-- Image Photo Slider Section or Default Image Fallback -->
+        <div class="project-slider-wrapper"
+             (touchstart)="onTouchStart($event)"
+             (touchend)="onTouchEnd($event)"
+             (mousedown)="onMouseDown($event)"
+             (mouseup)="onMouseUp($event)"
+             style="cursor: grab; user-select: none;">
             
-            <!-- Indicators Dots -->
-            <div class="slider-indicators" style="display: flex; justify-content: center; gap: 8px; margin-top: 12px; position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 10;">
-                <span *ngFor="let img of project.images; let idx = index"
-                      (click)="setSlide(idx)"
-                      [style.background-color]="idx === currentSlide ? 'var(--accent-navy)' : 'rgba(255,255,255,0.6)'"
-                      style="width: 8px; height: 8px; border-radius: 50%; cursor: pointer; border: 1px solid var(--border-color); transition: background-color 0.3s ease;">
-                </span>
-            </div>
+            <ng-container *ngIf="project.images && project.images.length > 0; else defaultImageFallback">
+                <div class="project-slides" id="projectSlides">
+                    <div *ngFor="let img of project.images; let idx = index" class="slide" [class.active]="idx === currentSlide">
+                        <img [src]="img" [alt]="project.title + ' ' + ('IMAGE_ALT' | translate) + ' ' + (idx + 1)">
+                    </div>
+                </div>
+                <!-- Navigation Arrows -->
+                <button class="slider-arrow prev" (click)="prevSlide($event)" [attr.aria-label]="'PREV_IMAGE' | translate">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <button class="slider-arrow next" (click)="nextSlide($event)" [attr.aria-label]="'NEXT_IMAGE' | translate">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+                
+                <!-- Indicators Dots -->
+                <div class="slider-indicators" style="display: flex; justify-content: center; gap: 8px; margin-top: 12px; position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 10;">
+                    <span *ngFor="let img of project.images; let idx = index"
+                          (click)="setSlide(idx); $event.stopPropagation();"
+                          [style.background-color]="idx === currentSlide ? 'var(--accent-navy)' : 'rgba(255,255,255,0.6)'"
+                          style="width: 8px; height: 8px; border-radius: 50%; cursor: pointer; border: 1px solid var(--border-color); transition: background-color 0.3s ease;">
+                    </span>
+                </div>
+            </ng-container>
+
+            <ng-template #defaultImageFallback>
+                <div class="project-slides">
+                    <div class="slide active">
+                        <img src="assets/project_placeholder.png" [alt]="project.title + ' Default Image'">
+                    </div>
+                </div>
+            </ng-template>
         </div>
 
         <!-- Content Grid Layout -->

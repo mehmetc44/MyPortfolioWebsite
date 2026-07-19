@@ -509,6 +509,29 @@ export class DataService {
     return null;
   }
 
+  async uploadProjectImage(file: File, projectId: string): Promise<string | null> {
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const url = `${this.apiBaseUrl}/api/upload/project?projectId=${encodeURIComponent(projectId)}`;
+      
+      const res = await fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: this.getAuthHeaders()
+      });
+      
+      if (res.ok) {
+        const data = await res.json();
+        return data.url; // e.g. "storage/projects/slug/guid_filename.png"
+      }
+    } catch(e) {
+      console.error(e);
+    }
+    return null;
+  }
+
   async postContactMessage(msg: { name: string; email: string; message: string }): Promise<boolean> {
     try {
       const res = await fetch(`${this.apiBaseUrl}/api/contact`, {

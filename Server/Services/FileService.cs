@@ -22,9 +22,9 @@ namespace Server.Services
                 throw new ArgumentException("Yüklenen dosya geçersiz veya boş.");
             }
 
-            // Create target folders dynamically under wwwroot/uploads/{subFolder}
-            var wwwRoot = _env.WebRootPath ?? Path.Combine(Directory.GetCurrentDirectory(), "wwwroot");
-            var uploadsFolder = Path.Combine(wwwRoot, "uploads", subFolder);
+            // Create target folders dynamically under Storage/{subFolder}
+            var rootFolder = Path.Combine(Directory.GetCurrentDirectory(), "..");
+            var uploadsFolder = Path.Combine(rootFolder, "Storage", subFolder);
 
             if (!Directory.Exists(uploadsFolder))
             {
@@ -60,7 +60,7 @@ namespace Server.Services
             }
 
             // Return relative route
-            return $"uploads/{subFolder}/{uniqueFileName}";
+            return $"storage/{subFolder}/{uniqueFileName}";
         }
     }
 }
