@@ -22,9 +22,9 @@ namespace Server.Services
                 throw new ArgumentException("Yüklenen dosya geçersiz veya boş.");
             }
 
-            // Create target folders dynamically under Storage/{subFolder}
-            var rootFolder = Path.Combine(Directory.GetCurrentDirectory(), "..");
-            var uploadsFolder = Path.Combine(rootFolder, "Storage", subFolder);
+            // Create target folders dynamically under Storage/{subFolder} with canonical absolute pathing
+            var rootFolder = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), ".."));
+            var uploadsFolder = Path.GetFullPath(Path.Combine(rootFolder, "Storage", subFolder));
 
             if (!Directory.Exists(uploadsFolder))
             {
@@ -50,8 +50,14 @@ namespace Server.Services
                 }
             }
 
+            // Sanitize filename to avoid special characters, spaces, or URL encoding bugs
+            var originalFileName = Path.GetFileName(file.FileName);
+            var extension = Path.GetExtension(originalFileName);
+            var nameWithoutExt = Path.GetFileNameWithoutExtension(originalFileName);
+            var cleanName = RemoveTurkishAndSpecialChars(nameWithoutExt);
+
             // Generate unique filename to avoid collision
-            var uniqueFileName = $"{Guid.NewGuid()}_{Path.GetFileName(file.FileName)}";
+            var uniqueFileName = $"{Guid.NewGuid()}_{cleanName}{extension}";
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
@@ -61,6 +67,20 @@ namespace Server.Services
 
             // Return relative route
             return $"storage/{subFolder}/{uniqueFileName}";
+        }
+
+        private static string RemoveTurkishAndSpecialChars(string text)
+        {
+            if (string.IsNullOrEmpty(text)) return "file";
+            string[] unaccented = { "c", "C", "g", "G", "i", "I", "o", "O", "s", "S", "u", "U" };
+            string[] turkish = { "ç", "Ç", "ğ", "Ğ", "ı", "İ", "ö", "Ö", "ş", "Ş", "ü", "Ü" };
+            for (int i = 0; i < turkish.Length; i++)
+            {
+                text = text.Replace(turkish[i], unaccented[i]);
+            }
+            // Replace spaces and special non-alphanumeric chars with underscore
+            text = System.Text.RegularExpressions.Regex.Replace(text, @"[^a-zA-Z0-9\-_]", "_");
+            return text.Trim('_');
         }
     }
 }

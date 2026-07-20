@@ -212,9 +212,9 @@ export class AdminProjectsComponent implements OnInit {
   resolveImagePreview(img: string): string {
     if (!img) return 'assets/project_placeholder.png';
     if (img.startsWith('http') || img.startsWith('assets/')) {
-      return img;
+      return encodeURI(img);
     }
-    return `${this.dataService.apiBaseUrl}/${img}`;
+    return encodeURI(`${this.dataService.apiBaseUrl}/${img}`);
   }
 
   setAsCover(idx: number) {

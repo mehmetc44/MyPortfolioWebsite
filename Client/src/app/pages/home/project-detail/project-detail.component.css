@@ -7,7 +7,8 @@
 .project-slider-wrapper {
     position: relative;
     width: 100%;
-    height: 480px; /* Standard 16:9 box scale on desktop */
+    height: 480px;
+    /* Standard 16:9 box scale on desktop */
     background: #0f172a;
     border-radius: 16px;
     overflow: hidden;
@@ -41,7 +42,7 @@
 .slide img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 /* Slider Controls Arrow Buttons */
@@ -84,7 +85,8 @@
 /* 2. Content Split Grid layout */
 .project-detail-grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr; /* 60% / 40% split */
+    grid-template-columns: 1.6fr 1fr;
+    /* 60% / 40% split */
     gap: 48px;
     margin-bottom: 40px;
 }
@@ -202,12 +204,12 @@
         grid-template-columns: 1fr;
         gap: 32px;
     }
-    
+
     .project-detail-sidebar {
         position: static;
         width: 100%;
     }
-    
+
     .project-slider-wrapper {
         height: 360px;
     }
@@ -217,16 +219,237 @@
     .project-slider-wrapper {
         height: 240px;
     }
-    
+
     .slider-arrow {
         width: 36px;
         height: 36px;
     }
-    
-    .slider-arrow.prev { left: 10px; }
-    .slider-arrow.next { right: 10px; }
-    
+
+    .slider-arrow.prev {
+        left: 10px;
+    }
+
+    .slider-arrow.next {
+        right: 10px;
+    }
+
     .main-content-pane {
         padding: 40px 24px;
     }
+}
+
+/* ==========================================================================
+   FULLSCREEN LIGHTBOX MODAL OVERLAY
+   ========================================================================== */
+.lightbox-overlay {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(11, 26, 48, 0.94) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    z-index: 999999 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: lightboxFadeIn 0.3s ease forwards;
+}
+
+.lightbox-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.lightbox-close-btn {
+    position: fixed !important;
+    top: 24px !important;
+    right: 28px !important;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.88);
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 9999999 !important;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox-close-btn:hover {
+    background: #ef4444;
+    border-color: #f87171;
+    color: #ffffff;
+    transform: scale(1.15) rotate(90deg);
+}
+
+.lightbox-counter {
+    position: absolute;
+    top: 28px;
+    left: 32px;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    background: rgba(15, 23, 42, 0.6);
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    z-index: 100001;
+}
+
+.lightbox-image-box {
+    max-width: 90vw;
+    max-height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-img {
+    max-width: 90vw;
+    max-height: 85vh;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    animation: lightboxZoomIn 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+}
+
+.lightbox-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 100001;
+    transition: all 0.25s ease;
+}
+
+.lightbox-arrow:hover {
+    background: var(--accent-navy);
+    border-color: var(--accent-navy);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-arrow.prev {
+    left: 32px;
+}
+
+.lightbox-arrow.next {
+    right: 32px;
+}
+
+@keyframes lightboxFadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes lightboxZoomIn {
+    from {
+        transform: scale(0.92);
+        opacity: 0.8;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .lightbox-arrow {
+        width: 42px;
+        height: 42px;
+    }
+
+    .lightbox-arrow.prev {
+        left: 12px;
+    }
+
+    .lightbox-arrow.next {
+        right: 12px;
+    }
+
+    .lightbox-close-btn {
+        top: 16px;
+        right: 16px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .lightbox-counter {
+        top: 20px;
+        left: 16px;
+        font-size: 0.9rem;
+    }
+}
+
+/* ==========================================================================
+   HERO TITLE ROW & BACK BUTTON
+   ========================================================================== */
+.hero-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 8px;
+}
+
+.hero-title-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.05);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    white-space: nowrap;
+    margin-top: 4px;
+}
+
+body.dark-theme .btn-back-link {
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+}
+
+.btn-back-link:hover {
+    background: var(--accent-navy);
+    color: #ffffff;
+    border-color: var(--accent-navy);
+    transform: translateX(-4px);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
 }

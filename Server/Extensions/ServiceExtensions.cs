@@ -41,8 +41,8 @@ namespace Server.Extensions
             }
 
             // Ensure Storage folders exist at the same level as Client and Server
-            var rootFolder = Path.Combine(Directory.GetCurrentDirectory(), "..");
-            var storageFolder = Path.Combine(rootFolder, "Storage");
+            var rootFolder = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), ".."));
+            var storageFolder = Path.GetFullPath(Path.Combine(rootFolder, "Storage"));
             if (!Directory.Exists(storageFolder))
             {
                 Directory.CreateDirectory(storageFolder);

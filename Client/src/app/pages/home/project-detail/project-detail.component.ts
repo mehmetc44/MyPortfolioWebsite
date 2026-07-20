@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -18,6 +18,11 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   project?: Project;
   sanitizedDetailText?: SafeHtml;
   currentSlide = 0;
+
+  // Lightbox Fullscreen Modal State
+  isLightboxOpen = false;
+  lightboxImageIndex = 0;
+  private isDragging = false;
 
   private subscription = new Subscription();
 
@@ -64,11 +69,58 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
           this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText || '');
         }
         this.currentSlide = 0;
-      } else {
-        // If project not found, redirect to portfolio listing
+      } else if (this.dataService.isLoaded) {
+        // If data loading is complete AND project is not found, redirect to portfolio listing
         this.router.navigate(['/portfolio']);
       }
     }
+  }
+
+  // Lightbox Modal Controls
+  openLightbox(index?: number) {
+    this.lightboxImageIndex = index !== undefined ? index : this.currentSlide;
+    this.isLightboxOpen = true;
+  }
+
+  closeLightbox() {
+    this.isLightboxOpen = false;
+  }
+
+  nextLightboxImage(event?: Event) {
+    if (event) event.stopPropagation();
+    if (this.project && this.project.images.length > 0) {
+      this.lightboxImageIndex = (this.lightboxImageIndex + 1) % this.project.images.length;
+    }
+  }
+
+  prevLightboxImage(event?: Event) {
+    if (event) event.stopPropagation();
+    if (this.project && this.project.images.length > 0) {
+      this.lightboxImageIndex = (this.lightboxImageIndex - 1 + this.project.images.length) % this.project.images.length;
+    }
+  }
+
+
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    if (!this.isLightboxOpen) return;
+    if (event.key === 'Escape') {
+      this.closeLightbox();
+    } else if (event.key === 'ArrowRight') {
+      this.nextLightboxImage();
+    } else if (event.key === 'ArrowLeft') {
+      this.prevLightboxImage();
+    }
+  }
+
+  onImageClick(idx: number, event: MouseEvent) {
+    if (this.isDragging) {
+      this.isDragging = false;
+      return;
+    }
+    event.stopPropagation();
+    this.openLightbox(idx);
   }
 
   private swipeStartX = 0;
@@ -99,22 +151,30 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
   onTouchStart(event: TouchEvent) {
     this.swipeStartX = event.changedTouches[0].screenX;
     this.swipeStartY = event.changedTouches[0].screenY;
+    this.isDragging = false;
   }
 
   onTouchEnd(event: TouchEvent) {
     const endX = event.changedTouches[0].screenX;
     const endY = event.changedTouches[0].screenY;
+    if (Math.abs(endX - this.swipeStartX) > 10) {
+      this.isDragging = true;
+    }
     this.handleSwipe(this.swipeStartX, this.swipeStartY, endX, endY);
   }
 
   onMouseDown(event: MouseEvent) {
     this.swipeStartX = event.screenX;
     this.swipeStartY = event.screenY;
+    this.isDragging = false;
   }
 
   onMouseUp(event: MouseEvent) {
     const endX = event.screenX;
     const endY = event.screenY;
+    if (Math.abs(endX - this.swipeStartX) > 10) {
+      this.isDragging = true;
+    }
     this.handleSwipe(this.swipeStartX, this.swipeStartY, endX, endY);
   }
 

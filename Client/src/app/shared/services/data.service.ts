@@ -22,6 +22,7 @@ export class DataService {
   public dataUpdated$ = this.dataUpdatedSubject.asObservable();
 
   private cachedProfile: Profile | null = null;
+  public isLoaded = false;
   private cachedProjects: Project[] | null = null;
   private cachedArticles: Article[] | null = null;
   private cachedSkills: Skill[] | null = null;
@@ -57,7 +58,7 @@ export class DataService {
         const prof = await profRes.json();
         // Resolve avatar URL: if it's a relative upload path, prepend the API base URL
         if (prof.avatarUrl && !prof.avatarUrl.startsWith('http') && !prof.avatarUrl.startsWith('assets/')) {
-          prof.avatarUrl = `${this.apiBaseUrl}/${prof.avatarUrl}`;
+          prof.avatarUrl = encodeURI(`${this.apiBaseUrl}/${prof.avatarUrl}`);
         }
         this.cachedProfile = prof;
       }
@@ -72,12 +73,12 @@ export class DataService {
           } catch(e) {
             console.error("Failed to parse imagesJson", e);
           }
-          // Resolve each project image URL
+          // Resolve each project image URL with URI encoding for safety
           const resolvedImages = parsedImages.map((img: string) => {
             if (img && !img.startsWith('http') && !img.startsWith('assets/')) {
-              return `${this.apiBaseUrl}/${img}`;
+              return encodeURI(`${this.apiBaseUrl}/${img}`);
             }
-            return img;
+            return encodeURI(img);
           });
           return {
             ...p,
@@ -92,7 +93,7 @@ export class DataService {
         // Resolve article imageUrl: if relative upload path, prepend the API base URL
         this.cachedArticles = articles.map((a: any) => {
           if (a.imageUrl && !a.imageUrl.startsWith('http') && !a.imageUrl.startsWith('assets/')) {
-            a.imageUrl = `${this.apiBaseUrl}/${a.imageUrl}`;
+            a.imageUrl = encodeURI(`${this.apiBaseUrl}/${a.imageUrl}`);
           }
           return a;
         });
@@ -110,6 +111,7 @@ export class DataService {
     } catch (e) {
       console.warn("API Server not available.", e);
     } finally {
+      this.isLoaded = true;
       this.dataUpdatedSubject.next();
     }
   }
