@@ -16,10 +16,12 @@ namespace Server.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly Services.IFileService _fileService;
 
-        public ProjectsController(AppDbContext context)
+        public ProjectsController(AppDbContext context, Services.IFileService fileService)
         {
             _context = context;
+            _fileService = fileService;
         }
 
         // GET: api/projects/raw
@@ -124,6 +126,9 @@ namespace Server.Controllers
                 return NotFound("Güncellenecek proje bulunamadı.");
             }
 
+            // Delete any physical image files that were removed from the project
+            DeleteRemovedPhysicalImages(existing.ImagesJson, updatedProject.ImagesJson);
+
             // Map values
             existing.Title_TR = updatedProject.Title_TR;
             existing.Title_EN = updatedProject.Title_EN;
@@ -181,10 +186,39 @@ namespace Server.Controllers
                 return NotFound("Silinecek proje bulunamadı.");
             }
 
+            // Delete all associated project images and folder from disk
+            DeleteRemovedPhysicalImages(project.ImagesJson, null);
+            _fileService.DeleteDirectory($"projects/{id}");
+
             _context.Projects.Remove(project);
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private void DeleteRemovedPhysicalImages(string? oldJson, string? newJson)
+        {
+            if (string.IsNullOrWhiteSpace(oldJson)) return;
+
+            try
+            {
+                var oldList = System.Text.Json.JsonSerializer.Deserialize<List<string>>(oldJson) ?? new List<string>();
+                var newList = string.IsNullOrWhiteSpace(newJson) 
+                    ? new List<string>() 
+                    : (System.Text.Json.JsonSerializer.Deserialize<List<string>>(newJson) ?? new List<string>());
+
+                // Find files present in old list but missing from new list
+                var removedFiles = oldList.Where(oldImg => !newList.Contains(oldImg)).ToList();
+
+                foreach (var imgPath in removedFiles)
+                {
+                    _fileService.DeleteFile(imgPath);
+                }
+            }
+            catch
+            {
+                // Fail silently
+            }
         }
 
         /// <summary>

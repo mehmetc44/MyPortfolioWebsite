@@ -65,8 +65,11 @@ namespace Server.Extensions
             services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(configuration["DB_CONNECTION_STRING"]));
 
-            // File and email services
-            services.AddScoped<IFileService, FileService>();
+            // HttpClient registration for external API integrations (Supabase Storage, Email APIs)
+            services.AddHttpClient();
+
+            // File and email services (Using Supabase Storage Service)
+            services.AddScoped<IFileService, SupabaseStorageService>();
             services.AddScoped<IEmailService, EmailService>();
 
             // Database seeding service
