@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { marked } from 'marked';
 import { DataService, Project } from '../../../shared/services/data.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LocalizationService } from '../../../shared/services/localization.service';
 
 @Component({
   selector: 'app-project-detail',
@@ -15,8 +16,8 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit, OnDestroy {
-  project?: Project;
-  sanitizedDetailText?: SafeHtml;
+  project: Project | null = null;
+  sanitizedDetailText: SafeHtml = '';
   currentSlide = 0;
 
   // Lightbox Fullscreen Modal State
@@ -30,8 +31,38 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private localizationService: LocalizationService
   ) {}
+
+  getProjectCategories(categoryStr?: string): string[] {
+    if (!categoryStr) return [];
+    return categoryStr.split(',').map(c => c.trim()).filter(c => c.length > 0);
+  }
+
+  getCategoryLabel(category: string): string {
+    if (!category) return '';
+    switch (category.trim()) {
+      case 'AI & Machine Learning':
+      case 'ai-rag':
+      case 'ml-dl':
+        return this.localizationService.translate('CAT_AI_ML');
+      case 'Web Development':
+      case 'web':
+        return this.localizationService.translate('CAT_WEB_DEV');
+      case 'Software Architecture':
+      case 'architecture':
+        return this.localizationService.translate('CAT_SOFTWARE_ARCH');
+      case 'DevOps & Infrastructure':
+      case 'devops':
+        return this.localizationService.translate('CAT_DEVOPS_INFRA');
+      case 'Diğer':
+      case 'other':
+        return this.localizationService.translate('CAT_OTHER');
+      default:
+        return category;
+    }
+  }
 
   formatDate(dateStr?: string): string {
     return this.dataService.formatDate(dateStr);

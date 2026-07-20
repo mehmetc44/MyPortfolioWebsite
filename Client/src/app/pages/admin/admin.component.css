@@ -938,3 +938,53 @@ body.dark-theme .btn-back:hover {
     color: #ffffff;
 }
 
+/* Category Multi-Select Checkbox Grid */
+.category-checkbox-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 6px;
+    margin-bottom: 16px;
+}
+
+.checkbox-pill-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: rgba(15, 23, 42, 0.05);
+    border: 1px solid var(--border-color, #e2e8f0);
+    color: var(--text-primary, #1e293b);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s ease;
+}
+
+body.dark-theme .checkbox-pill-label {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: #f8fafc;
+}
+
+.checkbox-pill-label.active {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: #6366f1;
+    color: #6366f1;
+    font-weight: 600;
+}
+
+body.dark-theme .checkbox-pill-label.active {
+    background: rgba(129, 140, 248, 0.2);
+    border-color: #818cf8;
+    color: #818cf8;
+}
+
+.checkbox-pill-label input[type="checkbox"] {
+    accent-color: #6366f1;
+    cursor: pointer;
+}
+
+

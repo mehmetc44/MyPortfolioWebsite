@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
-import { DataService, RawProject } from '../../../shared/services/data.service';
+import { DataService, RawProject, parseProjectImages, sanitizeImageUrl } from '../../../shared/services/data.service';
 
 @Component({
   selector: 'app-admin-projects',
@@ -33,11 +33,21 @@ export class AdminProjectsComponent implements OnInit {
   projectImages: string[] = [];
   isUploadingImage = false;
 
+  // Category Options
+  availableCategories: string[] = [
+    'AI & Machine Learning',
+    'Web Development',
+    'Software Architecture',
+    'DevOps & Infrastructure',
+    'Diğer'
+  ];
+  selectedCategories: string[] = [];
+
   projId = '';
   projTitle_TR = '';
   projTitle_EN = '';
   projTitle_DE = '';
-  projCategory = 'web';
+  projCategory = 'Web Development';
   projDate = '';
   projClient = '';
   projSubTag_TR = '';
@@ -57,6 +67,48 @@ export class AdminProjectsComponent implements OnInit {
 
   ngOnInit() {
     this.loadProjects();
+  }
+
+  normalizeCategoryName(cat: string): string {
+    if (!cat) return '';
+    const trimmed = cat.trim();
+    switch (trimmed.toLowerCase()) {
+      case 'web':
+      case 'web development':
+        return 'Web Development';
+      case 'ai-rag':
+      case 'ml-dl':
+      case 'ai & machine learning':
+        return 'AI & Machine Learning';
+      case 'architecture':
+      case 'software architecture':
+        return 'Software Architecture';
+      case 'devops':
+      case 'devops & infrastructure':
+        return 'DevOps & Infrastructure';
+      case 'other':
+      case 'diğer':
+        return 'Diğer';
+      default:
+        return trimmed;
+    }
+  }
+
+  isCategorySelected(cat: string): boolean {
+    return this.selectedCategories.includes(cat);
+  }
+
+  toggleCategory(cat: string) {
+    if (this.isCategorySelected(cat)) {
+      this.selectedCategories = this.selectedCategories.filter(c => c !== cat);
+    } else {
+      this.selectedCategories.push(cat);
+    }
+  }
+
+  getCategoriesList(catStr: string): string[] {
+    if (!catStr) return [];
+    return catStr.split(',').map(c => this.normalizeCategoryName(c)).filter(c => c.length > 0);
   }
 
   async loadProjects() {
@@ -154,7 +206,7 @@ export class AdminProjectsComponent implements OnInit {
     this.projTitle_TR = '';
     this.projTitle_EN = '';
     this.projTitle_DE = '';
-    this.projCategory = 'web';
+    this.selectedCategories = ['Web Development'];
     this.projDate = '';
     this.projClient = '';
     this.projSubTag_TR = '';
@@ -186,7 +238,13 @@ export class AdminProjectsComponent implements OnInit {
     this.projTitle_TR = proj.title_TR;
     this.projTitle_EN = proj.title_EN;
     this.projTitle_DE = proj.title_DE;
-    this.projCategory = proj.category;
+    
+    const catStr = proj.category || '';
+    this.selectedCategories = catStr ? catStr.split(',').map(c => this.normalizeCategoryName(c)).filter(c => c.length > 0) : [];
+    if (this.selectedCategories.length === 0) {
+      this.selectedCategories = ['Web Development'];
+    }
+
     this.projDate = proj.date;
     this.projClient = proj.client;
     this.projSubTag_TR = proj.subTag_TR;
@@ -201,7 +259,8 @@ export class AdminProjectsComponent implements OnInit {
     this.projTech = proj.tech;
     this.projRepo = proj.repoUrl;
     this.projDemo = proj.demoUrl || '';
-    this.projectImages = proj.imagesJson ? JSON.parse(proj.imagesJson) : [];
+    const rawImages = proj.imagesJson ?? (proj as any).images ?? (proj as any).images_json;
+    this.projectImages = parseProjectImages(rawImages);
     this.isEditing = true;
   }
 
@@ -211,10 +270,7 @@ export class AdminProjectsComponent implements OnInit {
 
   resolveImagePreview(img: string): string {
     if (!img) return 'assets/project_placeholder.png';
-    if (img.startsWith('http') || img.startsWith('assets/')) {
-      return encodeURI(img);
-    }
-    return encodeURI(`${this.dataService.apiBaseUrl}/${img}`);
+    return sanitizeImageUrl(img, this.dataService.apiBaseUrl);
   }
 
   setAsCover(idx: number) {
@@ -248,12 +304,14 @@ export class AdminProjectsComponent implements OnInit {
     const slugId = this.projId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 
                    this.projTitle_TR.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
                    
+    const finalCategory = this.selectedCategories.length > 0 ? this.selectedCategories.join(', ') : 'Diğer';
+
     const projData: RawProject = {
       id: this.editingProjectIdx >= 0 ? this.projects[this.editingProjectIdx].id : slugId,
       title_TR: this.projTitle_TR,
       title_EN: this.projTitle_EN,
       title_DE: this.projTitle_DE,
-      category: this.projCategory,
+      category: finalCategory,
       date: this.projDate,
       client: this.projClient,
       subTag_TR: this.projSubTag_TR,

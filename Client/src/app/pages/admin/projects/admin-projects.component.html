@@ -47,7 +47,11 @@
                         </span>
                     </td>
                     <td style="font-weight: 700; color: var(--accent-navy-text, var(--accent-navy));">{{ proj.title_TR }}</td>
-                    <td><span class="project-category-tag category-tag-{{proj.category}}">{{ proj.category }}</span></td>
+                    <td>
+                        <div class="project-category-tags-group">
+                            <span *ngFor="let cat of getCategoriesList(proj.category)" class="project-category-tag">{{ cat }}</span>
+                        </div>
+                    </td>
                     <td>{{ formatDate(proj.date) }}</td>
                     <td>{{ proj.client }}</td>
                     <td>
@@ -79,7 +83,12 @@
 <!-- PROJECT ADD/EDIT SUB-PAGE VIEW -->
 <div *ngIf="isEditing" class="admin-panel edit-project-panel">
     <!-- Back Button & Header -->
-    <div class="admin-panel-title-row" style="align-items: center; margin-bottom: 28px;">
+    <div class="admin-panel-title-row" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 28px;">
+        <div class="pane-header-hero" style="margin-bottom: 0;">
+            <span class="subtitle-tag">PROJE DETAYLARI</span>
+            <h3 class="pane-main-title">{{ projectModalTitle }}</h3>
+            <div class="title-decorator-line"></div>
+        </div>
         <button class="btn btn-secondary btn-back" (click)="closeProjectModal()" type="button" style="display: inline-flex; align-items: center; gap: 8px; font-weight: 700; padding: 10px 16px; border-radius: 10px;">
             <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 2px;">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -87,11 +96,6 @@
             </svg>
             <span>Projeler Listesine Dön</span>
         </button>
-        <div class="pane-header-hero" style="margin-bottom: 0;">
-            <span class="subtitle-tag">PROJE DETAYLARI</span>
-            <h3 class="pane-main-title">{{ projectModalTitle }}</h3>
-            <div class="title-decorator-line"></div>
-        </div>
     </div>
 
     <form (ngSubmit)="saveProject()" class="contact-form">
@@ -102,14 +106,38 @@
                 <input type="text" id="crudProjId" name="projId" [(ngModel)]="projId" required placeholder="Örn: platar-lpr" [disabled]="editingProjectIdx >= 0">
             </div>
             <div class="form-group">
-                <label for="crudProjCategory">Kategori</label>
-                <select id="crudProjCategory" name="projCategory" [(ngModel)]="projCategory" class="admin-select" required>
-                    <option value="web">Web</option>
-                    <option value="ai-rag">AI &amp; RAG</option>
-                    <option value="ml-dl">ML &amp; DL</option>
-                    <option value="other">Diğer</option>
-                </select>
+                <label for="crudProjClient">Müşteri</label>
+                <input type="text" id="crudProjClient" name="projClient" [(ngModel)]="projClient" required placeholder="Örn: Platar Tech">
             </div>
+        </div>
+
+        <!-- Multi-Category Picker Section -->
+        <div class="form-group" style="margin-top: 14px; margin-bottom: 20px;">
+            <label style="font-weight: 700; color: var(--accent-navy); margin-bottom: 8px; display: block;">
+                Proje Kategorileri (Birden Fazla Seçilebilir)
+            </label>
+            <div class="category-selection-badges" style="display: flex; flex-wrap: wrap; gap: 10px; padding: 14px; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: 12px;">
+                <button type="button" 
+                        *ngFor="let cat of availableCategories" 
+                        (click)="toggleCategory(cat)"
+                        class="category-select-chip"
+                        [class.active]="isCategorySelected(cat)"
+                        [style.background-color]="isCategorySelected(cat) ? 'var(--accent-navy)' : 'var(--bg-card)'"
+                        [style.color]="isCategorySelected(cat) ? '#ffffff' : 'var(--text-secondary)'"
+                        [style.border-color]="isCategorySelected(cat) ? 'var(--accent-navy)' : 'var(--border-color)'"
+                        style="display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.2s ease; border: 1.5px solid;">
+                    <span class="chip-checkbox" 
+                          [style.background-color]="isCategorySelected(cat) ? '#ffffff' : 'transparent'"
+                          [style.color]="isCategorySelected(cat) ? 'var(--accent-navy)' : 'var(--text-muted)'"
+                          style="width: 16px; height: 16px; border-radius: 4px; border: 1.5px solid currentColor; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900;">
+                        <ng-container *ngIf="isCategorySelected(cat)">✓</ng-container>
+                    </span>
+                    <span>{{ cat }}</span>
+                </button>
+            </div>
+            <span class="upload-hint-info" style="color: var(--text-muted); font-size: 0.82rem; margin-top: 6px; display: block;">
+                Seçilen kategoriler: <strong style="color: var(--accent-navy, #3b82f6);">{{ selectedCategories.length > 0 ? selectedCategories.join(', ') : 'Kategori seçilmedi (Diğer)' }}</strong>
+            </span>
         </div>
 
         <div class="form-double-row">
@@ -118,20 +146,14 @@
                 <input type="date" id="crudProjDate" name="projDate" [(ngModel)]="projDate" required>
             </div>
             <div class="form-group">
-                <label for="crudProjClient">Müşteri</label>
-                <input type="text" id="crudProjClient" name="projClient" [(ngModel)]="projClient" required placeholder="Örn: Platar Tech">
-            </div>
-        </div>
-
-        <div class="form-double-row">
-            <div class="form-group">
                 <label for="crudProjTech">Teknolojiler (Virgülle Ayırın)</label>
                 <input type="text" id="crudProjTech" name="projTech" [(ngModel)]="projTech" required placeholder="Örn: C#, YOLOv8, SignalR">
             </div>
-            <div class="form-group">
-                <label for="crudProjRepo">GitHub Repo URL</label>
-                <input type="url" id="crudProjRepo" name="projRepo" [(ngModel)]="projRepo" required>
-            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="crudProjRepo">GitHub Repo URL</label>
+            <input type="url" id="crudProjRepo" name="projRepo" [(ngModel)]="projRepo" required>
         </div>
 
         <div class="form-group">

@@ -16,10 +16,11 @@ export class AdminBlogComponent implements OnInit {
   @ViewChild('editorDE') editorDE!: ElementRef<HTMLDivElement>;
 
   articles: RawArticle[] = [];
-  showArticleModal = false;
+  isEditing = false;
   articleModalTitle = 'Yeni Makale Ekle';
   editingArticleIdx = -1;
   activeFormTab: 'tr' | 'en' | 'de' = 'tr';
+  isPublishingToMedium = false;
 
   // Drag & Drop state
   dragIndex: number | null = null;
@@ -78,7 +79,7 @@ export class AdminBlogComponent implements OnInit {
     this.artDetail_TR = '';
     this.artDetail_EN = '';
     this.artDetail_DE = '';
-    this.showArticleModal = true;
+    this.isEditing = true;
     this.initializeEditors();
   }
 
@@ -104,12 +105,78 @@ export class AdminBlogComponent implements OnInit {
     this.artDetail_TR = art.detailText_TR;
     this.artDetail_EN = art.detailText_EN;
     this.artDetail_DE = art.detailText_DE;
-    this.showArticleModal = true;
+    this.isEditing = true;
     this.initializeEditors();
   }
 
   closeArticleModal() {
-    this.showArticleModal = false;
+    this.isEditing = false;
+  }
+
+  async publishToMedium(articleId?: string) {
+    const idx = articleId 
+      ? this.articles.findIndex(a => a.id === articleId) 
+      : this.editingArticleIdx;
+      
+    const art = idx >= 0 ? this.articles[idx] : null;
+    const targetId = articleId || (art ? art.id : this.artId);
+
+    if (!targetId && !this.artTitle_TR) {
+      alert('Lütfen önce makale bilgilerini girin.');
+      return;
+    }
+
+    let token = localStorage.getItem('medium_integration_token') || '';
+
+    // Explanation & Option Choice
+    const useApi = confirm(
+      "Medium yeni API Integration Token alımını durdurmuştur.\n\n" +
+      "• Mevcut bir Integration Token'ınız varsa 'TAMAM' butonuna basarak API ile otomatik yayınlayabilirsiniz.\n" +
+      "• Token'ınız yoksa 'İPTAL' butonuna basarak içeriği panoya kopyalayıp doğrudan Medium Editöründe açabilirsiniz."
+    );
+
+    if (useApi) {
+      if (!token) {
+        const input = prompt('Lütfen Medium Integration Token girin:\n(Eğer .env dosyasında MEDIUM_INTEGRATION_TOKEN ekliyse boş bırakabilirsiniz)');
+        if (input !== null) {
+          token = input.trim();
+          if (token) {
+            localStorage.setItem('medium_integration_token', token);
+          }
+        }
+      }
+
+      this.isPublishingToMedium = true;
+      const res = await this.dataService.publishArticleToMedium(targetId, token);
+      this.isPublishingToMedium = false;
+
+      if (res.success && res.url) {
+        if (confirm(`Makale Medium'da başarıyla yayınlandı!\n\nBağlantı: ${res.url}\n\nYeni sekmede açmak ister misiniz?`)) {
+          window.open(res.url, '_blank');
+        }
+        return;
+      } else {
+        alert(`API ile paylaşım gerçekleşmedi:\n${res.message || 'Token geçersiz veya bulunamadı.'}\n\nİçerik kopyalanarak Medium editörüne aktarılıyor...`);
+      }
+    }
+
+    // Fallback: Copy content to clipboard and open Medium New Story page
+    const title = art ? (art.title_TR || art.title_EN) : (this.artTitle_TR || this.artTitle_EN);
+    const excerpt = art ? (art.excerpt_TR || art.excerpt_EN) : (this.artExcerpt_TR || this.artExcerpt_EN);
+    const detail = art ? (art.detailText_TR || art.detailText_EN) : (this.artDetail_TR || this.artDetail_EN);
+
+    // Strip HTML tags for clean text paste fallback
+    const textDetail = detail ? detail.replace(/<br\s*[\/]?>/gi, '\n').replace(/<\/p>/gi, '\n\n').replace(/<[^>]*>/g, '') : '';
+    const fullContent = `${title}\n\n${excerpt ? excerpt + '\n\n---\n\n' : ''}${textDetail}`;
+
+    try {
+      await navigator.clipboard.writeText(fullContent);
+      alert("Makale başlığı ve içeriği pano hafızasına kopyalandı! 📋\n\nAçılan Medium sayfasında 'Ctrl + V' yaparak yazınızı yayınlayabilirsiniz.");
+    } catch (e) {
+      console.warn("Clipboard access denied", e);
+    }
+
+    window.open('https://medium.com/new-story', '_blank');
   }
 
   initializeEditors() {

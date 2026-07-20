@@ -80,7 +80,9 @@
                         </li>
                         <li class="spec-row">
                             <span class="spec-label">{{ 'CATEGORY' | translate }}</span>
-                            <span class="spec-value" id="specCategory" style="text-transform: uppercase;">{{ project.category }}</span>
+                            <div class="spec-value" id="specCategory" style="display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end;">
+                                <span *ngFor="let cat of getProjectCategories(project.category)" class="project-category-tag" style="position: static; font-size: 0.75rem; padding: 2px 8px;">{{ getCategoryLabel(cat) }}</span>
+                            </div>
                         </li>
                         <li class="spec-row">
                             <span class="spec-label">{{ 'DATE' | translate }}</span>

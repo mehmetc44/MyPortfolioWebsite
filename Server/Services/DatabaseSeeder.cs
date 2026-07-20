@@ -174,20 +174,48 @@ namespace Server.Services
                 var projects = _db.Projects.ToList();
                 foreach (var p in projects)
                 {
-                    if (!string.IsNullOrEmpty(p.ImagesJson) && p.ImagesJson.Contains("storage/"))
+                    if (!string.IsNullOrEmpty(p.ImagesJson))
                     {
-                        p.ImagesJson = p.ImagesJson.Replace("storage/", $"{SupabaseCdnBase}/");
-                        _db.Projects.Update(p);
+                        var sanitized = SanitizeImagesJson(p.ImagesJson);
+                        if (sanitized != p.ImagesJson)
+                        {
+                            p.ImagesJson = sanitized;
+                            _db.Projects.Update(p);
+                        }
                     }
                 }
 
                 var articles = _db.Articles.ToList();
                 foreach (var a in articles)
                 {
-                    if (!string.IsNullOrEmpty(a.ImageUrl) && a.ImageUrl.StartsWith("storage/"))
+                    if (!string.IsNullOrEmpty(a.ImageUrl))
                     {
-                        a.ImageUrl = a.ImageUrl.Replace("storage/", $"{SupabaseCdnBase}/");
-                        _db.Articles.Update(a);
+                        var sanitized = SanitizeSingleUrl(a.ImageUrl);
+                        if (sanitized != a.ImageUrl)
+                        {
+                            a.ImageUrl = sanitized;
+                            _db.Articles.Update(a);
+                        }
+                    }
+                }
+
+                var profiles = _db.Profiles.ToList();
+                foreach (var prof in profiles)
+                {
+                    bool mod = false;
+                    if (!string.IsNullOrEmpty(prof.AvatarUrl))
+                    {
+                        var clean = SanitizeSingleUrl(prof.AvatarUrl);
+                        if (clean != prof.AvatarUrl) { prof.AvatarUrl = clean; mod = true; }
+                    }
+                    if (!string.IsNullOrEmpty(prof.CvPdfUrl_TR))
+                    {
+                        var clean = SanitizeSingleUrl(prof.CvPdfUrl_TR);
+                        if (clean != prof.CvPdfUrl_TR) { prof.CvPdfUrl_TR = clean; mod = true; }
+                    }
+                    if (mod)
+                    {
+                        _db.Profiles.Update(prof);
                     }
                 }
             }
@@ -195,6 +223,88 @@ namespace Server.Services
             {
                 Console.WriteLine($"[NormalizeDatabaseUrls Warning] {ex.Message}");
             }
+        }
+
+        public static string SanitizeImagesJson(string? imagesJson)
+        {
+            if (string.IsNullOrWhiteSpace(imagesJson)) return "[]";
+            try
+            {
+                List<string> list;
+                string trimmed = imagesJson.Trim();
+                if (trimmed.StartsWith("["))
+                {
+                    list = System.Text.Json.JsonSerializer.Deserialize<List<string>>(trimmed) ?? new List<string>();
+                }
+                else
+                {
+                    list = trimmed.Split(',', StringSplitOptions.RemoveEmptyEntries)
+                                  .Select(s => s.Trim().Trim('[', ']', '"', '\''))
+                                  .ToList();
+                }
+
+                var cleaned = list.Select(url => SanitizeSingleUrl(url))
+                                  .Where(url => !string.IsNullOrWhiteSpace(url))
+                                  .ToList();
+
+                return System.Text.Json.JsonSerializer.Serialize(cleaned);
+            }
+            catch
+            {
+                return imagesJson;
+            }
+        }
+
+        public static string SanitizeSingleUrl(string? rawUrl)
+        {
+            if (string.IsNullOrWhiteSpace(rawUrl)) return "";
+            if (rawUrl.StartsWith("assets/", StringComparison.OrdinalIgnoreCase)) return rawUrl;
+
+            string url = rawUrl.Trim();
+
+            // Find the last occurrence of https:// or http:// if multiple domains were concatenated
+            int lastHttps = url.LastIndexOf("https://", StringComparison.OrdinalIgnoreCase);
+            if (lastHttps < 0)
+            {
+                lastHttps = url.LastIndexOf("http://", StringComparison.OrdinalIgnoreCase);
+            }
+            if (lastHttps > 0)
+            {
+                url = url.Substring(lastHttps);
+            }
+
+            // Look for known folder prefixes in the path: projects/, avatar/, articles/, cv/, uploads/
+            string[] knownFolders = new[] { "projects/", "avatar/", "articles/", "cv/", "uploads/" };
+            foreach (var folder in knownFolders)
+            {
+                int folderIdx = url.LastIndexOf(folder, StringComparison.OrdinalIgnoreCase);
+                if (folderIdx >= 0)
+                {
+                    string relativePath = url.Substring(folderIdx);
+                    return $"{SupabaseCdnBase}/{relativePath}";
+                }
+            }
+
+            // If it's a relative path starting with storage/
+            if (url.StartsWith("storage/", StringComparison.OrdinalIgnoreCase))
+            {
+                url = url.Substring(8).TrimStart('/');
+                return $"{SupabaseCdnBase}/{url}";
+            }
+
+            // If it already starts with SupabaseCdnBase, ensure no duplicate prefixes
+            if (url.StartsWith(SupabaseCdnBase, StringComparison.OrdinalIgnoreCase))
+            {
+                return url;
+            }
+
+            // Fallback: if it's an http(s) URL, return it
+            if (url.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || url.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
+            {
+                return url;
+            }
+
+            return $"{SupabaseCdnBase}/{url.TrimStart('/')}";
         }
 
         private void SeedSkills()

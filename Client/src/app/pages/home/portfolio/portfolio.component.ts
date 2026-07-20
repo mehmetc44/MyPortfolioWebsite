@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { DataService, Project } from '../../../shared/services/data.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 
+import { LocalizationService } from '../../../shared/services/localization.service';
+
 @Component({
   selector: 'app-portfolio',
   standalone: true,
@@ -21,10 +23,34 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private localizationService: LocalizationService) {}
 
   formatDate(dateStr?: string): string {
     return this.dataService.formatDate(dateStr);
+  }
+
+  getCategoryLabel(category: string): string {
+    if (!category) return '';
+    switch (category.trim()) {
+      case 'AI & Machine Learning':
+      case 'ai-rag':
+      case 'ml-dl':
+        return this.localizationService.translate('CAT_AI_ML');
+      case 'Web Development':
+      case 'web':
+        return this.localizationService.translate('CAT_WEB_DEV');
+      case 'Software Architecture':
+      case 'architecture':
+        return this.localizationService.translate('CAT_SOFTWARE_ARCH');
+      case 'DevOps & Infrastructure':
+      case 'devops':
+        return this.localizationService.translate('CAT_DEVOPS_INFRA');
+      case 'Diğer':
+      case 'other':
+        return this.localizationService.translate('CAT_OTHER');
+      default:
+        return category;
+    }
   }
 
   ngOnInit() {
@@ -51,8 +77,9 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   filterList() {
     this.filteredProjects = this.projects.filter(proj => {
-      // 1. Category check
-      const matchCat = this.activeCategory === 'all' || proj.category === this.activeCategory;
+      // 1. Multi-category check
+      const matchCat = this.activeCategory === 'all' || 
+        (proj.category && proj.category.split(',').map(c => c.trim()).includes(this.activeCategory));
 
       // 2. Query check
       const q = this.searchQuery.toLowerCase().trim();
@@ -64,6 +91,11 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
       return matchCat && matchQuery;
     });
+  }
+
+  getProjectCategories(categoryStr: string): string[] {
+    if (!categoryStr) return [];
+    return categoryStr.split(',').map(c => c.trim()).filter(c => c.length > 0);
   }
 
   getTechList(techString: string): string[] {

@@ -67,19 +67,12 @@ export class DataService {
       if (projRes.ok) {
         const rawProjects = await projRes.json();
         this.cachedProjects = rawProjects.map((p: any) => {
-          let parsedImages: string[] = [];
-          try {
-            parsedImages = p.imagesJson ? JSON.parse(p.imagesJson) : [];
-          } catch(e) {
-            console.error("Failed to parse imagesJson", e);
-          }
-          // Resolve each project image URL with URI encoding for safety
-          const resolvedImages = parsedImages.map((img: string) => {
-            if (img && !img.startsWith('http') && !img.startsWith('assets/')) {
-              return encodeURI(`${this.apiBaseUrl}/${img}`);
-            }
-            return encodeURI(img);
-          });
+          const rawImages = p.imagesJson ?? p.images ?? p.images_json;
+          const parsedImages = parseProjectImages(rawImages);
+          // Resolve each project image URL with sanitization and URI encoding
+          const resolvedImages = parsedImages
+            .map((img: string) => sanitizeImageUrl(img, this.apiBaseUrl))
+            .filter(Boolean);
           return {
             ...p,
             images: resolvedImages
@@ -458,6 +451,23 @@ export class DataService {
     }
   }
 
+  async publishArticleToMedium(id: string, token?: string): Promise<{ success: boolean; url?: string; message?: string }> {
+    try {
+      let url = `${this.apiBaseUrl}/api/articles/${id}/publish-medium`;
+      if (token) {
+        url += `?token=${encodeURIComponent(token)}`;
+      }
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: this.getAuthHeaders()
+      });
+      return await res.json();
+    } catch (e: any) {
+      console.error("Medium publish error", e);
+      return { success: false, message: e?.message || 'Sunucuya bağlanılamadı.' };
+    }
+  }
+
   // File Upload Helper APIs (for Admin Panel)
   async uploadAvatar(file: File, oldUrl?: string): Promise<string | null> {
     try {
@@ -698,4 +708,119 @@ export class DataService {
   setUnreadCount(count: number): void {
     this.unreadCount = count;
   }
+}
+
+export function parseProjectImages(input: any): string[] {
+  if (!input) return [];
+
+  // If input is already an array
+  if (Array.isArray(input)) {
+    return input
+      .map(item => (typeof item === 'string' ? item.trim() : String(item)))
+      .map(item => item.replace(/^["']|["']$/g, '').trim())
+      .filter(item => item.length > 0);
+  }
+
+  if (typeof input !== 'string') return [];
+
+  let str = input.trim();
+  if (!str) return [];
+
+  // Try standard JSON.parse first
+  try {
+    const parsed = JSON.parse(str);
+    if (Array.isArray(parsed)) {
+      return parsed
+        .map(item => (typeof item === 'string' ? item.trim() : String(item)))
+        .map(item => item.replace(/^["']|["']$/g, '').trim())
+        .filter(item => item.length > 0);
+    }
+    if (typeof parsed === 'string') {
+      try {
+        const doubleParsed = JSON.parse(parsed);
+        if (Array.isArray(doubleParsed)) {
+          return doubleParsed
+            .map(item => (typeof item === 'string' ? item.trim() : String(item)))
+            .map(item => item.replace(/^["']|["']$/g, '').trim())
+            .filter(item => item.length > 0);
+        }
+      } catch (_) {}
+      str = parsed.trim();
+    }
+  } catch (_) {}
+
+  // Single-quoted array like ['link1', 'link2']
+  if (str.includes("'")) {
+    try {
+      const fixedQuotes = str.replace(/'/g, '"');
+      const parsed = JSON.parse(fixedQuotes);
+      if (Array.isArray(parsed)) {
+        return parsed
+          .map(item => (typeof item === 'string' ? item.trim() : String(item)))
+          .map(item => item.replace(/^["']|["']$/g, '').trim())
+          .filter(item => item.length > 0);
+      }
+    } catch (_) {}
+  }
+
+  // Strip leading [ or { and trailing ] or }
+  if ((str.startsWith('[') && str.endsWith(']')) || (str.startsWith('{') && str.endsWith('}'))) {
+    str = str.slice(1, -1).trim();
+  }
+
+  // Split by comma
+  if (str.includes(',')) {
+    return str
+      .split(',')
+      .map(item => item.trim().replace(/^["']|["']$/g, '').trim())
+      .filter(item => item.length > 0);
+  }
+
+  const clean = str.replace(/^["']|["']$/g, '').trim();
+  return clean ? [clean] : [];
+}
+
+export function sanitizeImageUrl(rawUrl: string, apiBaseUrl?: string): string {
+  if (!rawUrl) return '';
+  let url = rawUrl.trim();
+  if (url.startsWith('assets/')) return url;
+
+  // 1. Remove concatenated domains if present
+  const lastHttps = Math.max(url.lastIndexOf('https://'), url.lastIndexOf('http://'));
+  if (lastHttps > 0) {
+    url = url.substring(lastHttps);
+  }
+
+  // 2. Extract relative path after known folder prefixes
+  const knownFolders = ['projects/', 'avatar/', 'articles/', 'cv/', 'uploads/'];
+  for (const folder of knownFolders) {
+    const folderIdx = url.lastIndexOf(folder);
+    if (folderIdx >= 0) {
+      const relativePath = url.substring(folderIdx);
+      return `https://byewxuhvxtyvlxcxitwd.supabase.co/storage/v1/object/public/portfolio/${relativePath}`;
+    }
+  }
+
+  // 3. If relative path starting with storage/
+  if (url.toLowerCase().startsWith('storage/')) {
+    const clean = url.substring(8).replace(/^\//, '');
+    return `https://byewxuhvxtyvlxcxitwd.supabase.co/storage/v1/object/public/portfolio/${clean}`;
+  }
+
+  // 4. If full http/https URL
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    try {
+      return encodeURI(decodeURI(url));
+    } catch (_) {
+      return encodeURI(url);
+    }
+  }
+
+  // 5. Fallback relative path
+  if (apiBaseUrl) {
+    const clean = url.replace(/^\//, '');
+    return encodeURI(`${apiBaseUrl}/${clean}`);
+  }
+
+  return encodeURI(url);
 }

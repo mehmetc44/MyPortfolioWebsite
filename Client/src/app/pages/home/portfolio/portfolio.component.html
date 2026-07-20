@@ -14,11 +14,12 @@
         <div class="portfolio-controls-row">
             <!-- Filter Tabs -->
             <div class="portfolio-filter-tabs" role="tablist" aria-label="Project Categories">
-                <button class="filter-tab" [class.active]="activeCategory === 'all'" (click)="selectCategory('all')" role="tab" [attr.aria-selected]="activeCategory === 'all'">{{ 'FILTER_ALL' | translate }}</button>
-                <button class="filter-tab" [class.active]="activeCategory === 'web'" (click)="selectCategory('web')" role="tab" [attr.aria-selected]="activeCategory === 'web'">Web</button>
-                <button class="filter-tab" [class.active]="activeCategory === 'ai-rag'" (click)="selectCategory('ai-rag')" role="tab" [attr.aria-selected]="activeCategory === 'ai-rag'">AI &amp; RAG</button>
-                <button class="filter-tab" [class.active]="activeCategory === 'ml-dl'" (click)="selectCategory('ml-dl')" role="tab" [attr.aria-selected]="activeCategory === 'ml-dl'">ML &amp; DL</button>
-                <button class="filter-tab" [class.active]="activeCategory === 'other'" (click)="selectCategory('other')" role="tab" [attr.aria-selected]="activeCategory === 'other'">{{ 'FILTER_OTHER' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'all'" (click)="selectCategory('all')" role="tab" [attr.aria-selected]="activeCategory === 'all'">{{ 'CAT_ALL' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'AI & Machine Learning'" (click)="selectCategory('AI & Machine Learning')" role="tab" [attr.aria-selected]="activeCategory === 'AI & Machine Learning'">{{ 'CAT_AI_ML' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'Web Development'" (click)="selectCategory('Web Development')" role="tab" [attr.aria-selected]="activeCategory === 'Web Development'">{{ 'CAT_WEB_DEV' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'Software Architecture'" (click)="selectCategory('Software Architecture')" role="tab" [attr.aria-selected]="activeCategory === 'Software Architecture'">{{ 'CAT_SOFTWARE_ARCH' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'DevOps & Infrastructure'" (click)="selectCategory('DevOps & Infrastructure')" role="tab" [attr.aria-selected]="activeCategory === 'DevOps & Infrastructure'">{{ 'CAT_DEVOPS_INFRA' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'Diğer'" (click)="selectCategory('Diğer')" role="tab" [attr.aria-selected]="activeCategory === 'Diğer'">{{ 'CAT_OTHER' | translate }}</button>
             </div>
 
             <!-- Search Input Bar -->
@@ -35,7 +36,9 @@
             <div *ngFor="let proj of filteredProjects" class="project-card sub-glass-card">
                 <div class="project-image-container">
                     <img [src]="proj.images && proj.images.length > 0 ? proj.images[0] : 'assets/project_placeholder.png'" [alt]="proj.title" class="project-card-image">
-                    <span class="project-category-tag category-tag-{{proj.category}}">{{ proj.category }}</span>
+                    <div class="project-category-tags-group">
+                        <span *ngFor="let cat of getProjectCategories(proj.category)" class="project-category-tag">{{ getCategoryLabel(cat) }}</span>
+                    </div>
                 </div>
                 <div class="project-card-content">
                     <div class="project-card-header">

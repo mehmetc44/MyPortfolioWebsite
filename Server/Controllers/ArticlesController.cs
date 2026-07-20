@@ -178,6 +178,93 @@ namespace Server.Controllers
             return NoContent();
         }
 
+        // POST: api/articles/{id}/publish-medium
+        [HttpPost("{id}/publish-medium")]
+        public async Task<IActionResult> PublishToMedium(string id, [FromQuery] string? token = null)
+        {
+            var article = await _context.Articles.FindAsync(id);
+            if (article == null)
+            {
+                return NotFound(new { message = "Makale bulunamadı." });
+            }
+
+            var mediumToken = !string.IsNullOrWhiteSpace(token)
+                ? token
+                : (Environment.GetEnvironmentVariable("MEDIUM_INTEGRATION_TOKEN") 
+                   ?? Environment.GetEnvironmentVariable("MEDIUM_TOKEN"));
+
+            if (string.IsNullOrWhiteSpace(mediumToken))
+            {
+                return BadRequest(new { message = "Medium Integration Token bulunamadı. Lütfen token girin veya .env dosyasına MEDIUM_INTEGRATION_TOKEN ekleyin." });
+            }
+
+            try
+            {
+                using var httpClient = new System.Net.Http.HttpClient();
+                httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", mediumToken);
+
+                // 1. Get Medium User Info
+                var meRes = await httpClient.GetAsync("https://api.medium.com/v1/me");
+                if (!meRes.IsSuccessStatusCode)
+                {
+                    var meErr = await meRes.Content.ReadAsStringAsync();
+                    return BadRequest(new { message = $"Medium Kullanıcı Bilgisi Alınamadı ({meRes.StatusCode}): {meErr}" });
+                }
+
+                var meJson = await meRes.Content.ReadAsStringAsync();
+                using var doc = System.Text.Json.JsonDocument.Parse(meJson);
+                var userId = doc.RootElement.GetProperty("data").GetProperty("id").GetString();
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest(new { message = "Medium Kullanıcı ID'si okunamadı." });
+                }
+
+                // 2. Prepare Post Payload
+                var title = !string.IsNullOrWhiteSpace(article.Title_TR) ? article.Title_TR : (!string.IsNullOrWhiteSpace(article.Title_EN) ? article.Title_EN : article.Title_DE);
+                var excerpt = !string.IsNullOrWhiteSpace(article.Excerpt_TR) ? article.Excerpt_TR : (!string.IsNullOrWhiteSpace(article.Excerpt_EN) ? article.Excerpt_EN : article.Excerpt_DE);
+                var detail = !string.IsNullOrWhiteSpace(article.DetailText_TR) ? article.DetailText_TR : (!string.IsNullOrWhiteSpace(article.DetailText_EN) ? article.DetailText_EN : article.DetailText_DE);
+
+                var htmlContent = $"<h1>{title}</h1>";
+                if (!string.IsNullOrWhiteSpace(excerpt))
+                {
+                    htmlContent += $"<p><strong>{excerpt}</strong></p><hr/>";
+                }
+                htmlContent += detail;
+
+                var categoryTag = !string.IsNullOrWhiteSpace(article.Category) ? article.Category.ToLower() : "technology";
+
+                var postPayload = new
+                {
+                    title = title,
+                    contentFormat = "html",
+                    content = htmlContent,
+                    tags = new[] { categoryTag, "software", "tech" },
+                    publishStatus = "public"
+                };
+
+                var postJson = System.Text.Json.JsonSerializer.Serialize(postPayload);
+                using var postContent = new System.Net.Http.StringContent(postJson, System.Text.Encoding.UTF8, "application/json");
+
+                var postRes = await httpClient.PostAsync($"https://api.medium.com/v1/users/{userId}/posts", postContent);
+                if (!postRes.IsSuccessStatusCode)
+                {
+                    var postErr = await postRes.Content.ReadAsStringAsync();
+                    return BadRequest(new { message = $"Medium Paylaşım Hatası ({postRes.StatusCode}): {postErr}" });
+                }
+
+                var postResJson = await postRes.Content.ReadAsStringAsync();
+                using var postDoc = System.Text.Json.JsonDocument.Parse(postResJson);
+                var mediumUrl = postDoc.RootElement.GetProperty("data").GetProperty("url").GetString();
+
+                return Ok(new { success = true, url = mediumUrl, message = "Makale Medium'da başarıyla yayınlandı!" });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = $"Medium paylaşımı sırasında sunucu hatası: {ex.Message}" });
+            }
+        }
+
         /// <summary>
         /// Strips any absolute URL host prefix from a stored URL, returning only the relative path.
         /// </summary>

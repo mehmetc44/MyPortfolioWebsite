@@ -45,20 +45,26 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private dataService: DataService, private elRef: ElementRef) {}
 
   async ngOnInit() {
-    this.subscription.add(
-      this.dataService.dataUpdated$.subscribe(async () => {
-        this.projectCount = this.dataService.getProjects().length;
-        this.articleCount = this.dataService.getArticles().length;
-        this.skills = this.dataService.getSkills();
-        this.techTags = this.dataService.getTechTagsList();
+    this.loadDashboardData();
 
-        await this.generateContributionData();
-        
-        setTimeout(() => {
-          this.setupSkillsAnimation();
-        }, 300);
+    this.subscription.add(
+      this.dataService.dataUpdated$.subscribe(() => {
+        this.loadDashboardData();
       })
     );
+  }
+
+  async loadDashboardData() {
+    this.projectCount = this.dataService.getProjects().length;
+    this.articleCount = this.dataService.getArticles().length;
+    this.skills = this.dataService.getSkills();
+    this.techTags = this.dataService.getTechTagsList();
+
+    await this.generateContributionData();
+    
+    setTimeout(() => {
+      this.setupSkillsAnimation();
+    }, 300);
   }
 
   ngOnDestroy() {
@@ -75,29 +81,54 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async generateContributionData() {
     let contributionMap: Record<string, number> = {};
-    if (this.profile && this.profile.github) {
-      const githubUrl = this.profile.github.trim();
-      const cleanUrl = githubUrl.replace(/\/$/, '');
-      const parts = cleanUrl.split('/');
-      const username = parts[parts.length - 1];
-      if (username && username !== 'github.com' && username !== '#') {
-        try {
-          const res = await fetch(`https://api.github.com/users/${username}/events`);
-          if (res.ok) {
-            const events = await res.json();
-            for (const ev of events) {
-              if (!ev.created_at) continue;
-              const dateStr = ev.created_at.substring(0, 10); // "YYYY-MM-DD"
-              let count = 1;
-              if (ev.type === 'PushEvent' && ev.payload && ev.payload.commits) {
-                count = ev.payload.commits.length || 1;
+    const rawGithub = (this.profile && this.profile.github) ? this.profile.github : 'https://github.com/mehmetc44';
+    const githubUrl = rawGithub.trim();
+    const cleanUrl = githubUrl.replace(/\/$/, '');
+    const parts = cleanUrl.split('/');
+    let username = parts[parts.length - 1];
+    if (!username || username === 'github.com' || username === '#') {
+      username = 'mehmetc44';
+    }
+
+    try {
+      // 1. Fetch real 365-day GitHub contribution calendar
+      const res = await fetch(`https://github-contributions-api.deno.dev/${username}.json`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.contributions && Array.isArray(data.contributions)) {
+          for (const week of data.contributions) {
+            if (Array.isArray(week)) {
+              for (const day of week) {
+                if (day && day.date) {
+                  contributionMap[day.date] = day.contributionCount || 0;
+                }
               }
-              contributionMap[dateStr] = (contributionMap[dateStr] || 0) + count;
             }
           }
-        } catch (e) {
-          console.warn("Failed to fetch GitHub events, using fallback data", e);
         }
+      }
+    } catch (e) {
+      ConsoleError("Failed to fetch 365-day contributions API, trying fallback", e);
+    }
+
+    // 2. Fallback to REST events API if contribution map is empty
+    if (Object.keys(contributionMap).length === 0) {
+      try {
+        const res = await fetch(`https://api.github.com/users/${username}/events?per_page=100`);
+        if (res.ok) {
+          const events = await res.json();
+          for (const ev of events) {
+            if (!ev.created_at) continue;
+            const dateStr = ev.created_at.substring(0, 10);
+            let count = 1;
+            if (ev.type === 'PushEvent' && ev.payload && ev.payload.commits) {
+              count = ev.payload.commits.length || 1;
+            }
+            contributionMap[dateStr] = (contributionMap[dateStr] || 0) + count;
+          }
+        }
+      } catch (err) {
+        ConsoleError("Failed to fetch fallback GitHub events", err);
       }
     }
 
@@ -107,61 +138,28 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     const startDate = new Date(today);
     startDate.setDate(today.getDate() - totalDays + (6 - dayOfWeek));
 
-    const ninetyDaysAgo = new Date();
-    ninetyDaysAgo.setDate(today.getDate() - 90);
-
     const tempDateList: DayCell[] = [];
 
     for (let i = 0; i < totalDays; i++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(startDate.getDate() + i);
-      
-      const dayNum = currentDate.getDay();
-      const monthNum = currentDate.getMonth();
-      const dateNum = currentDate.getDate();
-      
-      let level = 0;
-      let count = 0;
 
       const year = currentDate.getFullYear();
       const monthStr = String(currentDate.getMonth() + 1).padStart(2, '0');
       const dateStr = String(currentDate.getDate()).padStart(2, '0');
       const dateKey = `${year}-${monthStr}-${dateStr}`;
 
-      if (currentDate >= ninetyDaysAgo && currentDate <= today) {
-        count = contributionMap[dateKey] || 0;
-        if (count > 0) {
-          if (count <= 2) {
-            level = 1;
-          } else if (count <= 4) {
-            level = 2;
-          } else if (count <= 8) {
-            level = 3;
-          } else {
-            level = 4;
-          }
-        }
-      } else {
-        let baseChance = (dayNum === 0 || dayNum === 6) ? 0.25 : 0.7;
-        if ((monthNum === 2 || monthNum === 5 || monthNum === 9 || monthNum === 11) && dateNum % 3 !== 0) {
-          baseChance += 0.2;
-        }
-        
-        if (Math.random() < baseChance) {
-          const rand = Math.random();
-          if (rand < 0.5) {
-            level = 1;
-            count = Math.floor(Math.random() * 3) + 1;
-          } else if (rand < 0.8) {
-            level = 2;
-            count = Math.floor(Math.random() * 4) + 4;
-          } else if (rand < 0.95) {
-            level = 3;
-            count = Math.floor(Math.random() * 5) + 8;
-          } else {
-            level = 4;
-            count = Math.floor(Math.random() * 8) + 13;
-          }
+      const count = contributionMap[dateKey] || 0;
+      let level = 0;
+      if (count > 0) {
+        if (count <= 2) {
+          level = 1;
+        } else if (count <= 4) {
+          level = 2;
+        } else if (count <= 8) {
+          level = 3;
+        } else {
+          level = 4;
         }
       }
 
@@ -231,4 +229,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
       observer.observe(cardEl);
     }
   }
+}
+
+function ConsoleError(msg: string, err: any) {
+  console.warn(msg, err);
 }
