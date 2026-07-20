@@ -1595,3 +1595,231 @@ body.dark-theme .wysiwyg-editor blockquote {
         transform: translateY(0);
     }
 }
+
+/* ==========================================================================
+   MEDIUM-STYLE ARTICLE TYPOGRAPHY & MARKDOWN RENDERER
+   ========================================================================== */
+.detail-text-body {
+    font-family: var(--font-body);
+    color: var(--text-primary);
+    line-height: 1.85;
+    font-size: 1.1rem;
+    word-break: break-word;
+    letter-spacing: -0.003em;
+}
+
+/* Headings: Elegant Lora / Serifs or Inter Heavy with generous vertical rhythm */
+.detail-text-body h1,
+.detail-text-body h2,
+.detail-text-body h3,
+.detail-text-body h4,
+.detail-text-body h5,
+.detail-text-body h6 {
+    font-family: var(--font-heading), 'Lora', Georgia, serif;
+    color: var(--accent-navy);
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-top: 42px;
+    margin-bottom: 18px;
+    border: none;
+}
+
+.detail-text-body h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-top: 48px;
+    margin-bottom: 24px;
+    letter-spacing: -0.03em;
+}
+
+.detail-text-body h2 {
+    font-size: 1.65rem;
+    font-weight: 700;
+    margin-top: 38px;
+    margin-bottom: 18px;
+}
+
+.detail-text-body h3 {
+    font-family: var(--font-body);
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin-top: 32px;
+    margin-bottom: 14px;
+}
+
+.detail-text-body h4 {
+    font-family: var(--font-body);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+/* Paragraphs: Medium-style comfortable line spacing */
+.detail-text-body p {
+    font-family: var(--font-body);
+    font-size: 1.1rem;
+    color: rgba(15, 23, 42, 0.9);
+    line-height: 1.85;
+    margin-bottom: 26px;
+}
+
+body.dark-theme .detail-text-body p {
+    color: #e2e8f0;
+}
+
+body.dark-theme .detail-text-body h1,
+body.dark-theme .detail-text-body h2,
+body.dark-theme .detail-text-body h3,
+body.dark-theme .detail-text-body h4 {
+    color: #f8fafc;
+}
+
+/* Lists: Clean indentation and line height */
+.detail-text-body ul,
+.detail-text-body ol {
+    margin-top: 8px;
+    margin-bottom: 28px;
+    padding-left: 28px;
+}
+
+.detail-text-body ul {
+    list-style-type: disc;
+}
+
+.detail-text-body ol {
+    list-style-type: decimal;
+}
+
+.detail-text-body ul li,
+.detail-text-body ol li {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: rgba(15, 23, 42, 0.9);
+    line-height: 1.8;
+    margin-bottom: 12px;
+    padding-left: 4px;
+}
+
+body.dark-theme .detail-text-body ul li,
+body.dark-theme .detail-text-body ol li {
+    color: #e2e8f0;
+}
+
+.detail-text-body ul li::before,
+.detail-text-body ol li::before {
+    content: none;
+}
+
+/* Links: Subtle, Medium-style elegant links */
+.detail-text-body a {
+    color: var(--accent-navy);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: var(--transition-smooth);
+}
+
+.detail-text-body a:hover {
+    color: var(--accent-navy-hover);
+    text-decoration-color: var(--accent-navy-hover);
+}
+
+body.dark-theme .detail-text-body a {
+    color: #60a5fa;
+}
+
+body.dark-theme .detail-text-body a:hover {
+    color: #93c5fd;
+}
+
+/* Blockquotes: Medium-style pull quote with left border */
+.detail-text-body blockquote {
+    border-left: 3px solid var(--accent-navy);
+    padding: 6px 0 6px 24px;
+    margin: 36px 0;
+    font-family: var(--font-heading), 'Lora', Georgia, serif;
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+}
+
+body.dark-theme .detail-text-body blockquote {
+    border-left-color: #60a5fa;
+    color: #cbd5e1;
+}
+
+/* Horizontal Rules */
+.detail-text-body hr {
+    border: none;
+    border-top: 1px solid var(--border-color);
+    margin: 40px 0;
+}
+
+/* Inline Code */
+.detail-text-body code {
+    background: rgba(11, 26, 48, 0.06);
+    color: #0f172a;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: var(--font-code), 'Fira Code', monospace;
+    font-size: 0.9em;
+    font-weight: 500;
+    border: 1px solid rgba(11, 26, 48, 0.08);
+}
+
+body.dark-theme .detail-text-body code {
+    background: rgba(255, 255, 255, 0.1);
+    color: #f1f5f9;
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Code Blocks: Medium-style dark slate cards */
+.detail-text-body pre {
+    background: #0f172a;
+    color: #f8fafc;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 32px 0;
+    overflow-x: auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.detail-text-body pre code {
+    background: transparent;
+    color: #e2e8f0;
+    padding: 0;
+    border-radius: 0;
+    font-family: var(--font-code), 'Fira Code', monospace;
+    font-size: 0.92rem;
+    line-height: 1.65;
+    border: none;
+}
+
+/* Images inside Markdown */
+.detail-text-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    margin: 32px auto;
+    display: block;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Admin Live Preview Box Container */
+.markdown-preview-pane {
+    padding: 32px 40px;
+    min-height: 350px;
+    max-height: 600px;
+    overflow-y: auto;
+    background: #ffffff;
+    border-radius: 0 0 12px 12px;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.02);
+}
+
+body.dark-theme .markdown-preview-pane {
+    background: rgba(15, 23, 42, 0.6);
+}
