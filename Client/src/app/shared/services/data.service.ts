@@ -469,12 +469,17 @@ export class DataService {
   }
 
   // File Upload Helper APIs (for Admin Panel)
-  async uploadBlogImage(file: File): Promise<string | null> {
+  async uploadBlogImage(file: File, slug?: string): Promise<string | null> {
     try {
       const formData = new FormData();
       formData.append('file', file);
       
-      const res = await fetch(`${this.apiBaseUrl}/api/upload/blog`, {
+      let url = `${this.apiBaseUrl}/api/upload/blog`;
+      if (slug) {
+        url += `?slug=${encodeURIComponent(slug)}`;
+      }
+
+      const res = await fetch(url, {
         method: 'POST',
         body: formData,
         headers: this.getAuthHeaders()
@@ -559,32 +564,6 @@ export class DataService {
       if (res.ok) {
         const data = await res.json();
         return data.url; // e.g. "storage/projects/slug/guid_filename.png"
-      }
-    } catch(e) {
-      console.error(e);
-    }
-    return null;
-  }
-
-  async uploadBlogImage(file: File, slug?: string): Promise<string | null> {
-    try {
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      let url = `${this.apiBaseUrl}/api/upload/blog`;
-      if (slug) {
-        url += `?slug=${encodeURIComponent(slug)}`;
-      }
-      
-      const res = await fetch(url, {
-        method: 'POST',
-        body: formData,
-        headers: this.getAuthHeaders()
-      });
-      
-      if (res.ok) {
-        const data = await res.json();
-        return data.url;
       }
     } catch(e) {
       console.error(e);

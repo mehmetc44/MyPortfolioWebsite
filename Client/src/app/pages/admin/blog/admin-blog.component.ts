@@ -276,6 +276,143 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
     }
   }
 
+  // Medium Floating Plus (+) State
+  showFloatingPlus = false;
+  floatingPlusTop = 24;
+  isPlusMenuOpen = false;
+
+  togglePlusMenu() {
+    this.isPlusMenuOpen = !this.isPlusMenuOpen;
+  }
+
+  updateFloatingPlusPosition() {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+      this.showFloatingPlus = false;
+      return;
+    }
+
+    let activeEditor: HTMLDivElement | null = null;
+    if (this.activeFormTab === 'tr' && this.editorTR) activeEditor = this.editorTR.nativeElement;
+    else if (this.activeFormTab === 'en' && this.editorEN) activeEditor = this.editorEN.nativeElement;
+    else if (this.activeFormTab === 'de' && this.editorDE) activeEditor = this.editorDE.nativeElement;
+
+    if (!activeEditor || !activeEditor.contains(selection.anchorNode)) {
+      this.showFloatingPlus = false;
+      return;
+    }
+
+    const range = selection.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+    const editorRect = activeEditor.getBoundingClientRect();
+
+    const text = (selection.anchorNode?.textContent || '').replace(/[\n\r\t]/g, '').trim();
+    const isLineEmpty = text === '' || text === 'Yazmaya başlayın...' || text === 'Start writing...' || text === 'Schreiben Sie etwas...';
+
+    if (isLineEmpty && rect.top > 0) {
+      this.floatingPlusTop = Math.max(16, rect.top - editorRect.top + activeEditor.scrollTop);
+      this.showFloatingPlus = true;
+    } else {
+      this.showFloatingPlus = false;
+      this.isPlusMenuOpen = false;
+    }
+  }
+
+  onEditorKeyup() {
+    this.updateFloatingPlusPosition();
+  }
+
+  onEditorKeydown(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        const anchor = selection.anchorNode;
+        const blockquote = this.findParentTag(anchor, 'BLOCKQUOTE');
+        if (blockquote) {
+          const text = (blockquote.textContent || '').trim();
+          if (text === '' || text === 'Alıntı metninizi buraya yazın...') {
+            event.preventDefault();
+            const p = document.createElement('p');
+            p.innerHTML = '<br>';
+            blockquote.parentNode?.replaceChild(p, blockquote);
+            this.setCursorToNode(p);
+            this.updateFloatingPlusPosition();
+            return;
+          }
+        }
+      }
+    }
+    setTimeout(() => this.updateFloatingPlusPosition(), 20);
+  }
+
+  insertBlock(type: 'image' | 'quote' | 'code' | 'h3' | 'separator') {
+    this.isPlusMenuOpen = false;
+    this.showFloatingPlus = false;
+
+    if (type === 'image') {
+      this.triggerImageUpload();
+    } else if (type === 'quote') {
+      this.insertQuoteBlock();
+    } else if (type === 'code') {
+      this.insertCodeBlock();
+    } else if (type === 'h3') {
+      this.toggleH3();
+    } else if (type === 'separator') {
+      this.insertSeparator();
+    }
+  }
+
+  toggleH3() {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0) {
+      this.insertHtmlToActiveEditor('<h3 style="font-size: 1.5rem; font-weight: 800; margin: 28px 0 12px 0; color: var(--accent-navy);">Alt Başlığınızı Yazın...</h3><p><br></p>');
+      return;
+    }
+
+    let node: Node | null = selection.anchorNode;
+    let isH3 = false;
+    while (node && node !== document.body) {
+      if (node.nodeName === 'H3') {
+        isH3 = true;
+        break;
+      }
+      node = node.parentNode;
+    }
+
+    if (isH3) {
+      document.execCommand('formatBlock', false, 'p');
+    } else {
+      document.execCommand('formatBlock', false, 'h3');
+    }
+  }
+
+  insertQuoteBlock() {
+    const quoteHtml = `<blockquote class="blog-quote" contenteditable="true" style="border-left: 4px solid var(--accent-navy, #0f172a); padding: 16px 24px; margin: 28px 0; font-style: italic; font-size: 1.15rem; line-height: 1.7; color: var(--text-secondary, #475569); background: rgba(11,26,48,0.03); border-radius: 0 12px 12px 0; outline: none;">Alıntı metninizi buraya yazın...</blockquote><p><br></p>`;
+    this.insertHtmlToActiveEditor(quoteHtml);
+  }
+
+  insertH3Block() {
+    this.toggleH3();
+  }
+
+  private findParentTag(node: Node | null, tagName: string): HTMLElement | null {
+    let curr: Node | null = node;
+    while (curr && curr !== document.body) {
+      if (curr.nodeName === tagName) return curr as HTMLElement;
+      curr = curr.parentNode;
+    }
+    return null;
+  }
+
+  private setCursorToNode(node: Node) {
+    const range = document.createRange();
+    const sel = window.getSelection();
+    range.selectNodeContents(node);
+    range.collapse(false);
+    sel?.removeAllRanges();
+    sel?.addRange(range);
+  }
+
   insertCodeBlock() {
     const codeHtml = `<pre class="blog-code-block" style="background:#0d1117; color:#e6edf3; padding:18px 22px; border-radius:12px; font-family:'Fira Code', monospace; font-size:0.95rem; line-height:1.65; white-space:pre-wrap; word-break:break-word; margin:24px 0; border:1px solid rgba(255,255,255,0.1); outline:none;"><code>// Kodunuzu buraya yazın...</code></pre><p><br></p>`;
     this.insertHtmlToActiveEditor(codeHtml);
