@@ -47,7 +47,7 @@ namespace Server.Controllers
                 ReadTime = a.ReadTime,
                 SubTag = lang == "en" ? a.SubTag_EN : (lang == "de" ? a.SubTag_DE : a.SubTag_TR),
                 Excerpt = lang == "en" ? a.Excerpt_EN : (lang == "de" ? a.Excerpt_DE : a.Excerpt_TR),
-                ImageUrl = NormalizeRelativeUrl(a.ImageUrl),
+                ImageUrl = a.ImageUrl,
                 DetailText = lang == "en" ? a.DetailText_EN : (lang == "de" ? a.DetailText_DE : a.DetailText_TR)
             });
 
@@ -75,7 +75,7 @@ namespace Server.Controllers
                 ReadTime = a.ReadTime,
                 SubTag = lang == "en" ? a.SubTag_EN : (lang == "de" ? a.SubTag_DE : a.SubTag_TR),
                 Excerpt = lang == "en" ? a.Excerpt_EN : (lang == "de" ? a.Excerpt_DE : a.Excerpt_TR),
-                ImageUrl = NormalizeRelativeUrl(a.ImageUrl),
+                ImageUrl = a.ImageUrl,
                 DetailText = lang == "en" ? a.DetailText_EN : (lang == "de" ? a.DetailText_DE : a.DetailText_TR)
             };
 

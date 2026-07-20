@@ -44,9 +44,8 @@ namespace Server.Controllers
 
             lang = lang.ToLower();
 
-            // Normalize avatarUrl: strip any host prefix so the frontend always receives
-            // a relative path like "uploads/avatars/file.jpg"
-            var avatarUrl = NormalizeRelativeUrl(profile.AvatarUrl);
+            // Return direct Supabase Storage CDN URL or asset link
+            var avatarUrl = profile.AvatarUrl;
 
             var mapped = new
             {

@@ -21,6 +21,8 @@ namespace Server.Services
             _db = db;
         }
 
+        private const string SupabaseCdnBase = "https://byewxuhvxtyvlxcxitwd.supabase.co/storage/v1/object/public/portfolio";
+
         public void Seed()
         {
             if (_db.Database.ProviderName == "Npgsql.EntityFrameworkCore.PostgreSQL")
@@ -77,6 +79,7 @@ namespace Server.Services
             SeedProfileDetails();
             SeedSkills();
             SeedTechTags();
+            NormalizeDatabaseUrls();
 
             _db.SaveChanges();
         }
@@ -97,9 +100,44 @@ namespace Server.Services
         private void SeedProfileDetails()
         {
             var profile = _db.Profiles.FirstOrDefault();
-            if (profile != null)
+            if (profile == null)
+            {
+                profile = new ProfileEntity
+                {
+                    Id = 1,
+                    Name = "Mehmet Çakmak",
+                    AvatarUrl = $"{SupabaseCdnBase}/avatar/avatar.webp",
+                    CvPdfUrl_TR = $"{SupabaseCdnBase}/cv/mehmet-cv-v2.pdf",
+                    CvPdfUrl_EN = $"{SupabaseCdnBase}/cv/mehmet-cv-v2.pdf",
+                    CvPdfUrl_DE = $"{SupabaseCdnBase}/cv/mehmet-cv-v2.pdf",
+                    Job_TR = "Yazılım Mühendisi @ Apex Tech",
+                    Job_EN = "Software Engineer @ Apex Tech",
+                    Job_DE = "Softwareentwickler @ Apex Tech",
+                    Education_TR = "Erciyes Üni. Yazılım Müh. (3. Sınıf)",
+                    Education_EN = "Erciyes Uni. Software Eng. (3rd Grade)",
+                    Education_DE = "Erciyes Uni. Softwaretechnik (3. Klasse)",
+                    Motto_TR = "\"Fikirleri koda, kodları yaşayan ve ölçeklenebilir ürünlere dönüştürüyorum.\"",
+                    Motto_EN = "\"I transform ideas into code, and code into living, scalable products.\"",
+                    Motto_DE = "\"Ich verwandele Ideen in Code und Code in lebendige, skalierbare Produkte.\"",
+                    IsOpenToOffers = true
+                };
+                _db.Profiles.Add(profile);
+            }
+            else
             {
                 bool modified = false;
+                if (string.IsNullOrEmpty(profile.AvatarUrl) || profile.AvatarUrl.StartsWith("storage/"))
+                {
+                    profile.AvatarUrl = $"{SupabaseCdnBase}/avatar/avatar.webp";
+                    modified = true;
+                }
+                if (string.IsNullOrEmpty(profile.CvPdfUrl_TR) || profile.CvPdfUrl_TR.StartsWith("storage/"))
+                {
+                    profile.CvPdfUrl_TR = $"{SupabaseCdnBase}/cv/mehmet-cv-v2.pdf";
+                    profile.CvPdfUrl_EN = $"{SupabaseCdnBase}/cv/mehmet-cv-v2.pdf";
+                    profile.CvPdfUrl_DE = $"{SupabaseCdnBase}/cv/mehmet-cv-v2.pdf";
+                    modified = true;
+                }
                 if (string.IsNullOrEmpty(profile.Job_TR))
                 {
                     profile.Job_TR = "Yazılım Mühendisi @ Apex Tech";
@@ -121,16 +159,41 @@ namespace Server.Services
                     profile.Motto_DE = "\"Ich verwandele Ideen in Code und Code in lebendige, skalierbare Produkte.\"";
                     modified = true;
                 }
-                if (!profile.IsOpenToOffers && _db.Entry(profile).State == EntityState.Detached)
-                {
-                    profile.IsOpenToOffers = true;
-                    modified = true;
-                }
 
                 if (modified)
                 {
                     _db.Profiles.Update(profile);
                 }
+            }
+        }
+
+        private void NormalizeDatabaseUrls()
+        {
+            try
+            {
+                var projects = _db.Projects.ToList();
+                foreach (var p in projects)
+                {
+                    if (!string.IsNullOrEmpty(p.ImagesJson) && p.ImagesJson.Contains("storage/"))
+                    {
+                        p.ImagesJson = p.ImagesJson.Replace("storage/", $"{SupabaseCdnBase}/");
+                        _db.Projects.Update(p);
+                    }
+                }
+
+                var articles = _db.Articles.ToList();
+                foreach (var a in articles)
+                {
+                    if (!string.IsNullOrEmpty(a.ImageUrl) && a.ImageUrl.StartsWith("storage/"))
+                    {
+                        a.ImageUrl = a.ImageUrl.Replace("storage/", $"{SupabaseCdnBase}/");
+                        _db.Articles.Update(a);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"[NormalizeDatabaseUrls Warning] {ex.Message}");
             }
         }
 

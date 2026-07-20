@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Server.Data;
+using Server.Health;
 using Server.Services;
 
 namespace Server.Extensions
@@ -38,24 +39,6 @@ namespace Server.Extensions
             if (!Directory.Exists(dbFolder))
             {
                 Directory.CreateDirectory(dbFolder);
-            }
-
-            // Ensure Storage folders exist at the same level as Client and Server
-            var rootFolder = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), ".."));
-            var storageFolder = Path.GetFullPath(Path.Combine(rootFolder, "Storage"));
-            if (!Directory.Exists(storageFolder))
-            {
-                Directory.CreateDirectory(storageFolder);
-            }
-            
-            var subfolders = new[] { "cv", "avatar", "projects", "articles" };
-            foreach (var sub in subfolders)
-            {
-                var p = Path.Combine(storageFolder, sub);
-                if (!Directory.Exists(p))
-                {
-                    Directory.CreateDirectory(p);
-                }
             }
         }
 
@@ -91,8 +74,9 @@ namespace Server.Extensions
                 });
             });
 
-            // Health check middleware configuration
-            services.AddHealthChecks();
+            // Health check middleware configuration (pings Supabase Postgres DB & Storage REST API)
+            services.AddHealthChecks()
+                .AddCheck<Server.Health.SupabaseHealthCheck>("supabase");
 
             return services;
         }

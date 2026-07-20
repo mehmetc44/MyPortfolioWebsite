@@ -22,17 +22,6 @@ var app = builder.Build();
 // 3. Configure HTTP pipeline
 app.UseStaticFiles();
 
-var storagePath = Path.GetFullPath(Path.Combine(Directory.GetCurrentDirectory(), "..", "Storage"));
-if (!Directory.Exists(storagePath))
-{
-    Directory.CreateDirectory(storagePath);
-}
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new PhysicalFileProvider(storagePath),
-    RequestPath = "/storage"
-});
-
 // 4. Migrate database and run data seeding
 app.SeedDatabase();
 

@@ -52,7 +52,7 @@ namespace Server.Controllers
                 Tech = p.Tech,
                 RepoUrl = p.RepoUrl,
                 DemoUrl = p.DemoUrl,
-                ImagesJson = NormalizeImagesJson(p.ImagesJson),
+                ImagesJson = p.ImagesJson,
                 DetailText = lang == "en" ? p.DetailText_EN : (lang == "de" ? p.DetailText_DE : p.DetailText_TR)
             });
 
@@ -83,7 +83,7 @@ namespace Server.Controllers
                 Tech = p.Tech,
                 RepoUrl = p.RepoUrl,
                 DemoUrl = p.DemoUrl,
-                ImagesJson = NormalizeImagesJson(p.ImagesJson),
+                ImagesJson = p.ImagesJson,
                 DetailText = lang == "en" ? p.DetailText_EN : (lang == "de" ? p.DetailText_DE : p.DetailText_TR)
             };
 
