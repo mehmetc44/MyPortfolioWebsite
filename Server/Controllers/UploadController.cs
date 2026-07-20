@@ -92,5 +92,28 @@ namespace Server.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        // POST: api/upload/blog?slug=article-slug
+        [HttpPost("blog")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadBlogImage(IFormFile file, [FromQuery] string? slug = null)
+        {
+            try
+            {
+                var cleanSlug = string.IsNullOrWhiteSpace(slug) 
+                    ? "general" 
+                    : System.Text.RegularExpressions.Regex.Replace(slug.Trim().ToLower(), @"[^a-z0-9\-_]", "-").Trim('-');
+                
+                if (string.IsNullOrWhiteSpace(cleanSlug)) cleanSlug = "general";
+
+                var subFolder = $"blog/{cleanSlug}";
+                var publicUrl = await _fileService.SaveFileAsync(file, subFolder);
+                return Ok(new { url = publicUrl });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

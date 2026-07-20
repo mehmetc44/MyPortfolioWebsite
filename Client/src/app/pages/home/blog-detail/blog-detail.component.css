@@ -221,23 +221,41 @@ body.dark-theme .article-text-body blockquote {
     display: inline-block;
 }
 
-/* Inline images with captions */
-.article-text-body figure {
-    margin: 36px 0;
+/* Inline images with Medium-style captions */
+.article-text-body figure,
+.article-text-body .blog-inline-figure {
+    margin: 40px 0;
     text-align: center;
+    display: block;
 }
 
-.article-text-body figure img {
+.article-text-body figure img,
+.article-text-body .blog-inline-figure img,
+.article-text-body img {
     max-width: 100%;
-    border-radius: 8px;
+    border-radius: 12px;
     height: auto;
+    display: block;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(11, 26, 48, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.article-text-body figure img:hover,
+.article-text-body .blog-inline-figure img:hover,
+.article-text-body img:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(11, 26, 48, 0.14);
 }
 
 .article-text-body figcaption {
-    font-size: 0.88rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
-    margin-top: 10px;
+    margin-top: 12px;
     font-style: italic;
+    font-family: var(--font-body), sans-serif;
+    text-align: center;
+    line-height: 1.5;
 }
 
 /* 4. Footer controls */
