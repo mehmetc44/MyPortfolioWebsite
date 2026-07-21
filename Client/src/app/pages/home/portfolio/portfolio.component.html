@@ -33,7 +33,7 @@
 
         <!-- Dynamic Projects Output Grid -->
         <div class="portfolio-grid" id="portfolioGrid" aria-live="polite">
-            <div *ngFor="let proj of filteredProjects" class="project-card sub-glass-card">
+            <div *ngFor="let proj of filteredProjects" class="project-card sub-glass-card" [routerLink]="['/portfolio', proj.id]" style="cursor: pointer;">
                 <div class="project-image-container">
                     <img [src]="proj.images && proj.images.length > 0 ? proj.images[0] : 'assets/project_placeholder.png'" [alt]="proj.title" class="project-card-image">
                     <div class="project-category-tags-group">

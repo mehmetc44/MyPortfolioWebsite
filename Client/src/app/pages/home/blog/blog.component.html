@@ -31,7 +31,7 @@
 
         <!-- Dynamic Blog Output Grid -->
         <div class="blog-grid" id="blogGrid" aria-live="polite">
-            <div *ngFor="let art of filteredArticles" class="blog-card sub-glass-card">
+            <div *ngFor="let art of filteredArticles" class="blog-card sub-glass-card" [routerLink]="['/blog', art.id]" style="cursor: pointer;">
                 <div class="blog-image-container">
                     <img [src]="art.imageUrl || 'assets/blog_placeholder.png'" [alt]="art.title" class="blog-card-image">
                     <span class="blog-category-tag category-tag-{{art.category}}">{{ getCategoryLabel(art.category) }}</span>
