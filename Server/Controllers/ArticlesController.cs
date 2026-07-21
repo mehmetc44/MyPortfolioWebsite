@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Server.Data;
 using Server.Models;
+using Server.Services;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Server.Controllers
@@ -16,10 +18,12 @@ namespace Server.Controllers
     public class ArticlesController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IFileService _fileService;
 
-        public ArticlesController(AppDbContext context)
+        public ArticlesController(AppDbContext context, IFileService fileService)
         {
             _context = context;
+            _fileService = fileService;
         }
 
         // GET: api/articles/raw
@@ -118,6 +122,9 @@ namespace Server.Controllers
                 return NotFound("Güncellenecek makale bulunamadı.");
             }
 
+            // Track images previously present in old version
+            var oldImages = ExtractImageUrls(existing.DetailText_TR, existing.DetailText_EN, existing.DetailText_DE, existing.ImageUrl);
+
             // Map values
             existing.Title_TR = updatedArticle.Title_TR;
             existing.Title_EN = updatedArticle.Title_EN;
@@ -135,6 +142,23 @@ namespace Server.Controllers
             existing.DetailText_TR = updatedArticle.DetailText_TR;
             existing.DetailText_EN = updatedArticle.DetailText_EN;
             existing.DetailText_DE = updatedArticle.DetailText_DE;
+
+            // Track images present in new updated version
+            var newImages = ExtractImageUrls(updatedArticle.DetailText_TR, updatedArticle.DetailText_EN, updatedArticle.DetailText_DE, updatedArticle.ImageUrl);
+
+            // Automatically clean up images removed during edit
+            var removedImages = oldImages.Except(newImages, StringComparer.OrdinalIgnoreCase).ToList();
+            foreach (var imgUrl in removedImages)
+            {
+                try
+                {
+                    await _fileService.DeleteFileAsync(imgUrl);
+                }
+                catch (Exception ex)
+                {
+                    Console.Error.WriteLine($"[ArticlesController] Failed to delete unused image '{imgUrl}': {ex.Message}");
+                }
+            }
 
             _context.Entry(existing).State = EntityState.Modified;
             await _context.SaveChangesAsync();
@@ -172,10 +196,67 @@ namespace Server.Controllers
                 return NotFound("Silinecek makale bulunamadı.");
             }
 
+            // Automatically delete all associated images & folder from storage
+            var imagesToDelete = ExtractImageUrls(article.DetailText_TR, article.DetailText_EN, article.DetailText_DE, article.ImageUrl);
+            foreach (var imgUrl in imagesToDelete)
+            {
+                try { await _fileService.DeleteFileAsync(imgUrl); } catch { }
+            }
+            try { await _fileService.DeleteDirectoryAsync($"blog/{id}"); } catch { }
+
             _context.Articles.Remove(article);
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private static HashSet<string> ExtractImageUrls(params string?[] contents)
+        {
+            var urls = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (contents == null) return urls;
+
+            var htmlRegex = new Regex(@"<img[^>]+src=[""']([^""']+)[""']", RegexOptions.IgnoreCase);
+            var mdRegex = new Regex(@"!\[.*?\]\(\s*<?([^\s""'>\)]+)", RegexOptions.IgnoreCase);
+
+            foreach (var content in contents)
+            {
+                if (string.IsNullOrWhiteSpace(content)) continue;
+                
+                // If content is direct image URL
+                if (content.StartsWith("http://", StringComparison.OrdinalIgnoreCase) || 
+                    content.StartsWith("https://", StringComparison.OrdinalIgnoreCase) || 
+                    content.StartsWith("storage/", StringComparison.OrdinalIgnoreCase))
+                {
+                    urls.Add(content.Trim());
+                }
+
+                var htmlMatches = htmlRegex.Matches(content);
+                foreach (Match m in htmlMatches)
+                {
+                    if (m.Groups.Count > 1)
+                    {
+                        var src = m.Groups[1].Value.Trim();
+                        if (!string.IsNullOrEmpty(src))
+                        {
+                            urls.Add(src);
+                        }
+                    }
+                }
+
+                var mdMatches = mdRegex.Matches(content);
+                foreach (Match m in mdMatches)
+                {
+                    if (m.Groups.Count > 1)
+                    {
+                        var src = m.Groups[1].Value.Trim();
+                        if (!string.IsNullOrEmpty(src))
+                        {
+                            urls.Add(src);
+                        }
+                    }
+                }
+            }
+            return urls;
         }
 
         // POST: api/articles/{id}/publish-medium

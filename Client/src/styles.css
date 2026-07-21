@@ -2025,8 +2025,8 @@ body.dark-theme .wysiwyg-editor-container.fullscreen-editor-active .wysiwyg-edit
 
 .medium-plus-container {
     position: absolute;
-    left: -48px;
-    z-index: 100;
+    left: 12px;
+    z-index: 999;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -2034,12 +2034,12 @@ body.dark-theme .wysiwyg-editor-container.fullscreen-editor-active .wysiwyg-edit
 }
 
 .wysiwyg-editor-container.fullscreen-editor-active .medium-plus-container {
-    left: calc(50% - 460px);
+    left: calc(50% - 475px);
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1050px) {
     .wysiwyg-editor-container.fullscreen-editor-active .medium-plus-container {
-        left: 12px;
+        left: 16px;
     }
 }
 

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { marked } from 'marked';
-import { DataService, Project } from '../../../shared/services/data.service';
+import { DataService, Project, sanitizeImageUrl } from '../../../shared/services/data.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 import { LocalizationService } from '../../../shared/services/localization.service';
 
@@ -93,7 +93,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       if (found) {
         this.project = found;
         try {
-          const parsed = marked.parse(found.detailText || '') as string;
+          const detailText = this.resolveDetailImages(found.detailText || '');
+          const parsed = marked.parse(detailText, { async: false }) as string;
           this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(parsed);
         } catch (e) {
           console.error("Markdown parsing failed", e);
@@ -105,6 +106,14 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
         this.router.navigate(['/portfolio']);
       }
     }
+  }
+
+  private resolveDetailImages(text: string): string {
+    if (!text) return '';
+    return text.replace(/(src=["']|!\[.*?\]\()([^"'\)]+)(["']|\))/gi, (match, prefix, url, suffix) => {
+      const sanitized = sanitizeImageUrl(url, this.dataService.apiBaseUrl);
+      return `${prefix}${sanitized}${suffix}`;
+    });
   }
 
   // Lightbox Modal Controls

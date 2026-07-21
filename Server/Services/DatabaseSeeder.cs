@@ -35,6 +35,28 @@ namespace Server.Services
                             ""ProductVersion"" character varying(32) NOT NULL,
                             CONSTRAINT ""PK___EFMigrationsHistory"" PRIMARY KEY (""MigrationId"")
                         );
+
+                        CREATE TABLE IF NOT EXISTS ""Articles"" (
+                            ""Id"" text NOT NULL,
+                            ""Title_TR"" text NOT NULL,
+                            ""Title_EN"" text NOT NULL,
+                            ""Title_DE"" text NOT NULL,
+                            ""Category"" text NOT NULL,
+                            ""Date"" text NOT NULL,
+                            ""ReadTime"" text NOT NULL,
+                            ""SubTag_TR"" text NOT NULL,
+                            ""SubTag_EN"" text NOT NULL,
+                            ""SubTag_DE"" text NOT NULL,
+                            ""Excerpt_TR"" text NOT NULL,
+                            ""Excerpt_EN"" text NOT NULL,
+                            ""Excerpt_DE"" text NOT NULL,
+                            ""ImageUrl"" text NOT NULL,
+                            ""DetailText_TR"" text NOT NULL,
+                            ""DetailText_EN"" text NOT NULL,
+                            ""DetailText_DE"" text NOT NULL,
+                            ""OrderIndex"" integer NOT NULL DEFAULT 0,
+                            CONSTRAINT ""PK_Articles"" PRIMARY KEY (""Id"")
+                        );
                         
                         ALTER TABLE ""Profiles"" ADD COLUMN IF NOT EXISTS ""CvText_TR"" text;
                         ALTER TABLE ""Profiles"" ADD COLUMN IF NOT EXISTS ""CvText_EN"" text;
@@ -76,6 +98,7 @@ namespace Server.Services
             _db.Database.Migrate();
 
             SeedUsers();
+            SeedArticles();
             SeedProfileDetails();
             SeedSkills();
             SeedTechTags();
@@ -93,6 +116,37 @@ namespace Server.Services
                     Id = 1,
                     Username = "admin",
                     PasswordHash = PasswordHasher.HashPassword("admin123")
+                });
+            }
+        }
+
+        private void SeedArticles()
+        {
+            if (!_db.Articles.Any())
+            {
+                _db.Articles.AddRange(new List<ArticleEntity>
+                {
+                    new ArticleEntity
+                    {
+                        Id = "saas-multitenancy",
+                        Title_TR = "SaaS Mimarilerinde Çok Kiracılı (Multi-Tenant) Veri Güvenliği ve İzolasyonu",
+                        Title_EN = "Multi-Tenant Data Security & Isolation in SaaS Architectures",
+                        Title_DE = "Mandantenfähige Datenisolation in SaaS-Architekturen",
+                        Category = "architecture",
+                        Date = "2026-06-15",
+                        ReadTime = "6 dk",
+                        SubTag_TR = "SOFTWARE ARCHITECTURE & POSTGRESQL",
+                        SubTag_EN = "SOFTWARE ARCHITECTURE & POSTGRESQL",
+                        SubTag_DE = "SOFTWAREARCHITEKTUR & POSTGRESQL",
+                        Excerpt_TR = "SaaS uygulamalarında kiracıların verilerini mantıksal ve fiziksel düzeyde nasıl izole edeceğinizi öğrenin.",
+                        Excerpt_EN = "Learn how to isolate tenant data logically and physically in SaaS apps.",
+                        Excerpt_DE = "Lernen Sie, wie Sie Mandantendaten auf logischer und physischer Ebene in SaaS-Apps isolieren.",
+                        ImageUrl = $"{SupabaseCdnBase}/articles/saas-multitenancy.webp",
+                        DetailText_TR = "SaaS mimarilerinde en kritik zorluklardan biri kiracıların verilerini izole etmektir.",
+                        DetailText_EN = "One of the most critical challenges in SaaS architectures is isolating tenant data.",
+                        DetailText_DE = "Eine der kritischsten Herausforderungen in SaaS-Architekturen ist die Isolierung von Mandantendaten.",
+                        OrderIndex = 1
+                    }
                 });
             }
         }
@@ -273,8 +327,8 @@ namespace Server.Services
                 url = url.Substring(lastHttps);
             }
 
-            // Look for known folder prefixes in the path: projects/, avatar/, articles/, cv/, uploads/
-            string[] knownFolders = new[] { "projects/", "avatar/", "articles/", "cv/", "uploads/" };
+            // Look for known folder prefixes in the path: projects/, avatar/, articles/, blog/, cv/, uploads/
+            string[] knownFolders = new[] { "projects/", "avatar/", "articles/", "blog/", "cv/", "uploads/" };
             foreach (var folder in knownFolders)
             {
                 int folderIdx = url.LastIndexOf(folder, StringComparison.OrdinalIgnoreCase);

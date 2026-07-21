@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild, ElementRef, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { marked } from 'marked';
 import { DataService, RawArticle } from '../../../shared/services/data.service';
 
 @Component({
@@ -10,41 +12,20 @@ import { DataService, RawArticle } from '../../../shared/services/data.service';
   templateUrl: './admin-blog.component.html',
   styleUrls: ['../admin.component.css']
 })
-export class AdminBlogComponent implements OnInit, OnDestroy {
-  @ViewChild('editorTR') editorTR!: ElementRef<HTMLDivElement>;
-  @ViewChild('editorEN') editorEN!: ElementRef<HTMLDivElement>;
-  @ViewChild('editorDE') editorDE!: ElementRef<HTMLDivElement>;
-  @ViewChild('blogImageInput') blogImageInput!: ElementRef<HTMLInputElement>;
-
+export class AdminBlogComponent implements OnInit {
   articles: RawArticle[] = [];
   isEditing = false;
   articleModalTitle = 'Yeni Makale Ekle';
   editingArticleIdx = -1;
   activeFormTab: 'tr' | 'en' | 'de' = 'tr';
+
+  // Editor mode for each language tab: 'write' | 'preview'
+  activeEditorTab_TR: 'write' | 'preview' = 'write';
+  activeEditorTab_EN: 'write' | 'preview' = 'write';
+  activeEditorTab_DE: 'write' | 'preview' = 'write';
+
   isPublishingToMedium = false;
   isUploadingImage = false;
-  isFullscreenEditor = false;
-
-  toggleFullscreenEditor() {
-    this.isFullscreenEditor = !this.isFullscreenEditor;
-    if (this.isFullscreenEditor) {
-      document.body.classList.add('blog-fullscreen-active');
-    } else {
-      document.body.classList.remove('blog-fullscreen-active');
-    }
-  }
-
-  @HostListener('window:keydown.escape', ['$event'])
-  handleEscapeKey(event: KeyboardEvent) {
-    if (this.isFullscreenEditor) {
-      this.isFullscreenEditor = false;
-      document.body.classList.remove('blog-fullscreen-active');
-    }
-  }
-
-  ngOnDestroy() {
-    document.body.classList.remove('blog-fullscreen-active');
-  }
 
   // Drag & Drop state
   dragIndex: number | null = null;
@@ -68,7 +49,7 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
   artDetail_EN = '';
   artDetail_DE = '';
 
-  constructor(private dataService: DataService) {}
+  constructor(private dataService: DataService, private sanitizer: DomSanitizer) {}
 
   ngOnInit() {
     this.loadArticles();
@@ -82,18 +63,50 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
     return this.dataService.formatDate(dateStr);
   }
 
+  // Language tab switching with automatic copy from TR if empty
+  switchTab(tab: 'tr' | 'en' | 'de') {
+    this.activeFormTab = tab;
+
+    if (tab === 'en') {
+      if (!this.artDetail_EN || !this.artDetail_EN.trim()) {
+        this.copyTRToEN();
+      }
+    } else if (tab === 'de') {
+      if (!this.artDetail_DE || !this.artDetail_DE.trim()) {
+        this.copyTRToDE();
+      }
+    }
+  }
+
+  copyTRToEN() {
+    this.artDetail_EN = this.artDetail_TR;
+    if (!this.artTitle_EN) this.artTitle_EN = this.artTitle_TR;
+    if (!this.artSubTag_EN) this.artSubTag_EN = this.artSubTag_TR;
+    if (!this.artExcerpt_EN) this.artExcerpt_EN = this.artExcerpt_TR;
+  }
+
+  copyTRToDE() {
+    this.artDetail_DE = this.artDetail_TR;
+    if (!this.artTitle_DE) this.artTitle_DE = this.artTitle_TR;
+    if (!this.artSubTag_DE) this.artSubTag_DE = this.artSubTag_TR;
+    if (!this.artExcerpt_DE) this.artExcerpt_DE = this.artExcerpt_TR;
+  }
+
   openNewArticleModal() {
     this.editingArticleIdx = -1;
     this.articleModalTitle = 'Yeni Makale Ekle';
     this.activeFormTab = 'tr';
-    
+    this.activeEditorTab_TR = 'write';
+    this.activeEditorTab_EN = 'write';
+    this.activeEditorTab_DE = 'write';
+
     this.artId = '';
     this.artTitle_TR = '';
     this.artTitle_EN = '';
     this.artTitle_DE = '';
     this.artCategory = 'architecture';
-    this.artDate = '';
-    this.artReadTime = '';
+    this.artDate = new Date().toISOString().split('T')[0];
+    this.artReadTime = '5 dk';
     this.artSubTag_TR = '';
     this.artSubTag_EN = '';
     this.artSubTag_DE = '';
@@ -104,15 +117,17 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
     this.artDetail_EN = '';
     this.artDetail_DE = '';
     this.isEditing = true;
-    this.initializeEditors();
   }
 
   openEditArticleModal(idx: number) {
     this.editingArticleIdx = idx;
     this.articleModalTitle = 'Makale Düzenle';
     this.activeFormTab = 'tr';
+    this.activeEditorTab_TR = 'write';
+    this.activeEditorTab_EN = 'write';
+    this.activeEditorTab_DE = 'write';
+
     const art = this.articles[idx];
-    
     this.artId = art.id;
     this.artTitle_TR = art.title_TR;
     this.artTitle_EN = art.title_EN;
@@ -130,69 +145,284 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
     this.artDetail_EN = art.detailText_EN;
     this.artDetail_DE = art.detailText_DE;
     this.isEditing = true;
-    this.initializeEditors();
   }
 
   closeArticleModal() {
     this.isEditing = false;
-    this.isFullscreenEditor = false;
-    document.body.classList.remove('blog-fullscreen-active');
   }
 
-  async publishToMedium(articleId?: string) {
-    const idx = articleId 
-      ? this.articles.findIndex(a => a.id === articleId) 
-      : this.editingArticleIdx;
-      
-    const art = idx >= 0 ? this.articles[idx] : null;
-    const targetId = articleId || (art ? art.id : this.artId);
+  // Markdown Helper Actions (Matching Admin Projects Component)
+  insertMarkdown(lang: 'tr' | 'en' | 'de', type: string) {
+    const textareaId = lang === 'tr' ? 'crudBlogDetailTR' : (lang === 'en' ? 'crudBlogDetailEN' : 'crudBlogDetailDE');
+    const textarea = document.getElementById(textareaId) as HTMLTextAreaElement;
+    if (!textarea) return;
 
-    if (!targetId && !this.artTitle_TR) {
-      alert('Lütfen önce makale bilgilerini girin.');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    let text = '';
+
+    if (lang === 'tr') text = this.artDetail_TR;
+    else if (lang === 'en') text = this.artDetail_EN;
+    else if (lang === 'de') text = this.artDetail_DE;
+
+    const selectedText = text.substring(start, end);
+    let replacement = '';
+    let cursorOffset = 0;
+
+    switch (type) {
+      case 'bold':
+        replacement = `**${selectedText || 'kalın yazı'}**`;
+        cursorOffset = selectedText ? 0 : 2;
+        break;
+      case 'italic':
+        replacement = `*${selectedText || 'eğik yazı'}*`;
+        cursorOffset = selectedText ? 0 : 1;
+        break;
+      case 'code':
+        replacement = `\`${selectedText || 'kod'}\``;
+        cursorOffset = selectedText ? 0 : 1;
+        break;
+      case 'code-block':
+        replacement = `\n\`\`\`javascript\n${selectedText || '// kodunuzu buraya yazın'}\n\`\`\`\n`;
+        cursorOffset = selectedText ? 0 : 5;
+        break;
+      case 'link':
+        replacement = `[${selectedText || 'bağlantı metni'}](https://)`;
+        cursorOffset = selectedText ? 12 : 1;
+        break;
+      case 'list':
+        replacement = `\n- ${selectedText || 'liste elemanı'}`;
+        cursorOffset = selectedText ? 0 : 2;
+        break;
+      case 'h1':
+        replacement = `\n# ${selectedText || 'Başlık 1'}\n`;
+        cursorOffset = selectedText ? 0 : 2;
+        break;
+      case 'h2':
+        replacement = `\n## ${selectedText || 'Başlık 2'}\n`;
+        cursorOffset = selectedText ? 0 : 3;
+        break;
+      case 'h3':
+        replacement = `\n### ${selectedText || 'Başlık 3'}\n`;
+        cursorOffset = selectedText ? 0 : 4;
+        break;
+      case 'quote':
+        replacement = `\n> ${selectedText || 'Alıntı metni'}\n`;
+        cursorOffset = selectedText ? 0 : 2;
+        break;
+    }
+
+    const newValue = text.substring(0, start) + replacement + text.substring(end);
+    if (lang === 'tr') this.artDetail_TR = newValue;
+    else if (lang === 'en') this.artDetail_EN = newValue;
+    else if (lang === 'de') this.artDetail_DE = newValue;
+
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = start + replacement.length - cursorOffset;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 50);
+  }
+
+  triggerImageUpload() {
+    const fileInput = document.getElementById('blogImageUploadInput') as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
+  async onBlogImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.isUploadingImage = true;
+    const currentSlug = this.artId || this.artTitle_TR || 'general';
+    const publicUrl = await this.dataService.uploadBlogImage(file, currentSlug);
+    this.isUploadingImage = false;
+
+    if (!publicUrl) {
+      alert('Görsel yüklenirken hata oluştu.');
       return;
     }
 
-    let token = localStorage.getItem('medium_integration_token') || '';
+    const customWidth = prompt('Görsel genişliğini belirleyin (Örn: %100, 600px, %50 veya boş bırakabilirsiniz):', '%100');
 
-    // Explanation & Option Choice
-    const useApi = confirm(
-      "Medium yeni API Integration Token alımını durdurmuştur.\n\n" +
-      "• Mevcut bir Integration Token'ınız varsa 'TAMAM' butonuna basarak API ile otomatik yayınlayabilirsiniz.\n" +
-      "• Token'ınız yoksa 'İPTAL' butonuna basarak içeriği panoya kopyalayıp doğrudan Medium Editöründe açabilirsiniz."
-    );
+    this.insertImageMarkdown(publicUrl, customWidth?.trim() || '%100');
+    event.target.value = '';
+  }
 
-    if (useApi) {
-      if (!token) {
-        const input = prompt('Lütfen Medium Integration Token girin:\n(Eğer .env dosyasında MEDIUM_INTEGRATION_TOKEN ekliyse boş bırakabilirsiniz)');
-        if (input !== null) {
-          token = input.trim();
-          if (token) {
-            localStorage.setItem('medium_integration_token', token);
-          }
-        }
-      }
+  insertImageMarkdown(imageUrl: string, width: string = '%100') {
+    const lang = this.activeFormTab;
+    const textareaId = lang === 'tr' ? 'crudBlogDetailTR' : (lang === 'en' ? 'crudBlogDetailEN' : 'crudBlogDetailDE');
+    const textarea = document.getElementById(textareaId) as HTMLTextAreaElement;
 
-      this.isPublishingToMedium = true;
-      const res = await this.dataService.publishArticleToMedium(targetId, token);
-      this.isPublishingToMedium = false;
+    let imageTag = `\n![Görsel Açıklaması](${imageUrl})\n`;
 
-      if (res.success && res.url) {
-        if (confirm(`Makale Medium'da başarıyla yayınlandı!\n\nBağlantı: ${res.url}\n\nYeni sekmede açmak ister misiniz?`)) {
-          window.open(res.url, '_blank');
-        }
-        return;
-      } else {
-        alert(`API ile paylaşım gerçekleşmedi:\n${res.message || 'Token geçersiz veya bulunamadı.'}\n\nİçerik kopyalanarak Medium editörüne aktarılıyor...`);
-      }
+    if (width && width !== '%100' && width !== '100%') {
+      const cleanWidth = width.endsWith('px') || width.endsWith('%') ? width : `${width}px`;
+      imageTag = `\n<img src="${imageUrl}" alt="Görsel" style="max-width: 100%; width: min(100%, ${cleanWidth}); height: auto; border-radius: 12px; display: block; margin: 24px auto;" />\n`;
     }
 
-    // Fallback: Rich Text (HTML + PlainText) Clipboard Copy
-    const title = art ? (art.title_TR || art.title_EN) : (this.artTitle_TR || this.artTitle_EN);
-    const excerpt = art ? (art.excerpt_TR || art.excerpt_EN) : (this.artExcerpt_TR || this.artExcerpt_EN);
-    const detail = art ? (art.detailText_TR || art.detailText_EN) : (this.artDetail_TR || this.artDetail_EN);
+    if (textarea) {
+      const start = textarea.selectionStart || 0;
+      const end = textarea.selectionEnd || 0;
+      let text = '';
+      if (lang === 'tr') text = this.artDetail_TR;
+      else if (lang === 'en') text = this.artDetail_EN;
+      else if (lang === 'de') text = this.artDetail_DE;
 
-    const fullHtml = `<h1>${title}</h1>${excerpt ? `<p><em>${excerpt}</em></p><hr/>` : ''}${detail}`;
-    const plainText = `${title}\n\n${excerpt ? excerpt + '\n\n---\n\n' : ''}${detail ? detail.replace(/<br\s*[\/]?>/gi, '\n').replace(/<\/p>/gi, '\n\n').replace(/<[^>]*>/g, '') : ''}`;
+      const newValue = text.substring(0, start) + imageTag + text.substring(end);
+      if (lang === 'tr') this.artDetail_TR = newValue;
+      else if (lang === 'en') this.artDetail_EN = newValue;
+      else if (lang === 'de') this.artDetail_DE = newValue;
+
+      setTimeout(() => {
+        textarea.focus();
+        const newCursorPos = start + imageTag.length;
+        textarea.setSelectionRange(newCursorPos, newCursorPos);
+      }, 50);
+    } else {
+      if (lang === 'tr') this.artDetail_TR += imageTag;
+      else if (lang === 'en') this.artDetail_EN += imageTag;
+      else if (lang === 'de') this.artDetail_DE += imageTag;
+    }
+  }
+
+  getParsedMarkdown(markdownText: string): SafeHtml {
+    if (!markdownText) return '';
+    try {
+      const parsedHtml = marked.parse(markdownText) as string;
+      return this.sanitizer.bypassSecurityTrustHtml(parsedHtml);
+    } catch (_) {
+      return markdownText;
+    }
+  }
+
+  slugify(text: string): string {
+    if (!text) return 'article-' + Date.now();
+    const unaccented = text.replace(/[çÇ]/g, 'c').replace(/[ğĞ]/g, 'g').replace(/[ıİ]/g, 'i').replace(/[öÖ]/g, 'o').replace(/[şŞ]/g, 's').replace(/[üÜ]/g, 'u');
+    return unaccented.toString().toLowerCase().trim()
+      .replace(/[^a-z0-9\-_]/g, '-')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  async saveArticle() {
+    if (!this.artTitle_TR || !this.artDate) {
+      alert('Lütfen başlık (TR) ve tarih alanlarını doldurun.');
+      return;
+    }
+
+    let slug = this.artId ? this.artId.trim() : '';
+    if (!slug) {
+      slug = this.slugify(this.artTitle_TR);
+    }
+
+    // Auto extract cover image from first image in detailText if available
+    let coverImg = '';
+    const mdMatch = (this.artDetail_TR || '').match(/!\[.*?\]\((.*?)\)/);
+    const htmlMatch = (this.artDetail_TR || '').match(/<img[^>]+src=["']([^"']+)["']/i);
+    if (mdMatch && mdMatch[1]) {
+      coverImg = mdMatch[1];
+    } else if (htmlMatch && htmlMatch[1]) {
+      coverImg = htmlMatch[1];
+    }
+
+    const payload: RawArticle = {
+      id: slug,
+      title_TR: this.artTitle_TR,
+      title_EN: this.artTitle_EN || this.artTitle_TR,
+      title_DE: this.artTitle_DE || this.artTitle_TR,
+      category: this.artCategory,
+      date: this.artDate,
+      readTime: this.artReadTime || '5 dk',
+      subTag_TR: this.artSubTag_TR,
+      subTag_EN: this.artSubTag_EN || this.artSubTag_TR,
+      subTag_DE: this.artSubTag_DE || this.artSubTag_TR,
+      excerpt_TR: this.artExcerpt_TR,
+      excerpt_EN: this.artExcerpt_EN || this.artExcerpt_TR,
+      excerpt_DE: this.artExcerpt_DE || this.artExcerpt_TR,
+      imageUrl: coverImg,
+      detailText_TR: this.artDetail_TR,
+      detailText_EN: this.artDetail_EN || this.artDetail_TR,
+      detailText_DE: this.artDetail_DE || this.artDetail_TR
+    };
+
+    const isNew = this.editingArticleIdx === -1;
+    const ok = await this.dataService.saveRawArticle(payload, isNew);
+    
+    if (ok) {
+      await this.loadArticles();
+      this.closeArticleModal();
+    } else {
+      alert('Makale kaydedilirken sunucu hatası oluştu.');
+    }
+  }
+
+  async deleteArticle(idx: number) {
+    const art = this.articles[idx];
+    if (!art) return;
+    if (confirm(`"${art.title_TR}" başlıklı makaleyi silmek istediğinize emin misiniz?`)) {
+      const ok = await this.dataService.deleteRawArticle(art.id);
+      if (ok) {
+        await this.loadArticles();
+      } else {
+        alert('Makale silinirken hata oluştu.');
+      }
+    }
+  }
+
+  // Drag & drop sorting
+  onDragStart(idx: number) {
+    this.dragIndex = idx;
+  }
+
+  onDragOver(event: DragEvent, idx: number) {
+    event.preventDefault();
+    this.dragOverIndex = idx;
+  }
+
+  onDragLeave() {
+    this.dragOverIndex = null;
+  }
+
+  async onDrop(event: DragEvent, dropIdx: number) {
+    event.preventDefault();
+    if (this.dragIndex === null || this.dragIndex === dropIdx) {
+      this.dragIndex = null;
+      this.dragOverIndex = null;
+      return;
+    }
+
+    const itemToMove = this.articles.splice(this.dragIndex, 1)[0];
+    this.articles.splice(dropIdx, 0, itemToMove);
+
+    const reorderPayload = this.articles.map((art, index) => ({
+      id: art.id,
+      orderIndex: index + 1
+    }));
+
+    this.dragIndex = null;
+    this.dragOverIndex = null;
+
+    this.isSavingOrder = true;
+    const ok = await this.dataService.reorderArticles(reorderPayload);
+    this.isSavingOrder = false;
+
+    if (!ok) {
+      alert('Sıralama güncellenirken hata oluştu.');
+      await this.loadArticles();
+    }
+  }
+
+  onDragEnd() {
+    this.dragIndex = null;
+    this.dragOverIndex = null;
+  }
+
+  async publishToMedium() {
+    const fullHtml = `<h1>${this.artTitle_TR}</h1>${this.artExcerpt_TR ? `<p><em>${this.artExcerpt_TR}</em></p><hr/>` : ''}${marked.parse(this.artDetail_TR)}`;
+    const plainText = `${this.artTitle_TR}\n\n${this.artExcerpt_TR ? this.artExcerpt_TR + '\n\n---\n\n' : ''}${this.artDetail_TR}`;
 
     try {
       if (navigator.clipboard && typeof ClipboardItem !== 'undefined') {
@@ -206,342 +436,12 @@ export class AdminBlogComponent implements OnInit, OnDestroy {
       } else {
         await navigator.clipboard.writeText(plainText);
       }
-      alert("✨ Makaleniz başlık, özet ve HTML biçimlendirmeleriyle (Rich Text) panoya kopyalandı!\n\nAçılan Medium sekmesinde 'Ctrl + V' (Yapıştır) yaptığınızda başlıklar ve kod blokları biçimlendirilmiş olarak yapışacaktır.");
+      alert("✨ Makaleniz biçimlendirmeleriyle panoya kopyalandı!\n\nAçılan Medium sekmesinde 'Ctrl + V' yaptığınızda başlıklar, görseller ve kod blokları yapışacaktır.");
     } catch (e) {
-      console.warn("Clipboard rich text failed", e);
-      try {
-        await navigator.clipboard.writeText(plainText);
-        alert("Makale metni kopyalandı. Açılan Medium sekmesinde 'Ctrl + V' yaparak yapıştırabilirsiniz.");
-      } catch (err) {}
+      await navigator.clipboard.writeText(plainText);
+      alert("Makale metni kopyalandı. Medium sekmesinde 'Ctrl + V' yapabilirsiniz.");
     }
 
     window.open('https://medium.com/new-story', '_blank');
-  }
-
-  initializeEditors() {
-    setTimeout(() => {
-      if (this.editorTR) this.editorTR.nativeElement.innerHTML = this.artDetail_TR || '';
-      if (this.editorEN) this.editorEN.nativeElement.innerHTML = this.artDetail_EN || '';
-      if (this.editorDE) this.editorDE.nativeElement.innerHTML = this.artDetail_DE || '';
-    }, 150);
-  }
-
-  onEditorInput(lang: 'tr' | 'en' | 'de', html: string) {
-    if (lang === 'tr') this.artDetail_TR = html;
-    else if (lang === 'en') this.artDetail_EN = html;
-    else if (lang === 'de') this.artDetail_DE = html;
-  }
-
-  execCmd(command: string, value: string = '') {
-    document.execCommand(command, false, value);
-    this.updateValuesFromDOM();
-  }
-
-  updateValuesFromDOM() {
-    if (this.editorTR) this.artDetail_TR = this.editorTR.nativeElement.innerHTML;
-    if (this.editorEN) this.artDetail_EN = this.editorEN.nativeElement.innerHTML;
-    if (this.editorDE) this.artDetail_DE = this.editorDE.nativeElement.innerHTML;
-  }
-
-  triggerImageUpload() {
-    if (this.blogImageInput) {
-      this.blogImageInput.nativeElement.click();
-    }
-  }
-
-  async onBlogImageSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files || input.files.length === 0) return;
-
-    const file = input.files[0];
-    this.isUploadingImage = true;
-
-    try {
-      const currentSlug = this.artId || this.artTitle_TR || 'general';
-      const publicUrl = await this.dataService.uploadBlogImage(file, currentSlug);
-      this.isUploadingImage = false;
-
-      if (!publicUrl) {
-        alert('Görsel Supabase (blog) klasörüne yüklenirken hata oluştu.');
-        return;
-      }
-
-      this.insertImageToActiveEditor(publicUrl);
-    } catch (e) {
-      this.isUploadingImage = false;
-      console.error(e);
-      alert('Görsel yükleme hatası oluştu.');
-    } finally {
-      input.value = '';
-    }
-  }
-
-  // Medium Floating Plus (+) State
-  showFloatingPlus = false;
-  floatingPlusTop = 24;
-  isPlusMenuOpen = false;
-
-  togglePlusMenu() {
-    this.isPlusMenuOpen = !this.isPlusMenuOpen;
-  }
-
-  updateFloatingPlusPosition() {
-    const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) {
-      this.showFloatingPlus = false;
-      return;
-    }
-
-    let activeEditor: HTMLDivElement | null = null;
-    if (this.activeFormTab === 'tr' && this.editorTR) activeEditor = this.editorTR.nativeElement;
-    else if (this.activeFormTab === 'en' && this.editorEN) activeEditor = this.editorEN.nativeElement;
-    else if (this.activeFormTab === 'de' && this.editorDE) activeEditor = this.editorDE.nativeElement;
-
-    if (!activeEditor || !activeEditor.contains(selection.anchorNode)) {
-      this.showFloatingPlus = false;
-      return;
-    }
-
-    const range = selection.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
-    const editorRect = activeEditor.getBoundingClientRect();
-
-    const text = (selection.anchorNode?.textContent || '').replace(/[\n\r\t]/g, '').trim();
-    const isLineEmpty = text === '' || text === 'Yazmaya başlayın...' || text === 'Start writing...' || text === 'Schreiben Sie etwas...';
-
-    if (isLineEmpty && rect.top > 0) {
-      this.floatingPlusTop = Math.max(16, rect.top - editorRect.top + activeEditor.scrollTop);
-      this.showFloatingPlus = true;
-    } else {
-      this.showFloatingPlus = false;
-      this.isPlusMenuOpen = false;
-    }
-  }
-
-  onEditorKeyup() {
-    this.updateFloatingPlusPosition();
-  }
-
-  onEditorKeydown(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      const selection = window.getSelection();
-      if (selection && selection.rangeCount > 0) {
-        const anchor = selection.anchorNode;
-        const blockquote = this.findParentTag(anchor, 'BLOCKQUOTE');
-        if (blockquote) {
-          const text = (blockquote.textContent || '').trim();
-          if (text === '' || text === 'Alıntı metninizi buraya yazın...') {
-            event.preventDefault();
-            const p = document.createElement('p');
-            p.innerHTML = '<br>';
-            blockquote.parentNode?.replaceChild(p, blockquote);
-            this.setCursorToNode(p);
-            this.updateFloatingPlusPosition();
-            return;
-          }
-        }
-      }
-    }
-    setTimeout(() => this.updateFloatingPlusPosition(), 20);
-  }
-
-  insertBlock(type: 'image' | 'quote' | 'code' | 'h3' | 'separator') {
-    this.isPlusMenuOpen = false;
-    this.showFloatingPlus = false;
-
-    if (type === 'image') {
-      this.triggerImageUpload();
-    } else if (type === 'quote') {
-      this.insertQuoteBlock();
-    } else if (type === 'code') {
-      this.insertCodeBlock();
-    } else if (type === 'h3') {
-      this.toggleH3();
-    } else if (type === 'separator') {
-      this.insertSeparator();
-    }
-  }
-
-  toggleH3() {
-    const selection = window.getSelection();
-    if (!selection || selection.rangeCount === 0) {
-      this.insertHtmlToActiveEditor('<h3 style="font-size: 1.5rem; font-weight: 800; margin: 28px 0 12px 0; color: var(--accent-navy);">Alt Başlığınızı Yazın...</h3><p><br></p>');
-      return;
-    }
-
-    let node: Node | null = selection.anchorNode;
-    let isH3 = false;
-    while (node && node !== document.body) {
-      if (node.nodeName === 'H3') {
-        isH3 = true;
-        break;
-      }
-      node = node.parentNode;
-    }
-
-    if (isH3) {
-      document.execCommand('formatBlock', false, 'p');
-    } else {
-      document.execCommand('formatBlock', false, 'h3');
-    }
-  }
-
-  insertQuoteBlock() {
-    const quoteHtml = `<blockquote class="blog-quote" contenteditable="true" style="border-left: 4px solid var(--accent-navy, #0f172a); padding: 16px 24px; margin: 28px 0; font-style: italic; font-size: 1.15rem; line-height: 1.7; color: var(--text-secondary, #475569); background: rgba(11,26,48,0.03); border-radius: 0 12px 12px 0; outline: none;">Alıntı metninizi buraya yazın...</blockquote><p><br></p>`;
-    this.insertHtmlToActiveEditor(quoteHtml);
-  }
-
-  insertH3Block() {
-    this.toggleH3();
-  }
-
-  private findParentTag(node: Node | null, tagName: string): HTMLElement | null {
-    let curr: Node | null = node;
-    while (curr && curr !== document.body) {
-      if (curr.nodeName === tagName) return curr as HTMLElement;
-      curr = curr.parentNode;
-    }
-    return null;
-  }
-
-  private setCursorToNode(node: Node) {
-    const range = document.createRange();
-    const sel = window.getSelection();
-    range.selectNodeContents(node);
-    range.collapse(false);
-    sel?.removeAllRanges();
-    sel?.addRange(range);
-  }
-
-  insertCodeBlock() {
-    const codeHtml = `<pre class="blog-code-block" style="background:#0d1117; color:#e6edf3; padding:18px 22px; border-radius:12px; font-family:'Fira Code', monospace; font-size:0.95rem; line-height:1.65; white-space:pre-wrap; word-break:break-word; margin:24px 0; border:1px solid rgba(255,255,255,0.1); outline:none;"><code>// Kodunuzu buraya yazın...</code></pre><p><br></p>`;
-    this.insertHtmlToActiveEditor(codeHtml);
-  }
-
-  insertSeparator() {
-    const separatorHtml = `<div class="blog-separator" contenteditable="false" style="text-align:center; margin:36px 0; user-select:none;"><span style="color:#94a3b8; font-size:1.5rem; letter-spacing:14px; font-weight:800;">•••</span></div><p><br></p>`;
-    this.insertHtmlToActiveEditor(separatorHtml);
-  }
-
-  insertHtmlToActiveEditor(html: string) {
-    let targetElement: HTMLDivElement | null = null;
-    if (this.activeFormTab === 'tr' && this.editorTR) targetElement = this.editorTR.nativeElement;
-    else if (this.activeFormTab === 'en' && this.editorEN) targetElement = this.editorEN.nativeElement;
-    else if (this.activeFormTab === 'de' && this.editorDE) targetElement = this.editorDE.nativeElement;
-
-    if (targetElement) {
-      targetElement.focus();
-      document.execCommand('insertHTML', false, html);
-      this.onEditorInput(this.activeFormTab, targetElement.innerHTML);
-    }
-  }
-
-  insertImageToActiveEditor(imageUrl: string) {
-    const figureHtml = `
-      <figure class="blog-inline-figure" style="margin: 28px auto; text-align: center; max-width: 100%; position: relative; display: block;">
-        <div class="image-controls-bar" contenteditable="false" style="display: flex; gap: 6px; justify-content: center; margin-bottom: 8px; user-select: none;">
-          <button type="button" onclick="this.closest('figure').style.maxWidth='100%'" title="Tam Genişlik" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; background: rgba(11,26,48,0.08); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; color: #1e293b;">%100</button>
-          <button type="button" onclick="this.closest('figure').style.maxWidth='75%'" title="Orta Boyut" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; background: rgba(11,26,48,0.08); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; color: #1e293b;">%75</button>
-          <button type="button" onclick="this.closest('figure').style.maxWidth='50%'" title="Küçük Boyut" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; background: rgba(11,26,48,0.08); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; color: #1e293b;">%50</button>
-          <span style="border-left: 1px solid #ccc; margin: 0 4px;"></span>
-          <button type="button" onclick="this.closest('figure').style.float='left'; this.closest('figure').style.margin='0 20px 20px 0';" title="Sola Hizala" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; background: rgba(11,26,48,0.08); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; color: #1e293b;">⬅️ Sol</button>
-          <button type="button" onclick="this.closest('figure').style.float='none'; this.closest('figure').style.margin='28px auto';" title="Ortala" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; background: rgba(11,26,48,0.08); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; color: #1e293b;">↔️ Orta</button>
-          <button type="button" onclick="this.closest('figure').style.float='right'; this.closest('figure').style.margin='0 0 20px 20px';" title="Sağa Hizala" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; background: rgba(11,26,48,0.08); border: 1px solid rgba(0,0,0,0.1); cursor: pointer; color: #1e293b;">➡️ Sağ</button>
-          <span style="border-left: 1px solid #ccc; margin: 0 4px;"></span>
-          <button type="button" onclick="this.closest('figure').remove()" title="Görseli Sil" style="padding: 3px 8px; font-size: 11px; font-weight: 700; border-radius: 6px; background: #fee2e2; border: 1px solid #fca5a5; cursor: pointer; color: #ef4444;">🗑️ Sil</button>
-        </div>
-        <img src="${imageUrl}" alt="Blog Görseli" style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.12); display: block; margin: 0 auto;" />
-        <figcaption contenteditable="true" style="font-size: 14px; color: #888; font-style: italic; margin-top: 8px; outline: none;">Görsel açıklaması eklemek için tıklayın...</figcaption>
-      </figure>
-      <p><br></p>
-    `;
-    this.insertHtmlToActiveEditor(figureHtml);
-  }
-
-  async saveArticle() {
-    const slugId = this.artId.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') || 
-                   this.artTitle_TR.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-                   
-    const artData: RawArticle = {
-      id: this.editingArticleIdx >= 0 ? this.articles[this.editingArticleIdx].id : slugId,
-      title_TR: this.artTitle_TR,
-      title_EN: this.artTitle_EN,
-      title_DE: this.artTitle_DE,
-      category: this.artCategory,
-      date: this.artDate,
-      readTime: this.artReadTime,
-      subTag_TR: this.artSubTag_TR,
-      subTag_EN: this.artSubTag_EN,
-      subTag_DE: this.artSubTag_DE,
-      excerpt_TR: this.artExcerpt_TR,
-      excerpt_EN: this.artExcerpt_EN,
-      excerpt_DE: this.artExcerpt_DE,
-      detailText_TR: this.artDetail_TR,
-      detailText_EN: this.artDetail_EN,
-      detailText_DE: this.artDetail_DE,
-      imageUrl: this.editingArticleIdx >= 0 ? (this.articles[this.editingArticleIdx].imageUrl || "assets/blog_placeholder.png") : "assets/blog_placeholder.png"
-    };
-
-    const isNew = this.editingArticleIdx < 0;
-    const ok = await this.dataService.saveRawArticle(artData, isNew);
-    if (ok) {
-      await this.loadArticles();
-      this.closeArticleModal();
-    } else {
-      alert("Makale kaydedilirken sunucu hatası oluştu.");
-    }
-  }
-
-  async deleteArticle(idx: number) {
-    if (confirm('Bu makaleyi silmek istediğinizden emin misiniz?')) {
-      const art = this.articles[idx];
-      const ok = await this.dataService.deleteRawArticle(art.id);
-      if (ok) {
-        await this.loadArticles();
-      } else {
-        alert("Makale silinirken sunucu hatası oluştu.");
-      }
-    }
-  }
-
-  // ── Drag & Drop Handlers ──────────────────────────────────────
-
-  onDragStart(index: number) {
-    this.dragIndex = index;
-  }
-
-  onDragOver(event: DragEvent, index: number) {
-    event.preventDefault();
-    this.dragOverIndex = index;
-  }
-
-  onDragLeave() {
-    this.dragOverIndex = null;
-  }
-
-  async onDrop(event: DragEvent, dropIndex: number) {
-    event.preventDefault();
-    if (this.dragIndex === null || this.dragIndex === dropIndex) {
-      this.dragIndex = null;
-      this.dragOverIndex = null;
-      return;
-    }
-    const moved = this.articles.splice(this.dragIndex, 1)[0];
-    this.articles.splice(dropIndex, 0, moved);
-    this.dragIndex = null;
-    this.dragOverIndex = null;
-    await this.saveOrder();
-  }
-
-  onDragEnd() {
-    this.dragIndex = null;
-    this.dragOverIndex = null;
-  }
-
-  async saveOrder() {
-    this.isSavingOrder = true;
-    const items = this.articles.map((a, i) => ({ id: a.id, orderIndex: i }));
-    await this.dataService.reorderArticles(items);
-    this.isSavingOrder = false;
   }
 }

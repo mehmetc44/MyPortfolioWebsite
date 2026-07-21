@@ -64,27 +64,37 @@
     border: 1px solid #e2e8f0;
 }
 
-/* 2. Visual Banner */
+/* 2. Visual Banner (Aspect-ratio responsive box - No cropping) */
 .article-banner-wrapper {
     width: 100%;
-    height: 420px;
+    height: auto;
+    aspect-ratio: 16 / 9;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border-color);
-    margin-bottom: 40px;
-    box-shadow: 0 8px 24px rgba(11, 26, 48, 0.04);
+    margin-bottom: 36px;
+    box-shadow: 0 8px 24px rgba(11, 26, 48, 0.06);
+    background: rgba(15, 23, 42, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .article-banner-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain; /* Preserves natural image aspect ratio without any cropping */
 }
 
 /* 3. Typography & Reading spacing overrides (Medium typography style) */
 .article-text-body {
     text-align: left;
     font-family: var(--font-heading), Lora, Georgia, serif;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    word-break: break-word;
+    box-sizing: border-box;
 }
 
 .article-text-body p {
@@ -174,6 +184,7 @@ body.dark-theme .article-text-body blockquote {
     border-radius: 8px;
     padding: 24px;
     overflow-x: auto;
+    max-width: 100%;
     margin: 32px 0;
     font-family: var(--font-code), monospace;
     font-size: 0.92rem;
@@ -224,19 +235,23 @@ body.dark-theme .article-text-body blockquote {
 /* Inline images with Medium-style captions */
 .article-text-body figure,
 .article-text-body .blog-inline-figure {
-    margin: 40px 0;
+    margin: 36px 0;
     text-align: center;
     display: block;
+    max-width: 100%;
 }
 
 .article-text-body figure img,
 .article-text-body .blog-inline-figure img,
 .article-text-body img {
-    max-width: 100%;
+    max-width: 100% !important;
     border-radius: 12px;
-    height: auto;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    object-fit: contain !important;
     display: block;
     margin: 0 auto;
+    box-sizing: border-box !important;
     box-shadow: 0 10px 30px rgba(11, 26, 48, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -274,13 +289,36 @@ body.dark-theme .article-text-body blockquote {
     transform: translateX(-4px);
 }
 
-/* Responsiveness overrides */
+/* Responsiveness overrides (Proportional 16:9 Box Scaling - Zero Cropping) */
 @media (max-width: 768px) {
-    .article-banner-wrapper {
-        height: 280px;
-        margin-bottom: 28px;
+    .article-reader-container,
+    .article-text-body,
+    .article-text-body p,
+    .article-text-body figure,
+    .article-text-body div {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        box-sizing: border-box !important;
     }
-    
+
+    .article-banner-wrapper {
+        width: 100%;
+        height: auto !important;
+        aspect-ratio: 16 / 9;
+        margin-bottom: 24px;
+    }
+
+    .article-text-body figure img,
+    .article-text-body .blog-inline-figure img,
+    .article-text-body img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+
     .article-text-body p {
         font-size: 1.15rem;
     }
@@ -290,7 +328,7 @@ body.dark-theme .article-text-body blockquote {
     .article-text-body h3 { font-size: 1.45rem; }
     
     .main-content-pane {
-        padding: 40px 24px;
+        padding: 40px 20px;
     }
     
     .article-text-body > p:first-of-type::first-letter {
@@ -300,11 +338,13 @@ body.dark-theme .article-text-body blockquote {
 
 @media (max-width: 576px) {
     .article-banner-wrapper {
-        height: 200px;
-        margin-bottom: 24px;
+        width: 100%;
+        height: auto !important;
+        aspect-ratio: 16 / 9;
+        margin-bottom: 20px;
     }
     
     .main-content-pane {
-        padding: 32px 16px;
+        padding: 24px 14px;
     }
 }

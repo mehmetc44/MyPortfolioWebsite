@@ -819,7 +819,7 @@ export function sanitizeImageUrl(rawUrl: string, apiBaseUrl?: string): string {
   }
 
   // 2. Extract relative path after known folder prefixes
-  const knownFolders = ['projects/', 'avatar/', 'articles/', 'cv/', 'uploads/'];
+  const knownFolders = ['projects/', 'avatar/', 'articles/', 'blog/', 'cv/', 'uploads/'];
   for (const folder of knownFolders) {
     const folderIdx = url.lastIndexOf(folder);
     if (folderIdx >= 0) {
