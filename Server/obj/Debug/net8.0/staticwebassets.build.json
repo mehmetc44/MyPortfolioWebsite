@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "V7IAhCjE1wWQ4iqrtjfJOoQNfwljFpJJPxAA2Jsvi9Q=",
+  "Hash": "vj1ZMG68DyqX0UMD8E7rWCKJsiQDzI+D0ZQbjzCZI5E=",
   "Source": "Server",
   "BasePath": "_content/Server",
   "Mode": "Default",
@@ -15,25 +15,5 @@
       "Pattern": "**"
     }
   ],
-  "Assets": [
-    {
-      "Identity": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/uploads/avatars/1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg",
-      "SourceId": "Server",
-      "SourceType": "Discovered",
-      "ContentRoot": "/home/mehmet/Desktop/Portfolio/Server/wwwroot/",
-      "BasePath": "_content/Server",
-      "RelativePath": "uploads/avatars/1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "PreferTarget",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot/uploads/avatars/1776edcc-e874-450d-9a2c-3abf61aa857d_1745067524080.jpg"
-    }
-  ]
+  "Assets": []
 }

@@ -41,8 +41,8 @@ export class DataService {
         return 'http://localhost:5169';
       }
     }
-    // Deployed production API URL on Render
-    return 'https://myportfoliowebsite-xx7w.onrender.com';
+    // Deployed production API URL on custom domain
+    return 'https://api.mehmetcakmak.online';
   }
 
   constructor() {

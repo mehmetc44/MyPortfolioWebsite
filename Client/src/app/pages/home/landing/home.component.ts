@@ -105,7 +105,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
     try {
       // 1. Fetch real 365-day GitHub contribution calendar
-      const res = await fetch(`https://github-contributions-api.deno.dev/${username}.json`);
+      const res = await fetch(`https://github-contributions-api.deno.dev/${username}.json?t=${new Date().getTime()}`);
       if (res.ok) {
         const data = await res.json();
         if (data && data.contributions && Array.isArray(data.contributions)) {
@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     // 2. Fallback to REST events API if contribution map is empty
     if (Object.keys(contributionMap).length === 0) {
       try {
-        const res = await fetch(`https://api.github.com/users/${username}/events?per_page=100`);
+        const res = await fetch(`https://api.github.com/users/${username}/events?per_page=100&t=${new Date().getTime()}`);
         if (res.ok) {
           const events = await res.json();
           for (const ev of events) {

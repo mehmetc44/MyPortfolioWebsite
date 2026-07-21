@@ -62,15 +62,22 @@ namespace Server.Extensions
             services.AddAuthentication("SimpleToken")
                 .AddScheme<SimpleTokenAuthOptions, SimpleTokenAuthHandler>("SimpleToken", null);
 
-            // CORS policy config with allowed credentials allowing any origin dynamically
+            // CORS policy config with allowed credentials restricted to localhost and custom production domains
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll", policy =>
                 {
-                    policy.SetIsOriginAllowed(origin => true)
-                          .AllowAnyMethod()
-                          .AllowAnyHeader()
-                          .AllowCredentials();
+                    policy.SetIsOriginAllowed(origin => 
+                    {
+                        var host = new Uri(origin).Host;
+                        return host == "localhost" || 
+                               host == "127.0.0.1" || 
+                               host == "www.mehmetcakmak.online" || 
+                               host == "mehmetcakmak.online";
+                    })
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
                 });
             });
 

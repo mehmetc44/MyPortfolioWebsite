@@ -12,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // 2. Add services (DbContext, custom services, CORS, Health Checks)
 builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddMemoryCache();
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -25,12 +27,19 @@ app.UseStaticFiles();
 // 4. Migrate database and run data seeding
 app.SeedDatabase();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
+{
+    app.UseHsts();
+}
 
 app.UseCors("AllowAll");
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

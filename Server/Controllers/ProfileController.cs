@@ -1,8 +1,9 @@
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Server.Data;
+using Server.CQRS.Profile;
 using Server.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Server.Controllers
@@ -12,23 +13,26 @@ namespace Server.Controllers
     [Route("api/[controller]")]
     public class ProfileController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        private readonly IMediator _mediator;
 
-        public ProfileController(AppDbContext context)
+        public ProfileController(IMediator mediator)
         {
-            _context = context;
+            _mediator = mediator;
         }
 
         // GET: api/profile/raw
         [HttpGet("raw")]
         public async Task<IActionResult> GetRawProfile()
         {
-            var profile = await _context.Profiles.FirstOrDefaultAsync();
-            if (profile == null)
+            try
             {
-                return NotFound("Profil bulunamadı.");
+                var profile = await _mediator.Send(new GetRawProfileQuery());
+                return Ok(profile);
             }
-            return Ok(profile);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
         // GET: api/profile?lang=tr
@@ -36,65 +40,14 @@ namespace Server.Controllers
         [HttpGet]
         public async Task<IActionResult> GetProfile([FromQuery] string lang = "tr")
         {
-            var profile = await _context.Profiles.FirstOrDefaultAsync();
-            if (profile == null)
-            {
-                return NotFound("Profil bulunamadı.");
-            }
-
-            lang = lang.ToLower();
-
-            // Return direct Supabase Storage CDN URL or asset link
-            var avatarUrl = profile.AvatarUrl;
-
-            var mapped = new
-            {
-                Id = profile.Id,
-                Name = profile.Name,
-                AvatarUrl = avatarUrl,
-                Repos = profile.Repos,
-                Pubs = profile.Pubs,
-                Github = profile.Github,
-                Linkedin = profile.Linkedin,
-                Instagram = profile.Instagram,
-                Medium = profile.Medium,
-                Tag = lang == "en" ? profile.Tag_EN : (lang == "de" ? profile.Tag_DE : profile.Tag_TR),
-                Bio = lang == "en" ? profile.Bio_EN : (lang == "de" ? profile.Bio_DE : profile.Bio_TR),
-                CvText = lang == "en" ? profile.CvText_EN : (lang == "de" ? profile.CvText_DE : profile.CvText_TR),
-                CvPdfUrl = lang == "en" ? profile.CvPdfUrl_EN : (lang == "de" ? profile.CvPdfUrl_DE : profile.CvPdfUrl_TR),
-                CvPdfUrl_TR = profile.CvPdfUrl_TR,
-                CvPdfUrl_EN = profile.CvPdfUrl_EN,
-                CvPdfUrl_DE = profile.CvPdfUrl_DE,
-
-                // New fields mapping
-                Job = lang == "en" ? profile.Job_EN : (lang == "de" ? profile.Job_DE : profile.Job_TR),
-                Education = lang == "en" ? profile.Education_EN : (lang == "de" ? profile.Education_DE : profile.Education_TR),
-                Motto = lang == "en" ? profile.Motto_EN : (lang == "de" ? profile.Motto_DE : profile.Motto_TR),
-                IsOpenToOffers = profile.IsOpenToOffers
-            };
-
-            return Ok(mapped);
-        }
-
-        /// <summary>
-        /// Strips any absolute URL host prefix (http://localhost:PORT/ or https://host/) from a stored URL,
-        /// returning only the relative path (e.g. "uploads/avatars/file.jpg").
-        /// Non-upload paths (assets/, null, external social links) are returned as-is.
-        /// </summary>
-        private static string? NormalizeRelativeUrl(string? url)
-        {
-            if (string.IsNullOrEmpty(url)) return url;
-            if (!url.StartsWith("http")) return url; // already relative or assets/
-
             try
             {
-                var uri = new System.Uri(url);
-                // Return path without the leading slash: "uploads/avatars/file.jpg"
-                return uri.AbsolutePath.TrimStart('/');
+                var profile = await _mediator.Send(new GetProfileQuery(lang));
+                return Ok(profile);
             }
-            catch
+            catch (KeyNotFoundException ex)
             {
-                return url;
+                return NotFound(ex.Message);
             }
         }
 
@@ -102,50 +55,15 @@ namespace Server.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateProfile([FromBody] ProfileEntity updatedProfile)
         {
-            var existingProfile = await _context.Profiles.FirstOrDefaultAsync();
-            if (existingProfile == null)
+            try
             {
-                return NotFound("Güncellenecek profil bulunamadı.");
+                var profile = await _mediator.Send(new UpdateProfileCommand(updatedProfile));
+                return Ok(profile);
             }
-
-            // Map values with fallback to existing values to avoid null insertions
-            existingProfile.Name = updatedProfile.Name ?? existingProfile.Name;
-            existingProfile.Tag_TR = updatedProfile.Tag_TR ?? existingProfile.Tag_TR;
-            existingProfile.Tag_EN = updatedProfile.Tag_EN ?? existingProfile.Tag_EN;
-            existingProfile.Tag_DE = updatedProfile.Tag_DE ?? existingProfile.Tag_DE;
-            existingProfile.Bio_TR = updatedProfile.Bio_TR ?? existingProfile.Bio_TR;
-            existingProfile.Bio_EN = updatedProfile.Bio_EN ?? existingProfile.Bio_EN;
-            existingProfile.Bio_DE = updatedProfile.Bio_DE ?? existingProfile.Bio_DE;
-            existingProfile.AvatarUrl = updatedProfile.AvatarUrl ?? existingProfile.AvatarUrl;
-            existingProfile.Repos = updatedProfile.Repos;
-            existingProfile.Pubs = updatedProfile.Pubs;
-            existingProfile.Github = updatedProfile.Github ?? existingProfile.Github;
-            existingProfile.Linkedin = updatedProfile.Linkedin ?? existingProfile.Linkedin;
-            existingProfile.Instagram = updatedProfile.Instagram ?? existingProfile.Instagram;
-            existingProfile.Medium = updatedProfile.Medium ?? existingProfile.Medium;
-            existingProfile.CvText_TR = updatedProfile.CvText_TR ?? existingProfile.CvText_TR;
-            existingProfile.CvText_EN = updatedProfile.CvText_EN ?? existingProfile.CvText_EN;
-            existingProfile.CvText_DE = updatedProfile.CvText_DE ?? existingProfile.CvText_DE;
-            existingProfile.CvPdfUrl_TR = updatedProfile.CvPdfUrl_TR ?? existingProfile.CvPdfUrl_TR;
-            existingProfile.CvPdfUrl_EN = updatedProfile.CvPdfUrl_EN ?? existingProfile.CvPdfUrl_EN;
-            existingProfile.CvPdfUrl_DE = updatedProfile.CvPdfUrl_DE ?? existingProfile.CvPdfUrl_DE;
-
-            // New fields mapping
-            existingProfile.Job_TR = updatedProfile.Job_TR ?? existingProfile.Job_TR;
-            existingProfile.Job_EN = updatedProfile.Job_EN ?? existingProfile.Job_EN;
-            existingProfile.Job_DE = updatedProfile.Job_DE ?? existingProfile.Job_DE;
-            existingProfile.Education_TR = updatedProfile.Education_TR ?? existingProfile.Education_TR;
-            existingProfile.Education_EN = updatedProfile.Education_EN ?? existingProfile.Education_EN;
-            existingProfile.Education_DE = updatedProfile.Education_DE ?? existingProfile.Education_DE;
-            existingProfile.Motto_TR = updatedProfile.Motto_TR ?? existingProfile.Motto_TR;
-            existingProfile.Motto_EN = updatedProfile.Motto_EN ?? existingProfile.Motto_EN;
-            existingProfile.Motto_DE = updatedProfile.Motto_DE ?? existingProfile.Motto_DE;
-            existingProfile.IsOpenToOffers = updatedProfile.IsOpenToOffers;
-
-            _context.Entry(existingProfile).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-
-            return Ok(existingProfile);
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }

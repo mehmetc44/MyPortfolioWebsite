@@ -104,3 +104,7 @@
 /home/mehmet/Desktop/Portfolio/Server/obj/Debug/net8.0/Server.sourcelink.json
 /home/mehmet/Desktop/Portfolio/Server/bin/Debug/net8.0/Npgsql.dll
 /home/mehmet/Desktop/Portfolio/Server/bin/Debug/net8.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/mehmet/Desktop/Portfolio/Server/bin/Debug/net8.0/Mapster.dll
+/home/mehmet/Desktop/Portfolio/Server/bin/Debug/net8.0/Mapster.Core.dll
+/home/mehmet/Desktop/Portfolio/Server/bin/Debug/net8.0/MediatR.dll
+/home/mehmet/Desktop/Portfolio/Server/bin/Debug/net8.0/MediatR.Contracts.dll

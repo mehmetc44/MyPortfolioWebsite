@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "Pl4USSpnYb5HA+MIdb6NFTTnj3ooKn3cQVAOPS7gCkyl/y6K/cjw0S7qGwUa7isPyds4S30arwtmiZwKK/HlyA==",
+  "dgSpecHash": "jiWL29WIImnCcgucYpNX09RU4FF8GjPwAFK+YAou0ECawIdn6c4P7TZe1O55puVhlhB4TjoxPQXpXHMI/Ctk6g==",
   "success": true,
   "projectFilePath": "/home/mehmet/Desktop/Portfolio/Server/Server.csproj",
   "expectedPackageFiles": [
     "/home/mehmet/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/home/mehmet/.nuget/packages/mapster/7.4.0/mapster.7.4.0.nupkg.sha512",
+    "/home/mehmet/.nuget/packages/mapster.core/1.2.1/mapster.core.1.2.1.nupkg.sha512",
+    "/home/mehmet/.nuget/packages/mediatr/12.2.0/mediatr.12.2.0.nupkg.sha512",
+    "/home/mehmet/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
     "/home/mehmet/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/home/mehmet/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
     "/home/mehmet/.nuget/packages/microsoft.codeanalysis.common/4.5.0/microsoft.codeanalysis.common.4.5.0.nupkg.sha512",
