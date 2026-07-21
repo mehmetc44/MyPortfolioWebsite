@@ -43,6 +43,8 @@ export class LocalizationService {
       "YOUR_EMAIL": "E-posta Adresiniz",
       "MESSAGE": "Mesajınız",
       "SEND_MESSAGE": "Mesajı Gönder",
+      "SENDING": "Gönderiliyor...",
+      "CONTACT_SUCCESS": "Teşekkürler! Mesajınız başarıyla iletildi.",
       "OR_DIRECT": "VEYA DOĞRUDAN CV İNDİRİN",
       "CLOSE": "Kapat",
       "DAYS_LOG": "Günlük Log",
@@ -147,6 +149,8 @@ export class LocalizationService {
       "YOUR_EMAIL": "Your Email",
       "MESSAGE": "Message",
       "SEND_MESSAGE": "Send Message",
+      "SENDING": "Sending message...",
+      "CONTACT_SUCCESS": "Thank you! Your message was sent successfully.",
       "OR_DIRECT": "OR DOWNLOAD DIRECT CV",
       "CLOSE": "Close",
       "DAYS_LOG": "Days Log",
@@ -251,6 +255,8 @@ export class LocalizationService {
       "YOUR_EMAIL": "Ihre E-Mail",
       "MESSAGE": "Nachricht",
       "SEND_MESSAGE": "Nachricht senden",
+      "SENDING": "Wird gesendet...",
+      "CONTACT_SUCCESS": "Vielen Dank! Ihre Nachricht wurde erfolgreich gesendet.",
       "OR_DIRECT": "ODER CV DIREKT HERUNTERLADEN",
       "CLOSE": "Schließen",
       "DAYS_LOG": "Tage Log",
@@ -338,6 +344,7 @@ export class LocalizationService {
     }
     this.currentLangSubject = new BehaviorSubject<LanguageCode>(savedLang);
     this.currentLang$ = this.currentLangSubject.asObservable();
+    this.updateHtmlLang(savedLang);
   }
 
   public getLanguage(): LanguageCode {
@@ -348,11 +355,44 @@ export class LocalizationService {
     if (typeof window !== 'undefined' && window.localStorage) {
       localStorage.setItem(this.langKey, lang);
     }
+    this.updateHtmlLang(lang);
     this.currentLangSubject.next(lang);
+  }
+
+  private updateHtmlLang(lang: LanguageCode): void {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = lang;
+    }
+  }
+
+  public toUpperCase(text: string | null | undefined): string {
+    if (!text) return '';
+    const lang = this.getLanguage();
+    const localeMap: Record<LanguageCode, string> = {
+      tr: 'tr-TR',
+      en: 'en-US',
+      de: 'de-DE'
+    };
+    return text.toLocaleUpperCase(localeMap[lang] || lang);
+  }
+
+  public toLowerCase(text: string | null | undefined): string {
+    if (!text) return '';
+    const lang = this.getLanguage();
+    const localeMap: Record<LanguageCode, string> = {
+      tr: 'tr-TR',
+      en: 'en-US',
+      de: 'de-DE'
+    };
+    return text.toLocaleLowerCase(localeMap[lang] || lang);
   }
 
   public translate(key: string): string {
     const lang = this.getLanguage();
     return this.translations[lang]?.[key] || key;
+  }
+
+  public translateUpper(key: string): string {
+    return this.toUpperCase(this.translate(key));
   }
 }

@@ -42,6 +42,7 @@ export class AdminBlogComponent implements OnInit {
   artSubTag_TR = '';
   artSubTag_EN = '';
   artSubTag_DE = '';
+  artImageUrl = '';
   artExcerpt_TR = '';
   artExcerpt_EN = '';
   artExcerpt_DE = '';
@@ -101,6 +102,7 @@ export class AdminBlogComponent implements OnInit {
     this.activeEditorTab_DE = 'write';
 
     this.artId = '';
+    this.artImageUrl = '';
     this.artTitle_TR = '';
     this.artTitle_EN = '';
     this.artTitle_DE = '';
@@ -129,6 +131,7 @@ export class AdminBlogComponent implements OnInit {
 
     const art = this.articles[idx];
     this.artId = art.id;
+    this.artImageUrl = art.imageUrl || '';
     this.artTitle_TR = art.title_TR;
     this.artTitle_EN = art.title_EN;
     this.artTitle_DE = art.title_DE;
@@ -149,6 +152,28 @@ export class AdminBlogComponent implements OnInit {
 
   closeArticleModal() {
     this.isEditing = false;
+  }
+
+  triggerCoverImageUpload() {
+    const fileInput = document.getElementById('blogCoverImageUploadInput') as HTMLInputElement;
+    if (fileInput) fileInput.click();
+  }
+
+  async onCoverImageSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.isUploadingImage = true;
+    const currentSlug = this.artId || this.artTitle_TR || 'general';
+    const publicUrl = await this.dataService.uploadBlogImage(file, currentSlug + '-cover');
+    this.isUploadingImage = false;
+
+    if (publicUrl) {
+      this.artImageUrl = publicUrl;
+    } else {
+      alert('Kapak görseli yüklenirken hata oluştu.');
+    }
+    event.target.value = '';
   }
 
   // Markdown Helper Actions (Matching Admin Projects Component)
@@ -245,29 +270,16 @@ export class AdminBlogComponent implements OnInit {
       return;
     }
 
-    const customWidth = prompt('Görsel genişliğini belirleyin (Örn: %100, 600px, %50 veya boş bırakabilirsiniz):', '%100');
-
-    this.insertImageMarkdown(publicUrl, customWidth?.trim() || '%100');
+    this.insertImageMarkdown(publicUrl);
     event.target.value = '';
   }
 
-  insertImageMarkdown(imageUrl: string, width: string = '%100') {
+  insertImageMarkdown(imageUrl: string) {
     const lang = this.activeFormTab;
     const textareaId = lang === 'tr' ? 'crudBlogDetailTR' : (lang === 'en' ? 'crudBlogDetailEN' : 'crudBlogDetailDE');
     const textarea = document.getElementById(textareaId) as HTMLTextAreaElement;
 
-    let styleAttr = '';
-    if (width && width !== '%100' && width !== '100%') {
-      const cleanWidth = width.endsWith('px') || width.endsWith('%') ? width : `${width}px`;
-      styleAttr = ` style="max-width: ${cleanWidth};"`;
-    }
-
-    const imageTag = `\n<figure class="blog-inline-figure"${styleAttr}>
-  <div class="blog-image-wrapper">
-    <img src="${imageUrl}" alt="Görsel Açıklaması" />
-  </div>
-  <figcaption>Görsel açıklaması buraya yazın...</figcaption>
-</figure>\n`;
+    const imageTag = `\n![Görsel Açıklaması](${imageUrl})\n`;
 
     if (textarea) {
       const start = textarea.selectionStart || 0;
@@ -297,7 +309,31 @@ export class AdminBlogComponent implements OnInit {
   getParsedMarkdown(markdownText: string): SafeHtml {
     if (!markdownText) return '';
     try {
-      const parsedHtml = marked.parse(markdownText) as string;
+      let parsedHtml = marked.parse(markdownText, { async: false }) as string;
+
+      parsedHtml = parsedHtml.replace(/(?:<p>)?\s*(<img\s+[^>]*?>)\s*(?:<\/p>)?/gi, (fullMatch, imgTag) => {
+        if (fullMatch.includes('blog-image-wrapper') || imgTag.includes('blog-image-wrapper')) {
+          return fullMatch;
+        }
+        const srcMatch = imgTag.match(/src=["']([^"']+)["']/i);
+        const altMatch = imgTag.match(/alt=["']([^"']+)["']/i);
+        const src = srcMatch ? srcMatch[1] : '';
+        const alt = altMatch ? altMatch[1] : '';
+        
+        if (!src) return fullMatch;
+
+        const altAttr = alt ? alt.replace(/"/g, '&quot;') : 'Görsel';
+        const captionText = alt && alt.trim() && alt !== 'Görsel' ? alt.trim() : 'Görsel Açıklaması';
+
+        return `<figure class="blog-inline-figure">
+  <div class="blog-image-wrapper">
+    <img src="${src}" alt="${altAttr}" />
+  </div>
+  <figcaption>${captionText}</figcaption>
+</figure>`;
+      });
+
+      parsedHtml = parsedHtml.replace(/<p>\s*(<figure[\s\S]*?<\/figure>)\s*<\/p>/gi, '$1');
       return this.sanitizer.bypassSecurityTrustHtml(parsedHtml);
     } catch (_) {
       return markdownText;
@@ -324,16 +360,6 @@ export class AdminBlogComponent implements OnInit {
       slug = this.slugify(this.artTitle_TR);
     }
 
-    // Auto extract cover image from first image in detailText if available
-    let coverImg = '';
-    const mdMatch = (this.artDetail_TR || '').match(/!\[.*?\]\((.*?)\)/);
-    const htmlMatch = (this.artDetail_TR || '').match(/<img[^>]+src=["']([^"']+)["']/i);
-    if (mdMatch && mdMatch[1]) {
-      coverImg = mdMatch[1];
-    } else if (htmlMatch && htmlMatch[1]) {
-      coverImg = htmlMatch[1];
-    }
-
     const payload: RawArticle = {
       id: slug,
       title_TR: this.artTitle_TR,
@@ -348,7 +374,7 @@ export class AdminBlogComponent implements OnInit {
       excerpt_TR: this.artExcerpt_TR,
       excerpt_EN: this.artExcerpt_EN || this.artExcerpt_TR,
       excerpt_DE: this.artExcerpt_DE || this.artExcerpt_TR,
-      imageUrl: coverImg,
+      imageUrl: this.artImageUrl,
       detailText_TR: this.artDetail_TR,
       detailText_EN: this.artDetail_EN || this.artDetail_TR,
       detailText_DE: this.artDetail_DE || this.artDetail_TR

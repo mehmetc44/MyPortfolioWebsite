@@ -9,7 +9,14 @@ import { LocalizationService } from '../services/localization.service';
 export class TranslatePipe implements PipeTransform {
   constructor(private localizationService: LocalizationService) {}
 
-  transform(key: string): string {
-    return this.localizationService.translate(key);
+  transform(key: string, caseType?: 'upper' | 'uppercase' | 'lower' | 'lowercase'): string {
+    const translated = this.localizationService.translate(key);
+    if (caseType === 'upper' || caseType === 'uppercase') {
+      return this.localizationService.toUpperCase(translated);
+    }
+    if (caseType === 'lower' || caseType === 'lowercase') {
+      return this.localizationService.toLowerCase(translated);
+    }
+    return translated;
   }
 }

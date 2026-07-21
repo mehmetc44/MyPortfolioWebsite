@@ -47,20 +47,25 @@ export class ContactModalComponent {
     if (!this.name.trim() || !this.email.trim() || !this.message.trim()) return;
     this.isSubmitting = true;
     
-    const ok = await this.dataService.postContactMessage({
-      name: this.name,
-      email: this.email,
-      message: this.message
-    });
-    
-    this.isSubmitting = false;
-    if (ok) {
-      this.isSuccess = true;
-      // Auto close modal after 2.5 seconds
-      setTimeout(() => {
-        this.closeModal();
-      }, 2500);
-    } else {
+    try {
+      const ok = await this.dataService.postContactMessage({
+        name: this.name.trim(),
+        email: this.email.trim(),
+        message: this.message.trim()
+      });
+      
+      this.isSubmitting = false;
+      if (ok) {
+        this.isSuccess = true;
+        // Auto close modal after 2.5 seconds
+        setTimeout(() => {
+          this.closeModal();
+        }, 2500);
+      } else {
+        alert('Mesajınız gönderilirken hata oluştu. Lütfen tekrar deneyin.');
+      }
+    } catch (e) {
+      this.isSubmitting = false;
       alert('Mesajınız gönderilirken hata oluştu. Lütfen tekrar deneyin.');
     }
   }

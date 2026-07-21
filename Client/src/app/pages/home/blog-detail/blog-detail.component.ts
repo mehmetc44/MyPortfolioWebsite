@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -13,7 +13,8 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
   standalone: true,
   imports: [CommonModule, RouterLink, TranslatePipe],
   templateUrl: './blog-detail.component.html',
-  styleUrls: ['./blog-detail.component.css']
+  styleUrls: ['./blog-detail.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class BlogDetailComponent implements OnInit, OnDestroy {
   article?: Article;
@@ -59,7 +60,31 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
         this.article = found;
         try {
           const detailText = this.resolveDetailImages(found.detailText || '');
-          const parsedHtml = marked.parse(detailText, { async: false }) as string;
+          let parsedHtml = marked.parse(detailText, { async: false }) as string;
+
+          parsedHtml = parsedHtml.replace(/(?:<p>)?\s*(<img\s+[^>]*?>)\s*(?:<\/p>)?/gi, (fullMatch, imgTag) => {
+            if (fullMatch.includes('blog-image-wrapper') || imgTag.includes('blog-image-wrapper')) {
+              return fullMatch;
+            }
+            const srcMatch = imgTag.match(/src=["']([^"']+)["']/i);
+            const altMatch = imgTag.match(/alt=["']([^"']+)["']/i);
+            const src = srcMatch ? srcMatch[1] : '';
+            const alt = altMatch ? altMatch[1] : '';
+            
+            if (!src) return fullMatch;
+
+            const altAttr = alt ? alt.replace(/"/g, '&quot;') : 'Görsel';
+            const captionText = alt && alt.trim() && alt !== 'Görsel' ? alt.trim() : 'Görsel Açıklaması';
+
+            return `<figure class="blog-inline-figure">
+  <div class="blog-image-wrapper">
+    <img src="${src}" alt="${altAttr}" />
+  </div>
+  <figcaption>${captionText}</figcaption>
+</figure>`;
+          });
+
+          parsedHtml = parsedHtml.replace(/<p>\s*(<figure[\s\S]*?<\/figure>)\s*<\/p>/gi, '$1');
           this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(parsedHtml);
         } catch (_) {
           this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText || '');
@@ -80,10 +105,10 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
   getCategoryLabel(category: string): string {
     switch (category) {
-      case 'architecture': return this.localizationService.translate('CAT_ARCHITECTURE').toUpperCase();
-      case 'ai': return this.localizationService.translate('CAT_AI').toUpperCase();
-      case 'frontend': return this.localizationService.translate('CAT_FRONTEND').toUpperCase();
-      default: return this.localizationService.translate('CAT_OTHER').toUpperCase();
+      case 'architecture': return this.localizationService.translateUpper('CAT_ARCHITECTURE');
+      case 'ai': return this.localizationService.translateUpper('CAT_AI');
+      case 'frontend': return this.localizationService.translateUpper('CAT_FRONTEND');
+      default: return this.localizationService.translateUpper('CAT_OTHER');
     }
   }
 }

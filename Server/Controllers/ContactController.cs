@@ -41,15 +41,24 @@ namespace Server.Controllers
             _context.Messages.Add(messageEntity);
             await _context.SaveChangesAsync();
 
-            // Send email notification in the background
+            // Send email notification in the background without blocking the HTTP response
             var subject = "[Portfolio] Yeni Bir Mesajınız Var!";
             var body = "Yeni bir mesajınız var!\n\n" +
                        $"Gönderen: {messageEntity.Name} ({messageEntity.Email})\n" +
                        $"Tarih: {messageEntity.Date:g} UTC\n\n" +
                        $"Mesaj:\n{messageEntity.Message}";
 
-            // We await email delivery. It will log internally if it fails, so it won't crash this request.
-            await _emailService.SendEmailAsync(subject, body);
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await _emailService.SendEmailAsync(subject, body);
+                }
+                catch (Exception ex)
+                {
+                    // Email logging is handled inside EmailService
+                }
+            });
 
             return Ok(new { success = true, id = messageEntity.Id });
         }
