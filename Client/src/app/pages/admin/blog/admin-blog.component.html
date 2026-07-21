@@ -152,18 +152,71 @@
             </div>
         </div>
 
-        <!-- Cover Image Input Field & Upload Button -->
-        <div class="form-group" style="margin-top: 16px;">
-            <label for="crudBlogCoverImage">Kapak Görseli URL (Makale Üst Banner Görseli)</label>
-            <div style="display: flex; gap: 10px; align-items: center;">
-                <input type="text" id="crudBlogCoverImage" name="artImageUrl" [(ngModel)]="artImageUrl" placeholder="Makale kapağı için URL veya 'Kapak Görseli Yükle' butonunu kullanın" style="flex: 1;">
-                <button type="button" class="btn btn-secondary" (click)="triggerCoverImageUpload()" style="white-space: nowrap; font-size: 0.85rem; padding: 10px 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
-                    📷 Kapak Görseli Yükle
+        <!-- Cover Image Selection Section -->
+        <div class="form-group" style="margin-top: 20px; background: rgba(11, 26, 48, 0.02); padding: 20px; border-radius: 16px; border: 1px solid var(--border-color);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+                <div>
+                    <label style="font-size: 0.95rem; font-weight: 800; color: var(--accent-navy);">Makale Kapak Fotoğrafı</label>
+                    <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 2px;">
+                        Kapak resmi varsayılan olarak placeholder ayarlıdır. Kendiniz kapak fotoğrafı yükleyebilir veya yazı içerisindeki görsellerden seçebilirsiniz.
+                    </p>
+                </div>
+                <button type="button" class="btn btn-secondary" (click)="triggerCoverImageUpload()" style="font-size: 0.84rem; padding: 8px 14px; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;">
+                    📷 Özel Kapak Fotoğrafı Yükle
                 </button>
             </div>
+
             <input type="file" id="blogCoverImageUploadInput" (change)="onCoverImageSelected($event)" accept="image/*" style="display: none;">
-            <div *ngIf="artImageUrl" style="margin-top: 10px; max-width: 280px; aspect-ratio: 16/9; border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); background: rgba(15, 23, 42, 0.04); display: flex; align-items: center; justify-content: center;">
-                <img [src]="artImageUrl" alt="Kapak Görseli Önizleme" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+
+            <!-- Cards Grid for Selecting Cover -->
+            <div class="cover-select-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 14px; margin-top: 12px;">
+                
+                <!-- Card 1: Default Placeholder -->
+                <div class="cover-card-item" 
+                     [class.selected]="artImageUrl === 'assets/blog_placeholder.png' || !artImageUrl" 
+                     (click)="selectCoverImage('assets/blog_placeholder.png')" 
+                     style="border: 2px solid var(--border-color); border-radius: 12px; padding: 10px; cursor: pointer; background: var(--bg-card); transition: all 0.2s ease; position: relative; text-align: center;">
+                    <div style="width: 100%; height: 90px; border-radius: 8px; overflow: hidden; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); margin-bottom: 8px;">
+                        <img src="assets/blog_placeholder.png" alt="Varsayılan Placeholder" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                    <span style="font-size: 0.82rem; font-weight: 700; color: var(--accent-navy);">Varsayılan Placeholder</span>
+                    <div *ngIf="artImageUrl === 'assets/blog_placeholder.png' || !artImageUrl" 
+                         style="position: absolute; top: 6px; right: 6px; background: #22c55e; color: #ffffff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">✓</div>
+                </div>
+
+                <!-- Card 2: Custom Upload Cover (if present and not embedded) -->
+                <div *ngIf="isCustomCoverSelected()" 
+                     class="cover-card-item selected" 
+                     style="border: 2px solid #3b82f6; border-radius: 12px; padding: 10px; cursor: pointer; background: var(--bg-card); transition: all 0.2s ease; position: relative; text-align: center;">
+                    <div style="width: 100%; height: 90px; border-radius: 8px; overflow: hidden; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); margin-bottom: 8px;">
+                        <img [src]="artImageUrl" alt="Özel Yüklenen Kapak" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                    <span style="font-size: 0.82rem; font-weight: 700; color: var(--accent-navy);">Yüklenen Özel Kapak</span>
+                    <div style="position: absolute; top: 6px; right: 6px; background: #22c55e; color: #ffffff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">✓</div>
+                </div>
+
+                <!-- Cards 3+: Images used in Article Content -->
+                <div *ngFor="let imgUrl of getEmbeddedImages(); let i = index" 
+                     class="cover-card-item" 
+                     [class.selected]="artImageUrl === imgUrl" 
+                     (click)="selectCoverImage(imgUrl)" 
+                     style="border: 2px solid var(--border-color); border-radius: 12px; padding: 10px; cursor: pointer; background: var(--bg-card); transition: all 0.2s ease; position: relative; text-align: center;">
+                    <div style="width: 100%; height: 90px; border-radius: 8px; overflow: hidden; background: #ffffff; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border-color); margin-bottom: 8px;">
+                        <img [src]="imgUrl" alt="Yazı İçi Görsel" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                    </div>
+                    <span style="font-size: 0.82rem; font-weight: 700; color: var(--accent-navy);">Yazı İçi Görsel #{{ i + 1 }}</span>
+                    <div *ngIf="artImageUrl === imgUrl" 
+                         style="position: absolute; top: 6px; right: 6px; background: #22c55e; color: #ffffff; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 800; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">✓</div>
+                </div>
+
+            </div>
+
+            <!-- Optional manual URL input field -->
+            <div style="margin-top: 14px;">
+                <details style="font-size: 0.8rem; color: var(--text-secondary); cursor: pointer;">
+                    <summary style="font-weight: 600; outline: none; margin-bottom: 6px;">🔗 Manuel Görsel URL'si Gir (Opsiyonel)</summary>
+                    <input type="text" id="crudBlogCoverImage" name="artImageUrl" [(ngModel)]="artImageUrl" placeholder="Görsel URL'sini buraya yapıştırabilirsiniz..." style="width: 100%; font-size: 0.85rem; padding: 8px 12px; margin-top: 4px; border-radius: 8px; border: 1px solid var(--border-color); background: #ffffff;">
+                </details>
             </div>
         </div>
 

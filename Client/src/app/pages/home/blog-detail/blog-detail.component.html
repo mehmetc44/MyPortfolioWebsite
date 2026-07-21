@@ -19,11 +19,6 @@
                 <span class="article-date-read" id="articleMetaDate">{{ formatDate(article.date) }} • {{ article.readTime }} {{ 'MIN_READ' | translate }}</span>
             </div>
 
-            <!-- Article Banner Image Cover -->
-            <div class="article-banner-wrapper">
-                <img [src]="article.imageUrl || 'assets/blog_placeholder.png'" [alt]="article.title" class="article-banner-image" id="articleBannerImg">
-            </div>
-
             <!-- Main Text Body (Single-column typography) -->
             <div class="article-text-body" id="articleTextBody" [innerHTML]="sanitizedDetailText">
             </div>

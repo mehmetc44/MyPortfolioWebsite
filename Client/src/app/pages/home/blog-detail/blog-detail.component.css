@@ -369,10 +369,6 @@ body.dark-theme .article-text-body .blog-image-wrapper {
     .main-content-pane {
         padding: 40px 20px;
     }
-
-    .article-text-body>p:first-of-type::first-letter {
-        font-size: 4rem;
-    }
 }
 
 @media (max-width: 576px) {

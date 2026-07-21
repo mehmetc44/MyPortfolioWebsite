@@ -102,7 +102,7 @@ export class AdminBlogComponent implements OnInit {
     this.activeEditorTab_DE = 'write';
 
     this.artId = '';
-    this.artImageUrl = '';
+    this.artImageUrl = 'assets/blog_placeholder.png';
     this.artTitle_TR = '';
     this.artTitle_EN = '';
     this.artTitle_DE = '';
@@ -131,7 +131,7 @@ export class AdminBlogComponent implements OnInit {
 
     const art = this.articles[idx];
     this.artId = art.id;
-    this.artImageUrl = art.imageUrl || '';
+    this.artImageUrl = art.imageUrl || 'assets/blog_placeholder.png';
     this.artTitle_TR = art.title_TR;
     this.artTitle_EN = art.title_EN;
     this.artTitle_DE = art.title_DE;
@@ -374,7 +374,7 @@ export class AdminBlogComponent implements OnInit {
       excerpt_TR: this.artExcerpt_TR,
       excerpt_EN: this.artExcerpt_EN || this.artExcerpt_TR,
       excerpt_DE: this.artExcerpt_DE || this.artExcerpt_TR,
-      imageUrl: this.artImageUrl,
+      imageUrl: this.artImageUrl || 'assets/blog_placeholder.png',
       detailText_TR: this.artDetail_TR,
       detailText_EN: this.artDetail_EN || this.artDetail_TR,
       detailText_DE: this.artDetail_DE || this.artDetail_TR
@@ -475,5 +475,41 @@ export class AdminBlogComponent implements OnInit {
     }
 
     window.open('https://medium.com/new-story', '_blank');
+  }
+
+  selectCoverImage(url: string) {
+    this.artImageUrl = url;
+  }
+
+  isCustomCoverSelected(): boolean {
+    if (!this.artImageUrl) return false;
+    if (this.artImageUrl === 'assets/blog_placeholder.png') return false;
+    return !this.getEmbeddedImages().includes(this.artImageUrl);
+  }
+
+  getEmbeddedImages(): string[] {
+    const urls = new Set<string>();
+    const mdImageRegex = /!\[.*?\]\((.*?)\)/g;
+    const htmlImageRegex = /<img\s+[^>]*src=["']([^"']+)["']/g;
+    const sources = [this.artDetail_TR, this.artDetail_EN, this.artDetail_DE];
+
+    for (const text of sources) {
+      if (!text) continue;
+      let match;
+      mdImageRegex.lastIndex = 0;
+      htmlImageRegex.lastIndex = 0;
+
+      while ((match = mdImageRegex.exec(text)) !== null) {
+        if (match[1] && match[1].trim()) {
+          urls.add(match[1].trim());
+        }
+      }
+      while ((match = htmlImageRegex.exec(text)) !== null) {
+        if (match[1] && match[1].trim()) {
+          urls.add(match[1].trim());
+        }
+      }
+    }
+    return Array.from(urls);
   }
 }
