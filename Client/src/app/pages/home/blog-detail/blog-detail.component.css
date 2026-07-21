@@ -232,40 +232,66 @@ body.dark-theme .article-text-body blockquote {
     display: inline-block;
 }
 
-/* Inline images with Medium-style captions */
+/* Inline images with Medium-style captions & aspect-ratio container */
 .article-text-body figure,
 .article-text-body .blog-inline-figure {
-    margin: 36px 0;
+    margin: 36px auto;
     text-align: center;
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
     max-width: 100%;
+    box-sizing: border-box;
+}
+
+.article-text-body .blog-image-wrapper {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(15, 23, 42, 0.03);
+    border: 1px solid var(--border-color, rgba(15, 23, 42, 0.08));
+    box-shadow: 0 8px 24px rgba(11, 26, 48, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+body.dark-theme .article-text-body .blog-image-wrapper {
+    background: rgba(15, 23, 42, 0.4);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.article-text-body .blog-image-wrapper:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 36px rgba(11, 26, 48, 0.14);
+    border-color: rgba(59, 130, 246, 0.25);
 }
 
 .article-text-body figure img,
 .article-text-body .blog-inline-figure img,
+.article-text-body .blog-image-wrapper img,
 .article-text-body img {
     max-width: 100% !important;
-    border-radius: 12px;
+    max-height: 600px !important;
+    width: auto !important;
     height: auto !important;
-    aspect-ratio: auto !important;
+    border-radius: 8px;
     object-fit: contain !important;
     display: block;
     margin: 0 auto;
     box-sizing: border-box !important;
-    box-shadow: 0 10px 30px rgba(11, 26, 48, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.article-text-body figure img:hover,
-.article-text-body .blog-inline-figure img:hover,
-.article-text-body img:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 36px rgba(11, 26, 48, 0.14);
 }
 
 .article-text-body figcaption {
-    font-size: 0.9rem;
-    color: var(--text-muted);
+    font-size: 0.88rem;
+    color: var(--text-muted, #64748b);
     margin-top: 12px;
     font-style: italic;
     font-family: var(--font-body), sans-serif;

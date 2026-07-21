@@ -256,12 +256,18 @@ export class AdminBlogComponent implements OnInit {
     const textareaId = lang === 'tr' ? 'crudBlogDetailTR' : (lang === 'en' ? 'crudBlogDetailEN' : 'crudBlogDetailDE');
     const textarea = document.getElementById(textareaId) as HTMLTextAreaElement;
 
-    let imageTag = `\n![Görsel Açıklaması](${imageUrl})\n`;
-
+    let styleAttr = '';
     if (width && width !== '%100' && width !== '100%') {
       const cleanWidth = width.endsWith('px') || width.endsWith('%') ? width : `${width}px`;
-      imageTag = `\n<img src="${imageUrl}" alt="Görsel" style="max-width: 100%; width: min(100%, ${cleanWidth}); height: auto; border-radius: 12px; display: block; margin: 24px auto;" />\n`;
+      styleAttr = ` style="max-width: ${cleanWidth};"`;
     }
+
+    const imageTag = `\n<figure class="blog-inline-figure"${styleAttr}>
+  <div class="blog-image-wrapper">
+    <img src="${imageUrl}" alt="Görsel Açıklaması" />
+  </div>
+  <figcaption>Görsel açıklaması buraya yazın...</figcaption>
+</figure>\n`;
 
     if (textarea) {
       const start = textarea.selectionStart || 0;
