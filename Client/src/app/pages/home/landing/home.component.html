@@ -195,84 +195,21 @@
                 </h3>
 
                 <div class="activities-board-grid">
-                    <!-- Feed Item 1 -->
-                    <div class="activity-board-card sub-glass-card">
+                    <!-- Dynamic Feed Items -->
+                    <div *ngFor="let item of activityFeed" 
+                         [routerLink]="item.link" 
+                         class="activity-board-card sub-glass-card" 
+                         style="cursor: pointer;">
                         <div class="board-card-header">
-                            <span class="activity-tag tag-blog">{{ 'ACT_TAG_PUB' | translate }}</span>
-                            <span class="board-card-time">{{ 'ACT_TIME_3D' | translate }}</span>
+                            <span class="activity-tag" [ngClass]="item.tagClass">{{ item.categoryLabel }}</span>
+                            <span class="board-card-time">{{ formatDate(item.date) }}</span>
                         </div>
-                        <h4 class="board-card-title">{{ 'ACT_1_TITLE' | translate }}</h4>
+                        <h4 class="board-card-title">{{ item.title }}</h4>
                         <p class="board-card-desc">
-                            {{ 'ACT_1_DESC' | translate }}
+                            {{ item.description }}
                         </p>
                         <div class="board-card-footer">
-                            <a routerLink="/portfolio/platar-lpr" class="btn-board-action">
-                                <span>{{ 'VIEW_DETAILS' | translate }}</span>
-                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5"
-                                    fill="none">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Feed Item 2 -->
-                    <div class="activity-board-card sub-glass-card">
-                        <div class="board-card-header">
-                            <span class="activity-tag tag-repo">{{ 'ACT_TAG_RELEASE' | translate }}</span>
-                            <span class="board-card-time">{{ 'ACT_TIME_1W' | translate }}</span>
-                        </div>
-                        <h4 class="board-card-title">{{ 'ACT_2_TITLE' | translate }}</h4>
-                        <p class="board-card-desc">
-                            {{ 'ACT_2_DESC' | translate }}
-                        </p>
-                        <div class="board-card-footer">
-                            <a routerLink="/portfolio/platar-lpr" class="btn-board-action">
-                                <span>{{ 'VIEW_DETAILS' | translate }}</span>
-                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5"
-                                    fill="none">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Feed Item 3 -->
-                    <div class="activity-board-card sub-glass-card">
-                        <div class="board-card-header">
-                            <span class="activity-tag tag-blog">{{ 'ACT_TAG_PUB' | translate }}</span>
-                            <span class="board-card-time">{{ 'ACT_TIME_2W' | translate }}</span>
-                        </div>
-                        <h4 class="board-card-title">{{ 'ACT_3_TITLE' | translate }}</h4>
-                        <p class="board-card-desc">
-                            {{ 'ACT_3_DESC' | translate }}
-                        </p>
-                        <div class="board-card-footer">
-                            <a routerLink="/portfolio/glassui-kit" class="btn-board-action">
-                                <span>{{ 'VIEW_DETAILS' | translate }}</span>
-                                <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5"
-                                    fill="none">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Feed Item 4 -->
-                    <div class="activity-board-card sub-glass-card">
-                        <div class="board-card-header">
-                            <span class="activity-tag tag-pr">{{ 'ACT_TAG_INFRA' | translate }}</span>
-                            <span class="board-card-time">{{ 'ACT_TIME_3W' | translate }}</span>
-                        </div>
-                        <h4 class="board-card-title">{{ 'ACT_4_TITLE' | translate }}</h4>
-                        <p class="board-card-desc">
-                            {{ 'ACT_4_DESC' | translate }}
-                        </p>
-                        <div class="board-card-footer">
-                            <a routerLink="/portfolio/logstream-pipeline" class="btn-board-action">
+                            <a [routerLink]="item.link" class="btn-board-action">
                                 <span>{{ 'VIEW_DETAILS' | translate }}</span>
                                 <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5"
                                     fill="none">

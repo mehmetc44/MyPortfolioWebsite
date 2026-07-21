@@ -133,9 +133,13 @@
             <div class="form-group">
                 <label for="crudBlogCategory">Kategori</label>
                 <select id="crudBlogCategory" name="artCategory" [(ngModel)]="artCategory" class="admin-select" required>
+                    <option value="ai">Yapay Zekâ</option>
+                    <option value="backend">Backend</option>
                     <option value="architecture">Yazılım Mimarisi</option>
-                    <option value="ai">Yapay Zeka</option>
-                    <option value="frontend">Ön Uç &amp; Tasarım</option>
+                    <option value="devops-cloud">DevOps &amp; Cloud</option>
+                    <option value="performance">Performans</option>
+                    <option value="web-dev">Web Geliştirme</option>
+                    <option value="software-eng">Yazılım Mühendisliği</option>
                     <option value="other">Diğer</option>
                 </select>
             </div>

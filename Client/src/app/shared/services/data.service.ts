@@ -726,6 +726,40 @@ export class DataService {
     }
   }
 
+  async getAccountUsername(): Promise<string> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/auth/account`, {
+        headers: this.getAuthHeaders()
+      });
+      if (res.ok) {
+        const data = await res.json();
+        return data.username || '';
+      }
+    } catch(e) {
+      console.error("Failed to fetch account username", e);
+    }
+    return '';
+  }
+
+  async updateAccount(username: string, currentPassword?: string, newPassword?: string): Promise<{ success: boolean; message?: string }> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/auth/account`, {
+        method: 'PUT',
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify({ username, currentPassword, newPassword })
+      });
+      if (res.ok) {
+        return { success: true };
+      } else {
+        const text = await res.text();
+        return { success: false, message: text || 'Güncelleme başarısız.' };
+      }
+    } catch(e: any) {
+      console.error("Account update request failed", e);
+      return { success: false, message: e?.message || 'İletişim hatası oluştu.' };
+    }
+  }
+
   private unreadCount = 0;
 
   getUnreadCount(): number {

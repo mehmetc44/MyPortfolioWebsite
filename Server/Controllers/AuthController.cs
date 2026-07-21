@@ -136,5 +136,64 @@ namespace Server.Controllers
 
             return Ok(new { success = true });
         }
+
+        public class UpdateAccountDto
+        {
+            public string Username { get; set; } = "";
+            public string? CurrentPassword { get; set; }
+            public string? NewPassword { get; set; }
+        }
+
+        // GET: api/auth/account
+        [Authorize]
+        [HttpGet("account")]
+        public async Task<IActionResult> GetAccount()
+        {
+            var user = await _context.Users.FirstOrDefaultAsync();
+            if (user == null) return NotFound("Kullanıcı bulunamadı.");
+            return Ok(new { username = user.Username });
+        }
+
+        // PUT: api/auth/account
+        [Authorize]
+        [HttpPut("account")]
+        public async Task<IActionResult> UpdateAccount([FromBody] UpdateAccountDto dto)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync();
+            if (user == null) return NotFound("Kullanıcı bulunamadı.");
+
+            if (string.IsNullOrWhiteSpace(dto.Username))
+            {
+                return BadRequest("Kullanıcı adı boş olamaz.");
+            }
+
+            user.Username = dto.Username.Trim();
+
+            // If password change is requested
+            if (!string.IsNullOrEmpty(dto.NewPassword))
+            {
+                if (string.IsNullOrEmpty(dto.CurrentPassword))
+                {
+                    return BadRequest("Şifrenizi değiştirmek için mevcut şifrenizi girmeniz gerekmektedir.");
+                }
+
+                if (!PasswordHasher.VerifyPassword(dto.CurrentPassword, user.PasswordHash))
+                {
+                    return BadRequest("Mevcut şifreniz yanlış.");
+                }
+
+                if (dto.NewPassword.Length < 6)
+                {
+                    return BadRequest("Yeni şifre en az 6 karakter olmalıdır.");
+                }
+
+                user.PasswordHash = PasswordHasher.HashPassword(dto.NewPassword);
+            }
+
+            _context.Entry(user).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return Ok(new { success = true });
+        }
     }
 }

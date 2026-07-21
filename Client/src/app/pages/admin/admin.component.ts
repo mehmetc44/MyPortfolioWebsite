@@ -10,13 +10,13 @@ import { AdminBlogComponent } from './blog/admin-blog.component';
 import { AdminMessagesComponent } from './messages/admin-messages.component';
 import { AdminCvComponent } from './cv/admin-cv.component';
 import { AdminSkillsComponent } from './skills/admin-skills.component';
+import { AdminAccountComponent } from './account/admin-account.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     FormsModule,
     AdminOverviewComponent,
     AdminProfileComponent,
@@ -24,7 +24,8 @@ import { AdminSkillsComponent } from './skills/admin-skills.component';
     AdminBlogComponent,
     AdminMessagesComponent,
     AdminCvComponent,
-    AdminSkillsComponent
+    AdminSkillsComponent,
+    AdminAccountComponent
   ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
@@ -43,30 +44,25 @@ export class AdminComponent implements OnInit {
 
   toggleForgotPasswordMode() {
     this.isForgotPasswordMode = !this.isForgotPasswordMode;
-    this.forgotPasswordEmail = '';
     this.forgotPasswordSuccessMessage = '';
     this.forgotPasswordErrorMessage = '';
     this.errorMessage = '';
   }
 
-  async onSendResetLink() {
-    if (!this.forgotPasswordEmail) {
-      this.forgotPasswordErrorMessage = 'Lütfen e-posta adresinizi girin.';
-      return;
-    }
-    
-    this.isSendingResetLink = true;
-    this.forgotPasswordErrorMessage = '';
+  async onForgotPasswordClick() {
+    this.isForgotPasswordMode = true;
     this.forgotPasswordSuccessMessage = '';
+    this.forgotPasswordErrorMessage = '';
+    this.isSendingResetLink = true;
 
-    const success = await this.dataService.forgotPassword(this.forgotPasswordEmail);
+    // Direct request without requiring email input from user
+    const success = await this.dataService.forgotPassword('admin@example.com');
     this.isSendingResetLink = false;
 
     if (success) {
       this.forgotPasswordSuccessMessage = 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi.';
-      this.forgotPasswordEmail = '';
     } else {
-      this.forgotPasswordErrorMessage = 'Talep gönderilemedi. Lütfen tekrar deneyin.';
+      this.forgotPasswordErrorMessage = 'Şifre sıfırlama bağlantısı gönderilemedi. Lütfen tekrar deneyin.';
     }
   }
 

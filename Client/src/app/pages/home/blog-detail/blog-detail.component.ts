@@ -107,7 +107,11 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
     switch (category) {
       case 'architecture': return this.localizationService.translateUpper('CAT_ARCHITECTURE');
       case 'ai': return this.localizationService.translateUpper('CAT_AI');
-      case 'frontend': return this.localizationService.translateUpper('CAT_FRONTEND');
+      case 'backend': return this.localizationService.translateUpper('CAT_BACKEND');
+      case 'devops-cloud': return this.localizationService.translateUpper('CAT_DEVOPS_CLOUD');
+      case 'performance': return this.localizationService.translateUpper('CAT_PERFORMANCE');
+      case 'web-dev': return this.localizationService.translateUpper('CAT_WEB_DEV_BLOG');
+      case 'software-eng': return this.localizationService.translateUpper('CAT_SOFTWARE_ENG');
       default: return this.localizationService.translateUpper('CAT_OTHER');
     }
   }

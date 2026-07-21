@@ -14,9 +14,13 @@
             <!-- Filter Tabs -->
             <div class="portfolio-filter-tabs" role="tablist" aria-label="Makale Kategorileri">
                 <button class="filter-tab" [class.active]="activeCategory === 'all'" (click)="selectCategory('all')" role="tab" [attr.aria-selected]="activeCategory === 'all'">{{ 'FILTER_ALL' | translate }}</button>
-                <button class="filter-tab" [class.active]="activeCategory === 'architecture'" (click)="selectCategory('architecture')" role="tab" [attr.aria-selected]="activeCategory === 'architecture'">{{ 'CAT_ARCHITECTURE' | translate }}</button>
                 <button class="filter-tab" [class.active]="activeCategory === 'ai'" (click)="selectCategory('ai')" role="tab" [attr.aria-selected]="activeCategory === 'ai'">{{ 'CAT_AI' | translate }}</button>
-                <button class="filter-tab" [class.active]="activeCategory === 'frontend'" (click)="selectCategory('frontend')" role="tab" [attr.aria-selected]="activeCategory === 'frontend'">{{ 'CAT_FRONTEND' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'backend'" (click)="selectCategory('backend')" role="tab" [attr.aria-selected]="activeCategory === 'backend'">{{ 'CAT_BACKEND' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'architecture'" (click)="selectCategory('architecture')" role="tab" [attr.aria-selected]="activeCategory === 'architecture'">{{ 'CAT_ARCHITECTURE' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'devops-cloud'" (click)="selectCategory('devops-cloud')" role="tab" [attr.aria-selected]="activeCategory === 'devops-cloud'">{{ 'CAT_DEVOPS_CLOUD' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'performance'" (click)="selectCategory('performance')" role="tab" [attr.aria-selected]="activeCategory === 'performance'">{{ 'CAT_PERFORMANCE' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'web-dev'" (click)="selectCategory('web-dev')" role="tab" [attr.aria-selected]="activeCategory === 'web-dev'">{{ 'CAT_WEB_DEV_BLOG' | translate }}</button>
+                <button class="filter-tab" [class.active]="activeCategory === 'software-eng'" (click)="selectCategory('software-eng')" role="tab" [attr.aria-selected]="activeCategory === 'software-eng'">{{ 'CAT_SOFTWARE_ENG' | translate }}</button>
                 <button class="filter-tab" [class.active]="activeCategory === 'other'" (click)="selectCategory('other')" role="tab" [attr.aria-selected]="activeCategory === 'other'">{{ 'FILTER_OTHER' | translate }}</button>
             </div>
 

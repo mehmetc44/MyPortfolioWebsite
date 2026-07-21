@@ -13,6 +13,17 @@ interface DayCell {
   tooltip: string;
 }
 
+interface ActivityFeedItem {
+  type: 'project' | 'article';
+  id: string;
+  title: string;
+  description: string;
+  date: string;
+  categoryLabel: string;
+  tagClass: string;
+  link: string;
+}
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -28,8 +39,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
   articleCount = 0;
   skills: Skill[] = [];
   techTags: TechTag[] = [];
-
   dateList: DayCell[] = [];
+  activityFeed: ActivityFeedItem[] = [];
   
   // Tooltip bindings
   tooltipText = '';
@@ -59,6 +70,8 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     this.articleCount = this.dataService.getArticles().length;
     this.skills = this.dataService.getSkills();
     this.techTags = this.dataService.getTechTagsList();
+
+    this.buildActivityFeed();
 
     await this.generateContributionData();
     
@@ -228,6 +241,52 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
       observer.observe(cardEl);
     }
+  }
+
+  formatDate(dateStr?: string): string {
+    return this.dataService.formatDate(dateStr);
+  }
+
+  buildActivityFeed() {
+    const projects = this.dataService.getProjects();
+    const articles = this.dataService.getArticles();
+    const feed: ActivityFeedItem[] = [];
+
+    const activeLang = typeof window !== 'undefined' ? (localStorage.getItem('app_language') || 'tr') : 'tr';
+
+    // 1. Process projects
+    for (const proj of projects) {
+      feed.push({
+        type: 'project',
+        id: proj.id,
+        title: proj.title,
+        description: proj.description,
+        date: proj.date,
+        categoryLabel: activeLang === 'en' ? 'Project' : (activeLang === 'de' ? 'Projekt' : 'Proje'),
+        tagClass: 'tag-repo',
+        link: `/portfolio/${proj.id}`
+      });
+    }
+
+    // 2. Process articles
+    for (const art of articles) {
+      feed.push({
+        type: 'article',
+        id: art.id,
+        title: art.title,
+        description: art.excerpt,
+        date: art.date,
+        categoryLabel: activeLang === 'en' ? 'Publication' : (activeLang === 'de' ? 'Veröffentlichung' : 'Yayın / Makale'),
+        tagClass: 'tag-blog',
+        link: `/blog/${art.id}`
+      });
+    }
+
+    // Sort by date descending (newest first)
+    feed.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
+    // Limit to latest 4 items to keep UI neat
+    this.activityFeed = feed.slice(0, 4);
   }
 }
 

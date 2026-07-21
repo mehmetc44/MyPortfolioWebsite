@@ -1,0 +1,70 @@
+<div class="admin-overview-container fade-in">
+    <div class="overview-header">
+        <div>
+            <h2 class="overview-title">Hesap Ayarları</h2>
+            <p class="overview-subtitle">Giriş kullanıcı adı ve şifre kimlik bilgilerinizi güncelleyin.</p>
+        </div>
+    </div>
+
+    <form (ngSubmit)="onSave()" class="contact-form" style="max-width: 600px; margin-top: 24px;">
+        <div class="form-group">
+            <label for="accUsername">Kullanıcı Adı</label>
+            <input type="text" id="accUsername" name="username" [(ngModel)]="username" required placeholder="Yeni kullanıcı adınızı girin">
+        </div>
+
+        <div style="margin-top: 32px; border-top: 1px solid var(--border-color); padding-top: 24px;">
+            <h4 style="font-size: 1.1rem; font-weight: 700; color: var(--accent-navy); margin-bottom: 16px;">Şifre Değiştir (İsteğe Bağlı)</h4>
+            
+            <div class="form-group">
+                <label for="accCurrentPassword">Mevcut Şifre</label>
+                <div style="position: relative; display: flex; align-items: center; width: 100%;">
+                    <input [type]="showCurrentPassword ? 'text' : 'password'" id="accCurrentPassword" name="currentPassword" [(ngModel)]="currentPassword" placeholder="Mevcut şifrenizi girin" style="width: 100%; padding-right: 44px; box-sizing: border-box;">
+                    <button type="button" (click)="showCurrentPassword = !showCurrentPassword" style="position: absolute; right: 12px; background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center;">
+                        <svg *ngIf="!showCurrentPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                        <svg *ngIf="showCurrentPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-double-row" style="margin-top: 16px;">
+                <div class="form-group">
+                    <label for="accNewPassword">Yeni Şifre</label>
+                    <div style="position: relative; display: flex; align-items: center; width: 100%;">
+                        <input [type]="showNewPassword ? 'text' : 'password'" id="accNewPassword" name="newPassword" [(ngModel)]="newPassword" placeholder="En az 6 karakter" style="width: 100%; padding-right: 44px; box-sizing: border-box;">
+                        <button type="button" (click)="showNewPassword = !showNewPassword" style="position: absolute; right: 12px; background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center;">
+                            <svg *ngIf="!showNewPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            <svg *ngIf="showNewPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="accConfirmPassword">Yeni Şifre (Tekrar)</label>
+                    <div style="position: relative; display: flex; align-items: center; width: 100%;">
+                        <input [type]="showConfirmPassword ? 'text' : 'password'" id="accConfirmPassword" name="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Yeni şifrenizi doğrulayın" style="width: 100%; padding-right: 44px; box-sizing: border-box;">
+                        <button type="button" (click)="showConfirmPassword = !showConfirmPassword" style="position: absolute; right: 12px; background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 4px; display: flex; align-items: center; justify-content: center;">
+                            <svg *ngIf="!showConfirmPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                            <svg *ngIf="showConfirmPassword" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Alert -->
+        <div class="login-success-alert" *ngIf="successMessage" style="margin-top: 24px; display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: 8px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); color: #10b981;">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            <span style="font-weight: 600; font-size: 0.92rem;">{{ successMessage }}</span>
+        </div>
+
+        <!-- Error Alert -->
+        <div class="login-error-alert" *ngIf="errorMessage" style="margin-top: 24px; display: flex; align-items: center; gap: 8px; padding: 12px 16px; border-radius: 8px; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444;">
+            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            <span style="font-weight: 600; font-size: 0.92rem;">{{ errorMessage }}</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" [disabled]="isSaving" style="margin-top: 24px; min-width: 140px; height: 44px; font-weight: 700;">
+            <span *ngIf="!isSaving">Değişiklikleri Kaydet</span>
+            <span *ngIf="isSaving">Kaydediliyor...</span>
+        </button>
+    </form>
+</div>

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { DataService, Profile } from '../../../shared/services/data.service';
 import { CvStructuredData } from '../../../shared/models/profile.model';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
@@ -7,11 +8,40 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, TranslatePipe],
+  imports: [CommonModule, TranslatePipe, FormsModule],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.css']
 })
 export class AboutComponent implements OnInit {
+  selectedCvLang: 'tr' | 'en' | 'de' = 'tr';
+  isCvLangDropdownOpen = false;
+
+  toggleCvLangDropdown(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.isCvLangDropdownOpen = !this.isCvLangDropdownOpen;
+  }
+
+  selectCvLang(lang: 'tr' | 'en' | 'de') {
+    this.selectedCvLang = lang;
+    this.isCvLangDropdownOpen = false;
+  }
+
+  getSelectedLanguageLabel(): string {
+    const labels: Record<string, string> = {
+      tr: '🇹🇷 Türkçe',
+      en: '🇬🇧 English',
+      de: '🇩🇪 Deutsch'
+    };
+    return labels[this.selectedCvLang] || '🇹🇷 Türkçe';
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick() {
+    this.isCvLangDropdownOpen = false;
+  }
+
   get profile(): Profile {
     return this.dataService.getProfile();
   }
@@ -52,5 +82,11 @@ export class AboutComponent implements OnInit {
   constructor(private dataService: DataService) {}
 
   ngOnInit() {
+    const current = this.activeLanguage;
+    if (current === 'tr' || current === 'en' || current === 'de') {
+      this.selectedCvLang = current;
+    } else {
+      this.selectedCvLang = 'tr';
+    }
   }
 }
