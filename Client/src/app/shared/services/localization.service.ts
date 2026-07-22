@@ -7,7 +7,7 @@ export type LanguageCode = 'tr' | 'en' | 'de';
   providedIn: 'root'
 })
 export class LocalizationService {
-  private readonly defaultLang: LanguageCode = 'tr';
+  private readonly defaultLang: LanguageCode = 'en';
   private readonly langKey = 'app_language';
 
   private currentLangSubject: BehaviorSubject<LanguageCode>;
@@ -360,15 +360,34 @@ export class LocalizationService {
 
   constructor() {
     let savedLang = this.defaultLang;
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const saved = localStorage.getItem(this.langKey) as LanguageCode;
-      if (saved === 'tr' || saved === 'en' || saved === 'de') {
-        savedLang = saved;
+    if (typeof window !== 'undefined') {
+      if (window.localStorage) {
+        const saved = localStorage.getItem(this.langKey) as LanguageCode;
+        if (saved === 'tr' || saved === 'en' || saved === 'de') {
+          savedLang = saved;
+        } else {
+          savedLang = this.detectBrowserLanguage();
+        }
+      } else {
+        savedLang = this.detectBrowserLanguage();
       }
     }
     this.currentLangSubject = new BehaviorSubject<LanguageCode>(savedLang);
     this.currentLang$ = this.currentLangSubject.asObservable();
     this.updateHtmlLang(savedLang);
+  }
+
+  private detectBrowserLanguage(): LanguageCode {
+    if (typeof navigator !== 'undefined' && navigator.language) {
+      const browserLang = navigator.language.toLowerCase();
+      if (browserLang.startsWith('tr')) {
+        return 'tr';
+      }
+      if (browserLang.startsWith('de')) {
+        return 'de';
+      }
+    }
+    return 'en';
   }
 
   public getLanguage(): LanguageCode {
