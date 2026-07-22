@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { DataService, Profile } from '../../../shared/services/data.service';
 import { CvStructuredData } from '../../../shared/models/profile.model';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LocalizationService } from '../../../shared/services/localization.service';
 
 @Component({
   selector: 'app-about',
@@ -73,13 +74,13 @@ export class AboutComponent implements OnInit {
   }
 
   get activeLanguage(): string {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('app_language') || 'tr';
-    }
-    return 'tr';
+    return this.localizationService.getLanguage();
   }
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private localizationService: LocalizationService
+  ) {}
 
   ngOnInit() {
     const current = this.activeLanguage;

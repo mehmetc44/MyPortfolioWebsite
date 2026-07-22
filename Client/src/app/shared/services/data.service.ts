@@ -5,6 +5,7 @@ import { Project, RawProject } from '../models/project.model';
 import { Article, RawArticle } from '../models/article.model';
 import { Skill } from '../models/skill.model';
 import { TechTag } from '../models/techtag.model';
+import { LocalizationService } from './localization.service';
 
 export type { Profile, RawProfile, ContactMessage } from '../models/profile.model';
 export type { Project, RawProject } from '../models/project.model';
@@ -45,13 +46,13 @@ export class DataService {
     return 'https://api.mehmetcakmak.online';
   }
 
-  constructor() {
+  constructor(private localizationService: LocalizationService) {
     this.loadDataFromServer();
   }
 
   public async loadDataFromServer(): Promise<void> {
     if (typeof window === 'undefined') return;
-    const lang = localStorage.getItem('app_language') || 'tr';
+    const lang = this.localizationService.getLanguage();
     try {
       const profRes = await fetch(`${this.apiBaseUrl}/api/profile?lang=${lang}`);
       if (profRes.ok) {
@@ -120,7 +121,7 @@ export class DataService {
     if (!dateStr) return '';
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) return dateStr; // fallback if parsing fails
-    const activeLang = typeof window !== 'undefined' ? (localStorage.getItem('app_language') || 'tr') : 'tr';
+    const activeLang = this.localizationService.getLanguage();
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long' };
     return date.toLocaleDateString(activeLang === 'en' ? 'en-US' : (activeLang === 'de' ? 'de-DE' : 'tr-TR'), options);
   }

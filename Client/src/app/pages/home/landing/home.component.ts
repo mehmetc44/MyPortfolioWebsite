@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { DataService, Profile, Skill, TechTag } from '../../../shared/services/data.service';
 import { ContactModalComponent } from '../../../components/home/contact-modal/contact-modal.component';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { LocalizationService } from '../../../shared/services/localization.service';
 
 interface DayCell {
   date: Date;
@@ -53,7 +54,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private subscription = new Subscription();
 
-  constructor(private dataService: DataService, private elRef: ElementRef) {}
+  constructor(
+    private dataService: DataService,
+    private elRef: ElementRef,
+    private localizationService: LocalizationService
+  ) {}
 
   async ngOnInit() {
     this.loadDashboardData();
@@ -176,7 +181,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
 
-      const activeLang = typeof window !== 'undefined' ? (localStorage.getItem('app_language') || 'tr') : 'tr';
+      const activeLang = this.localizationService.getLanguage();
       const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' };
       const formattedDate = currentDate.toLocaleDateString(activeLang === 'en' ? 'en-US' : (activeLang === 'de' ? 'de-DE' : 'tr-TR'), options);
       
@@ -252,7 +257,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     const articles = this.dataService.getArticles();
     const feed: ActivityFeedItem[] = [];
 
-    const activeLang = typeof window !== 'undefined' ? (localStorage.getItem('app_language') || 'tr') : 'tr';
+    const activeLang = this.localizationService.getLanguage();
 
     // 1. Process projects
     for (const proj of projects) {
