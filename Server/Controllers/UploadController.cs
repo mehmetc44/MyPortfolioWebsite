@@ -115,5 +115,24 @@ namespace Server.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+        // DELETE: api/upload?url=...
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFile([FromQuery] string url)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    return BadRequest(new { message = "url parametresi gereklidir." });
+                }
+                var deleted = await _fileService.DeleteFileAsync(url);
+                return Ok(new { success = deleted });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
+            }
+        }
     }
 }

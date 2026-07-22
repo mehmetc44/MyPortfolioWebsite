@@ -496,6 +496,19 @@ export class DataService {
     }
   }
 
+  async deleteBlogImage(url: string): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/upload?url=${encodeURIComponent(url)}`, {
+        method: 'DELETE',
+        headers: this.getAuthHeaders()
+      });
+      return res.ok;
+    } catch (e) {
+      console.error("Blog image deletion error", e);
+      return false;
+    }
+  }
+
   async uploadAvatar(file: File, oldUrl?: string): Promise<string | null> {
     try {
       const formData = new FormData();

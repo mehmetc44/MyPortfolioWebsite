@@ -77,8 +77,8 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
             const captionText = alt && alt.trim() && alt !== 'Görsel' ? alt.trim() : 'Görsel Açıklaması';
 
             return `<figure class="blog-inline-figure">
-  <div class="article-banner-wrapper blog-image-wrapper">
-    <img src="${src}" alt="${altAttr}" class="article-banner-image" />
+  <div class="blog-image-wrapper">
+    <img src="${src}" alt="${altAttr}" />
   </div>
   <figcaption>${captionText}</figcaption>
 </figure>`;

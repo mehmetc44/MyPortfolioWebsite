@@ -1816,16 +1816,13 @@ body.dark-theme .detail-text-body code {
 .detail-text-body .blog-image-wrapper {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border-color, rgba(0, 0, 0, 0.08));
     margin-bottom: 8px;
     box-shadow: 0 8px 24px rgba(11, 26, 48, 0.06);
     background: rgba(15, 23, 42, 0.04);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     box-sizing: border-box;
 }
 
@@ -1840,10 +1837,8 @@ body.dark-theme .detail-text-body .blog-image-wrapper {
 .detail-text-body .blog-image-wrapper img,
 .detail-text-body img {
     width: 100% !important;
-    height: 100% !important;
+    height: auto !important;
     max-width: 100% !important;
-    max-height: 100% !important;
-    object-fit: contain !important;
     display: block;
     margin: 0 auto;
     box-sizing: border-box !important;

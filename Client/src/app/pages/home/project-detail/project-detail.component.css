@@ -198,6 +198,22 @@
     box-shadow: 0 8px 24px rgba(11, 26, 48, 0.12);
 }
 
+.btn-source-large.disabled {
+    background: #cbd5e1 !important;
+    color: #64748b !important;
+    border-color: #cbd5e1 !important;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+body.dark-theme .btn-source-large.disabled {
+    background: #334155 !important;
+    color: #94a3b8 !important;
+    border-color: #334155 !important;
+}
+
 /* Responsiveness overrides */
 @media (max-width: 992px) {
     .project-detail-grid {

@@ -512,4 +512,41 @@ export class AdminBlogComponent implements OnInit {
     }
     return Array.from(urls);
   }
+
+  async deleteImage(imgUrl: string, event: Event) {
+    event.stopPropagation();
+    if (!imgUrl) return;
+
+    if (!confirm('Bu görseli içeriğinizden ve sunucudan kalıcı olarak silmek istediğinize emin misiniz?')) {
+      return;
+    }
+
+    this.isUploadingImage = true;
+    const ok = await this.dataService.deleteBlogImage(imgUrl);
+    this.isUploadingImage = false;
+
+    if (!ok) {
+      alert('Görsel sunucudan silinirken hata oluştu.');
+      return;
+    }
+
+    this.removeImageReferences(imgUrl);
+
+    if (this.artImageUrl === imgUrl) {
+      this.artImageUrl = 'assets/blog_placeholder.png';
+    }
+
+    alert('Görsel başarıyla silindi.');
+  }
+
+  removeImageReferences(imgUrl: string) {
+    const escapedUrl = imgUrl.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+    const mdRegex = new RegExp(`\\s*!\\[.*?\\]\\(${escapedUrl}\\)\\s*`, 'g');
+    const imgRegex = new RegExp(`\\s*<img\\s+[^>]*src=["']${escapedUrl}["'][^>]*>\\s*`, 'g');
+    const figRegex = new RegExp(`\\s*<figure\\s+[^>]*>\\s*(?:<div\\s+[^>]*>\\s*)?<img\\s+[^>]*src=["']${escapedUrl}["'][^>]*>\\s*(?:</div>\\s*)?(?:<figcaption>[\\s\\S]*?</figcaption>\\s*)?</figure>\\s*`, 'g');
+
+    this.artDetail_TR = this.artDetail_TR.replace(figRegex, '\n').replace(mdRegex, '\n').replace(imgRegex, '\n').trim();
+    this.artDetail_EN = this.artDetail_EN.replace(figRegex, '\n').replace(mdRegex, '\n').replace(imgRegex, '\n').trim();
+    this.artDetail_DE = this.artDetail_DE.replace(figRegex, '\n').replace(mdRegex, '\n').replace(imgRegex, '\n').trim();
+  }
 }
