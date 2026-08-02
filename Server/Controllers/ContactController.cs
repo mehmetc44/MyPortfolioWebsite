@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Server.Data;
 using Server.Models;
 using Server.Services;
@@ -12,12 +13,12 @@ namespace Server.Controllers
     public class ContactController : ControllerBase
     {
         private readonly AppDbContext _context;
-        private readonly IEmailService _emailService;
+        private readonly IServiceScopeFactory _scopeFactory;
 
-        public ContactController(AppDbContext context, IEmailService emailService)
+        public ContactController(AppDbContext context, IServiceScopeFactory scopeFactory)
         {
             _context = context;
-            _emailService = emailService;
+            _scopeFactory = scopeFactory;
         }
 
         // POST: api/contact
@@ -50,13 +51,17 @@ namespace Server.Controllers
 
             _ = Task.Run(async () =>
             {
-                try
+                using (var scope = _scopeFactory.CreateScope())
                 {
-                    await _emailService.SendEmailAsync(subject, body);
-                }
-                catch (Exception ex)
-                {
-                    // Email logging is handled inside EmailService
+                    var emailService = scope.ServiceProvider.GetRequiredService<IEmailService>();
+                    try
+                    {
+                        await emailService.SendEmailAsync(subject, body);
+                    }
+                    catch (Exception)
+                    {
+                        // Email logging is handled inside EmailService
+                    }
                 }
             });
 

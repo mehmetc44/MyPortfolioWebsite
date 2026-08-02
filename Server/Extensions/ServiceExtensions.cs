@@ -17,9 +17,21 @@ namespace Server.Extensions
     {
         public static void LoadEnvironmentVariablesAndEnsureFolders()
         {
-            // Load environment variables from .env
-            var envPath = Path.Combine(Directory.GetCurrentDirectory(), "../.env");
-            if (File.Exists(envPath))
+            // Load environment variables from .env (recursively look up directories starting from current)
+            var dir = new DirectoryInfo(Directory.GetCurrentDirectory());
+            string? envPath = null;
+            while (dir != null)
+            {
+                var testPath = Path.Combine(dir.FullName, ".env");
+                if (File.Exists(testPath))
+                {
+                    envPath = testPath;
+                    break;
+                }
+                dir = dir.Parent;
+            }
+
+            if (envPath != null && File.Exists(envPath))
             {
                 foreach (var line in File.ReadAllLines(envPath))
                 {

@@ -109,18 +109,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     try {
-      // 1. Fetch real 365-day GitHub contribution calendar
-      const res = await fetch(`https://github-contributions-api.deno.dev/${username}.json?t=${new Date().getTime()}`);
+      // 1. Fetch real 365-day GitHub contribution calendar using jogruber API
+      const res = await fetch(`https://github-contributions-api.jogruber.de/v4/${username}`);
       if (res.ok) {
         const data = await res.json();
         if (data && data.contributions && Array.isArray(data.contributions)) {
-          for (const week of data.contributions) {
-            if (Array.isArray(week)) {
-              for (const day of week) {
-                if (day && day.date) {
-                  contributionMap[day.date] = day.contributionCount || 0;
-                }
-              }
+          for (const day of data.contributions) {
+            if (day && day.date) {
+              contributionMap[day.date] = day.count || 0;
             }
           }
         }
