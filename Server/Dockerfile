@@ -22,6 +22,7 @@ EXPOSE 8080
 # Default environment variables
 ENV ASPNETCORE_URLS=http://0.0.0.0:8080
 ENV ASPNETCORE_ENVIRONMENT=Production
+ENV DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE=false
 
 # Copy published application
 COPY --from=publish /app/publish .

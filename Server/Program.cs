@@ -8,6 +8,9 @@ using Server.Extensions;
 // 1. Initialize environment variables and verify/create directories
 ServiceExtensions.LoadEnvironmentVariablesAndEnsureFolders();
 
+// Prevent inotify limit issues in containerized environments (like Docker/Render/Kubernetes)
+System.Environment.SetEnvironmentVariable("DOTNET_HOSTBUILDER__RELOADCONFIGONCHANGE", "false");
+
 var builder = WebApplication.CreateBuilder(args);
 
 // 2. Add services (DbContext, custom services, CORS, Health Checks)
