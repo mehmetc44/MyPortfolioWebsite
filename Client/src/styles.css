@@ -2870,74 +2870,64 @@ body.dark-theme .architecture-content {
    MARKDOWN TABLE & PREMIUM CODE BLOCK CUSTOM WRAPPER STYLES
    ========================================================================== */
 
-/* 1. Markdown Table Styling (Medium-style) */
+/* 1. Markdown Table Styling (Premium Minimalist Style) */
 .detail-text-body table,
 .markdown-preview-pane table {
     width: 100%;
     border-collapse: collapse;
-    margin: 2rem 0;
-    overflow: hidden;
-    border-radius: 12px;
-    border: 1px solid var(--border-color, #e2e8f0);
+    margin: 2.5rem 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    text-align: left;
 }
 
 .detail-text-body th,
 .markdown-preview-pane th {
-    background: #f8fafc;
-    padding: 14px;
-    text-align: left;
+    padding: 14px 16px;
     font-weight: 700;
-    color: var(--accent-navy, #0f172a);
+    color: var(--accent-navy, #0b1a30);
     border-bottom: 2px solid var(--border-color, #e2e8f0);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    background: transparent !important;
 }
 
 .detail-text-body td,
 .markdown-preview-pane td {
-    padding: 14px;
-    border-top: 1px solid var(--border-color, #e2e8f0);
-    color: var(--text-primary, #334155);
+    padding: 16px;
+    border-bottom: 1px solid rgba(11, 26, 48, 0.06);
+    color: var(--text-primary, #0f172a);
+    background: transparent !important;
+    transition: background-color 0.2s ease;
 }
 
-/* Zebra Striping */
-.detail-text-body tbody tr:nth-child(even),
-.markdown-preview-pane tbody tr:nth-child(even) {
-    background: rgba(15, 23, 42, 0.02);
-}
-
-/* Hover Effect */
-.detail-text-body tbody tr:hover,
-.markdown-preview-pane tbody tr:hover {
-    background: rgba(15, 23, 42, 0.04);
+/* Hover effect on rows */
+.detail-text-body tbody tr:hover td,
+.markdown-preview-pane tbody tr:hover td {
+    background-color: rgba(11, 26, 48, 0.02) !important;
 }
 
 /* Dark Theme Overrides for Tables */
-body.dark-theme .detail-text-body table,
-body.dark-theme .markdown-preview-pane table {
-    border-color: rgba(255, 255, 255, 0.1);
-}
-
 body.dark-theme .detail-text-body th,
 body.dark-theme .markdown-preview-pane th {
-    background: #1e293b;
-    color: #f1f5f9;
-    border-bottom-color: rgba(255, 255, 255, 0.1);
+    color: #f8fafc !important;
+    border-bottom-color: rgba(255, 255, 255, 0.15);
+    background: transparent !important;
 }
 
 body.dark-theme .detail-text-body td,
 body.dark-theme .markdown-preview-pane td {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
     color: #cbd5e1;
-    border-top-color: rgba(255, 255, 255, 0.1);
+    background: transparent !important;
 }
 
-body.dark-theme .detail-text-body tbody tr:nth-child(even),
-body.dark-theme .markdown-preview-pane tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.03);
+body.dark-theme .detail-text-body tbody tr:hover td,
+body.dark-theme .markdown-preview-pane tbody tr:hover td {
+    background-color: rgba(255, 255, 255, 0.03) !important;
 }
 
-body.dark-theme .detail-text-body tbody tr:hover,
-body.dark-theme .markdown-preview-pane tbody tr:hover {
-    background: rgba(255, 255, 255, 0.06);
-}
 
 
 /* 2. Premium Code Blocks with Header & Copy Button */
