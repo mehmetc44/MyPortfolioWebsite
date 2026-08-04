@@ -8,6 +8,7 @@ export interface Article {
   excerpt: string;
   imageUrl: string;
   detailText: string;
+  isDraft?: boolean;
 }
 
 export interface RawArticle {
@@ -29,4 +30,5 @@ export interface RawArticle {
   detailText_EN: string;
   detailText_DE: string;
   orderIndex?: number;
+  isDraft?: boolean;
 }

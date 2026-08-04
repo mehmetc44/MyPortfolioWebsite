@@ -1,12 +1,22 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewEncapsulation, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { marked } from 'marked';
 import { Subscription } from 'rxjs';
 import { DataService, Article, sanitizeImageUrl } from '../../../shared/services/data.service';
 import { LocalizationService } from '../../../shared/services/localization.service';
 import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
+import { parseMarkdownToHtml } from '../../../shared/helpers/markdown-parser.helper';
+import mermaid from 'mermaid';
+import * as Prism from 'prismjs';
+
+// Import Prism languages that might be used
+import 'prismjs/components/prism-csharp';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-css';
 
 @Component({
   selector: 'app-blog-detail',
@@ -19,6 +29,7 @@ import { TranslatePipe } from '../../../shared/pipes/translate.pipe';
 export class BlogDetailComponent implements OnInit, OnDestroy {
   article?: Article;
   sanitizedDetailText?: SafeHtml;
+  zoomedImageUrl: string | null = null;
 
   private subscription = new Subscription();
 
@@ -60,7 +71,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
         this.article = found;
         try {
           const detailText = this.resolveDetailImages(found.detailText || '');
-          let parsedHtml = marked.parse(detailText, { async: false }) as string;
+          let parsedHtml = parseMarkdownToHtml(detailText);
 
           parsedHtml = parsedHtml.replace(/(?:<p>)?\s*(<img\s+[^>]*?>)\s*(?:<\/p>)?/gi, (fullMatch, imgTag) => {
             if (fullMatch.includes('blog-image-wrapper') || imgTag.includes('blog-image-wrapper')) {
@@ -78,7 +89,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
             return `<figure class="blog-inline-figure">
   <div class="blog-image-wrapper">
-    <img src="${src}" alt="${altAttr}" />
+    <img src="${src}" alt="${altAttr}" style="cursor: zoom-in;" />
   </div>
   <figcaption>${captionText}</figcaption>
 </figure>`;
@@ -86,11 +97,77 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
 
           parsedHtml = parsedHtml.replace(/<p>\s*(<figure[\s\S]*?<\/figure>)\s*<\/p>/gi, '$1');
           this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(parsedHtml);
+          
+          this.initializePlugins();
         } catch (_) {
           this.sanitizedDetailText = this.sanitizer.bypassSecurityTrustHtml(found.detailText || '');
         }
       } else {
         this.router.navigate(['/blog']);
+      }
+    }
+  }
+
+  initializePlugins() {
+    setTimeout(() => {
+      // 1. Prism Syntax Highlighting
+      Prism.highlightAll();
+
+      // 2. Mermaid initialization & rendering
+      try {
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: 'neutral',
+          securityLevel: 'loose'
+        });
+        mermaid.run({
+          nodes: document.querySelectorAll('.mermaid')
+        });
+      } catch (err) {
+        console.warn("Mermaid initialization failed:", err);
+      }
+    }, 100);
+  }
+
+  closeZoom() {
+    this.zoomedImageUrl = null;
+  }
+
+  @HostListener('click', ['$event'])
+  onContentClick(event: Event) {
+    const target = event.target as HTMLElement;
+
+    // 1. Image Zoom click handler
+    if (target.tagName === 'IMG' && target.closest('.detail-text-body')) {
+      const img = target as HTMLImageElement;
+      this.zoomedImageUrl = img.src;
+      event.preventDefault();
+      return;
+    }
+
+    // 2. Custom Tabs header switch click handler
+    if (target.classList.contains('tab-button')) {
+      const tabGroup = target.closest('.custom-tabs-container');
+      if (tabGroup) {
+        const buttons = tabGroup.querySelectorAll('.tab-button');
+        const panels = tabGroup.querySelectorAll('.tab-panel');
+        const index = Array.from(buttons).indexOf(target);
+        
+        buttons.forEach((btn, idx) => {
+          if (idx === index) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+        
+        panels.forEach((panel, idx) => {
+          if (idx === index) {
+            panel.classList.add('active');
+          } else {
+            panel.classList.remove('active');
+          }
+        });
       }
     }
   }

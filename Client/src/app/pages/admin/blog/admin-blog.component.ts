@@ -4,6 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { marked } from 'marked';
 import { DataService, RawArticle } from '../../../shared/services/data.service';
+import { parseMarkdownToHtml } from '../../../shared/helpers/markdown-parser.helper';
+import mermaid from 'mermaid';
+import * as Prism from 'prismjs';
+
+// Import Prism languages
+import 'prismjs/components/prism-csharp';
+import 'prismjs/components/prism-typescript';
+import 'prismjs/components/prism-javascript';
+import 'prismjs/components/prism-json';
+import 'prismjs/components/prism-bash';
+import 'prismjs/components/prism-css';
 
 @Component({
   selector: 'app-admin-blog',
@@ -49,6 +60,7 @@ export class AdminBlogComponent implements OnInit {
   artDetail_TR = '';
   artDetail_EN = '';
   artDetail_DE = '';
+  artIsDraft = false;
 
   constructor(private dataService: DataService, private sanitizer: DomSanitizer) {}
 
@@ -118,6 +130,7 @@ export class AdminBlogComponent implements OnInit {
     this.artDetail_TR = '';
     this.artDetail_EN = '';
     this.artDetail_DE = '';
+    this.artIsDraft = false;
     this.isEditing = true;
   }
 
@@ -147,6 +160,7 @@ export class AdminBlogComponent implements OnInit {
     this.artDetail_TR = art.detailText_TR;
     this.artDetail_EN = art.detailText_EN;
     this.artDetail_DE = art.detailText_DE;
+    this.artIsDraft = art.isDraft || false;
     this.isEditing = true;
   }
 
@@ -309,7 +323,7 @@ export class AdminBlogComponent implements OnInit {
   getParsedMarkdown(markdownText: string): SafeHtml {
     if (!markdownText) return '';
     try {
-      let parsedHtml = marked.parse(markdownText, { async: false }) as string;
+      let parsedHtml = parseMarkdownToHtml(markdownText);
 
       parsedHtml = parsedHtml.replace(/(?:<p>)?\s*(<img\s+[^>]*?>)\s*(?:<\/p>)?/gi, (fullMatch, imgTag) => {
         if (fullMatch.includes('blog-image-wrapper') || imgTag.includes('blog-image-wrapper')) {
@@ -338,6 +352,35 @@ export class AdminBlogComponent implements OnInit {
     } catch (_) {
       return markdownText;
     }
+  }
+
+  setEditorTab(lang: 'tr' | 'en' | 'de', tab: 'write' | 'preview') {
+    if (lang === 'tr') this.activeEditorTab_TR = tab;
+    else if (lang === 'en') this.activeEditorTab_EN = tab;
+    else if (lang === 'de') this.activeEditorTab_DE = tab;
+
+    if (tab === 'preview') {
+      this.initializePlugins();
+    }
+  }
+
+  initializePlugins() {
+    setTimeout(() => {
+      Prism.highlightAll();
+      try {
+        const isDarkMode = document.body.classList.contains('dark-theme');
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: isDarkMode ? 'dark' : 'neutral',
+          securityLevel: 'loose'
+        });
+        mermaid.run({
+          nodes: document.querySelectorAll('.markdown-preview-pane .mermaid')
+        });
+      } catch (err) {
+        console.warn("Mermaid initialization failed in admin preview:", err);
+      }
+    }, 100);
   }
 
   slugify(text: string): string {
@@ -377,7 +420,8 @@ export class AdminBlogComponent implements OnInit {
       imageUrl: this.artImageUrl || 'assets/blog_placeholder.png',
       detailText_TR: this.artDetail_TR,
       detailText_EN: this.artDetail_EN || this.artDetail_TR,
-      detailText_DE: this.artDetail_DE || this.artDetail_TR
+      detailText_DE: this.artDetail_DE || this.artDetail_TR,
+      isDraft: this.artIsDraft
     };
 
     const isNew = this.editingArticleIdx === -1;

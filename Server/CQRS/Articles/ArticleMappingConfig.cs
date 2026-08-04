@@ -12,6 +12,7 @@ namespace Server.CQRS.Articles
             dto.SubTag = lang == "en" ? a.SubTag_EN : (lang == "de" ? a.SubTag_DE : a.SubTag_TR);
             dto.Excerpt = lang == "en" ? a.Excerpt_EN : (lang == "de" ? a.Excerpt_DE : a.Excerpt_TR);
             dto.DetailText = lang == "en" ? a.DetailText_EN : (lang == "de" ? a.DetailText_DE : a.DetailText_TR);
+            dto.IsDraft = a.IsDraft;
             return dto;
         }
     }

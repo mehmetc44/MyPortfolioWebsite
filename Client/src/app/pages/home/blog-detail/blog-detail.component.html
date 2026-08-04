@@ -20,7 +20,7 @@
             </div>
 
             <!-- Main Text Body (Single-column typography) -->
-            <div class="article-text-body" id="articleTextBody" [innerHTML]="sanitizedDetailText">
+            <div class="article-text-body detail-text-body" id="articleTextBody" [innerHTML]="sanitizedDetailText">
             </div>
 
             <hr class="pane-divider">
@@ -35,4 +35,12 @@
 
         </article>
     </main>
+</div>
+
+<!-- Zoom Overlay -->
+<div class="zoom-overlay" *ngIf="zoomedImageUrl" (click)="closeZoom()">
+    <div class="zoom-overlay-content">
+        <img [src]="zoomedImageUrl" class="zoomed-image" alt="Zoomed Image" />
+        <span class="zoom-close-btn">&times;</span>
+    </div>
 </div>

@@ -63,6 +63,7 @@ namespace Server.CQRS.Articles
             existing.DetailText_TR = updatedArticle.DetailText_TR;
             existing.DetailText_EN = updatedArticle.DetailText_EN;
             existing.DetailText_DE = updatedArticle.DetailText_DE;
+            existing.IsDraft = updatedArticle.IsDraft;
 
             var newImages = ExtractImageUrls(updatedArticle.DetailText_TR, updatedArticle.DetailText_EN, updatedArticle.DetailText_DE, updatedArticle.ImageUrl);
 

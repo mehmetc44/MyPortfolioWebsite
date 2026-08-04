@@ -11,5 +11,6 @@ namespace Server.CQRS.Articles
         public string Excerpt { get; set; } = "";
         public string? ImageUrl { get; set; }
         public string DetailText { get; set; } = "";
+        public bool IsDraft { get; set; } = false;
     }
 }

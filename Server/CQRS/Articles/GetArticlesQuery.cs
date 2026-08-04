@@ -30,7 +30,7 @@ namespace Server.CQRS.Articles
 
             if (!_cache.TryGetValue(cacheKey, out List<ArticleDto>? list))
             {
-                var dbList = await _context.Articles.OrderBy(a => a.OrderIndex).ToListAsync(cancellationToken);
+                var dbList = await _context.Articles.Where(a => !a.IsDraft).OrderBy(a => a.OrderIndex).ToListAsync(cancellationToken);
                 list = dbList.Select(a => a.MapToDto(lang)).ToList();
 
                 _cache.Set(cacheKey, list, TimeSpan.FromMinutes(30));

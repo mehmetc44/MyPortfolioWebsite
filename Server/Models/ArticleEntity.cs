@@ -20,5 +20,6 @@ namespace Server.Models
         public string DetailText_EN { get; set; } = "";
         public string DetailText_DE { get; set; } = "";
         public int OrderIndex { get; set; } = 0;
+        public bool IsDraft { get; set; } = false;
     }
 }
