@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -15,6 +15,9 @@ import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-sql';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-markup';
 
 @Component({
   selector: 'app-admin-blog',
@@ -381,6 +384,36 @@ export class AdminBlogComponent implements OnInit {
         console.warn("Mermaid initialization failed in admin preview:", err);
       }
     }, 100);
+  }
+
+  @HostListener('click', ['$event'])
+  onContentClick(event: Event) {
+    const target = event.target as HTMLElement;
+
+    // Copy Code Button click handler
+    const copyBtn = target.closest('.blog-code-copy-btn');
+    if (copyBtn) {
+      const codeWrapper = copyBtn.closest('.blog-code-wrapper');
+      const codeEl = codeWrapper?.querySelector('pre code');
+      if (codeEl) {
+        const textToCopy = codeEl.textContent || '';
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const textSpan = copyBtn.querySelector('span');
+          if (textSpan) {
+            textSpan.textContent = 'Copied!';
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+              textSpan.textContent = 'Copy';
+              copyBtn.classList.remove('copied');
+            }, 2000);
+          }
+        }).catch(err => {
+          console.error('Failed to copy code block content: ', err);
+        });
+      }
+      event.preventDefault();
+      return;
+    }
   }
 
   slugify(text: string): string {

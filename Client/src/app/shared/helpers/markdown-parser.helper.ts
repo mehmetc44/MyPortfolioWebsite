@@ -40,6 +40,7 @@ export function parseMarkdownToHtml(markdownText: string): string {
 
   // 5. Postprocess code blocks for Mermaid diagrams
   html = postprocessMermaid(html);
+  html = postprocessCodeBlocks(html);
 
   // 6. Restore Math placeholders
   for (let i = 0; i < mathPlaceholders.length; i++) {
@@ -195,4 +196,41 @@ function postprocessMermaid(html: string): string {
       .replace(/&#39;/g, "'");
     return `<div class="mermaid">${decoded}</div>`;
   });
+}
+
+function postprocessCodeBlocks(html: string): string {
+  // Regex to match code blocks with language: <pre><code class="language-xyz">...</code></pre>
+  const langRegex = /<pre><code class="language-([^"]+)">([\s\S]*?)<\/code><\/pre>/gi;
+  let processed = html.replace(langRegex, (match, lang, code) => {
+    if (lang === 'mermaid') return match;
+    const displayLang = lang.toUpperCase();
+    return `<div class="blog-code-wrapper">
+  <div class="blog-code-header">
+    <span class="blog-code-title">📄 ${displayLang}</span>
+    <button class="blog-code-copy-btn" type="button">
+      <svg class="blog-copy-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" style="margin-right: 4px; pointer-events: none;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" style="pointer-events: none;"></path></svg>
+      <span style="pointer-events: none;">Copy</span>
+    </button>
+  </div>
+  <pre><code class="language-${lang}">${code}</code></pre>
+</div>`;
+  });
+
+  // Regex to match code blocks without language: <pre><code>...</code></pre>
+  const noLangRegex = /<pre><code>([\s\S]*?)<\/code><\/pre>/gi;
+  processed = processed.replace(noLangRegex, (match, code) => {
+    if (code.includes('blog-code-header') || code.includes('blog-code-wrapper')) return match;
+    return `<div class="blog-code-wrapper">
+  <div class="blog-code-header">
+    <span class="blog-code-title">📄 CODE</span>
+    <button class="blog-code-copy-btn" type="button">
+      <svg class="blog-copy-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" style="margin-right: 4px; pointer-events: none;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" style="pointer-events: none;"></path></svg>
+      <span style="pointer-events: none;">Copy</span>
+    </button>
+  </div>
+  <pre><code>${code}</code></pre>
+</div>`;
+  });
+
+  return processed;
 }

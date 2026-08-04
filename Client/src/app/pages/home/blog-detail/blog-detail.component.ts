@@ -17,6 +17,9 @@ import 'prismjs/components/prism-javascript';
 import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-css';
+import 'prismjs/components/prism-sql';
+import 'prismjs/components/prism-python';
+import 'prismjs/components/prism-markup';
 
 @Component({
   selector: 'app-blog-detail',
@@ -169,6 +172,31 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
           }
         });
       }
+    }
+
+    // 3. Copy Code Button click handler
+    const copyBtn = target.closest('.blog-code-copy-btn');
+    if (copyBtn) {
+      const codeWrapper = copyBtn.closest('.blog-code-wrapper');
+      const codeEl = codeWrapper?.querySelector('pre code');
+      if (codeEl) {
+        const textToCopy = codeEl.textContent || '';
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const textSpan = copyBtn.querySelector('span');
+          if (textSpan) {
+            textSpan.textContent = 'Copied!';
+            copyBtn.classList.add('copied');
+            setTimeout(() => {
+              textSpan.textContent = 'Copy';
+              copyBtn.classList.remove('copied');
+            }, 2000);
+          }
+        }).catch(err => {
+          console.error('Failed to copy code block content: ', err);
+        });
+      }
+      event.preventDefault();
+      return;
     }
   }
 

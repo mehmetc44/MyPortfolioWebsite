@@ -1,5 +1,274 @@
 @import "katex/dist/katex.min.css";
-@import "prismjs/themes/prism-okaidia.css";
+/* VS Code Dark Plus Theme for PrismJS */
+pre[class*="language-"],
+code[class*="language-"] {
+	color: #d4d4d4;
+	font-size: 13px;
+	text-shadow: none;
+	font-family: Menlo, Monaco, Consolas, "Andale Mono", "Ubuntu Mono", "Courier New", monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*="language-"]::selection,
+code[class*="language-"]::selection,
+pre[class*="language-"] *::selection,
+code[class*="language-"] *::selection {
+	text-shadow: none;
+	background: #264F78;
+}
+
+@media print {
+	pre[class*="language-"],
+	code[class*="language-"] {
+		text-shadow: none;
+	}
+}
+
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	background: #1e1e1e;
+}
+
+:not(pre) > code[class*="language-"] {
+	padding: .1em .3em;
+	border-radius: .3em;
+	color: #db4c69;
+	background: #1e1e1e;
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.doctype .token.doctype-tag {
+	color: #569CD6;
+}
+
+.token.doctype .token.name {
+	color: #9cdcfe;
+}
+
+.token.comment,
+.token.prolog {
+	color: #6a9955;
+}
+
+.token.punctuation,
+.language-html .language-css .token.punctuation,
+.language-html .language-javascript .token.punctuation {
+	color: #d4d4d4;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.inserted,
+.token.unit {
+	color: #b5cea8;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.deleted {
+	color: #ce9178;
+}
+
+.language-css .token.string.url {
+	text-decoration: underline;
+}
+
+.token.operator,
+.token.entity {
+	color: #d4d4d4;
+}
+
+.token.operator.arrow {
+	color: #569CD6;
+}
+
+.token.atrule {
+	color: #ce9178;
+}
+
+.token.atrule .token.rule {
+	color: #c586c0;
+}
+
+.token.atrule .token.url {
+	color: #9cdcfe;
+}
+
+.token.atrule .token.url .token.function {
+	color: #dcdcaa;
+}
+
+.token.atrule .token.url .token.punctuation {
+	color: #d4d4d4;
+}
+
+.token.keyword {
+	color: #569CD6;
+}
+
+.token.keyword.module,
+.token.keyword.control-flow {
+	color: #c586c0;
+}
+
+.token.function,
+.token.function .token.maybe-class-name {
+	color: #dcdcaa;
+}
+
+.token.regex {
+	color: #d16969;
+}
+
+.token.important {
+	color: #569cd6;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.token.constant {
+	color: #9cdcfe;
+}
+
+.token.class-name,
+.token.maybe-class-name {
+	color: #4ec9b0;
+}
+
+.token.console {
+	color: #9cdcfe;
+}
+
+.token.parameter {
+	color: #9cdcfe;
+}
+
+.token.interpolation {
+	color: #9cdcfe;
+}
+
+.token.punctuation.interpolation-punctuation {
+	color: #569cd6;
+}
+
+.token.boolean {
+	color: #569cd6;
+}
+
+.token.property,
+.token.variable,
+.token.imports .token.maybe-class-name,
+.token.exports .token.maybe-class-name {
+	color: #9cdcfe;
+}
+
+.token.selector {
+	color: #d7ba7d;
+}
+
+.token.escape {
+	color: #d7ba7d;
+}
+
+.token.tag {
+	color: #569cd6;
+}
+
+.token.tag .token.punctuation {
+	color: #808080;
+}
+
+.token.cdata {
+	color: #808080;
+}
+
+.token.attr-name {
+	color: #9cdcfe;
+}
+
+.token.attr-value,
+.token.attr-value .token.punctuation {
+	color: #ce9178;
+}
+
+.token.attr-value .token.punctuation.attr-equals {
+	color: #d4d4d4;
+}
+
+.token.entity {
+	color: #569cd6;
+}
+
+.token.namespace {
+	color: #4ec9b0;
+}
+
+pre[class*="language-javascript"],
+code[class*="language-javascript"],
+pre[class*="language-jsx"],
+code[class*="language-jsx"],
+pre[class*="language-typescript"],
+code[class*="language-typescript"],
+pre[class*="language-tsx"],
+code[class*="language-tsx"] {
+	color: #9cdcfe;
+}
+
+pre[class*="language-css"],
+code[class*="language-css"] {
+	color: #ce9178;
+}
+
+pre[class*="language-html"],
+code[class*="language-html"] {
+	color: #d4d4d4;
+}
+
+.language-regex .token.anchor {
+	color: #dcdcaa;
+}
+
+.language-html .token.punctuation {
+	color: #808080;
+}
+
+pre[class*="language-"] > code[class*="language-"] {
+	position: relative;
+	z-index: 1;
+}
+
+.line-highlight.line-highlight {
+	background: #f7ebc6;
+	box-shadow: inset 5px 0 0 #f7d87c;
+	z-index: 0;
+}
+
 
 /* ==========================================================================
    THEME STYLESHEET (Design System Foundation & Global Configurations)
@@ -2595,4 +2864,184 @@ body.dark-theme .architecture-content {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 8px 0;
+}
+
+/* ==========================================================================
+   MARKDOWN TABLE & PREMIUM CODE BLOCK CUSTOM WRAPPER STYLES
+   ========================================================================== */
+
+/* 1. Markdown Table Styling (Medium-style) */
+.detail-text-body table,
+.markdown-preview-pane table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 2rem 0;
+    overflow: hidden;
+    border-radius: 12px;
+    border: 1px solid var(--border-color, #e2e8f0);
+}
+
+.detail-text-body th,
+.markdown-preview-pane th {
+    background: #f8fafc;
+    padding: 14px;
+    text-align: left;
+    font-weight: 700;
+    color: var(--accent-navy, #0f172a);
+    border-bottom: 2px solid var(--border-color, #e2e8f0);
+}
+
+.detail-text-body td,
+.markdown-preview-pane td {
+    padding: 14px;
+    border-top: 1px solid var(--border-color, #e2e8f0);
+    color: var(--text-primary, #334155);
+}
+
+/* Zebra Striping */
+.detail-text-body tbody tr:nth-child(even),
+.markdown-preview-pane tbody tr:nth-child(even) {
+    background: rgba(15, 23, 42, 0.02);
+}
+
+/* Hover Effect */
+.detail-text-body tbody tr:hover,
+.markdown-preview-pane tbody tr:hover {
+    background: rgba(15, 23, 42, 0.04);
+}
+
+/* Dark Theme Overrides for Tables */
+body.dark-theme .detail-text-body table,
+body.dark-theme .markdown-preview-pane table {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .detail-text-body th,
+body.dark-theme .markdown-preview-pane th {
+    background: #1e293b;
+    color: #f1f5f9;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .detail-text-body td,
+body.dark-theme .markdown-preview-pane td {
+    color: #cbd5e1;
+    border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-theme .detail-text-body tbody tr:nth-child(even),
+body.dark-theme .markdown-preview-pane tbody tr:nth-child(even) {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+body.dark-theme .detail-text-body tbody tr:hover,
+body.dark-theme .markdown-preview-pane tbody tr:hover {
+    background: rgba(255, 255, 255, 0.06);
+}
+
+
+/* 2. Premium Code Blocks with Header & Copy Button */
+.blog-code-wrapper {
+    position: relative;
+    margin: 28px 0;
+    border-radius: 12px;
+    background: #1e1e1e !important; /* VS Code style dark background */
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+}
+
+.blog-code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #181818 !important; /* Darker header */
+    padding: 10px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    user-select: none;
+}
+
+.blog-code-title {
+    font-family: var(--font-code), 'Fira Code', monospace;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #858d9c;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+}
+
+.blog-code-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    color: #a6acb9;
+    padding: 6px 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blog-code-copy-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.blog-code-copy-btn.copied {
+    background: rgba(34, 197, 94, 0.15) !important;
+    color: #4ade80 !important;
+    border-color: rgba(74, 222, 128, 0.4) !important;
+}
+
+/* Specific resets for pre inside the custom wrapper */
+.detail-text-body .blog-code-wrapper pre,
+.markdown-preview-pane .blog-code-wrapper pre,
+.wysiwyg-editor .blog-code-wrapper pre,
+.article-text-body .blog-code-wrapper pre {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 20px 24px !important;
+    overflow-x: auto !important;
+    white-space: pre !important;
+    word-break: normal !important;
+    box-shadow: none !important;
+}
+
+.detail-text-body .blog-code-wrapper pre code,
+.markdown-preview-pane .blog-code-wrapper pre code,
+.wysiwyg-editor .blog-code-wrapper pre code,
+.article-text-body .blog-code-wrapper pre code {
+    background: transparent !important;
+    color: #d4d4d4 !important; /* VS Code dark default text color */
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    font-family: var(--font-code), 'Fira Code', monospace !important;
+    font-size: 0.88rem !important;
+    line-height: 1.6 !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 600px) {
+    .blog-code-header {
+        padding: 8px 14px;
+    }
+    .blog-code-title {
+        font-size: 0.72rem;
+    }
+    .blog-code-copy-btn {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+    .detail-text-body .blog-code-wrapper pre,
+    .markdown-preview-pane .blog-code-wrapper pre,
+    .wysiwyg-editor .blog-code-wrapper pre,
+    .article-text-body .blog-code-wrapper pre {
+        padding: 16px 18px !important;
+    }
 }
