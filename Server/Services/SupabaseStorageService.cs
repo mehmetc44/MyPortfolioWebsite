@@ -95,6 +95,7 @@ namespace Server.Services
             {
                 var errBody = await response.Content.ReadAsStringAsync();
                 Console.Error.WriteLine($"[SupabaseStorage] Upload HTTP {response.StatusCode}: {errBody}");
+                throw new Exception($"Supabase storage upload failed: {response.StatusCode} - {errBody}");
             }
 
             return GetPublicUrl(objectPath);

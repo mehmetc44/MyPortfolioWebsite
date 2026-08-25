@@ -194,7 +194,9 @@ export class AdminCvComponent implements OnInit {
       if (lang === 'tr') this.profile.cvPdfUrl_TR = uploadedUrl;
       else if (lang === 'en') this.profile.cvPdfUrl_EN = uploadedUrl;
       else if (lang === 'de') this.profile.cvPdfUrl_DE = uploadedUrl;
-      alert(`PDF başarıyla yüklendi: ${uploadedUrl}`);
+      
+      // Auto-save the CV profile to ensure the database is updated with the new PDF URL
+      await this.saveCv();
     } else {
       alert('PDF dosyası yüklenirken bir hata oluştu.');
     }

@@ -180,12 +180,12 @@ namespace Server.Services
             else
             {
                 bool modified = false;
-                if (string.IsNullOrEmpty(profile.AvatarUrl) || profile.AvatarUrl.StartsWith("storage/"))
+                if (string.IsNullOrEmpty(profile.AvatarUrl))
                 {
                     profile.AvatarUrl = $"{SupabaseCdnBase}/avatar/avatar.webp";
                     modified = true;
                 }
-                if (string.IsNullOrEmpty(profile.CvPdfUrl_TR) || profile.CvPdfUrl_TR.StartsWith("storage/"))
+                if (string.IsNullOrEmpty(profile.CvPdfUrl_TR))
                 {
                     profile.CvPdfUrl_TR = $"{SupabaseCdnBase}/cv/mehmet-cv-v2.pdf";
                     profile.CvPdfUrl_EN = $"{SupabaseCdnBase}/cv/mehmet-cv-v2.pdf";

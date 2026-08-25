@@ -25,7 +25,20 @@ export class ContactModalComponent {
 
   get cvPath(): string {
     const lang = this.localizationService.getLanguage();
-    return `assets/cv_${lang}.pdf`;
+    const profile = this.dataService.getProfile();
+    if (!profile) return `assets/cv_${lang}.pdf`;
+
+    let path = '';
+    if (lang === 'tr') path = profile.cvPdfUrl_TR || '';
+    else if (lang === 'en') path = profile.cvPdfUrl_EN || '';
+    else if (lang === 'de') path = profile.cvPdfUrl_DE || '';
+
+    if (!path) return `assets/cv_${lang}.pdf`;
+
+    if (path.startsWith('http') || path.startsWith('assets/')) {
+      return path;
+    }
+    return `${this.dataService.apiBaseUrl}/${path}`;
   }
 
   isSubmitting = false;
