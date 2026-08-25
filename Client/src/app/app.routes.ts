@@ -24,10 +24,20 @@ export const routes: Routes = [
     ]
   },
   {
+    path: 'admin',
+    canActivate: [() => {
+      if (typeof window !== 'undefined') {
+        window.location.href = 'https://www.egm.gov.tr';
+      }
+      return false;
+    }],
+    component: HomeComponent
+  },
+  {
     path: '',
     component: AdminLayoutComponent,
     children: [
-      { path: 'admin', component: AdminComponent },
+      { path: 'cakmak-station', component: AdminComponent },
       { path: 'reset-password', component: ResetPasswordComponent }
     ]
   },

@@ -64,7 +64,7 @@ export class ResetPasswordComponent implements OnInit {
     if (success) {
       this.successMessage = 'Şifreniz başarıyla güncellendi! Giriş sayfasına yönlendiriliyorsunuz...';
       setTimeout(() => {
-        this.router.navigate(['/admin']);
+        this.router.navigate(['/cakmak-station']);
       }, 3000);
     } else {
       this.errorMessage = 'Şifre sıfırlama başarısız oldu. Anahtarın süresi dolmuş veya geçersiz olabilir.';
