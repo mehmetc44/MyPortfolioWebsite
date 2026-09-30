@@ -50,7 +50,13 @@ export class AdminBlogComponent implements OnInit {
   artTitle_TR = '';
   artTitle_EN = '';
   artTitle_DE = '';
-  artCategory = 'architecture';
+  artCategory = '';
+  artCategory_EN = '';
+  artCategory_DE = '';
+  isCustomCategory = false;
+  customCategoryInput = '';
+  customCategoryInput_EN = '';
+  customCategoryInput_DE = '';
   artDate = '';
   artReadTime = '';
   artSubTag_TR = '';
@@ -121,7 +127,13 @@ export class AdminBlogComponent implements OnInit {
     this.artTitle_TR = '';
     this.artTitle_EN = '';
     this.artTitle_DE = '';
-    this.artCategory = 'architecture';
+    this.artCategory = '';
+    this.artCategory_EN = '';
+    this.artCategory_DE = '';
+    this.isCustomCategory = false;
+    this.customCategoryInput = '';
+    this.customCategoryInput_EN = '';
+    this.customCategoryInput_DE = '';
     this.artDate = new Date().toISOString().split('T')[0];
     this.artReadTime = '5 dk';
     this.artSubTag_TR = '';
@@ -151,7 +163,6 @@ export class AdminBlogComponent implements OnInit {
     this.artTitle_TR = art.title_TR;
     this.artTitle_EN = art.title_EN;
     this.artTitle_DE = art.title_DE;
-    this.artCategory = art.category;
     this.artDate = art.date;
     this.artReadTime = art.readTime;
     this.artSubTag_TR = art.subTag_TR;
@@ -164,6 +175,16 @@ export class AdminBlogComponent implements OnInit {
     this.artDetail_EN = art.detailText_EN;
     this.artDetail_DE = art.detailText_DE;
     this.artIsDraft = art.isDraft || false;
+
+    // Kategori: artCategory'yi set et, isCustomCategory false başlasın
+    this.artCategory = art.category || '';
+    this.artCategory_EN = art.category_EN || '';
+    this.artCategory_DE = art.category_DE || '';
+    this.isCustomCategory = false;
+    this.customCategoryInput = '';
+    this.customCategoryInput_EN = '';
+    this.customCategoryInput_DE = '';
+
     this.isEditing = true;
   }
 
@@ -425,11 +446,58 @@ export class AdminBlogComponent implements OnInit {
       .replace(/^-+|-+$/g, '');
   }
 
+  /** Mevcut makalelerden benzersiz kategori listesini döndürür */
+  getAvailableCategories(): string[] {
+    const cats = new Set<string>();
+    for (const art of this.articles) {
+      if (art.category && art.category.trim()) {
+        cats.add(art.category.trim());
+      }
+    }
+    return Array.from(cats).sort();
+  }
+
+  onCategorySelectChange(value: string) {
+    if (value === '__custom__') {
+      this.isCustomCategory = true;
+      this.artCategory = '__custom__';
+      this.customCategoryInput = '';
+      this.customCategoryInput_EN = '';
+      this.customCategoryInput_DE = '';
+    } else {
+      this.isCustomCategory = false;
+      this.customCategoryInput = '';
+      this.customCategoryInput_EN = '';
+      this.customCategoryInput_DE = '';
+      this.artCategory = value;
+      // Mevcut kategorinin çevirilerini bul
+      const match = this.articles.find(a => a.category === value);
+      if (match) {
+        this.artCategory_EN = match.category_EN || '';
+        this.artCategory_DE = match.category_DE || '';
+      } else {
+        this.artCategory_EN = '';
+        this.artCategory_DE = '';
+      }
+    }
+  }
+
   async saveArticle() {
     if (!this.artTitle_TR || !this.artDate) {
       alert('Lütfen başlık (TR) ve tarih alanlarını doldurun.');
       return;
     }
+
+    // Özel kategori girildiyse onu kullan
+    const finalCategory = this.isCustomCategory
+      ? (this.customCategoryInput || '').trim()
+      : this.artCategory.trim();
+    const finalCategory_EN = this.isCustomCategory
+      ? (this.customCategoryInput_EN || '').trim()
+      : (this.artCategory_EN || '').trim();
+    const finalCategory_DE = this.isCustomCategory
+      ? (this.customCategoryInput_DE || '').trim()
+      : (this.artCategory_DE || '').trim();
 
     let slug = this.artId ? this.artId.trim() : '';
     if (!slug) {
@@ -441,7 +509,9 @@ export class AdminBlogComponent implements OnInit {
       title_TR: this.artTitle_TR,
       title_EN: this.artTitle_EN || this.artTitle_TR,
       title_DE: this.artTitle_DE || this.artTitle_TR,
-      category: this.artCategory,
+      category: finalCategory,
+      category_EN: finalCategory_EN,
+      category_DE: finalCategory_DE,
       date: this.artDate,
       readTime: this.artReadTime || '5 dk',
       subTag_TR: this.artSubTag_TR,

@@ -135,16 +135,74 @@
             </div>
             <div class="form-group">
                 <label for="crudBlogCategory">Kategori</label>
-                <select id="crudBlogCategory" name="artCategory" [(ngModel)]="artCategory" class="admin-select" required>
-                    <option value="ai">Yapay Zekâ</option>
-                    <option value="backend">Backend</option>
-                    <option value="architecture">Yazılım Mimarisi</option>
-                    <option value="devops-cloud">DevOps &amp; Cloud</option>
-                    <option value="performance">Performans</option>
-                    <option value="web-dev">Web Geliştirme</option>
-                    <option value="software-eng">Yazılım Mühendisliği</option>
-                    <option value="other">Diğer</option>
+                <select id="crudBlogCategory"
+                        name="artCategory"
+                        [ngModel]="artCategory"
+                        (ngModelChange)="onCategorySelectChange($event)"
+                        class="admin-select">
+                    <option value="">— Kategori Yok —</option>
+                    <option *ngFor="let cat of getAvailableCategories()" [value]="cat">{{ cat }}</option>
+                    <option value="__custom__">✏️ Yeni Kategori Ekle...</option>
                 </select>
+                <!-- Yeni kategori metin girişi -->
+                <div *ngIf="isCustomCategory" style="margin-top: 10px; display: flex; flex-direction: column; gap: 8px; background: rgba(59,130,246,0.04); border: 1px solid rgba(59,130,246,0.15); border-radius: 12px; padding: 14px 16px;">
+                    <p style="margin: 0 0 6px 0; font-size: 0.8rem; font-weight: 700; color: var(--accent-navy); text-transform: uppercase; letter-spacing: 0.5px;">Yeni Kategori Çevirileri</p>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 140px;">
+                            <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; display: block;">🇹🇷 Türkçe *</label>
+                            <input type="text"
+                                   id="crudBlogCategoryCustomTR"
+                                   name="artCategoryCustomTR"
+                                   [(ngModel)]="customCategoryInput"
+                                   placeholder="Örn: Mikroservisler"
+                                   style="width: 100%; font-size: 0.88rem; padding: 8px 12px; border-radius: 8px; border: 2px solid var(--accent-navy, #1e3a5f); background: #fff; outline: none; box-sizing: border-box;"
+                                   autofocus>
+                        </div>
+                        <div style="flex: 1; min-width: 140px;">
+                            <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; display: block;">🇬🇧 English</label>
+                            <input type="text"
+                                   id="crudBlogCategoryCustomEN"
+                                   name="artCategoryCustomEN"
+                                   [(ngModel)]="customCategoryInput_EN"
+                                   placeholder="E.g. Microservices"
+                                   style="width: 100%; font-size: 0.88rem; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; outline: none; box-sizing: border-box;">
+                        </div>
+                        <div style="flex: 1; min-width: 140px;">
+                            <label style="font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); margin-bottom: 4px; display: block;">🇩🇪 Deutsch</label>
+                            <input type="text"
+                                   id="crudBlogCategoryCustomDE"
+                                   name="artCategoryCustomDE"
+                                   [(ngModel)]="customCategoryInput_DE"
+                                   placeholder="Z.B. Mikrodienste"
+                                   style="width: 100%; font-size: 0.88rem; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; outline: none; box-sizing: border-box;">
+                        </div>
+                    </div>
+                    <p style="margin: 4px 0 0 0; font-size: 0.75rem; color: var(--text-secondary);">
+                        💡 İngilizce ve Almanca boş bırakılırsa Türkçe değer kullanılır.
+                    </p>
+                </div>
+                <!-- Mevcut kategorinin çevirilerini düzenle -->
+                <div *ngIf="!isCustomCategory && artCategory" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; background: rgba(0,0,0,0.02); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 14px;">
+                    <p style="margin: 0 0 8px 0; width: 100%; font-size: 0.78rem; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">Bu Kategorinin Çevirileri (opsiyonel)</p>
+                    <div style="flex: 1; min-width: 140px;">
+                        <label style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 3px; display: block;">🇬🇧 English</label>
+                        <input type="text"
+                               id="crudBlogCategoryEN"
+                               name="artCategoryEN"
+                               [(ngModel)]="artCategory_EN"
+                               placeholder="English translation"
+                               style="width: 100%; font-size: 0.85rem; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; outline: none; box-sizing: border-box;">
+                    </div>
+                    <div style="flex: 1; min-width: 140px;">
+                        <label style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 3px; display: block;">🇩🇪 Deutsch</label>
+                        <input type="text"
+                               id="crudBlogCategoryDE"
+                               name="artCategoryDE"
+                               [(ngModel)]="artCategory_DE"
+                               placeholder="Deutsche Übersetzung"
+                               style="width: 100%; font-size: 0.85rem; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; outline: none; box-sizing: border-box;">
+                    </div>
+                </div>
             </div>
         </div>
 

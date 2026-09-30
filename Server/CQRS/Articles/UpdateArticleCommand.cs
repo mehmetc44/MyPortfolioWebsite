@@ -51,6 +51,8 @@ namespace Server.CQRS.Articles
             existing.Title_EN = updatedArticle.Title_EN;
             existing.Title_DE = updatedArticle.Title_DE;
             existing.Category = updatedArticle.Category;
+            existing.Category_EN = updatedArticle.Category_EN;
+            existing.Category_DE = updatedArticle.Category_DE;
             existing.Date = updatedArticle.Date;
             existing.ReadTime = updatedArticle.ReadTime;
             existing.SubTag_TR = updatedArticle.SubTag_TR;

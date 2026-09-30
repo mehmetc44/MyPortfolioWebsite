@@ -69,16 +69,19 @@ export class BlogComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCategoryLabel(category: string): string {
-    switch (category) {
-      case 'architecture': return this.localizationService.translate('CAT_ARCHITECTURE');
-      case 'ai': return this.localizationService.translate('CAT_AI');
-      case 'backend': return this.localizationService.translate('CAT_BACKEND');
-      case 'devops-cloud': return this.localizationService.translate('CAT_DEVOPS_CLOUD');
-      case 'performance': return this.localizationService.translate('CAT_PERFORMANCE');
-      case 'web-dev': return this.localizationService.translate('CAT_WEB_DEV_BLOG');
-      case 'software-eng': return this.localizationService.translate('CAT_SOFTWARE_ENG');
-      default: return this.localizationService.translate('CAT_OTHER');
+  /** Yayınlanan makalelerden benzersiz kategorileri döndürür */
+  getAvailableCategories(): string[] {
+    const cats = new Set<string>();
+    for (const art of this.articles) {
+      if (art.category && art.category.trim()) {
+        cats.add(art.category.trim());
+      }
     }
+    return Array.from(cats).sort();
+  }
+
+  getCategoryLabel(category: string): string {
+    if (!category || !category.trim()) return 'Genel';
+    return category;
   }
 }
