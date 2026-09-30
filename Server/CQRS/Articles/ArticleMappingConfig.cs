@@ -1,5 +1,6 @@
 using Mapster;
 using Server.Models;
+using System.Linq;
 
 namespace Server.CQRS.Articles
 {
@@ -12,12 +13,29 @@ namespace Server.CQRS.Articles
             dto.SubTag = lang == "en" ? a.SubTag_EN : (lang == "de" ? a.SubTag_DE : a.SubTag_TR);
             dto.Excerpt = lang == "en" ? a.Excerpt_EN : (lang == "de" ? a.Excerpt_DE : a.Excerpt_TR);
             dto.DetailText = lang == "en" ? a.DetailText_EN : (lang == "de" ? a.DetailText_DE : a.DetailText_TR);
-            // Kategori çevirisi: boşsa TR (birincil) kategori fallback olarak kullanılır
-            dto.Category = lang == "en"
-                ? (string.IsNullOrWhiteSpace(a.Category_EN) ? a.Category : a.Category_EN)
-                : lang == "de"
-                    ? (string.IsNullOrWhiteSpace(a.Category_DE) ? a.Category : a.Category_DE)
-                    : a.Category;
+
+            // Çoklu kategori: virgülle ayrılmış TR kategorilerini dil bazlı çeviri ile eşleştir
+            if (lang == "tr" || string.IsNullOrWhiteSpace(a.Category_TR))
+            {
+                dto.Category = a.Category_TR;
+            }
+            else
+            {
+                var trCats = a.Category_TR.Split(',').Select(c => c.Trim()).ToArray();
+                var translations = lang == "en"
+                    ? (a.Category_EN ?? "").Split(',').Select(c => c.Trim()).ToArray()
+                    : (a.Category_DE ?? "").Split(',').Select(c => c.Trim()).ToArray();
+
+                var validCats = new System.Collections.Generic.List<string>();
+                for (int i = 0; i < trCats.Length; i++)
+                {
+                    if (string.IsNullOrEmpty(trCats[i])) continue;
+                    var t = i < translations.Length ? translations[i] : "";
+                    validCats.Add(string.IsNullOrWhiteSpace(t) ? trCats[i] : t);
+                }
+                dto.Category = string.Join(",", validCats);
+            }
+
             dto.IsDraft = a.IsDraft;
             return dto;
         }

@@ -13,4 +13,11 @@ namespace Server.CQRS.Articles
         public string DetailText { get; set; } = "";
         public bool IsDraft { get; set; } = false;
     }
+
+    public class RenameCategoryDto
+    {
+        public string NewName { get; set; } = "";
+        public string NewName_EN { get; set; } = "";
+        public string NewName_DE { get; set; } = "";
+    }
 }

@@ -452,22 +452,34 @@ export class DataService {
     }
   }
 
-  async publishArticleToMedium(id: string, token?: string): Promise<{ success: boolean; url?: string; message?: string }> {
+  async deleteCategory(categoryName: string): Promise<boolean> {
     try {
-      let url = `${this.apiBaseUrl}/api/articles/${id}/publish-medium`;
-      if (token) {
-        url += `?token=${encodeURIComponent(token)}`;
-      }
-      const res = await fetch(url, {
-        method: 'POST',
+      const res = await fetch(`${this.apiBaseUrl}/api/articles/categories/${encodeURIComponent(categoryName)}`, {
+        method: 'DELETE',
         headers: this.getAuthHeaders()
       });
-      return await res.json();
-    } catch (e: any) {
-      console.error("Medium publish error", e);
-      return { success: false, message: e?.message || 'Sunucuya bağlanılamadı.' };
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
     }
   }
+
+  async renameCategory(oldName: string, newName: string, newNameEN: string, newNameDE: string): Promise<boolean> {
+    try {
+      const res = await fetch(`${this.apiBaseUrl}/api/articles/categories/${encodeURIComponent(oldName)}`, {
+        method: 'PUT',
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify({ newName, newName_EN: newNameEN, newName_DE: newNameDE })
+      });
+      return res.ok;
+    } catch(e) {
+      console.error(e);
+      return false;
+    }
+  }
+
+
 
   // File Upload Helper APIs (for Admin Panel)
   async uploadBlogImage(file: File, slug?: string): Promise<string | null> {

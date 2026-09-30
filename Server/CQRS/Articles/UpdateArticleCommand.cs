@@ -50,7 +50,7 @@ namespace Server.CQRS.Articles
             existing.Title_TR = updatedArticle.Title_TR;
             existing.Title_EN = updatedArticle.Title_EN;
             existing.Title_DE = updatedArticle.Title_DE;
-            existing.Category = updatedArticle.Category;
+            existing.Category_TR = updatedArticle.Category_TR;
             existing.Category_EN = updatedArticle.Category_EN;
             existing.Category_DE = updatedArticle.Category_DE;
             existing.Date = updatedArticle.Date;

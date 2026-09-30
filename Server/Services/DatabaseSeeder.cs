@@ -132,7 +132,7 @@ namespace Server.Services
                         Title_TR = "SaaS Mimarilerinde Çok Kiracılı (Multi-Tenant) Veri Güvenliği ve İzolasyonu",
                         Title_EN = "Multi-Tenant Data Security & Isolation in SaaS Architectures",
                         Title_DE = "Mandantenfähige Datenisolation in SaaS-Architekturen",
-                        Category = "architecture",
+                        Category_TR = "architecture",
                         Date = "2026-06-15",
                         ReadTime = "6 dk",
                         SubTag_TR = "SOFTWARE ARCHITECTURE & POSTGRESQL",

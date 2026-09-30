@@ -6,7 +6,7 @@ namespace Server.Models
         public string Title_TR { get; set; } = "";
         public string Title_EN { get; set; } = "";
         public string Title_DE { get; set; } = "";
-        public string Category { get; set; } = "";    // Türkçe (birincil)
+        public string Category_TR { get; set; } = "";    // Türkçe (birincil)
         public string Category_EN { get; set; } = ""; // İngilizce
         public string Category_DE { get; set; } = ""; // Almanca
         public string Date { get; set; } = "";

@@ -55,8 +55,9 @@ export class BlogComponent implements OnInit, OnDestroy {
 
   filterArticles() {
     this.filteredArticles = this.articles.filter(art => {
-      // 1. Category check
-      const matchCat = this.activeCategory === 'all' || art.category === this.activeCategory;
+      // 1. Category check — virgülle ayrılmış çoklu kategori desteği
+      const artCats = (art.category || '').split(',').map(c => c.trim()).filter(c => !!c);
+      const matchCat = this.activeCategory === 'all' || artCats.includes(this.activeCategory);
 
       // 2. Query check
       const q = this.searchQuery.toLowerCase().trim();
@@ -69,13 +70,12 @@ export class BlogComponent implements OnInit, OnDestroy {
     });
   }
 
-  /** Yayınlanan makalelerden benzersiz kategorileri döndürür */
+  /** Yayınlanan makalelerden benzersiz kategorileri döndürür (çoklu kategori desteği) */
   getAvailableCategories(): string[] {
     const cats = new Set<string>();
     for (const art of this.articles) {
-      if (art.category && art.category.trim()) {
-        cats.add(art.category.trim());
-      }
+      if (!art.category) continue;
+      art.category.split(',').map(c => c.trim()).filter(c => !!c).forEach(c => cats.add(c));
     }
     return Array.from(cats).sort();
   }

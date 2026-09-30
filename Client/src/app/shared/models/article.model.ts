@@ -16,7 +16,7 @@ export interface RawArticle {
   title_TR: string;
   title_EN: string;
   title_DE: string;
-  category: string;    // Türkçe (birincil, admin'de gösterilir)
+  category_TR: string;    // Türkçe (birincil, admin'de gösterilir)
   category_EN: string; // İngilizce çeviri
   category_DE: string; // Almanca çeviri
   date: string;

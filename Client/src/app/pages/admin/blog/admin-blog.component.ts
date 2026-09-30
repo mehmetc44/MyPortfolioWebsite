@@ -50,13 +50,19 @@ export class AdminBlogComponent implements OnInit {
   artTitle_TR = '';
   artTitle_EN = '';
   artTitle_DE = '';
-  artCategory = '';
-  artCategory_EN = '';
-  artCategory_DE = '';
-  isCustomCategory = false;
+  artCategory: string[] = [];   // Seçili kategoriler (TR)
+  artCategory_EN: string[] = []; // İngilizce çeviriler (aynı sıra)
+  artCategory_DE: string[] = []; // Almanca çeviriler (aynı sıra)
   customCategoryInput = '';
   customCategoryInput_EN = '';
   customCategoryInput_DE = '';
+  // Kategori düzenleme state'i
+  editingCategoryName: string | null = null;
+  editCategoryTR = '';
+  editCategoryEN = '';
+  editCategoryDE = '';
+  availableCategories: { name: string; count: number; en: string; de: string }[] = [];
+
   artDate = '';
   artReadTime = '';
   artSubTag_TR = '';
@@ -79,6 +85,7 @@ export class AdminBlogComponent implements OnInit {
 
   async loadArticles() {
     this.articles = await this.dataService.getRawArticles();
+    this.updateAvailableCategories();
   }
 
   formatDate(dateStr?: string): string {
@@ -127,10 +134,9 @@ export class AdminBlogComponent implements OnInit {
     this.artTitle_TR = '';
     this.artTitle_EN = '';
     this.artTitle_DE = '';
-    this.artCategory = '';
-    this.artCategory_EN = '';
-    this.artCategory_DE = '';
-    this.isCustomCategory = false;
+    this.artCategory = [];
+    this.artCategory_EN = [];
+    this.artCategory_DE = [];
     this.customCategoryInput = '';
     this.customCategoryInput_EN = '';
     this.customCategoryInput_DE = '';
@@ -176,11 +182,10 @@ export class AdminBlogComponent implements OnInit {
     this.artDetail_DE = art.detailText_DE;
     this.artIsDraft = art.isDraft || false;
 
-    // Kategori: artCategory'yi set et, isCustomCategory false başlasın
-    this.artCategory = art.category || '';
-    this.artCategory_EN = art.category_EN || '';
-    this.artCategory_DE = art.category_DE || '';
-    this.isCustomCategory = false;
+    // Kategorileri diziye çevir
+    this.artCategory = (art.category_TR || '').split(',').map(c => c.trim()).filter(c => !!c);
+    this.artCategory_EN = (art.category_EN || '').split(',').map(c => c.trim());
+    this.artCategory_DE = (art.category_DE || '').split(',').map(c => c.trim());
     this.customCategoryInput = '';
     this.customCategoryInput_EN = '';
     this.customCategoryInput_DE = '';
@@ -446,39 +451,105 @@ export class AdminBlogComponent implements OnInit {
       .replace(/^-+|-+$/g, '');
   }
 
-  /** Mevcut makalelerden benzersiz kategori listesini döndürür */
-  getAvailableCategories(): string[] {
-    const cats = new Set<string>();
+  /** Mevcut makalelerden benzersiz kategorileri hesaplar */
+  updateAvailableCategories(): void {
+    const map = new Map<string, { count: number; en: string; de: string }>();
     for (const art of this.articles) {
-      if (art.category && art.category.trim()) {
-        cats.add(art.category.trim());
-      }
+      if (!art.category_TR) continue;
+      const cats = art.category_TR.split(',').map(c => c.trim()).filter(c => !!c);
+      const enCats = (art.category_EN || '').split(',').map(c => c.trim());
+      const deCats = (art.category_DE || '').split(',').map(c => c.trim());
+      cats.forEach((cat, i) => {
+        if (!map.has(cat)) {
+          map.set(cat, { count: 0, en: enCats[i] || '', de: deCats[i] || '' });
+        }
+        map.get(cat)!.count++;
+      });
     }
-    return Array.from(cats).sort();
+    this.availableCategories = Array.from(map.entries())
+      .map(([name, v]) => ({ name, ...v }))
+      .sort((a, b) => a.name.localeCompare(b.name));
   }
 
-  onCategorySelectChange(value: string) {
-    if (value === '__custom__') {
-      this.isCustomCategory = true;
-      this.artCategory = '__custom__';
-      this.customCategoryInput = '';
-      this.customCategoryInput_EN = '';
-      this.customCategoryInput_DE = '';
+  /** Mevcut blog için seçili kategorilere yeni kategori ekler */
+  addCategory(catEntry: { name: string; en: string; de: string }) {
+    if (this.artCategory.includes(catEntry.name)) return;
+    this.artCategory = [...this.artCategory, catEntry.name];
+    this.artCategory_EN = [...this.artCategory_EN, catEntry.en || ''];
+    this.artCategory_DE = [...this.artCategory_DE, catEntry.de || ''];
+  }
+
+  /** Yeni özel kategori (custom input) ekler */
+  addCustomCategory() {
+    const name = (this.customCategoryInput || '').trim();
+    if (!name) return;
+    if (this.artCategory.includes(name)) {
+      alert('Bu kategori zaten seçili.');
+      return;
+    }
+    this.artCategory = [...this.artCategory, name];
+    this.artCategory_EN = [...this.artCategory_EN, (this.customCategoryInput_EN || '').trim()];
+    this.artCategory_DE = [...this.artCategory_DE, (this.customCategoryInput_DE || '').trim()];
+    this.customCategoryInput = '';
+    this.customCategoryInput_EN = '';
+    this.customCategoryInput_DE = '';
+  }
+
+  /** Seçili kategorilerden birini çıkarır */
+  removeSelectedCategory(idx: number) {
+    this.artCategory = this.artCategory.filter((_, i) => i !== idx);
+    this.artCategory_EN = this.artCategory_EN.filter((_, i) => i !== idx);
+    this.artCategory_DE = this.artCategory_DE.filter((_, i) => i !== idx);
+  }
+
+  /** Tüm makalelerden kategoriyi siler (backend çağrısı) */
+  async deleteCategory(catName: string, event: Event) {
+    event.stopPropagation();
+    if (!confirm(`"${catName}" kategorisini TÜM makalelerden silmek istediğinize emin misiniz?`)) return;
+    const ok = await this.dataService.deleteCategory(catName);
+    if (ok) {
+      await this.loadArticles();
+      // Eğer silinen kategori seçiliyse çıkar
+      const idx = this.artCategory.indexOf(catName);
+      if (idx >= 0) this.removeSelectedCategory(idx);
     } else {
-      this.isCustomCategory = false;
-      this.customCategoryInput = '';
-      this.customCategoryInput_EN = '';
-      this.customCategoryInput_DE = '';
-      this.artCategory = value;
-      // Mevcut kategorinin çevirilerini bul
-      const match = this.articles.find(a => a.category === value);
-      if (match) {
-        this.artCategory_EN = match.category_EN || '';
-        this.artCategory_DE = match.category_DE || '';
-      } else {
-        this.artCategory_EN = '';
-        this.artCategory_DE = '';
+      alert('Kategori silinirken hata oluştu.');
+    }
+  }
+
+  /** Kategori düzenleme modunu açar */
+  startEditCategory(cat: { name: string; en: string; de: string }, event: Event) {
+    event.stopPropagation();
+    this.editingCategoryName = cat.name;
+    this.editCategoryTR = cat.name;
+    this.editCategoryEN = cat.en || '';
+    this.editCategoryDE = cat.de || '';
+  }
+
+  cancelEditCategory() {
+    this.editingCategoryName = null;
+  }
+
+  async saveEditCategory() {
+    const oldName = this.editingCategoryName!;
+    const newName = this.editCategoryTR.trim();
+    if (!newName) { alert('Türkçe ad boş olamaz.'); return; }
+
+    const ok = await this.dataService.renameCategory(
+      oldName, newName, this.editCategoryEN.trim(), this.editCategoryDE.trim()
+    );
+    if (ok) {
+      await this.loadArticles();
+      // Seçili kategoriler içindeyse güncelle
+      const idx = this.artCategory.indexOf(oldName);
+      if (idx >= 0) {
+        this.artCategory[idx] = newName;
+        this.artCategory_EN[idx] = this.editCategoryEN.trim();
+        this.artCategory_DE[idx] = this.editCategoryDE.trim();
       }
+      this.editingCategoryName = null;
+    } else {
+      alert('Kategori yeniden adlandırılırken hata oluştu.');
     }
   }
 
@@ -488,16 +559,10 @@ export class AdminBlogComponent implements OnInit {
       return;
     }
 
-    // Özel kategori girildiyse onu kullan
-    const finalCategory = this.isCustomCategory
-      ? (this.customCategoryInput || '').trim()
-      : this.artCategory.trim();
-    const finalCategory_EN = this.isCustomCategory
-      ? (this.customCategoryInput_EN || '').trim()
-      : (this.artCategory_EN || '').trim();
-    const finalCategory_DE = this.isCustomCategory
-      ? (this.customCategoryInput_DE || '').trim()
-      : (this.artCategory_DE || '').trim();
+    // Kategorileri virgillü string'e dönüştür
+    const finalCategory = this.artCategory.join(',');
+    const finalCategory_EN = this.artCategory_EN.join(',');
+    const finalCategory_DE = this.artCategory_DE.join(',');
 
     let slug = this.artId ? this.artId.trim() : '';
     if (!slug) {
@@ -509,7 +574,7 @@ export class AdminBlogComponent implements OnInit {
       title_TR: this.artTitle_TR,
       title_EN: this.artTitle_EN || this.artTitle_TR,
       title_DE: this.artTitle_DE || this.artTitle_TR,
-      category: finalCategory,
+      category_TR: finalCategory,
       category_EN: finalCategory_EN,
       category_DE: finalCategory_DE,
       date: this.artDate,

@@ -22,6 +22,7 @@ namespace Server.Controllers
         }
 
         // GET: api/articles/raw
+        [AllowAnonymous]
         [HttpGet("raw")]
         public async Task<IActionResult> GetRawArticles()
         {
@@ -115,16 +116,22 @@ namespace Server.Controllers
             }
         }
 
-        // POST: api/articles/{id}/publish-medium
-        [HttpPost("{id}/publish-medium")]
-        public async Task<IActionResult> PublishToMedium(string id, [FromQuery] string? token = null)
+        // DELETE: api/articles/categories/{categoryName}  — tüm makalelerden kategoriyi siler
+        [HttpDelete("categories/{categoryName}")]
+        public async Task<IActionResult> DeleteCategory(string categoryName)
         {
-            var res = await _mediator.Send(new PublishMediumCommand(id, token));
-            if (!res.Success)
-            {
-                return BadRequest(new { message = res.Message });
-            }
-            return Ok(new { success = true, url = res.Url, message = res.Message });
+            var affected = await _mediator.Send(new DeleteCategoryCommand(categoryName));
+            return Ok(new { affected });
         }
+
+        // PUT: api/articles/categories/{oldName}  — kategoriyi tüm makalelerde yeniden adlandırır
+        [HttpPut("categories/{oldName}")]
+        public async Task<IActionResult> RenameCategory(string oldName, [FromBody] RenameCategoryDto dto)
+        {
+            var affected = await _mediator.Send(new RenameCategoryCommand(oldName, dto.NewName, dto.NewName_EN, dto.NewName_DE));
+            return Ok(new { affected });
+        }
+
+
     }
 }
