@@ -35,34 +35,22 @@
 .blog-category-tag {
     font-size: 0.72rem;
     font-weight: 700;
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    background: rgba(255, 255, 255, 0.85);
+    color: #334155;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
-.category-tag-architecture {
-    background: #eff6ff;
-    color: #1e40af;
-    border: 1px solid #dbeafe;
-}
-
-.category-tag-ai {
-    background: #faf5ff;
-    color: #6b21a8;
-    border: 1px solid #f3e8ff;
-}
-
-.category-tag-frontend {
-    background: #f0fdf4;
-    color: #166534;
-    border: 1px solid #dcfce7;
-}
-
-.category-tag-other {
-    background: #f1f5f9;
-    color: #475569;
-    border: 1px solid #e2e8f0;
+.blog-category-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
 }
 
 /* 2. Visual Banner (Aspect-ratio responsive box - No cropping) */
