@@ -11,6 +11,7 @@ namespace Server.Data
 
         public DbSet<ProfileEntity> Profiles { get; set; }
         public DbSet<ProjectEntity> Projects { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<ArticleEntity> Articles { get; set; }
         public DbSet<MessageEntity> Messages { get; set; }
         public DbSet<UserEntity> Users { get; set; }
@@ -24,6 +25,7 @@ namespace Server.Data
             // Configure primary keys
             modelBuilder.Entity<ProfileEntity>().HasKey(p => p.Id);
             modelBuilder.Entity<ProjectEntity>().HasKey(p => p.Id);
+            modelBuilder.Entity<CategoryEntity>().HasKey(c => c.Id);
             modelBuilder.Entity<ArticleEntity>().HasKey(a => a.Id);
             modelBuilder.Entity<MessageEntity>().HasKey(m => m.Id);
             modelBuilder.Entity<UserEntity>().HasKey(u => u.Id);

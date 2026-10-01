@@ -452,11 +452,29 @@ export class DataService {
     }
   }
 
-  async deleteCategory(categoryName: string): Promise<boolean> {
+  // Category APIs
+  async getCategories(): Promise<any[]> {
     try {
-      const res = await fetch(`${this.apiBaseUrl}/api/articles/categories/${encodeURIComponent(categoryName)}`, {
-        method: 'DELETE',
-        headers: this.getAuthHeaders()
+      const res = await fetch(`${this.apiBaseUrl}/api/categories`);
+      if (res.ok) {
+        return await res.json();
+      }
+    } catch(e) {
+      console.error(e);
+    }
+    return [];
+  }
+
+  async saveCategory(category: any, isNew: boolean): Promise<boolean> {
+    try {
+      const url = isNew 
+        ? `${this.apiBaseUrl}/api/categories` 
+        : `${this.apiBaseUrl}/api/categories/${category.id}`;
+      const method = isNew ? 'POST' : 'PUT';
+      const res = await fetch(url, {
+        method,
+        headers: this.getAuthHeaders(true),
+        body: JSON.stringify(category)
       });
       return res.ok;
     } catch(e) {
@@ -465,12 +483,11 @@ export class DataService {
     }
   }
 
-  async renameCategory(oldName: string, newName: string, newNameEN: string, newNameDE: string): Promise<boolean> {
+  async deleteCategory(id: string): Promise<boolean> {
     try {
-      const res = await fetch(`${this.apiBaseUrl}/api/articles/categories/${encodeURIComponent(oldName)}`, {
-        method: 'PUT',
-        headers: this.getAuthHeaders(true),
-        body: JSON.stringify({ newName, newName_EN: newNameEN, newName_DE: newNameDE })
+      const res = await fetch(`${this.apiBaseUrl}/api/categories/${id}`, {
+        method: 'DELETE',
+        headers: this.getAuthHeaders()
       });
       return res.ok;
     } catch(e) {

@@ -11,6 +11,7 @@ import { AdminMessagesComponent } from './messages/admin-messages.component';
 import { AdminCvComponent } from './cv/admin-cv.component';
 import { AdminSkillsComponent } from './skills/admin-skills.component';
 import { AdminAccountComponent } from './account/admin-account.component';
+import { AdminCategoriesComponent } from './categories/admin-categories.component';
 
 @Component({
   selector: 'app-admin',
@@ -25,7 +26,8 @@ import { AdminAccountComponent } from './account/admin-account.component';
     AdminMessagesComponent,
     AdminCvComponent,
     AdminSkillsComponent,
-    AdminAccountComponent
+    AdminAccountComponent,
+    AdminCategoriesComponent
   ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']

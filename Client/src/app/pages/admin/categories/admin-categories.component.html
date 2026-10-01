@@ -1,0 +1,123 @@
+<div class="admin-panel-content">
+  <div class="panel-header">
+      <div class="header-text">
+          <h2>Kategori Yönetimi</h2>
+          <p>Blog yazılarınız için hiyerarşik (Ana/Alt) kategori sistemini yönetin.</p>
+      </div>
+      <button class="btn btn-primary" (click)="startNewMainCategory()" *ngIf="!isEditing">
+          <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          Yeni Ana Kategori
+      </button>
+  </div>
+
+  <div class="glass-card table-card" *ngIf="!isEditing">
+      <div class="empty-state" *ngIf="categories.length === 0">
+          <svg viewBox="0 0 24 24" width="48" height="48" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round" class="empty-icon"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+          <h3>Kategori Bulunamadı</h3>
+          <p>Henüz hiçbir kategori eklenmemiş. Yazılarınızı gruplamak için ilk Ana Kategorinizi oluşturun.</p>
+          <button class="btn btn-primary" (click)="startNewMainCategory()">Ana Kategori Ekle</button>
+      </div>
+
+      <div class="category-tree" *ngIf="categories.length > 0">
+          <!-- Main Categories -->
+          <div class="category-node main-node" *ngFor="let mainCat of categories">
+              <div class="category-row main-row">
+                  <div class="cat-info">
+                      <span class="cat-icon"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg></span>
+                      <div class="cat-texts">
+                        <strong class="cat-name">{{ mainCat.name_TR }}</strong>
+                        <span class="cat-id-badge">ID: {{ mainCat.id }}</span>
+                      </div>
+                  </div>
+                  <div class="cat-actions">
+                      <button class="btn btn-secondary btn-sm" (click)="startNewSubCategory(mainCat.id)" title="Alt Kategori Ekle">
+                        <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                      </button>
+                      <button class="btn btn-icon btn-edit" (click)="editCategory(mainCat)" title="Düzenle">
+                          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                      </button>
+                      <button class="btn btn-icon btn-delete" (click)="deleteCategory(mainCat.id)" title="Sil">
+                          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                      </button>
+                  </div>
+              </div>
+
+              <!-- Sub Categories -->
+              <div class="sub-categories">
+                  <div class="category-row sub-row" *ngFor="let subCat of mainCat.subCategories">
+                      <div class="cat-info">
+                          <div class="tree-line"></div>
+                          <span class="cat-icon sub-icon"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 12 12 14 14"></polyline></svg></span>
+                          <div class="cat-texts">
+                            <span class="cat-name">{{ subCat.name_TR }}</span>
+                            <span class="cat-id-badge sub-badge">ID: {{ subCat.id }}</span>
+                          </div>
+                      </div>
+                      <div class="cat-actions">
+                          <button class="btn btn-icon btn-edit" (click)="editCategory(subCat, mainCat.id)" title="Düzenle">
+                              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                          </button>
+                          <button class="btn btn-icon btn-delete" (click)="deleteCategory(subCat.id)" title="Sil">
+                              <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                          </button>
+                      </div>
+                  </div>
+                  <div class="empty-sub" *ngIf="mainCat.subCategories?.length === 0">
+                      Bu ana kategoriye henüz alt kategori eklenmemiş.
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="crud-form glass-card" *ngIf="isEditing">
+      <div class="crud-header">
+          <h3>{{ editingId ? 'Kategoriyi Düzenle' : (editCat.isSubCategory ? 'Yeni Alt Kategori' : 'Yeni Ana Kategori') }}</h3>
+          <button class="btn-icon btn-close" (click)="cancelEdit()">
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+      </div>
+      <div class="crud-body">
+          <form (ngSubmit)="saveCategory()" #catForm="ngForm">
+              <div class="alert alert-error" *ngIf="errorMessage">{{ errorMessage }}</div>
+              
+              <div class="form-grid">
+                  <div class="form-group" [class.disabled-field]="editingId">
+                      <label for="catId">ID / Slug (Örn: yapay-zeka)</label>
+                      <input type="text" id="catId" name="catId" [(ngModel)]="editCat.id" required [disabled]="editingId !== null" placeholder="URL'de görünecek temiz isim">
+                      <small *ngIf="!editingId" style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 4px;">Sonradan değiştirilemez. Boşluksuz ve küçük harf kullanın.</small>
+                  </div>
+                  <div class="form-group" *ngIf="editCat.isSubCategory">
+                      <label>Bağlı Olduğu Ana Kategori (ID)</label>
+                      <input type="text" [value]="editCat.parentId" disabled class="disabled-input">
+                  </div>
+              </div>
+
+              <div class="form-grid">
+                  <div class="form-group">
+                      <label for="catNameTR">Kategori Adı (TR)</label>
+                      <input type="text" id="catNameTR" name="catNameTR" [(ngModel)]="editCat.name_TR" required placeholder="Türkçe isim">
+                  </div>
+              </div>
+
+              <div class="form-grid">
+                  <div class="form-group">
+                      <label for="catNameEN">Kategori Adı (EN)</label>
+                      <input type="text" id="catNameEN" name="catNameEN" [(ngModel)]="editCat.name_EN" placeholder="İngilizce isim">
+                  </div>
+                  <div class="form-group">
+                      <label for="catNameDE">Kategori Adı (DE)</label>
+                      <input type="text" id="catNameDE" name="catNameDE" [(ngModel)]="editCat.name_DE" placeholder="Almanca isim">
+                  </div>
+              </div>
+
+              <div class="crud-footer">
+                  <button type="button" class="btn btn-secondary" (click)="cancelEdit()">İptal</button>
+                  <button type="submit" class="btn btn-primary" [disabled]="isSaving || !catForm.form.valid">
+                      {{ isSaving ? 'Kaydediliyor...' : 'Kaydet' }}
+                  </button>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>

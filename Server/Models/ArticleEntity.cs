@@ -6,14 +6,9 @@ namespace Server.Models
         public string Title_TR { get; set; } = "";
         public string Title_EN { get; set; } = "";
         public string Title_DE { get; set; } = "";
-        public string Category_TR { get; set; } = "";    // Türkçe (birincil)
-        public string Category_EN { get; set; } = ""; // İngilizce
-        public string Category_DE { get; set; } = ""; // Almanca
+        public string CategoryId { get; set; } = ""; // Points to the SubCategory Id
         public string Date { get; set; } = "";
         public string ReadTime { get; set; } = "";
-        public string SubTag_TR { get; set; } = "";
-        public string SubTag_EN { get; set; } = "";
-        public string SubTag_DE { get; set; } = "";
         public string Excerpt_TR { get; set; } = "";
         public string Excerpt_EN { get; set; } = "";
         public string Excerpt_DE { get; set; } = "";
