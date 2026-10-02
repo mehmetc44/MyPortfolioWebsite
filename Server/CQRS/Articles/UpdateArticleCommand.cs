@@ -50,14 +50,9 @@ namespace Server.CQRS.Articles
             existing.Title_TR = updatedArticle.Title_TR;
             existing.Title_EN = updatedArticle.Title_EN;
             existing.Title_DE = updatedArticle.Title_DE;
-            existing.Category_TR = updatedArticle.Category_TR;
-            existing.Category_EN = updatedArticle.Category_EN;
-            existing.Category_DE = updatedArticle.Category_DE;
+            existing.CategoryId = updatedArticle.CategoryId;
             existing.Date = updatedArticle.Date;
             existing.ReadTime = updatedArticle.ReadTime;
-            existing.SubTag_TR = updatedArticle.SubTag_TR;
-            existing.SubTag_EN = updatedArticle.SubTag_EN;
-            existing.SubTag_DE = updatedArticle.SubTag_DE;
             existing.Excerpt_TR = updatedArticle.Excerpt_TR;
             existing.Excerpt_EN = updatedArticle.Excerpt_EN;
             existing.Excerpt_DE = updatedArticle.Excerpt_DE;

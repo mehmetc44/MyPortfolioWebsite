@@ -20,23 +20,26 @@
 
       <div class="category-tree" *ngIf="categories.length > 0">
           <!-- Main Categories -->
-          <div class="category-node main-node" *ngFor="let mainCat of categories">
-              <div class="category-row main-row">
+          <div class="category-node main-node" *ngFor="let mainCat of categories" [class.expanded]="isCategoryExpanded(mainCat.id)">
+              <div class="category-row main-row" (click)="toggleCategory(mainCat.id)" style="cursor: pointer;">
                   <div class="cat-info">
-                      <span class="cat-icon"><svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg></span>
+                      <span class="cat-icon toggle-icon">
+                          <svg *ngIf="!isCategoryExpanded(mainCat.id)" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                          <svg *ngIf="isCategoryExpanded(mainCat.id)" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                      </span>
                       <div class="cat-texts">
                         <strong class="cat-name">{{ mainCat.name_TR }}</strong>
                         <span class="cat-id-badge">ID: {{ mainCat.id }}</span>
                       </div>
                   </div>
                   <div class="cat-actions">
-                      <button class="btn btn-secondary btn-sm" (click)="startNewSubCategory(mainCat.id)" title="Alt Kategori Ekle">
+                      <button class="btn btn-secondary btn-sm" (click)="startNewSubCategory(mainCat.id); $event.stopPropagation()" title="Alt Kategori Ekle">
                         <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                       </button>
-                      <button class="btn btn-icon btn-edit" (click)="editCategory(mainCat)" title="Düzenle">
+                      <button class="btn btn-icon btn-edit" (click)="editCategory(mainCat); $event.stopPropagation()" title="Düzenle">
                           <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                       </button>
-                      <button class="btn btn-icon btn-delete" (click)="deleteCategory(mainCat.id)" title="Sil">
+                      <button class="btn btn-icon btn-delete" (click)="deleteCategory(mainCat.id); $event.stopPropagation()" title="Sil">
                           <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                       </button>
                   </div>
@@ -46,7 +49,6 @@
               <div class="sub-categories">
                   <div class="category-row sub-row" *ngFor="let subCat of mainCat.subCategories">
                       <div class="cat-info">
-                          <div class="tree-line"></div>
                           <span class="cat-icon sub-icon"><svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="10"></circle><polyline points="12 8 12 12 14 14"></polyline></svg></span>
                           <div class="cat-texts">
                             <span class="cat-name">{{ subCat.name_TR }}</span>

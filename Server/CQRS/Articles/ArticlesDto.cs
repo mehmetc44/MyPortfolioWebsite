@@ -4,20 +4,13 @@ namespace Server.CQRS.Articles
     {
         public string Id { get; set; } = "";
         public string Title { get; set; } = "";
-        public string Category { get; set; } = "";
+        public string CategoryId { get; set; } = "";
         public string Date { get; set; } = "";
         public string ReadTime { get; set; } = "";
-        public string SubTag { get; set; } = "";
         public string Excerpt { get; set; } = "";
         public string? ImageUrl { get; set; }
         public string DetailText { get; set; } = "";
         public bool IsDraft { get; set; } = false;
     }
 
-    public class RenameCategoryDto
-    {
-        public string NewName { get; set; } = "";
-        public string NewName_EN { get; set; } = "";
-        public string NewName_DE { get; set; } = "";
-    }
 }

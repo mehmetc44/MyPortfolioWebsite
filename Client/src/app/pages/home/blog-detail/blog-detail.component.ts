@@ -49,6 +49,7 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.dataService.getCategories().then(cats => this.categories = cats);
     this.subscription.add(
       this.route.paramMap.subscribe(params => {
         this.loadArticle(params.get('id'));
@@ -110,6 +111,8 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  categories: any[] = [];
 
   initializePlugins() {
     setTimeout(() => {
@@ -208,8 +211,24 @@ export class BlogDetailComponent implements OnInit, OnDestroy {
     });
   }
 
-  getCategoryLabel(category: string): string {
-    if (!category || !category.trim()) return 'Genel';
-    return category;
+  getCategoryPath(categoryId?: string): { id: string, name: string }[] {
+    if (!categoryId) return [];
+    
+    const langSuffix = this.localizationService.getLanguage().toUpperCase();
+    for (const main of this.categories) {
+      if (main.id === categoryId) {
+        return [{ id: main.id, name: main['name_' + langSuffix] || main.name_TR }];
+      }
+      
+      const sub = main.subCategories?.find((s: any) => s.id === categoryId);
+      if (sub) {
+        return [
+          { id: main.id, name: main['name_' + langSuffix] || main.name_TR },
+          { id: sub.id, name: sub['name_' + langSuffix] || sub.name_TR }
+        ];
+      }
+    }
+    
+    return [];
   }
 }

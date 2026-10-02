@@ -12,20 +12,33 @@
         <!-- Controls Row: Filters and Search Box -->
         <div class="portfolio-controls-row">
             <!-- Filter Tabs -->
-            <div class="portfolio-filter-tabs" role="tablist" aria-label="Makale Kategorileri">
-                <button class="filter-tab" [class.active]="activeCategory === 'all'" (click)="selectCategory('all')" role="tab" [attr.aria-selected]="activeCategory === 'all'">{{ 'FILTER_ALL' | translate }}</button>
-                <button *ngFor="let cat of getAvailableCategories()"
+            <div class="portfolio-filter-tabs" role="tablist" aria-label="Ana Kategoriler">
+                <button class="filter-tab" [class.active]="activeMainCategory === 'all'" (click)="selectMainCategory('all')" role="tab" [attr.aria-selected]="activeMainCategory === 'all'">{{ 'FILTER_ALL' | translate }}</button>
+                <button *ngFor="let cat of getAvailableMainCategories()"
                         class="filter-tab"
-                        [class.active]="activeCategory === cat"
-                        (click)="selectCategory(cat)"
+                        [class.active]="activeMainCategory === cat.id"
+                        (click)="selectMainCategory(cat.id)"
                         role="tab"
-                        [attr.aria-selected]="activeCategory === cat">{{ cat }}</button>
+                        [attr.aria-selected]="activeMainCategory === cat.id">{{ cat.name }}</button>
             </div>
 
             <!-- Search Input Box -->
             <div class="portfolio-search-box">
                 <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2.5" fill="none" class="search-icon"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 <input type="text" id="blogSearchInput" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()" [placeholder]="'SEARCH_BLOG_PLACEHOLDER' | translate" aria-label="Blog arama çubuğu">
+            </div>
+        </div>
+
+        <!-- Sub Categories Row (Visible if a main category is selected and has subcategories) -->
+        <div class="portfolio-controls-row" *ngIf="activeMainCategory !== 'all' && getAvailableSubCategories().length > 0" style="margin-top: 16px; margin-bottom: -8px;">
+            <div class="portfolio-filter-tabs" role="tablist" aria-label="Alt Kategoriler" style="gap: 8px;">
+                <button class="filter-tab sub-filter-tab" [class.active]="activeSubCategory === 'all'" (click)="selectSubCategory('all')" role="tab" [attr.aria-selected]="activeSubCategory === 'all'" style="font-size: 0.85rem; padding: 6px 14px;">Tümü</button>
+                <button *ngFor="let sub of getAvailableSubCategories()"
+                        class="filter-tab sub-filter-tab"
+                        [class.active]="activeSubCategory === sub.id"
+                        (click)="selectSubCategory(sub.id)"
+                        role="tab"
+                        [attr.aria-selected]="activeSubCategory === sub.id" style="font-size: 0.85rem; padding: 6px 14px;">{{ sub.name }}</button>
             </div>
         </div>
 
@@ -37,14 +50,14 @@
                 <div class="blog-image-container">
                     <img [src]="art.imageUrl || 'assets/blog_placeholder.png'" [alt]="art.title" class="blog-card-image">
                     <div style="position: absolute; top: 12px; left: 12px; display: flex; flex-wrap: wrap; gap: 6px;">
-                        <span *ngFor="let cat of (art.category || '').split(',')" class="blog-category-tag category-tag-{{cat.trim()}}">{{ getCategoryLabel(cat.trim()) }}</span>
+                        <span class="blog-category-tag category-tag-{{art.categoryId}}">{{ getCategoryLabel(art.categoryId) }}</span>
                     </div>
                 </div>
                 <div class="blog-card-content">
                     <div class="blog-meta-row">
                         <span class="blog-date-text">{{ formatDate(art.date) }} • {{ art.readTime }} {{ 'MIN_READ' | translate }}</span>
                     </div>
-                    <span class="blog-card-sub-tag" style="font-size: 0.75rem; font-weight: 700; color: var(--accent-slate); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; display: inline-block;">{{ art.subTag }}</span>
+
                     <h4 class="blog-title">{{ art.title }}</h4>
                     <p class="blog-excerpt">{{ art.excerpt }}</p>
                 </div>

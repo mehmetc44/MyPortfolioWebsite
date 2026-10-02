@@ -7,15 +7,19 @@
             
             <!-- Dynamic Article Heading Banner -->
             <div class="pane-header-hero text-left">
-                <span class="subtitle-tag" id="articleSubTag">{{ article.subTag }}</span>
+
                 <h3 class="pane-main-title" id="articleMainTitle">{{ article.title }}</h3>
                 <div class="title-decorator-line"></div>
             </div>
 
             <!-- Meta Row below Title -->
-            <div class="article-meta-info">
-                <span class="blog-category-tag category-tag-{{article.category}}">{{ getCategoryLabel(article.category) }}</span>
-                <span class="article-meta-sep">•</span>
+            <div class="article-meta-info" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px;">
+                <ng-container *ngFor="let path of getCategoryPath(article.categoryId); let last = last">
+                    <span class="blog-category-tag category-tag-{{path.id}}">{{ path.name }}</span>
+                    <span *ngIf="!last" style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 700;">&rsaquo;</span>
+                </ng-container>
+                
+                <span class="article-meta-sep" style="margin: 0 4px;">•</span>
                 <span class="article-date-read" id="articleMetaDate">{{ formatDate(article.date) }} • {{ article.readTime }} {{ 'MIN_READ' | translate }}</span>
             </div>
 

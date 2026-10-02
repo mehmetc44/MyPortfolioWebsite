@@ -13,6 +13,8 @@ import { DataService } from '../../../shared/services/data.service';
 export class AdminCategoriesComponent implements OnInit {
   categories: any[] = [];
   
+  expandedCategories: Set<string> = new Set();
+  
   isEditing = false;
   editingId: string | null = null;
   
@@ -36,6 +38,21 @@ export class AdminCategoriesComponent implements OnInit {
 
   async loadCategories() {
     this.categories = await this.dataService.getCategories();
+  }
+
+  toggleCategory(id: string, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (this.expandedCategories.has(id)) {
+      this.expandedCategories.delete(id);
+    } else {
+      this.expandedCategories.add(id);
+    }
+  }
+
+  isCategoryExpanded(id: string): boolean {
+    return this.expandedCategories.has(id);
   }
 
   startNewMainCategory() {

@@ -50,7 +50,7 @@
                         {{ art.title_TR }}
                         <span *ngIf="art.isDraft" class="draft-badge" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; font-size: 0.72rem; padding: 2px 6px; border-radius: 6px; margin-left: 8px; font-weight: 700; border: 1px solid rgba(239, 68, 68, 0.2);">Taslak</span>
                     </td>
-                    <td><span class="blog-category-tag category-tag-{{art.category_TR}}">{{ art.category_TR }}</span></td>
+                    <td><span class="blog-category-tag category-tag-{{art.categoryId}}">{{ art.categoryId }}</span></td>
                     <td>{{ formatDate(art.date) }}</td>
                     <td>{{ art.readTime }}</td>
                     <td>
@@ -120,125 +120,12 @@
             </div>
             <div class="form-group" style="grid-column: 1 / -1;">
                 <label>Kategori</label>
-
-                <!-- Seçili kategoriler (chip/tag sistemi) -->
-                <div *ngIf="artCategory.length > 0" style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px;">
-                    <span *ngFor="let cat of artCategory; let i = index"
-                          style="display: inline-flex; align-items: center; gap: 5px; background: rgba(59,130,246,0.12); color: var(--accent-navy); border: 1.5px solid rgba(59,130,246,0.3); border-radius: 20px; padding: 4px 10px 4px 12px; font-size: 0.82rem; font-weight: 700;">
-                        {{ cat }}
-                        <button type="button" (click)="removeSelectedCategory(i)" title="Bu blogdan kaldır"
-                                style="background: none; border: none; cursor: pointer; padding: 0; line-height: 1; color: rgba(59,130,246,0.7); font-size: 1rem; display: flex; align-items: center;">✕</button>
-                    </span>
-                </div>
-                <p *ngIf="artCategory.length === 0" style="font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 8px; font-style: italic;">Henüz kategori seçilmedi.</p>
-
-                <!-- Mevcut kategoriler listesi -->
-                <div style="border: 1px solid var(--border-color); border-radius: 10px; background: var(--bg-card); max-height: 260px; overflow-y: auto; padding: 12px; display: flex; flex-wrap: wrap; gap: 8px;">
-                    <div *ngIf="availableCategories.length === 0" style="font-size: 0.82rem; color: var(--text-secondary); font-style: italic; width: 100%;">
-                        Henüz hiç kategori yok. Aşağıdan yeni ekleyebilirsiniz.
-                    </div>
-
-                    <ng-container *ngFor="let cat of availableCategories; let last = last">
-
-                        <!-- Normal satır (edit modu kapalı) -->
-                        <div *ngIf="editingCategoryName !== cat.name"
-                             [style.background]="artCategory.includes(cat.name) ? 'rgba(59,130,246,0.1)' : 'transparent'"
-                             [style.border]="artCategory.includes(cat.name) ? '1px solid rgba(59,130,246,0.5)' : '1px solid var(--border-color)'"
-                             style="display: inline-flex; align-items: center; gap: 6px; padding: 4px 8px; border-radius: 20px; transition: all 0.15s; cursor: pointer;">
-
-                            <!-- İsimler: TR / EN / DE -->
-                            <div (click)="artCategory.includes(cat.name) ? removeSelectedCategory(artCategory.indexOf(cat.name)) : addCategory(cat)"
-                                 style="display: flex; align-items: baseline; gap: 3px;">
-                                <span style="font-size: 0.84rem; font-weight: 700; color: var(--text-primary); white-space: nowrap;">{{ cat.name }}</span>
-                                <span *ngIf="cat.en" style="font-size: 0.75rem; color: var(--text-secondary); white-space: nowrap;">/ {{ cat.en }}</span>
-                                <span *ngIf="cat.de" style="font-size: 0.75rem; color: var(--text-secondary); white-space: nowrap;">/ {{ cat.de }}</span>
-                            </div>
-
-                            <!-- Kullanım sayısı -->
-                            <span style="font-size: 0.7rem; color: var(--text-secondary); background: rgba(0,0,0,0.06); border-radius: 10px; padding: 1px 5px; white-space: nowrap;">({{ cat.count }})</span>
-
-                            <!-- Edit butonu -->
-                            <button type="button" (click)="startEditCategory(cat, $event)" title="Kategoriyi düzenle"
-                                    style="background: none; border: none; cursor: pointer; padding: 4px 5px; border-radius: 5px; color: #3b82f6; opacity: 0.6; display: flex; align-items: center; flex-shrink: 0; transition: all 0.15s;">
-                                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2.5" fill="none">
-                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                                </svg>
-                            </button>
-
-                            <!-- Sil butonu -->
-                            <button type="button" (click)="deleteCategory(cat.name, $event)" title="Kategoriyi TÜM makalelerden sil"
-                                    style="background: none; border: none; cursor: pointer; padding: 4px 5px; border-radius: 5px; color: #ef4444; opacity: 0.55; display: flex; align-items: center; flex-shrink: 0; transition: all 0.15s;">
-                                <svg viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2.5" fill="none">
-                                    <polyline points="3 6 5 6 21 6"></polyline>
-                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                </svg>
-                            </button>
-                        </div>
-
-                        <!-- Inline edit modu -->
-                        <div *ngIf="editingCategoryName === cat.name"
-                             style="padding: 10px 12px; background: rgba(59,130,246,0.05); border-radius: 10px; border: 1px solid #3b82f6; width: 100%;">
-                            <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end;">
-                                <div style="flex: 1; min-width: 100px;">
-                                    <label style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 3px; display: block;">🇹🇷 TR *</label>
-                                    <input type="text" [(ngModel)]="editCategoryTR" name="editCatTR_{{cat.name}}"
-                                           (keyup.enter)="saveEditCategory()" (keyup.escape)="cancelEditCategory()"
-                                           style="width: 100%; font-size: 0.82rem; padding: 6px 8px; border-radius: 6px; border: 2px solid #3b82f6; outline: none; box-sizing: border-box;">
-                                </div>
-                                <div style="flex: 1; min-width: 100px;">
-                                    <label style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 3px; display: block;">🇬🇧 EN</label>
-                                    <input type="text" [(ngModel)]="editCategoryEN" name="editCatEN_{{cat.name}}"
-                                           (keyup.enter)="saveEditCategory()" (keyup.escape)="cancelEditCategory()"
-                                           style="width: 100%; font-size: 0.82rem; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border-color); outline: none; box-sizing: border-box;">
-                                </div>
-                                <div style="flex: 1; min-width: 100px;">
-                                    <label style="font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 3px; display: block;">🇩🇪 DE</label>
-                                    <input type="text" [(ngModel)]="editCategoryDE" name="editCatDE_{{cat.name}}"
-                                           (keyup.enter)="saveEditCategory()" (keyup.escape)="cancelEditCategory()"
-                                           style="width: 100%; font-size: 0.82rem; padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border-color); outline: none; box-sizing: border-box;">
-                                </div>
-                                <div style="display: flex; gap: 5px; flex-shrink: 0;">
-                                    <button type="button" (click)="saveEditCategory()"
-                                            style="padding: 6px 12px; border-radius: 6px; background: #3b82f6; color: #fff; border: none; cursor: pointer; font-size: 0.8rem; font-weight: 700;">✓ Kaydet</button>
-                                    <button type="button" (click)="cancelEditCategory()"
-                                            style="padding: 6px 10px; border-radius: 6px; background: rgba(0,0,0,0.07); color: var(--text-secondary); border: none; cursor: pointer; font-size: 0.8rem;">✕</button>
-                                </div>
-                            </div>
-                        </div>
-
-                    </ng-container>
-                </div>
-
-                <!-- Yeni kategori ekleme -->
-                <div style="margin-top: 10px; border: 1px dashed rgba(59,130,246,0.3); border-radius: 10px; padding: 12px 14px; background: rgba(59,130,246,0.03);">
-                    <p style="margin: 0 0 8px 0; font-size: 0.78rem; font-weight: 700; color: var(--accent-navy); text-transform: uppercase; letter-spacing: 0.5px;">✏️ Yeni Kategori Ekle</p>
-                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <div style="flex: 1; min-width: 110px;">
-                            <label style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 3px; display: block;">🇹🇷 Türkçe *</label>
-                            <input type="text" id="crudBlogCatTR" name="catTR" [(ngModel)]="customCategoryInput"
-                                   placeholder="Örn: Mikroservisler" (keyup.enter)="addCustomCategory()"
-                                   style="width: 100%; font-size: 0.84rem; padding: 7px 10px; border-radius: 8px; border: 2px solid rgba(59,130,246,0.4); background: #fff; outline: none; box-sizing: border-box;">
-                        </div>
-                        <div style="flex: 1; min-width: 110px;">
-                            <label style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 3px; display: block;">🇬🇧 English</label>
-                            <input type="text" id="crudBlogCatEN" name="catEN" [(ngModel)]="customCategoryInput_EN"
-                                   placeholder="E.g. Microservices" (keyup.enter)="addCustomCategory()"
-                                   style="width: 100%; font-size: 0.84rem; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; outline: none; box-sizing: border-box;">
-                        </div>
-                        <div style="flex: 1; min-width: 110px;">
-                            <label style="font-size: 0.72rem; color: var(--text-secondary); margin-bottom: 3px; display: block;">🇩🇪 Deutsch</label>
-                            <input type="text" id="crudBlogCatDE" name="catDE" [(ngModel)]="customCategoryInput_DE"
-                                   placeholder="Z.B. Mikrodienste" (keyup.enter)="addCustomCategory()"
-                                   style="width: 100%; font-size: 0.84rem; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border-color); background: #fff; outline: none; box-sizing: border-box;">
-                        </div>
-                        <div style="display: flex; align-items: flex-end;">
-                            <button type="button" (click)="addCustomCategory()"
-                                    style="padding: 7px 16px; border-radius: 8px; background: var(--accent-navy, #1e3a5f); color: #fff; border: none; cursor: pointer; font-size: 0.84rem; font-weight: 700; white-space: nowrap;">+ Ekle</button>
-                        </div>
-                    </div>
-                    <p style="margin: 6px 0 0 0; font-size: 0.72rem; color: var(--text-secondary);">💡 EN/DE boş bırakılırsa TR değer kullanılır. Enter ile de ekleyebilirsiniz.</p>
-                </div>
+                <select id="crudBlogCategory" name="artCategoryId" [(ngModel)]="artCategoryId" required style="width: 100%; font-size: 0.95rem; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-primary); outline: none; box-sizing: border-box; cursor: pointer; appearance: none; background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1rem top 50%; background-size: 0.8rem auto; transition: all 0.2s ease;">
+                    <option value="" disabled>-- Alt Kategori Seçiniz --</option>
+                    <optgroup *ngFor="let main of categories" [label]="main.name_TR">
+                        <option *ngFor="let sub of main.subCategories" [value]="sub.id">{{ sub.name_TR }}</option>
+                    </optgroup>
+                </select>
             </div>
         </div>
 
@@ -357,10 +244,7 @@
                 <label for="crudBlogTitleTR">Makale Başlığı (TR)</label>
                 <input type="text" id="crudBlogTitleTR" name="artTitleTR" [(ngModel)]="artTitle_TR" required placeholder="Örn: SaaS Mimarilerinde Çok Kiracılı Veri Güvenliği">
             </div>
-            <div class="form-group">
-                <label for="crudBlogSubTagTR">Üst Etiket / SubTag (TR)</label>
-                <input type="text" id="crudBlogSubTagTR" name="artSubTagTR" [(ngModel)]="artSubTag_TR" required placeholder="Örn: SOFTWARE ARCHITECTURE & POSTGRESQL">
-            </div>
+
             <div class="form-group">
                 <label for="crudBlogExcerptTR">Kısa Özet (TR)</label>
                 <textarea id="crudBlogExcerptTR" name="artExcerptTR" [(ngModel)]="artExcerpt_TR" rows="2" required placeholder="Giriş özet metni..."></textarea>
@@ -411,10 +295,7 @@
                 <label for="crudBlogTitleEN">Article Title (EN)</label>
                 <input type="text" id="crudBlogTitleEN" name="artTitleEN" [(ngModel)]="artTitle_EN" required placeholder="E.g. Multi-Tenant Data Isolation in SaaS Systems">
             </div>
-            <div class="form-group">
-                <label for="crudBlogSubTagEN">Sub Tag (EN)</label>
-                <input type="text" id="crudBlogSubTagEN" name="artSubTagEN" [(ngModel)]="artSubTag_EN" required placeholder="E.g. SOFTWARE ARCHITECTURE & POSTGRESQL">
-            </div>
+
             <div class="form-group">
                 <label for="crudBlogExcerptEN">Short Excerpt (EN)</label>
                 <textarea id="crudBlogExcerptEN" name="artExcerptEN" [(ngModel)]="artExcerpt_EN" rows="2" required placeholder="Card excerpt description..."></textarea>
@@ -465,10 +346,7 @@
                 <label for="crudBlogTitleDE">Artikelüberschrift (DE)</label>
                 <input type="text" id="crudBlogTitleDE" name="artTitleDE" [(ngModel)]="artTitle_DE" required placeholder="Z.B. Mandantenfähige Datenisolation in SaaS-Architekturen">
             </div>
-            <div class="form-group">
-                <label for="crudBlogSubTagDE">Sub-Etikett (DE)</label>
-                <input type="text" id="crudBlogSubTagDE" name="artSubTagDE" [(ngModel)]="artSubTag_DE" required placeholder="Z.B. SOFTWAREARCHITEKTUR & POSTGRESQL">
-            </div>
+
             <div class="form-group">
                 <label for="crudBlogExcerptDE">Auszug / Zusammenfassung (DE)</label>
                 <textarea id="crudBlogExcerptDE" name="artExcerptDE" [(ngModel)]="artExcerpt_DE" rows="2" required placeholder="Beschreibungstext..."></textarea>

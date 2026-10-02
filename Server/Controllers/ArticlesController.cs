@@ -116,21 +116,7 @@ namespace Server.Controllers
             }
         }
 
-        // DELETE: api/articles/categories/{categoryName}  — tüm makalelerden kategoriyi siler
-        [HttpDelete("categories/{categoryName}")]
-        public async Task<IActionResult> DeleteCategory(string categoryName)
-        {
-            var affected = await _mediator.Send(new DeleteCategoryCommand(categoryName));
-            return Ok(new { affected });
-        }
 
-        // PUT: api/articles/categories/{oldName}  — kategoriyi tüm makalelerde yeniden adlandırır
-        [HttpPut("categories/{oldName}")]
-        public async Task<IActionResult> RenameCategory(string oldName, [FromBody] RenameCategoryDto dto)
-        {
-            var affected = await _mediator.Send(new RenameCategoryCommand(oldName, dto.NewName, dto.NewName_EN, dto.NewName_DE));
-            return Ok(new { affected });
-        }
 
 
     }
